@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Curso de Agentes con Babot: Clase 1 - ¿Qué es Babot? - Programación para Mortales</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@300;400;500;600;700&family=Fira+Code:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../styles.css">
+</head>
+<body>
+    <header class="header">
+        <div class="container header-container">
+            <a href="../index.html" class="logo">
+                <span class="logo-icon">P</span>
+                <span>Programación para Mortales</span>
+            </a>
+            <nav class="nav">
+                <a href="../index.html" class="nav-link">Inicio</a>
+                <a href="../catalogo-cursos.html" class="nav-link active">Cursos</a>
+                <a href="../about.html" class="nav-link">Acerca de</a>
+                <a href="../indice.html" class="nav-link">Índice Completo</a>
+            </nav>
+            <button class="mobile-menu-btn">☰</button>
+        </div>
+    </header>
+
+    <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+    <section class="chapter-header">
+        <div class="container chapter-header-content">
+            <div class="chapter-number animate-fade-in">Curso de Agentes Inteligentes con Babot</div>
+            <h1 class="chapter-title animate-fade-in delay-100">Clase 1: ¿Qué es Babot y por qué lo necesitas?</h1>
+            <div class="chapter-meta animate-fade-in delay-200">
+                <div class="chapter-meta-item">
+                    <span>⏱️ Tiempo de lectura: 10 minutos</span>
+                </div>
+                <div class="chapter-meta-item">
+                    <span>🧩 Actividades: 2</span>
+                </div>
+                <div class="chapter-meta-item">
+                    <span>📚 Nivel: Principiante</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="chapter-content">
+        <div class="container chapter-layout">
+            <div class="content-wrapper">
+                <h2 id="era-de-agentes">🤖 La Era de los Agentes: Más Allá de un Chatbot</h2>
+                <p>Has llegado hasta aquí aprendiendo los fundamentos de la programación. Ahora, vamos a dar un salto hacia una de las áreas más emocionantes de la tecnología actual: los <strong>agentes de inteligencia artificial</strong>.</p>
+                <p>Un agente no es solo un chatbot que responde preguntas. Es un programa diseñado para ser proactivo, para usar herramientas y para completar tareas complejas por sí mismo. Piensa en un asistente que no solo te escucha, sino que puede buscar información en internet, analizar un documento, escribir código o interactuar con otras aplicaciones para cumplir un objetivo.</p>
+                
+                <h2 id="problema">🤯 El Problema: Crear Agentes es Complicado</h2>
+                <p>Construir estos agentes desde cero puede ser una tarea abrumadora. Requiere manejar conexiones con modelos de lenguaje (LLMs), gestionar la memoria de la conversación, definir herramientas y coordinar flujos de trabajo complejos. Para un mortal, esto puede parecer una montaña demasiado alta para escalar.</p>
+                
+                <div class="note-box">
+                    <p><strong>Aquí es donde entra Babot.</strong> Babot es una librería de Python que desarrollé con una misión clara: hacer que la creación de agentes de IA sea tan sencilla como hablar en español, siguiendo la filosofía de "Programación para Mortales".</p>
+                </div>
+
+                <h2 id="que-es-babot">🚀 ¿Qué es Babot? Tu Navaja Suiza para Crear Agentes</h2>
+                <p><strong>Babot</strong> es un framework que te proporciona todas las piezas necesarias para construir, probar y desplegar agentes de IA de una manera increíblemente simple. Se encarga de todo el "trabajo sucio" para que tú puedas concentrarte en lo más importante: definir qué quieres que haga tu agente.</p>
+                
+                <p>Algunas de sus características clave son:</p>
+                <ul>
+                    <li><strong>Inicialización Rápida:</strong> Con un solo comando, creas toda la estructura de carpetas y archivos para tu nuevo agente.</li>
+                    <li><strong>Agentes Personalizables:</strong> Diseña fácilmente la personalidad y las capacidades de tu agente a través de prompts simples.</li>
+                    <li><strong>Integración con Ollama:</strong> Te permite usar poderosos modelos de lenguaje como Llama 3 de forma local en tu propia computadora, sin depender de APIs externas ni gastar dinero.</li>
+                    <li><strong>Soporte Modular:</strong> Añade nuevas herramientas y funcionalidades a tus agentes de forma sencilla.</li>
+                </ul>
+
+                <h2 id="instalacion">🛠️ Actividad 1: Instalando Babot</h2>
+                <p>Lo primero es lo primero. Vamos a instalar Babot en nuestro entorno. Abre tu terminal (recuerda activar tu entorno virtual) y ejecuta el siguiente comando:</p>
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <div class="code-block-title">Terminal</div>
+                    </div>
+                    <pre><code class="language-bash">pip install babot</code></pre>
+                </div>
+                <p>¡Listo! Con esto, ya tienes todo el poder de Babot disponible en tu máquina.</p>
+
+                <h2 id="primer-proyecto">🏗️ Actividad 2: Creando tu Primer Proyecto de Agente</h2>
+                <p>Ahora viene la magia. Babot se maneja a través de una interfaz de línea de comandos (CLI) que simplifica todo. Para crear un nuevo proyecto, navega en tu terminal a la carpeta donde guardas tus proyectos y ejecuta:</p>
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <div class="code-block-title">Terminal</div>
+                    </div>
+                    <pre><code class="language-bash">babot init mi_primer_agente</code></pre>
+                </div>
+                <p>Este comando creará una nueva carpeta llamada <code class="inline-code">mi_primer_agente</code> con toda la estructura necesaria para empezar a trabajar. ¡Entra a esa carpeta con <code class="inline-code">cd mi_primer_agente</code> y explora los archivos que se crearon!</p>
+
+                <h2 id="ejecucion">▶️ Ejecutando el Agente por Defecto</h2>
+                <p>Babot ya incluye un agente de ejemplo listo para usar. Una vez dentro de la carpeta de tu proyecto, puedes "despertarlo" con el siguiente comando:</p>
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <div class="code-block-title">Terminal</div>
+                    </div>
+                    <pre><code class="language-bash">babot run babot</code></pre>
+                </div>
+                <p>Esto iniciará una conversación interactiva en tu terminal con el agente base. ¡Prueba a saludarlo o a hacerle una pregunta!</p>
+
+                <div class="highlight-box">
+                    <p><strong>¡Felicitaciones!</strong> Has instalado una librería de creación de agentes, inicializado tu primer proyecto y conversado con un agente de IA. Todo esto con solo tres comandos. Ese es el poder de la simplicidad.</p>
+                </div>
+
+                <div class="chapter-navigation">
+                    <a href="../../catalogo-cursos.html" class="nav-btn">
+                        <span>←</span> Volver a Cursos
+                    </a>
+                    <a href="babot-1.html" class="nav-btn next">
+                        Siguiente Clase <span>→</span>
+                    </a>
+                </div>
+            </div>
+
+            <aside class="toc">
+                <h3 class="toc-title">Contenido de la Clase</h3>
+                <ul class="toc-list">
+                    <li class="toc-item"><a href="#era-de-agentes" class="toc-link">La Era de los Agentes</a></li>
+                    <li class="toc-item"><a href="#problema" class="toc-link">El Problema de la Complejidad</a></li>
+                    <li class="toc-item"><a href="#que-es-babot" class="toc-link">¿Qué es Babot?</a></li>
+                    <li class="toc-item"><a href="#instalacion" class="toc-link">Actividad 1: Instalación</a></li>
+                    <li class="toc-item"><a href="#primer-proyecto" class="toc-link">Actividad 2: Tu Primer Proyecto</a></li>
+                    <li class="toc-item"><a href="#ejecucion" class="toc-link">Ejecutando el Agente</a></li>
+                </ul>
+            </aside>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container footer-container">
+            <div class="footer-column">
+                <a href="../index.html" class="footer-logo">Programación para Mortales</a>
+                <p class="footer-description">
+                    Un libro digital interactivo para aprender a programar desde cero.
+                </p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2025 Programación para Mortales. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Script general replicado
+        const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+        const nav = document.querySelector('.nav');
+        if (mobileMenuBtn && nav) {
+            mobileMenuBtn.addEventListener('click', () => {
+                nav.classList.toggle('active');
+            });
+        }
+
+        const header = document.querySelector('.header');
+        if (header) {
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    header.classList.add('scrolled');
+                } else {
+                    header.classList.remove('scrolled');
+                }
+            });
+        }
+
+        const progressBar = document.getElementById('progressBar');
+        if (progressBar) {
+            window.addEventListener('scroll', () => {
+                const windowHeight = window.innerHeight;
+                const documentHeight = document.documentElement.scrollHeight - windowHeight;
+                const scrollTop = window.scrollY;
+                const progress = (scrollTop / documentHeight) * 100;
+                progressBar.style.width = progress + '%';
+            });
+        }
+        
+        const tocLinks = document.querySelectorAll('.toc-link');
+        const sections = document.querySelectorAll('.content-wrapper h2, .content-wrapper h3'); 
+        if (tocLinks.length > 0 && sections.length > 0 && header) {
+            window.addEventListener('scroll', () => {
+                let current = '';
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop - (header.offsetHeight + 40); 
+                    if (window.scrollY >= sectionTop) {
+                        current = section.getAttribute('id');
+                    }
+                });
+
+                tocLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href').substring(1) === current) {
+                        link.classList.add('active');
+                    }
+                });
+            });
+        }
+    </script>
+</body>
+</html>

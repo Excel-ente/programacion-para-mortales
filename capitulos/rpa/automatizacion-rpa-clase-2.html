@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Curso RPA: Clase 2 - Tu Robot Lector - Programación para Mortales</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@300;400;500;600;700&family=Fira+Code:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../styles.css">
+</head>
+<body>
+    <header class="header">
+        <div class="container header-container">
+            <a href="../../index.html" class="logo">
+                <span class="logo-icon">P</span>
+                <span>Programación para Mortales</span>
+            </a>
+            <nav class="nav">
+                <a href="../../index.html" class="nav-link">Inicio</a>
+                <a href="../../catalogo-cursos.html" class="nav-link active">Cursos</a>
+                <a href="../../about.html" class="nav-link">Acerca de</a>
+                <a href="../../indice.html" class="nav-link">Índice Completo</a>
+            </nav>
+            <button class="mobile-menu-btn">☰</button>
+        </div>
+    </header>
+
+    <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+    <section class="chapter-header">
+        <div class="container chapter-header-content">
+            <div class="chapter-number animate-fade-in">Curso de Automatización (RPA)</div>
+            <h1 class="chapter-title animate-fade-in delay-100">Clase 2: Tu Robot Lector de Reportes</h1>
+            <div class="chapter-meta animate-fade-in delay-200">
+                <div class="chapter-meta-item">
+                    <span>⏱️ Tiempo de lectura: 12 minutos</span>
+                </div>
+                <div class="chapter-meta-item">
+                    <span>🧩 Actividades: 1</span>
+                </div>
+                <div class="chapter-meta-item">
+                    <span>📚 Nivel: Básico</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="chapter-content">
+        <div class="container chapter-layout">
+            <div class="content-wrapper">
+                <h2 id="siguiente-nivel">🚀 Siguiente Nivel: Interactuando con Archivos</h2>
+                <p>En la clase anterior, nuestro robot aprendió a controlar el teclado y el mouse para interactuar con una aplicación. Ahora, le daremos una nueva habilidad: la capacidad de <strong>leer y manipular archivos del sistema</strong>. Esta es una de las tareas más comunes y útiles en la automatización de oficinas.</p>
+                <p>El desafío de hoy: tenemos una carpeta con múltiples reportes de ventas diarios en archivos de texto. Nuestro robot deberá leer cada uno de ellos y consolidar toda la información en un único reporte semanal.</p>
+                
+                <h2 id="preparacion">📂 Preparando el Escenario</h2>
+                <p>Antes de escribir el código, necesitamos crear la estructura de archivos que nuestro robot procesará. En la carpeta de tu proyecto, crea lo siguiente:</p>
+                <ol>
+                    <li>Una carpeta llamada <code class="inline-code">reportes_diarios</code>.</li>
+                    <li>Dentro de esa carpeta, crea tres archivos de texto:
+                        <ul>
+                            <li><strong>lunes.txt:</strong> con el texto "Ventas totales: 1500 USD"</li>
+                            <li><strong>martes.txt:</strong> con el texto "Ventas totales: 2250 USD"</li>
+                            <li><strong>miercoles.txt:</strong> con el texto "Ventas totales: 1800 USD"</li>
+                        </ul>
+                    </li>
+                </ol>
+                <p>Nuestro script de Python se guardará en la carpeta principal del proyecto, al mismo nivel que la carpeta <code class="inline-code">reportes_diarios</code>.</p>
+                
+                <h2 id="librerias">📚 Librerías: El Poder Nativo de Python</h2>
+                <p>Para esta tarea, no necesitamos instalar nada nuevo. Usaremos la librería <code class="inline-code">os</code>, que viene incorporada en Python y nos da las herramientas para interactuar con el sistema operativo (listar archivos, verificar rutas, etc.).</p>
+
+                <h2 id="el-codigo">📄 El Código del Robot Lector</h2>
+                <p>Crea un archivo llamado <code class="inline-code">compilador_reportes.py</code> y añade el siguiente código:</p>
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <div class="code-block-title">compilador_reportes.py</div>
+                    </div>
+                    <pre><code class="language-python">
+import os
+from datetime import datetime
+
+# --- CONFIGURACIÓN ---
+CARPETA_REPORTES = "reportes_diarios"
+NOMBRE_REPORTE_FINAL = "reporte_semanal_consolidado.txt"
+
+def consolidar_reportes():
+    """
+    Lee todos los archivos .txt de la carpeta de reportes
+    y consolida su contenido en un único archivo.
+    """
+    contenido_total = []
+    
+    # 1. Verificar si la carpeta de origen existe
+    if not os.path.exists(CARPETA_REPORTES):
+        print(f"❌ Error: La carpeta '{CARPETA_REPORTES}' no existe. Abortando misión.")
+        return
+
+    # 2. Obtener la lista de archivos en la carpeta
+    archivos_en_carpeta = os.listdir(CARPETA_REPORTES)
+    
+    print(f"📄 Encontrados {len(archivos_en_carpeta)} archivos. Procesando solo los .txt...")
+
+    # 3. Recorrer cada archivo
+    for nombre_archivo in archivos_en_carpeta:
+        # Solo procesar archivos que terminen en .txt
+        if nombre_archivo.lower().endswith(".txt"):
+            ruta_completa = os.path.join(CARPETA_REPORTES, nombre_archivo)
+            
+            try:
+                # 4. Abrir, leer y guardar contenido
+                with open(ruta_completa, 'r', encoding='utf-8') as archivo:
+                    contenido = archivo.read()
+                    encabezado_archivo = f"--- Contenido de: {nombre_archivo} ---\n"
+                    contenido_total.append(encabezado_archivo)
+                    contenido_total.append(contenido + "\n\n")
+            except Exception as e:
+                print(f"⚠️ No se pudo leer el archivo {nombre_archivo}. Error: {e}")
+
+    # 5. Guardar el reporte consolidado
+    if contenido_total:
+        fecha_actual = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        encabezado_final = f"Reporte Semanal Consolidado\nGenerado el: {fecha_actual}\n{'='*40}\n\n"
+        
+        with open(NOMBRE_REPORTE_FINAL, 'w', encoding='utf-8') as reporte_final:
+            reporte_final.write(encabezado_final)
+            reporte_final.writelines(contenido_total)
+        
+        print(f"✅ ¡Éxito! Reporte consolidado guardado en '{NOMBRE_REPORTE_FINAL}'.")
+    else:
+        print("ℹ️ No se encontraron archivos .txt para procesar.")
+
+# --- Punto de Entrada Principal ---
+if __name__ == "__main__":
+    print("🤖 Iniciando robot lector de reportes...")
+    consolidar_reportes()
+    print("✅ Proceso finalizado.")
+                    </code></pre>
+                </div>
+
+                <h2 id="desglose-codigo">🧐 Desglose del Código</h2>
+                <ul>
+                    <li><strong><code>os.path.exists(CARPETA_REPORTES)</code></strong>: Antes de intentar hacer nada, verificamos si la carpeta de donde debemos leer los reportes realmente existe. Es una validación clave para evitar errores.</li>
+                    <li><strong><code>os.listdir(CARPETA_REPORTES)</code></strong>: Este comando nos devuelve una lista con los nombres de todos los archivos y carpetas que hay dentro del directorio especificado.</li>
+                    <li><strong><code>nombre_archivo.lower().endswith(".txt")</code></strong>: Dentro del bucle, usamos esta condición para asegurarnos de que solo procesamos archivos de texto, ignorando cualquier otra cosa (como imágenes o subcarpetas).</li>
+                    <li><strong><code>os.path.join(...)</code></strong>: Esta es la forma correcta de construir rutas de archivo. Une el nombre de la carpeta y el nombre del archivo con el separador correcto (<code>\</code> en Windows, <code>/</code> en Mac/Linux), haciendo tu script más robusto.</li>
+                    <li><strong><code>with open(...)</code></strong>: Es la manera recomendada en Python para trabajar con archivos. Se encarga de abrir el archivo y, lo más importante, de cerrarlo automáticamente cuando terminamos, incluso si ocurren errores.</li>
+                </ul>
+
+                <div class="note-box">
+                    <strong>¡Tu Turno!</strong> Ejecuta el script con <code>python compilador_reportes.py</code>. Verás cómo se crea un nuevo archivo <code class="inline-code">reporte_semanal_consolidado.txt</code> en tu carpeta principal, conteniendo la información de los tres reportes diarios.
+                </div>
+
+                <div class="chapter-navigation">
+                    <a href="automatizacion-rpa-clase-1.html" class="nav-btn">
+                        <span>←</span> Clase Anterior
+                    </a>
+                    <a href="automatizacion-rpa-clase-3.html" class="nav-btn next">
+                        Siguiente Clase <span>→</span>
+                    </a>
+                </div>
+            </div>
+
+            <aside class="toc">
+                <h3 class="toc-title">Contenido de la Clase</h3>
+                <ul class="toc-list">
+                    <li class="toc-item"><a href="#siguiente-nivel" class="toc-link">Siguiente Nivel</a></li>
+                    <li class="toc-item"><a href="#preparacion" class="toc-link">Preparando el Escenario</a></li>
+                    <li class="toc-item"><a href="#librerias" class="toc-link">Librerías Nativas</a></li>
+                    <li class="toc-item"><a href="#el-codigo" class="toc-link">El Código del Robot</a></li>
+                    <li class="toc-item"><a href="#desglose-codigo" class="toc-link">Desglose del Código</a></li>
+                </ul>
+            </aside>
+        </div>
+    </section>
+    
+    <footer class="footer">
+        <div class="container footer-container">
+            </div>
+        <div class="footer-bottom">
+            <p>© 2025 Programación para Mortales. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Script general replicado
+        const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+        const nav = document.querySelector('.nav');
+        if (mobileMenuBtn && nav) {
+            mobileMenuBtn.addEventListener('click', () => {
+                nav.classList.toggle('active');
+            });
+        }
+
+        const header = document.querySelector('.header');
+        if (header) {
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    header.classList.add('scrolled');
+                } else {
+                    header.classList.remove('scrolled');
+                }
+            });
+        }
+
+        const progressBar = document.getElementById('progressBar');
+        if (progressBar) {
+            window.addEventListener('scroll', () => {
+                const windowHeight = window.innerHeight;
+                const documentHeight = document.documentElement.scrollHeight - windowHeight;
+                const scrollTop = window.scrollY;
+                const progress = (scrollTop / documentHeight) * 100;
+                progressBar.style.width = progress + '%';
+            });
+        }
+        
+        const tocLinks = document.querySelectorAll('.toc-link');
+        const sections = document.querySelectorAll('.content-wrapper h2, .content-wrapper h3'); 
+        if (tocLinks.length > 0 && sections.length > 0 && header) {
+            window.addEventListener('scroll', () => {
+                let current = '';
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop - (header.offsetHeight + 40); 
+                    if (window.scrollY >= sectionTop) {
+                        current = section.getAttribute('id');
+                    }
+                });
+
+                tocLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href').substring(1) === current) {
+                        link.classList.add('active');
+                    }
+                });
+            });
+        }
+    </script>
+</body>
+</html>

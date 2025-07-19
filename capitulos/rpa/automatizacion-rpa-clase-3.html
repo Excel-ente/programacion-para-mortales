@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Curso RPA: Clase 3 - De PDF a Excel - Programación para Mortales</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@300;400;500;600;700&family=Fira+Code:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../styles.css">
+</head>
+<body>
+    <header class="header">
+        <div class="container header-container">
+            <a href="../../index.html" class="logo">
+                <span class="logo-icon">P</span>
+                <span>Programación para Mortales</span>
+            </a>
+            <nav class="nav">
+                <a href="../../index.html" class="nav-link">Inicio</a>
+                <a href="../../catalogo-cursos.html" class="nav-link active">Cursos</a>
+                <a href="../../about.html" class="nav-link">Acerca de</a>
+                <a href="../../indice.html" class="nav-link">Índice Completo</a>
+            </nav>
+            <button class="mobile-menu-btn">☰</button>
+        </div>
+    </header>
+
+    <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+    <section class="chapter-header">
+        <div class="container chapter-header-content">
+            <div class="chapter-number animate-fade-in">Curso de Automatización (RPA)</div>
+            <h1 class="chapter-title animate-fade-in delay-100">Clase 3: Extrayendo Totales de Facturas PDF a Excel</h1>
+            <div class="chapter-meta animate-fade-in delay-200">
+                <div class="chapter-meta-item">
+                    <span>⏱️ Tiempo de lectura: 15 minutos</span>
+                </div>
+                <div class="chapter-meta-item">
+                    <span>🧩 Actividades: 1</span>
+                </div>
+                <div class="chapter-meta-item">
+                    <span>📚 Nivel: Intermedio</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="chapter-content">
+        <div class="container chapter-layout">
+            <div class="content-wrapper">
+                <h2 id="desafio-real">📄 Un Desafío del Mundo Real: Facturas en PDF</h2>
+                <p>Llegamos a una de las tareas de automatización más solicitadas: extraer información de archivos PDF. Muchas empresas reciben facturas, reportes o resúmenes en este formato. Copiar y pegar manualmente los datos importantes (como fechas, números de factura o totales) a una hoja de Excel es tedioso y propenso a errores.</p>
+                <p>Hoy construiremos un robot que se encargará de esta tarea. Leerá una carpeta llena de facturas en PDF, identificará el monto <strong>total</strong> en cada una y creará un reporte en Excel con el nombre del archivo y el total extraído.</p>
+                
+                <h2 id="librerias">📚 Librerías para la Misión</h2>
+                <p>Para esta tarea necesitaremos un conjunto de herramientas más especializado. Abre tu terminal (con tu entorno virtual activado) e instala las siguientes librerías:</p>
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <div class="code-block-title">Terminal</div>
+                    </div>
+                    <pre><code class="language-bash">pip install pandas openpyxl PyMuPDF</code></pre>
+                </div>
+                <ul>
+                    <li><strong><code>pandas</code> y <code>openpyxl</code></strong>: Nuestros viejos conocidos. Pandas nos ayudará a estructurar los datos extraídos y a guardarlos cómodamente en un archivo Excel.</li>
+                    <li><strong><code>PyMuPDF</code></strong>: Una librería muy rápida y eficiente para abrir archivos PDF y extraer su contenido de texto. La instalamos con `PyMuPDF` pero la importamos en Python como `fitz`.</li>
+                </ul>
+
+                <div class="note-box">
+                    <strong>¿Qué son las Expresiones Regulares (Regex)?</strong>
+                    <p>Para encontrar el "Total" en el texto desordenado de un PDF, usaremos una técnica poderosa llamada <strong>expresiones regulares</strong>. Son patrones de búsqueda que nos permiten encontrar texto que sigue una estructura específica, como "la palabra TOTAL seguida de un número con decimales". No te preocupes si parece complejo, ¡verás qué útil es!</p>
+                </div>
+
+                <h2 id="el-codigo">📄 El Código del Extractor</h2>
+                <p>Crea un archivo <code class="inline-code">extractor_pdf.py</code>. Antes de ejecutarlo, asegúrate de crear una carpeta llamada <code class="inline-code">facturas</code> en el mismo directorio y colocar dentro algunos archivos PDF de facturas que tengas a mano para probar.</p>
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <div class="code-block-title">extractor_pdf.py</div>
+                    </div>
+                    <pre><code class="language-python">
+import os
+import re
+import fitz  # La librería PyMuPDF se importa como fitz
+import pandas as pd
+
+# --- CONFIGURACIÓN ---
+CARPETA_FACTURAS = "facturas"
+ARCHIVO_EXCEL_SALIDA = "reporte_de_totales.xlsx"
+
+def extraer_total_de_texto(texto_completo: str) -> float:
+    """
+    Usa expresiones regulares para encontrar el primer monto total en el texto.
+    """
+    # Patrón que busca 'Total', 'TOTAL', etc., seguido de un número.
+    # Soporta formatos como: $1.234,56 o 1234.56
+    patron = re.compile(r"Total.*?([\d.,]+)", re.IGNORECASE)
+    
+    coincidencias = patron.findall(texto_completo)
+    
+    if not coincidencias:
+        return 0.0
+
+    # Procesamos la primera coincidencia encontrada
+    monto_str = coincidencias[0]
+    
+    # Limpiamos el string para convertirlo a número
+    monto_limpio = monto_str.replace(".", "").replace(",", ".")
+    
+    try:
+        return float(monto_limpio)
+    except ValueError:
+        return 0.0
+
+def procesar_pdfs_en_carpeta(ruta_carpeta: str) -> pd.DataFrame:
+    """
+    Recorre una carpeta, procesa cada PDF y devuelve un DataFrame con los resultados.
+    """
+    datos_para_excel = []
+
+    if not os.path.exists(ruta_carpeta):
+        print(f"❌ Error: La carpeta '{ruta_carpeta}' no fue encontrada.")
+        return pd.DataFrame()
+
+    print(f"📂 Analizando archivos en la carpeta: {ruta_carpeta}")
+    
+    for nombre_archivo in os.listdir(ruta_carpeta):
+        if nombre_archivo.lower().endswith(".pdf"):
+            ruta_completa = os.path.join(ruta_carpeta, nombre_archivo)
+            
+            try:
+                # Abrir el PDF con fitz
+                doc = fitz.open(ruta_completa)
+                texto_total = ""
+                # Extraer texto de todas las páginas
+                for pagina in doc:
+                    texto_total += pagina.get_text()
+                
+                doc.close()
+                
+                # Extraer el monto total del texto
+                total = extraer_total_de_texto(texto_total)
+                
+                datos_para_excel.append({
+                    "Nombre de Archivo": nombre_archivo,
+                    "Total Extraído": total
+                })
+                print(f"  ✔ Procesado '{nombre_archivo}': Total encontrado = {total:.2f}")
+
+            except Exception as e:
+                print(f"  ⚠️ Error al procesar el archivo '{nombre_archivo}': {e}")
+
+    return pd.DataFrame(datos_para_excel)
+
+# --- Punto de Entrada Principal ---
+if __name__ == "__main__":
+    print("🤖 Iniciando robot extractor de totales de facturas PDF...")
+    
+    df_resultados = procesar_pdfs_en_carpeta(CARPETA_FACTURAS)
+    
+    if not df_resultados.empty:
+        # Guardar los resultados en un archivo Excel
+        df_resultados.to_excel(ARCHIVO_EXCEL_SALIDA, index=False)
+        print(f"\n✅ ¡Proceso finalizado! Se ha creado el archivo '{ARCHIVO_EXCEL_SALIDA}'.")
+    else:
+        print("\nℹ️ No se procesaron archivos o no se encontraron datos.")
+                    </code></pre>
+                </div>
+
+                <h2 id="desglose-codigo">🧐 Desglose del Código</h2>
+                <ul>
+                    <li><strong><code>extraer_total_de_texto()</code></strong>: Esta es la función clave. Recibe el texto de un PDF y utiliza <code>re.findall()</code> para buscar un patrón. El patrón <code>Total.*?([\d.,]+)</code> busca la palabra "Total" (sin importar mayúsculas/minúsculas), seguida de cualquier carácter (<code>.*?</code>), hasta encontrar un grupo de números que pueden incluir comas y puntos.</li>
+                    <li><strong>Limpieza de datos</strong>: Una vez que encuentra un posible monto como "1.234,56", el código lo limpia (quita el punto de miles, cambia la coma decimal por un punto) para poder convertirlo a un número (<code>float</code>) que Python pueda entender.</li>
+                    <li><strong><code>procesar_pdfs_en_carpeta()</code></strong>: Esta función orquesta el proceso. Usa <code>os.listdir()</code> para obtener todos los archivos de la carpeta de facturas.</li>
+                    <li><strong><code>fitz.open(ruta)</code></strong>: Abre un archivo PDF. Luego, recorremos cada página (`for pagina in doc:`) y extraemos su texto con <code>pagina.get_text()</code>.</li>
+                    <li><strong><code>pd.DataFrame()</code> y <code>.to_excel()</code></strong>: Al final, usamos el poder de pandas para tomar nuestra lista de resultados y convertirla en una tabla que se guarda fácilmente en un archivo de Excel.</li>
+                </ul>
+
+                <div class="highlight-box">
+                    <strong>¡Tu Turno!</strong> Crea la carpeta <code class="inline-code">facturas</code>, poné algunos PDFs adentro y ejecuta el script con <code>python extractor_pdf.py</code>. ¡Observa cómo se crea tu reporte en Excel!
+                </div>
+
+                <div class="chapter-navigation">
+                    <a href="automatizacion-rpa-clase-2.html" class="nav-btn">
+                        <span>←</span> Clase Anterior
+                    </a>
+                </div>
+            </div>
+
+            <aside class="toc">
+                <h3 class="toc-title">Contenido de la Clase</h3>
+                <ul class="toc-list">
+                    <li class="toc-item"><a href="#desafio-real" class="toc-link">El Desafío: PDFs</a></li>
+                    <li class="toc-item"><a href="#librerias" class="toc-link">Librerías para la Misión</a></li>
+                    <li class="toc-item"><a href="#el-codigo" class="toc-link">El Código del Extractor</a></li>
+                    <li class="toc-item"><a href="#desglose-codigo" class="toc-link">Desglose del Código</a></li>
+                </ul>
+            </aside>
+        </div>
+    </section>
+    
+    <footer class="footer">
+        <div class="container footer-container">
+            </div>
+        <div class="footer-bottom">
+            <p>© 2025 Programación para Mortales. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Script general replicado
+        const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+        const nav = document.querySelector('.nav');
+        if (mobileMenuBtn && nav) {
+            mobileMenuBtn.addEventListener('click', () => {
+                nav.classList.toggle('active');
+            });
+        }
+
+        const header = document.querySelector('.header');
+        if (header) {
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    header.classList.add('scrolled');
+                } else {
+                    header.classList.remove('scrolled');
+                }
+            });
+        }
+
+        const progressBar = document.getElementById('progressBar');
+        if (progressBar) {
+            window.addEventListener('scroll', () => {
+                const windowHeight = window.innerHeight;
+                const documentHeight = document.documentElement.scrollHeight - windowHeight;
+                const scrollTop = window.scrollY;
+                const progress = (scrollTop / documentHeight) * 100;
+                progressBar.style.width = progress + '%';
+            });
+        }
+        
+        const tocLinks = document.querySelectorAll('.toc-link');
+        const sections = document.querySelectorAll('.content-wrapper h2, .content-wrapper h3'); 
+        if (tocLinks.length > 0 && sections.length > 0 && header) {
+            window.addEventListener('scroll', () => {
+                let current = '';
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop - (header.offsetHeight + 40); 
+                    if (window.scrollY >= sectionTop) {
+                        current = section.getAttribute('id');
+                    }
+                });
+
+                tocLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href').substring(1) === current) {
+                        link.classList.add('active');
+                    }
+                });
+            });
+        }
+    </script>
+</body>
+</html>
