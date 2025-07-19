@@ -1,0 +1,1327 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acerca de - Programación para Mortales</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700;900&family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="icon" href="icon.ico" type="image/x-icon">
+    <style>
+        :root {
+            /* Paleta de colores */
+            --primary: #4f46e5;
+            --primary-dark: #3730a3;
+            --primary-light: #818cf8;
+            --secondary: #ec4899;
+            --secondary-dark: #db2777;
+            --accent: #06b6d4;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --dark: #1e293b;
+            --dark-blue: #0f172a;
+            --light: #f8fafc;
+            --gray: #64748b;
+            --gray-light: #e2e8f0;
+            --cream: #fffbeb;
+            --paper: #fff7ed;
+            
+            /* Tipografía */
+            --font-heading: 'Merriweather', serif;
+            --font-body: 'Montserrat', sans-serif;
+            
+            /* Espaciado */
+            --spacing-xs: 0.25rem;
+            --spacing-sm: 0.5rem;
+            --spacing-md: 1rem;
+            --spacing-lg: 1.5rem;
+            --spacing-xl: 2rem;
+            --spacing-2xl: 3rem;
+            --spacing-3xl: 4rem;
+            
+            /* Bordes y sombras */
+            --radius-sm: 0.25rem;
+            --radius-md: 0.5rem;
+            --radius-lg: 1rem;
+            --radius-xl: 1.5rem;
+            --radius-full: 9999px;
+            
+            --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            --shadow-book: 0 15px 25px -12px rgba(0, 0, 0, 0.4), 5px 5px 10px 0 rgba(0, 0, 0, 0.2);
+            
+            /* Transiciones */
+            --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-normal: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-slow: 500ms cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html {
+            font-size: 16px;
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            font-family: var(--font-body);
+            color: var(--dark);
+            background-color: var(--paper);
+            line-height: 1.6;
+            overflow-x: hidden;
+            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23e2e8f0' fill-opacity='0.2' fill-rule='evenodd'/%3E%3C/svg%3E");
+            background-attachment: fixed;
+        }
+        
+        h1, h2, h3, h4, h5, h6 {
+            font-family: var(--font-heading);
+            font-weight: 700;
+            line-height: 1.2;
+        }
+        
+        a {
+            text-decoration: none;
+            color: inherit;
+            transition: var(--transition-normal);
+        }
+        
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+        
+        button {
+            cursor: pointer;
+            font-family: var(--font-body);
+            border: none;
+            background: none;
+        }
+        
+        /* Layout */
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 var(--spacing-lg);
+        }
+        
+        .section {
+            padding: var(--spacing-3xl) 0;
+        }
+        
+        /* Header */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 100;
+            background-color: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition-normal);
+        }
+        
+        .header.scrolled {
+            box-shadow: var(--shadow-md);
+        }
+        
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+        }
+        
+        .logo {
+            font-family: var(--font-heading);
+            font-weight: 800;
+            font-size: 1.5rem;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+        }
+        
+        .logo-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            background-color: var(--primary);
+            color: white;
+            border-radius: var(--radius-md);
+            font-weight: 700;
+        }
+        
+        .nav {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-xl);
+        }
+        
+        .nav-link {
+            font-weight: 500;
+            color: var(--dark);
+            position: relative;
+        }
+        
+        .nav-link:hover {
+            color: var(--primary);
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--primary);
+            transition: var(--transition-normal);
+        }
+        
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        
+        .nav-link.active {
+            color: var(--primary);
+        }
+        
+        .nav-link.active::after {
+            width: 100%;
+        }
+        
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.75rem 1.5rem;
+            font-weight: 600;
+            border-radius: var(--radius-full);
+            transition: var(--transition-normal);
+            gap: var(--spacing-sm);
+        }
+        
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+            box-shadow: var(--shadow-md);
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .btn-secondary {
+            background-color: var(--secondary);
+            color: white;
+            box-shadow: var(--shadow-md);
+        }
+        
+        .btn-secondary:hover {
+            background-color: var(--secondary-dark);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .btn-outline {
+            border: 2px solid var(--primary);
+            color: var(--primary);
+        }
+        
+        .btn-outline:hover {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .mobile-menu-btn {
+            display: none;
+            font-size: 1.5rem;
+            color: var(--dark);
+        }
+        
+        /* Page Header */
+        .page-header {
+            padding-top: 120px;
+            padding-bottom: var(--spacing-2xl);
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .page-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            opacity: 0.5;
+        }
+        
+        .page-header-content {
+            position: relative;
+            z-index: 1;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 var(--spacing-lg);
+            text-align: center;
+        }
+        
+        .page-title {
+            font-size: 3.5rem;
+            margin-bottom: var(--spacing-lg);
+            color: white;
+        }
+        
+        .page-description {
+            font-size: 1.25rem;
+            max-width: 800px;
+            margin: 0 auto var(--spacing-xl);
+            opacity: 0.9;
+        }
+        
+        /* Main Content */
+        .main-content {
+            padding: var(--spacing-3xl) 0;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 var(--spacing-lg);
+        }
+        
+        /* About Page Styles */
+        .about-section {
+            margin-bottom: var(--spacing-3xl);
+        }
+        
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--spacing-2xl);
+            align-items: center;
+            margin-bottom: var(--spacing-3xl);
+        }
+        
+        .about-image {
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .about-content {
+            padding: var(--spacing-lg);
+        }
+        
+        .about-title {
+            font-size: 2.5rem;
+            margin-bottom: var(--spacing-lg);
+            position: relative;
+        }
+        
+        .about-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 80px;
+            height: 4px;
+            background-color: var(--primary);
+        }
+        
+        .about-text {
+            margin-bottom: var(--spacing-lg);
+            font-size: 1.1rem;
+        }
+        
+        .about-list {
+            list-style: none;
+            margin-bottom: var(--spacing-xl);
+        }
+        
+        .about-list-item {
+            display: flex;
+            align-items: flex-start;
+            gap: var(--spacing-sm);
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .about-list-icon {
+            color: var(--success);
+            font-size: 1.25rem;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+        
+        .journey-section {
+            background-color: var(--light);
+            padding: var(--spacing-3xl) 0;
+            margin: var(--spacing-3xl) 0;
+        }
+        
+        .journey-container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        .journey-title {
+            text-align: center;
+            margin-bottom: var(--spacing-xl);
+            position: relative;
+            display: inline-block;
+            font-size: 2.5rem;
+        }
+        
+        .journey-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background-color: var(--primary);
+        }
+        
+        .journey-timeline {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .journey-timeline::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            width: 4px;
+            background-color: var(--primary-light);
+            transform: translateX(-50%);
+            border-radius: var(--radius-full);
+        }
+        
+        .journey-item {
+            position: relative;
+            margin-bottom: var(--spacing-2xl);
+        }
+        
+        .journey-item:last-child {
+            margin-bottom: 0;
+        }
+        
+        .journey-item:nth-child(odd) .journey-content {
+            margin-left: auto;
+            margin-right: 60px;
+            text-align: right;
+        }
+        
+        .journey-item:nth-child(even) .journey-content {
+            margin-left: 60px;
+            margin-right: auto;
+        }
+        
+        .journey-content {
+            width: calc(50% - 30px);
+            padding: var(--spacing-lg);
+            background-color: white;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-md);
+            position: relative;
+        }
+        
+        .journey-content::before {
+            content: '';
+            position: absolute;
+            top: 20px;
+            width: 20px;
+            height: 20px;
+            background-color: white;
+            transform: rotate(45deg);
+        }
+        
+        .journey-item:nth-child(odd) .journey-content::before {
+            right: -10px;
+        }
+        
+        .journey-item:nth-child(even) .journey-content::before {
+            left: -10px;
+        }
+        
+        .journey-date {
+            position: absolute;
+            top: 20px;
+            width: 40px;
+            height: 40px;
+            background-color: var(--primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            z-index: 1;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .journey-title-small {
+            font-size: 1.25rem;
+            margin-bottom: var(--spacing-sm);
+            color: var(--primary-dark);
+        }
+        
+        .journey-text {
+            color: var(--gray);
+            font-size: 1rem;
+        }
+        
+        .social-section {
+            text-align: center;
+            margin-bottom: var(--spacing-3xl);
+        }
+        
+        .social-title {
+            margin-bottom: var(--spacing-xl);
+            position: relative;
+            display: inline-block;
+            font-size: 2.5rem;
+        }
+        
+        .social-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background-color: var(--primary);
+        }
+        
+        .social-description {
+            max-width: 800px;
+            margin: 0 auto var(--spacing-2xl);
+            font-size: 1.1rem;
+        }
+        
+        .social-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--spacing-xl);
+        }
+        
+        .social-card {
+            background-color: white;
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+            transition: var(--transition-normal);
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+        
+        .social-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .social-card-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        
+        .social-card-content {
+            padding: var(--spacing-lg);
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .social-card-title {
+            font-size: 1.5rem;
+            margin-bottom: var(--spacing-sm);
+        }
+        
+        .social-card-text {
+            color: var(--gray);
+            margin-bottom: var(--spacing-lg);
+            flex: 1;
+        }
+        
+        .social-card-link {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            font-weight: 600;
+            margin-top: auto;
+            color: var(--primary);
+        }
+        
+        .social-card-link:hover {
+            color: var(--primary-dark);
+        }
+        
+        .mission-section {
+            background-color: var(--dark-blue);
+            color: white;
+            padding: var(--spacing-3xl) 0;
+            margin: var(--spacing-3xl) 0;
+        }
+        
+        .mission-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        
+        .mission-title {
+            color: white;
+            margin-bottom: var(--spacing-xl);
+            position: relative;
+            display: inline-block;
+            font-size: 2.5rem;
+        }
+        
+        .mission-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background-color: var(--primary-light);
+        }
+        
+        .mission-text {
+            font-size: 1.25rem;
+            margin-bottom: var(--spacing-xl);
+            opacity: 0.9;
+        }
+        
+        .mission-values {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: var(--spacing-xl);
+            margin-top: var(--spacing-2xl);
+        }
+        
+        .mission-value {
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-xl);
+            transition: var(--transition-normal);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .mission-value:hover {
+            transform: translateY(-5px);
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        .mission-value-icon {
+            font-size: 2.5rem;
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .mission-value-title {
+            font-size: 1.25rem;
+            margin-bottom: var(--spacing-md);
+            color: white;
+        }
+        
+        .mission-value-text {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.95rem;
+        }
+        
+        .contact-section {
+            text-align: center;
+            margin-bottom: var(--spacing-3xl);
+        }
+        
+        .contact-title {
+            margin-bottom: var(--spacing-xl);
+            position: relative;
+            display: inline-block;
+            font-size: 2.5rem;
+        }
+        
+        .contact-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background-color: var(--primary);
+        }
+        
+        .contact-description {
+            max-width: 800px;
+            margin: 0 auto var(--spacing-2xl);
+            font-size: 1.1rem;
+        }
+        
+        .contact-methods {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: var(--spacing-xl);
+            margin-bottom: var(--spacing-2xl);
+        }
+        
+        .contact-method {
+            background-color: white;
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-xl);
+            box-shadow: var(--shadow-md);
+            transition: var(--transition-normal);
+        }
+        
+        .contact-method:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .contact-method-icon {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .contact-method-title {
+            font-size: 1.25rem;
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .contact-method-text {
+            color: var(--gray);
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .contact-method-link {
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+            color: var(--primary);
+        }
+        
+        .contact-method-link:hover {
+            color: var(--primary-dark);
+        }
+        
+        /* Progress Bar */
+        .progress-container {
+            position: fixed;
+            top: 70px;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background-color: #f1f1f1;
+            z-index: 99;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background-color: var(--secondary);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+        
+        /* Footer */
+        .footer {
+            background-color: var(--dark);
+            color: white;
+            padding: var(--spacing-2xl) 0;
+        }
+        
+        .footer-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--spacing-xl);
+        }
+        
+        .footer-logo {
+            font-family: var(--font-heading);
+            font-weight: 800;
+            font-size: 1.5rem;
+            margin-bottom: var(--spacing-md);
+            display: inline-block;
+        }
+        
+        .footer-description {
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: var(--spacing-lg);
+        }
+        
+        .footer-social {
+            display: flex;
+            gap: var(--spacing-md);
+        }
+        
+        .footer-social-link {
+            width: 36px;
+            height: 36px;
+            border-radius: var(--radius-full);
+            background-color: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition-normal);
+        }
+        
+        .footer-social-link:hover {
+            background-color: var(--primary);
+            transform: translateY(-3px);
+        }
+        
+        .footer-heading {
+            font-size: 1.25rem;
+            margin-bottom: var(--spacing-lg);
+            color: white;
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-link {
+            margin-bottom: var(--spacing-sm);
+        }
+        
+        .footer-link a {
+            color: rgba(255, 255, 255, 0.7);
+            transition: var(--transition-normal);
+        }
+        
+        .footer-link a:hover {
+            color: white;
+            padding-left: var(--spacing-sm);
+        }
+        
+        .footer-bottom {
+            margin-top: var(--spacing-2xl);
+            padding-top: var(--spacing-lg);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.875rem;
+        }
+        
+        .footer-bottom-links {
+            display: flex;
+            gap: var(--spacing-lg);
+        }
+        
+        .footer-bottom-link {
+            color: rgba(255, 255, 255, 0.7);
+            transition: var(--transition-normal);
+        }
+        
+        .footer-bottom-link:hover {
+            color: white;
+        }
+        
+        /* Responsive Styles */
+        @media (max-width: 992px) {
+            .about-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .about-image {
+                order: -1;
+            }
+            
+            .journey-timeline::before {
+                left: 20px;
+            }
+            
+            .journey-item:nth-child(odd) .journey-content,
+            .journey-item:nth-child(even) .journey-content {
+                width: calc(100% - 60px);
+                margin-left: 60px;
+                margin-right: 0;
+                text-align: left;
+            }
+            
+            .journey-item:nth-child(odd) .journey-content::before,
+            .journey-item:nth-child(even) .journey-content::before {
+                left: -10px;
+                right: auto;
+            }
+            
+            .journey-date {
+                left: 20px;
+                transform: none;
+            }
+            
+            .page-title {
+                font-size: 2.8rem;
+            }
+            
+            .about-title, .journey-title, .social-title, .mission-title, .contact-title {
+                font-size: 2.2rem;
+            }
+            
+            .mission-text, .page-description {
+                font-size: 1.1rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .header-container {
+                height: 60px;
+            }
+            
+            .nav {
+                position: fixed;
+                top: 60px;
+                left: 0;
+                width: 100%;
+                height: 0;
+                background-color: white;
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 0 var(--spacing-lg);
+                overflow: hidden;
+                transition: var(--transition-normal);
+                box-shadow: var(--shadow-md);
+                opacity: 0;
+                visibility: hidden;
+                z-index: 100;
+            }
+            
+            .nav.active {
+                height: auto;
+                padding: var(--spacing-lg);
+                opacity: 1;
+                visibility: visible;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .page-title {
+                font-size: 2.2rem;
+            }
+            
+            .page-description {
+                font-size: 1rem;
+            }
+            
+            .about-title, .journey-title, .social-title, .mission-title, .contact-title {
+                font-size: 1.8rem;
+            }
+            
+            .about-text, .mission-text, .social-description, .contact-description {
+                font-size: 1rem;
+            }
+            
+            .footer-container {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            
+            .footer-social {
+                justify-content: center;
+            }
+            
+            .footer-bottom {
+                flex-direction: column;
+                gap: var(--spacing-md);
+                text-align: center;
+            }
+            
+            .footer-bottom-links {
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+            
+            .social-grid, .contact-methods {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .page-title {
+                font-size: 1.8rem;
+            }
+            
+            .about-title, .journey-title, .social-title, .mission-title, .contact-title {
+                font-size: 1.5rem;
+            }
+            
+            .mission-values {
+                grid-template-columns: 1fr;
+            }
+            
+            .about-content {
+                padding: var(--spacing-md) 0;
+            }
+            
+            .journey-content {
+                padding: var(--spacing-md);
+            }
+            
+            .journey-item:nth-child(odd) .journey-content,
+            .journey-item:nth-child(even) .journey-content {
+                width: calc(100% - 40px);
+                margin-left: 40px;
+            }
+            
+            .journey-date {
+                width: 30px;
+                height: 30px;
+                font-size: 0.8rem;
+            }
+            
+            .footer-bottom-links {
+                flex-direction: column;
+                gap: var(--spacing-sm);
+            }
+        }
+        
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .animate-fade-in {
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+        
+        .delay-100 { animation-delay: 100ms; }
+        .delay-200 { animation-delay: 200ms; }
+        .delay-300 { animation-delay: 300ms; }
+        .delay-400 { animation-delay: 400ms; }
+        .delay-500 { animation-delay: 500ms; }
+        
+        /* Utility Classes */
+        .text-center { text-align: center; }
+        .mt-1 { margin-top: var(--spacing-sm); }
+        .mt-2 { margin-top: var(--spacing-md); }
+        .mt-3 { margin-top: var(--spacing-lg); }
+        .mt-4 { margin-top: var(--spacing-xl); }
+        .mt-5 { margin-top: var(--spacing-2xl); }
+        .mb-1 { margin-bottom: var(--spacing-sm); }
+        .mb-2 { margin-bottom: var(--spacing-md); }
+        .mb-3 { margin-bottom: var(--spacing-lg); }
+        .mb-4 { margin-bottom: var(--spacing-xl); }
+        .mb-5 { margin-bottom: var(--spacing-2xl); }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container header-container">
+            <a href="index.html" class="logo">
+                <span class="logo-icon">P</span>
+                <span>Programación para Mortales</span>
+            </a>
+            
+            <nav class="nav">
+                <a href="index.html" class="nav-link">Inicio</a>
+                <a href="index.html#episodes" class="nav-link">Episodios</a>
+                <a href="index.html#future-courses" class="nav-link">Próximos cursos</a>
+                <a href="about.html" class="nav-link active">Acerca de</a>
+                <a href="indice.html" class="nav-link">Índice completo</a>
+                <a href="capitulos/introduccion.html" class="btn btn-primary">Comenzar</a>
+            </nav>
+            
+            <button class="mobile-menu-btn">☰</button>
+        </div>
+    </header>
+    
+    <!-- Progress Bar -->
+    <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+    
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="page-header-content">
+            <h1 class="page-title">Hola, soy Kevin</h1>
+            <p class="page-description">Una persona con muchas ganas de enseñar tecnología de forma simple y para todos.</p>
+        </div>
+    </section>
+    
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- About Section -->
+        <section class="about-section">
+            <div class="container">
+                <div class="about-grid">
+                    <div class="about-content">
+                        <h2 class="about-title">Mi historia</h2>
+                        <p class="about-text">Siempre tuve una computadora en casa. Desde pequeño, mi afición por los videojuegos despertó mi curiosidad por la tecnología, pero nunca pensé que terminaría dedicándome profesionalmente a la programación.</p>
+                        
+                        <p class="about-text">Mi camino comenzó en el mundo de la contabilidad, donde me encontré con procesos repetitivos que me hacían pensar: "tiene que haber una forma más eficiente de hacer esto". Esa inquietud me llevó a descubrir las macros de Excel y, eventualmente, a sumergirme en el fascinante mundo de la automatización y el desarrollo de software.</p>
+                        
+                        <p class="about-text">Lo que comenzó como una necesidad práctica se convirtió en una pasión. Aprendí Python de forma autodidacta, descubrí el poder de la automatización de procesos (RPA) y me enamoré de la sensación de resolver problemas complejos con código.</p>
+                        
+                        <p class="about-text">Hoy, después de haber transitado desde VBA hasta convertirme en desarrollador Python/Django y especialista en automatización, quiero compartir mi experiencia con todos aquellos que, como yo, no vienen de un background técnico pero tienen la curiosidad y las ganas de aprender.</p>
+                    </div>
+                    
+                    <div class="about-image">
+                        <img src="assets/img/perfil.svg" alt="Kevin Turkienich">
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Why This Book Section -->
+        <section class="mission-section">
+            <div class="mission-container container">
+                <h2 class="mission-title">¿Por qué este libro?</h2>
+                <p class="mission-text">Programación para Mortales nació de una frustración personal: la dificultad de encontrar recursos que explicaran la programación de manera accesible para quienes no tienen formación técnica.</p>
+                
+                <p class="mission-text">Creo firmemente que la programación no debería ser un conocimiento exclusivo de "genios" o personas con títulos en informática. Es una habilidad poderosa que puede transformar carreras y abrir puertas en cualquier industria.</p>
+                
+                <div class="mission-values">
+                    <div class="mission-value">
+                        <div class="mission-value-icon">🔍</div>
+                        <h3 class="mission-value-title">Sin jerga técnica</h3>
+                        <p class="mission-value-text">Explico conceptos complejos con palabras sencillas y ejemplos cotidianos, para que cualquiera pueda entender sin necesidad de un diccionario técnico.</p>
+                    </div>
+                    
+                    <div class="mission-value">
+                        <div class="mission-value-icon">🛠️</div>
+                        <h3 class="mission-value-title">Enfoque práctico</h3>
+                        <p class="mission-value-text">Cada concepto viene acompañado de ejemplos reales y actividades interactivas que puedes aplicar inmediatamente en tu día a día.</p>
+                    </div>
+                    
+                    <div class="mission-value">
+                        <div class="mission-value-icon">🌱</div>
+                        <h3 class="mission-value-title">Para todos</h3>
+                        <p class="mission-value-text">Diseñado para personas de cualquier edad, profesión o nivel educativo que quieran aprender a programar desde cero.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- My Journey Section -->
+        <section class="journey-section">
+            <div class="journey-container container">
+                <h2 class="journey-title">Mi camino en la programación</h2>
+                
+                <div class="journey-timeline">
+                    <div class="journey-item">
+                        <div class="journey-date">1</div>
+                        <div class="journey-content">
+                            <h3 class="journey-title-small">Los primeros pasos</h3>
+                            <p class="journey-text">Todo comenzó con macros de Excel y VBA. Automatizar tareas repetitivas en mi trabajo como contador me hizo descubrir el poder de la programación para resolver problemas cotidianos.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="journey-item">
+                        <div class="journey-date">2</div>
+                        <div class="journey-content">
+                            <h3 class="journey-title-small">Descubriendo Python</h3>
+                            <p class="journey-text">Cuando las limitaciones de VBA se hicieron evidentes, me sumergí en Python. Su sintaxis clara y la enorme comunidad me permitieron avanzar rápidamente, aplicando lo aprendido a proyectos cada vez más complejos.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="journey-item">
+                        <div class="journey-date">3</div>
+                        <div class="journey-content">
+                            <h3 class="journey-title-small">El mundo de la automatización</h3>
+                            <p class="journey-text">Trabajar con RPA (Robotic Process Automation) en empresas como KPMG y Swiss Medical Group me permitió ver el impacto real de la automatización en procesos empresariales, ahorrando miles de horas de trabajo manual.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="journey-item">
+                        <div class="journey-date">4</div>
+                        <div class="journey-content">
+                            <h3 class="journey-title-small">Compartiendo conocimiento</h3>
+                            <p class="journey-text">La satisfacción de resolver problemas con código me llevó a querer compartir este conocimiento. Comencé a enseñar a colegas, luego lancé mi canal de YouTube y ahora este libro digital interactivo.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Social Media Section -->
+        <section class="social-section">
+            <div class="container">
+                <h2 class="social-title">Conecta conmigo</h2>
+                <p class="social-description">Además de este libro, comparto contenido sobre programación, automatización y desarrollo profesional en diferentes plataformas. ¡Te invito a seguirme!</p>
+                
+                <div class="social-grid">
+                    <div class="social-card">
+                        <img src="https://images.unsplash.com/photo-1611162616475-46b635cb6868?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" alt="Canal de YouTube" class="social-card-image">
+                        <div class="social-card-content">
+                            <h3 class="social-card-title">Canal de YouTube</h3>
+                            <p class="social-card-text">Tutoriales, consejos y proyectos prácticos sobre Python, automatización y desarrollo web. Explicados de forma sencilla y directa.</p>
+                            <a href="https://www.youtube.com/@excel-ente" target="_blank" class="social-card-link">Visitar canal →</a>
+                        </div>
+                    </div>
+                    
+                    <div class="social-card">
+                        <img src="https://images.unsplash.com/photo-1611944212129-29977ae1398c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" alt="GitHub" class="social-card-image">
+                        <div class="social-card-content">
+                            <h3 class="social-card-title">GitHub</h3>
+                            <p class="social-card-text">Repositorios con código fuente de proyectos, ejemplos prácticos y recursos complementarios para este libro.</p>
+                            <a href="https://github.com/Excel-ente" target="_blank" class="social-card-link">Ver proyectos →</a>
+                        </div>
+                    </div>
+                    
+                    <div class="social-card">
+                        <img src="https://images.unsplash.com/photo-1611944212129-29977ae1398c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" alt="LinkedIn" class="social-card-image">
+                        <div class="social-card-content">
+                            <h3 class="social-card-title">LinkedIn</h3>
+                            <p class="social-card-text">Artículos, reflexiones y contenido sobre desarrollo profesional, automatización y tendencias tecnológicas.</p>
+                            <a href="https://www.linkedin.com/in/kevinturkienich" target="_blank" class="social-card-link">Conectar →</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Contact Section -->
+        <section class="contact-section">
+            <div class="container">
+                <h2 class="contact-title">¿Hablamos?</h2>
+                <p class="contact-description">Me encantaría conocer tu opinión sobre el libro, responder tus dudas o simplemente charlar sobre programación y tecnología.</p>
+                
+                <div class="contact-methods">
+                    <div class="contact-method">
+                        <div class="contact-method-icon">📧</div>
+                        <h3 class="contact-method-title">Correo Electrónico</h3>
+                        <p class="contact-method-text">La forma más directa de contactarme para consultas, sugerencias o colaboraciones.</p>
+                        <a href="mailto:info@programacionparamortales.com" class="contact-method-link">info@programacionparamortales.com</a>
+                    </div>
+                    
+                    <div class="contact-method">
+                        <div class="contact-method-icon">📱</div>
+                        <h3 class="contact-method-title">WhatsApp</h3>
+                        <p class="contact-method-text">Para consultas rápidas o si prefieres una comunicación más directa.</p>
+                        <p style="color: #ef4444;"><b>Desahabilitado temporalmente</b></p>
+                    </div>
+                    
+                    <div class="contact-method">
+                        <div class="contact-method-icon">💬</div>
+                        <h3 class="contact-method-title">Comentarios</h3>
+                        <p class="contact-method-text">Dejá tus comentarios en los capítulos del libro o en los videos de YouTube.</p>
+                        <a href="#" class="contact-method-link">Ver sección de comentarios →</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-container">
+                <div>
+                    <a href="index.html" class="footer-logo">Programación para Mortales</a>
+                    <p class="footer-description">Un libro digital interactivo para aprender a programar desde cero, sin importar tu formación o experiencia previa.</p>
+                    <div class="footer-social">
+                        <a href="https://www.youtube.com/@excel-ente" target="_blank" class="footer-social-link" title="YouTube">📺</a>
+                        <a href="https://www.linkedin.com/in/kevinturkienich" target="_blank" class="footer-social-link" title="LinkedIn">📱</a>
+                        <a href="mailto:info@programacionparamortales.com" class="footer-social-link" title="Email">📧</a>
+                        <a href="https://github.com/Excel-ente" target="_blank" class="footer-social-link" title="GitHub">📘</a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h3 class="footer-heading">Navegación</h3>
+                    <ul class="footer-links">
+                        <li class="footer-link"><a href="index.html">Inicio</a></li>
+                        <li class="footer-link"><a href="index.html#episodes">Episodios</a></li>
+                        <li class="footer-link"><a href="index.html#future-courses">Próximos cursos</a></li>
+                        <li class="footer-link"><a href="about.html">Acerca de</a></li>
+                        <li class="footer-link"><a href="indice.html">Índice completo</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="footer-heading">Recursos</h3>
+                    <ul class="footer-links">
+                        <li class="footer-link"><a href="https://www.youtube.com/@excel-ente" target="_blank">Canal de YouTube</a></li>
+                        <li class="footer-link"><a href="https://github.com/Excel-ente" target="_blank">Repositorios GitHub</a></li>
+                        <li class="footer-link"><a href="#">Comunidad</a></li>
+                        <li class="footer-link"><a href="#">Preguntas frecuentes</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="footer-heading">Contacto</h3>
+                    <ul class="footer-links">
+                        <li class="footer-link"><a href="mailto:info@programacionparamortales.com">Soporte</a></li>
+                        <li class="footer-link"><a href="mailto:info@programacionparamortales.com">Contacto</a></li>
+                        <li class="footer-link"><a href="#">Colaboraciones</a></li>
+                        <li class="footer-link"><a href="#">Sugerencias</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2025 Programación para Mortales. Todos los derechos reservados.</p>
+                <div class="footer-bottom-links">
+                    <a href="terminos-y-condiciones.html" class="footer-bottom-link">Términos y condiciones</a>
+                    <a href="privacidad.html" class="footer-bottom-link">Política de privacidad</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        // Mobile Menu Toggle
+        const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+        const nav = document.querySelector('.nav');
+        
+        mobileMenuBtn.addEventListener('click', () => {
+            nav.classList.toggle('active');
+        });
+        
+        // Header Scroll Effect
+        const header = document.querySelector('.header');
+        
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+        
+        // Reading Progress Bar
+        const progressBar = document.getElementById('progressBar');
+        
+        window.addEventListener('scroll', () => {
+            const windowHeight = window.innerHeight;
+            const documentHeight = document.documentElement.scrollHeight - windowHeight;
+            const scrollTop = window.scrollY;
+            const progress = (scrollTop / documentHeight) * 100;
+            progressBar.style.width = progress + '%';
+        });
+    </script>
+</body>
+</html>

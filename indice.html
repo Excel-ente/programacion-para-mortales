@@ -1,0 +1,1072 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Índice Completo - Programación para Mortales</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@300;400;500;600;700&family=Fira+Code:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" href="icon.ico" type="image/x-icon">
+    <style>
+        :root {
+            /* Paleta de colores actualizada */
+            --primary: #4f46e5; /* Morado moderno y accesible */
+            --primary-dark: #3730a3;
+            --primary-light: #818cf8;
+            --secondary: #10b981; /* Verde esmeralda para acentos y éxito */
+            --secondary-dark: #059669;
+            --accent: #f59e0b; /* Naranja/ámbar */
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --dark: #1e293b; /* Azul oscuro casi negro para texto principal */
+            --dark-blue: #0f172a; 
+            --light: #f8fafc; /* Blanco ligeramente cálido para fondos */
+            --gray: #64748b; /* Gris azulado para texto secundario */
+            --gray-light: #e2e8f0; /* Para bordes o fondos muy sutiles */
+            --paper: #fdf6e3; /* Color papel más cálido */
+            
+            /* Tipografía */
+            --font-heading: 'Space Grotesk', sans-serif; /* Cambiado para un look más moderno */
+            --font-body: 'Outfit', sans-serif; /* Cambiado para un look más moderno y legible */
+            --font-code: 'Fira Code', monospace;
+            
+            /* Espaciado */
+            --spacing-xs: 0.25rem;
+            --spacing-sm: 0.5rem;
+            --spacing-md: 1rem;
+            --spacing-lg: 1.5rem;
+            --spacing-xl: 2rem;
+            --spacing-2xl: 3rem;
+            --spacing-3xl: 4rem;
+            
+            /* Bordes y sombras */
+            --radius-sm: 0.375rem;
+            --radius-md: 0.5rem;
+            --radius-lg: 0.75rem;
+            --radius-xl: 1rem;
+            --radius-full: 9999px;
+            
+            --shadow-sm: 0 1px 2px rgba(0,0,0,0.04), 0 1px 1px rgba(0,0,0,0.02);
+            --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.08), 0 2px 4px -1px rgba(0,0,0,0.04);
+            --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.08), 0 4px 6px -2px rgba(0,0,0,0.04);
+            --shadow-xl: 0 20px 25px -5px rgba(0,0,0,0.08), 0 10px 10px -5px rgba(0,0,0,0.03);
+            
+            /* Transiciones */
+            --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-normal: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-slow: 500ms cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html {
+            font-size: 16px;
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            font-family: var(--font-body);
+            color: var(--dark);
+            background-color: var(--paper); /* Usar nuevo color de fondo */
+            line-height: 1.7;
+            overflow-x: hidden;
+            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23e0e0e0' fill-opacity='0.1' fill-rule='evenodd'/%3E%3C/svg%3E");
+            background-attachment: fixed;
+        }
+        
+        h1, h2, h3, h4, h5, h6 {
+            font-family: var(--font-heading);
+            font-weight: 700;
+            line-height: 1.3;
+            margin-bottom: var(--spacing-lg);
+        }
+        
+        h1 { font-size: clamp(2.5rem, 5vw, 3.5rem); }
+        h2 {
+            font-size: clamp(1.8rem, 4vw, 2.5rem);
+            margin-top: var(--spacing-2xl);
+            position: relative;
+            padding-bottom: var(--spacing-md);
+        }
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 4px;
+            background: var(--primary);
+            border-radius: var(--radius-sm);
+        }
+        h3 {
+            font-size: clamp(1.3rem, 3vw, 1.75rem);
+            margin-top: var(--spacing-xl);
+            color: var(--primary-dark);
+        }
+        
+        p {
+            margin-bottom: var(--spacing-lg);
+            font-size: clamp(1rem, 2.5vw, 1.125rem);
+        }
+        
+        a {
+            text-decoration: none;
+            color: var(--primary);
+            transition: color var(--transition-fast);
+        }
+        a:hover { color: var(--primary-dark); text-decoration: underline; }
+        
+        /* Header - NO TOCAR */
+        .header {
+            position: fixed; top: 0; left: 0; width: 100%; z-index: 100;
+            background-color: rgba(253, 246, 227, 0.85); /* --paper con opacidad */
+            backdrop-filter: blur(10px); box-shadow: var(--shadow-sm);
+            transition: var(--transition-normal);
+        }
+        .header.scrolled { box-shadow: var(--shadow-md); }
+        .header-container {
+            display: flex; justify-content: space-between; align-items: center;
+            height: 70px; max-width: 1280px; margin: 0 auto; padding: 0 var(--spacing-lg);
+        }
+        .logo {
+            font-family: var(--font-heading); font-weight: 800; font-size: 1.5rem;
+            color: var(--primary); display: flex; align-items: center; gap: var(--spacing-sm);
+        }
+        .logo-icon {
+            display: inline-flex; align-items: center; justify-content: center;
+            width: 36px; height: 36px; background-color: var(--primary); color: white;
+            border-radius: var(--radius-md); font-weight: 700;
+        }
+        .nav { display: flex; align-items: center; gap: var(--spacing-xl); }
+        .nav-link {
+            font-weight: 500; color: var(--dark); position: relative; padding: var(--spacing-sm) 0;
+        }
+        .nav-link:hover { color: var(--primary); }
+        .nav-link::after {
+            content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 2px;
+            background-color: var(--primary); transition: var(--transition-normal);
+        }
+        .nav-link:hover::after, .nav-link.active::after { width: 100%; }
+        .nav-link.active { color: var(--primary); }
+        .btn {
+            display: inline-flex; align-items: center; justify-content: center;
+            padding: 0.65rem 1.5rem; font-weight: 600;
+            border-radius: var(--radius-full); transition: var(--transition-normal);
+            gap: var(--spacing-sm); text-align: center;
+        }
+        .btn-primary {
+            background-color: var(--primary); color: white; box-shadow: var(--shadow-sm);
+        }
+        .btn-primary:hover {
+            background-color: var(--primary-dark); transform: translateY(-2px); box-shadow: var(--shadow-md);
+        }
+        .mobile-menu-btn {
+            display: none; font-size: 1.8rem; color: var(--dark);
+            background: transparent; border: none; padding: var(--spacing-sm); cursor: pointer;
+        }
+        
+        /* Page Header */
+        .page-header {
+            padding-top: 120px; /* Más espacio para header fijo */
+            padding-bottom: var(--spacing-3xl); /* Más padding inferior */
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 70%, var(--primary-light) 100%);
+            color: white;
+            position: relative;
+            overflow: hidden;
+            border-bottom: 5px solid var(--accent);
+        }
+        .page-header::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            opacity: 0.8; /* Ligeramente más visible */
+        }
+        .page-header-content {
+            position: relative; z-index: 1; max-width: 900px; /* Ligeramente más ancho */
+            margin: 0 auto; padding: 0 var(--spacing-lg); text-align: center;
+        }
+        .page-title {
+            font-size: clamp(2.8rem, 6vw, 4rem); /* Título responsive */
+            margin-bottom: var(--spacing-md);
+            color: white;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+        }
+        .page-description {
+            font-size: clamp(1.1rem, 2.8vw, 1.3rem); /* Descripción responsive */
+            max-width: 700px; margin: 0 auto var(--spacing-xl);
+            opacity: 0.9;
+            line-height: 1.8; /* Más interlineado */
+        }
+        
+        /* Main Content */
+        .main-content { padding: var(--spacing-2xl) 0 var(--spacing-3xl); } /* Ajuste de padding */
+        .container {
+            max-width: 1200px; /* Coincidir con header */
+            margin: 0 auto; padding: 0 var(--spacing-lg);
+        }
+        
+        /* Index Styles */
+        .index-section { margin-bottom: var(--spacing-3xl); }
+        .index-section-title { /* Título de cada episodio */
+            font-size: clamp(1.8rem, 3.5vw, 2.4rem);
+            margin-bottom: var(--spacing-lg);
+            color: var(--primary-dark);
+            border-bottom: 3px solid var(--primary-light);
+            padding-bottom: var(--spacing-md);
+            display: flex; /* Para alinear icono y texto */
+            align-items: center;
+        }
+        .index-section-title .episode-icon {
+            margin-right: var(--spacing-md);
+            font-size: 1.8em; /* Relativo al tamaño del h2 */
+            color: var(--primary);
+        }
+
+        .index-list {
+            list-style: none;
+            padding-left: 0; /* Quitar padding por defecto de ul */
+        }
+        .index-item { /* Cada tarjeta de capítulo */
+            background-color: white;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-md);
+            margin-bottom: var(--spacing-lg);
+            padding: var(--spacing-lg);
+            transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+            border-left: 5px solid var(--primary-light);
+        }
+        .index-item:hover {
+            transform: translateY(-5px) scale(1.01);
+            box-shadow: var(--shadow-lg);
+            border-left-color: var(--primary);
+        }
+        .index-item-header {
+            display: flex;
+            align-items: flex-start; /* Alinear al inicio para números largos */
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-sm);
+        }
+        .index-item-prefix { /* Para 'Capítulo X' o 'Introducción' */
+            font-weight: 600;
+            color: var(--primary);
+            white-space: nowrap; /* Evitar que se parta */
+            font-size: 0.9rem;
+            background-color: var(--primary-light);
+            color: var(--primary-dark);
+            padding: var(--spacing-xs) var(--spacing-sm);
+            border-radius: var(--radius-sm);
+            margin-right: var(--spacing-sm);
+            flex-shrink: 0; /* Evitar que se encoja */
+        }
+        .index-item-title {
+            font-size: clamp(1.2rem, 2.8vw, 1.5rem);
+            font-weight: 600; /* Ligeramente menos peso que h3 */
+            color: var(--dark-blue);
+            margin-bottom: var(--spacing-xs); /* Menos espacio después del título */
+            line-height: 1.4;
+        }
+        .index-item-title a { color: var(--dark-blue); }
+        .index-item-title a:hover { color: var(--primary); }
+
+        .index-item-description {
+            font-size: 0.95rem; /* Ligeramente más pequeño */
+            color: var(--gray);
+            margin-bottom: var(--spacing-md);
+            padding-left: 0; /* Ajustar si se quita el número */
+        }
+        .index-item-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--spacing-sm) var(--spacing-md); /* Espacio vertical y horizontal */
+            font-size: 0.8rem;
+            color: var(--gray);
+            padding-left: 0; /* Ajustar si se quita el número */
+            align-items: center;
+        }
+        .index-item-meta-item {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+            background-color: var(--gray-light);
+            padding: var(--spacing-xs) var(--spacing-sm);
+            border-radius: var(--radius-full);
+        }
+        .index-item-meta-item svg { /* Estilo para iconos en meta */
+            width: 1em; height: 1em;
+            margin-right: 0.3em;
+        }
+        .index-item-link-container { /* Contenedor para el enlace "Leer capítulo" */
+            margin-top: var(--spacing-md);
+            text-align: right; /* Alinear a la derecha */
+        }
+        .index-item-link { /* Enlace "Leer capítulo" */
+            display: inline-flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--primary-dark);
+            padding: var(--spacing-sm) var(--spacing-lg);
+            border: 2px solid var(--primary-light);
+            border-radius: var(--radius-full);
+        }
+        .index-item-link:hover {
+            background-color: var(--primary-dark);
+            color: white;
+            border-color: var(--primary-dark);
+            text-decoration: none;
+        }
+        .index-item-status {
+            font-size: 0.8rem;
+            font-weight: 600;
+            padding: var(--spacing-xs) var(--spacing-sm);
+            border-radius: var(--radius-full);
+            margin-left: auto; /* Para alinear a la derecha si está en el header */
+        }
+        .status-available { background-color: var(--success); color: white; }
+        .status-coming-soon { background-color: var(--warning); color: var(--dark-blue); }
+        .status-in-progress { background-color: var(--accent); color: var(--dark-blue); }
+        
+        /* Search Box */
+        .search-box { margin-bottom: var(--spacing-2xl); position: relative; }
+        .search-input {
+            width: 100%; padding: var(--spacing-md) var(--spacing-lg);
+            padding-left: 3.5rem; /* Más espacio para el icono */
+            border: 1px solid var(--gray-light); /* Borde más sutil */
+            border-radius: var(--radius-lg); /* Más redondeado */
+            font-size: 1.1rem; /* Ligeramente más grande */
+            transition: var(--transition-normal);
+            box-shadow: var(--shadow-sm);
+        }
+        .search-input:focus {
+            outline: none; border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(var(--primary-rgb, 79,70,229), 0.25); /* Usar variable RGB si es posible */
+        }
+        .search-icon {
+            position: absolute; left: var(--spacing-lg); top: 50%;
+            transform: translateY(-50%); color: var(--gray); font-size: 1.5rem; /* Icono más grande */
+        }
+        
+        /* Progress Bar */
+        .progress-container {
+            position: fixed; top: 70px; left: 0; width: 100%; height: 5px; /* Ligeramente más gruesa */
+            background-color: var(--gray-light); z-index: 99;
+        }
+        .progress-bar {
+            height: 100%; background-color: var(--secondary); width: 0%;
+            transition: width 0.2s ease-out; /* Transición más suave */
+            border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+        }
+        
+        /* Footer - NO TOCAR */
+        /* ... estilos del footer ... */
+        .footer {
+            background-color: var(--dark); color: white; padding: var(--spacing-2xl) 0;
+        }
+        .footer-container {
+            display: flex; justify-content: space-between; align-items: center;
+            max-width: 1280px; margin: 0 auto; padding: 0 var(--spacing-lg); flex-wrap: wrap;
+        }
+        .footer-logo {
+            font-family: var(--font-heading); font-weight: 800; font-size: 1.5rem; color: white;
+        }
+        .footer-links { display: flex; gap: var(--spacing-lg); flex-wrap: wrap; }
+        .footer-link { color: rgba(255,255,255,0.7); transition: var(--transition-normal); }
+        .footer-link:hover { color: white; }
+        .footer-bottom {
+            margin-top: var(--spacing-lg); padding-top: var(--spacing-lg);
+            border-top: 1px solid rgba(255,255,255,0.1); text-align: center;
+            color: rgba(255,255,255,0.7); font-size: 0.875rem;
+            max-width: 1280px; margin-left: auto; margin-right: auto;
+            padding-left: var(--spacing-lg); padding-right: var(--spacing-lg);
+        }
+        
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .header-container { height: 60px; }
+            .nav {
+                position: fixed; top: 60px; left: 0; width: 100%; height: 0;
+                background-color: var(--paper); /* Coincidir con body */
+                flex-direction: column; align-items: flex-start;
+                padding: 0 var(--spacing-lg); overflow: hidden;
+                transition: var(--transition-normal); box-shadow: var(--shadow-md);
+                opacity: 0; visibility: hidden; z-index: 99;
+            }
+            .nav.active {
+                height: auto; padding: var(--spacing-lg); opacity: 1; visibility: visible;
+            }
+            .mobile-menu-btn { display: block; }
+            .page-title { font-size: 2.5rem; }
+            .page-description { font-size: 1.1rem; }
+            .index-item-header {
+                flex-direction: column; align-items: flex-start; gap: var(--spacing-sm);
+            }
+            .index-item-prefix { margin-bottom: var(--spacing-xs); }
+            .index-item-description, .index-item-meta { margin-left: 0; }
+            .index-item-link-container { text-align: left; margin-top: var(--spacing-md); }
+            .index-item-status { position: relative; display: inline-block; margin-top: var(--spacing-md); left:0; right:auto; }
+            .footer-container { flex-direction: column; gap: var(--spacing-lg); text-align: center; }
+        }
+         @media (max-width: 480px) {
+            .index-item-meta { flex-direction:column; align-items: flex-start;}
+        }
+
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-container">
+            <a href="index.html" class="logo">
+                <span class="logo-icon">P</span>
+                <span>Programación para Mortales</span>
+            </a>
+            
+            <nav class="nav">
+                <a href="index.html" class="nav-link">Inicio</a>
+                <a href="index.html#episodio-1" class="nav-link">Episodios</a>
+                <a href="about.html" class="nav-link">Acerca de</a>
+                <a href="terminos-y-condiciones.html" class="nav-link">Términos</a>
+                <a href="capitulos/introduccion.html" class="btn btn-primary">Comenzar</a>
+            </nav>
+            
+            <button class="mobile-menu-btn">☰</button>
+        </div>
+    </header>
+    
+    <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+    
+    <section class="page-header">
+        <div class="page-header-content">
+            <h1 class="page-title animate-fade-in">Índice Completo del Contenido</h1>
+            <p class="page-description animate-fade-in delay-100">Navega por todos los episodios y capítulos de "Programación para Mortales". Encuentra exactamente lo que buscas y sigue tu propio ritmo de aprendizaje.</p>
+        </div>
+    </section>
+    
+    <main class="main-content">
+        <div class="container">
+            <div class="search-box">
+                <span class="search-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                </span>
+                <input type="text" class="search-input" placeholder="Buscar capítulos, temas o conceptos..." id="searchInput">
+            </div>
+            
+            <section class="index-section" id="episodio-1">
+                <h2 class="index-section-title"><span class="episode-icon">🧠</span>Episodio 1: Entender la compu para poder hablarle</h2>
+                <ul class="index-list">
+                    <li class="index-item">
+                        <div class="index-item-header">
+                            <span class="index-item-prefix">Introducción</span>
+                            <h3 class="index-item-title"><a href="capitulos/introduccion.html">Bienvenida y Mi Camino en la Programación</a></h3>
+                            <span class="index-item-status status-available">Disponible</span>
+                        </div>
+                        <p class="index-item-description">Conoce quién soy y por qué este contenido te interesa. Una breve presentación del libro y su enfoque.</p>
+                        <div class="index-item-meta">
+                            <span class="index-item-meta-item"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>5 min</span>
+                            <span class="index-item-meta-item">🧩 0 actividades</span>
+                            <span class="index-item-meta-item">📚 Nivel: Principiante</span>
+                        </div>
+                        <div class="index-item-link-container">
+                            <a href="capitulos/introduccion.html" class="index-item-link">Leer capítulo →</a>
+                        </div>
+                    </li>
+                    <li class="index-item">
+                        <div class="index-item-header">
+                            <span class="index-item-prefix">Cap. 1</span>
+                            <h3 class="index-item-title"><a href="capitulos/episodio-1/capitulo-1.html">¿Qué es programar?</a></h3>
+                            <span class="index-item-status status-available">Disponible</span>
+                        </div>
+                        <p class="index-item-description">Descubrí cómo se comunican las personas y las máquinas, y por qué aprender a programar es como aprender un nuevo idioma.</p>
+                        <div class="index-item-meta">
+                            <span class="index-item-meta-item"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>15 min</span>
+                            <span class="index-item-meta-item">🧩 3 actividades</span>
+                            <span class="index-item-meta-item">📚 Nivel: Principiante</span>
+                        </div>
+                        <div class="index-item-link-container">
+                             <a href="capitulos/episodio-1/capitulo-1.html" class="index-item-link">Leer capítulo →</a>
+                        </div>
+                    </li>
+                    <li class="index-item">
+                        <div class="index-item-header">
+                            <span class="index-item-prefix">Cap. 2</span>
+                            <h3 class="index-item-title"><a href="capitulos/episodio-1/capitulo-2.html">¿Qué hay dentro de una computadora?</a></h3>
+                            <span class="index-item-status status-available">Disponible</span>
+                        </div>
+                        <p class="index-item-description">Viaje al corazón de la máquina: el cerebro, la memoria, la energía y el esqueleto de tu compu, contados desde lo simple.</p>
+                        <div class="index-item-meta">
+                            <span class="index-item-meta-item"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>20 min</span>
+                            <span class="index-item-meta-item">🧩 3 actividades</span>
+                            <span class="index-item-meta-item">📚 Nivel: Principiante</span>
+                        </div>
+                        <div class="index-item-link-container">
+                            <a href="capitulos/episodio-1/capitulo-2.html" class="index-item-link">Leer capítulo →</a>
+                        </div>
+                    </li>
+                    <li class="index-item">
+                        <div class="index-item-header">
+                            <span class="index-item-prefix">Cap. 3</span>
+                            <h3 class="index-item-title"><a href="capitulos/episodio-1/capitulo-3.html">Explorando la compu desde adentro</a></h3>
+                            <span class="index-item-status status-available">Disponible</span>
+                        </div>
+                        <p class="index-item-description">Primeros pasos con la terminal. Aprendé a moverte entre carpetas como un verdadero explorador digital.</p>
+                        <div class="index-item-meta">
+                            <span class="index-item-meta-item"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>20 min</span>
+                            <span class="index-item-meta-item">🧩 4 actividades</span>
+                            <span class="index-item-meta-item">📚 Nivel: Principiante</span>
+                        </div>
+                        <div class="index-item-link-container">
+                            <a href="capitulos/episodio-1/capitulo-3.html" class="index-item-link">Leer capítulo →</a>
+                        </div>
+                    </li>
+                     <li class="index-item">
+                        <div class="index-item-header">
+                            <span class="index-item-prefix">Cap. 4</span>
+                            <h3 class="index-item-title"><a href="capitulos/episodio-1/capitulo-4.html">Hablando con la compu por primera vez</a></h3>
+                            <span class="index-item-status status-available">Disponible</span>
+                        </div>
+                        <p class="index-item-description">Instalamos Python y comenzamos a hablarle: funciones, tipos de datos y los primeros comandos en tiempo real.</p>
+                        <div class="index-item-meta">
+                            <span class="index-item-meta-item"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>20 min</span>
+                            <span class="index-item-meta-item">🧩 3 actividades</span>
+                            <span class="index-item-meta-item">📚 Nivel: Principiante</span>
+                        </div>
+                        <div class="index-item-link-container">
+                            <a href="capitulos/episodio-1/capitulo-4.html" class="index-item-link">Leer capítulo →</a>
+                        </div>
+                    </li>
+                    <li class="index-item">
+                        <div class="index-item-header">
+                            <span class="index-item-prefix">Cap. 5</span>
+                            <h3 class="index-item-title"><a href="capitulos/episodio-1/capitulo-5.html">Jugando con datos</a></h3>
+                            <span class="index-item-status status-available">Disponible</span>
+                        </div>
+                        <p class="index-item-description">Aprendé qué son las variables, cómo guardar cosas, sumarlas, cambiarlas… y cómo hacer que la compu recuerde por vos.</p>
+                        <div class="index-item-meta">
+                            <span class="index-item-meta-item"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>20 min</span>
+                            <span class="index-item-meta-item">🧩 3 actividades</span>
+                            <span class="index-item-meta-item">📚 Nivel: Principiante</span>
+                        </div>
+                        <div class="index-item-link-container">
+                            <a href="capitulos/episodio-1/capitulo-5.html" class="index-item-link">Leer capítulo →</a>
+                        </div>
+                    </li>
+                    <li class="index-item">
+                        <div class="index-item-header">
+                            <span class="index-item-prefix">Cap. 6</span>
+                            <h3 class="index-item-title"><a href="capitulos/episodio-1/capitulo-6.html">Que la compu decida por nosotros</a></h3>
+                            <span class="index-item-status status-available">Disponible</span>
+                        </div>
+                        <p class="index-item-description">Condicionales, lógica booleana y decisiones automáticas. Programá tu primer "si pasa esto → hacé esto".</p>
+                        <div class="index-item-meta">
+                            <span class="index-item-meta-item"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>20 min</span>
+                            <span class="index-item-meta-item">🧩 3 actividades</span>
+                            <span class="index-item-meta-item">📚 Nivel: Principiante</span>
+                        </div>
+                        <div class="index-item-link-container">
+                             <a href="capitulos/episodio-1/capitulo-6.html" class="index-item-link">Leer capítulo →</a>
+                        </div>
+                    </li>
+                    <li class="index-item">
+                        <div class="index-item-header">
+                            <span class="index-item-prefix">Cap. 7</span>
+                            <h3 class="index-item-title"><a href="capitulos/episodio-1/capitulo-7.html">¡Hacelo de nuevo!</a></h3>
+                            <span class="index-item-status status-available">Disponible</span>
+                        </div>
+                        <p class="index-item-description">Bucles y repeticiones. Lográ que la computadora repita tareas sin que vos repitas código.</p>
+                        <div class="index-item-meta">
+                            <span class="index-item-meta-item"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>20 min</span>
+                            <span class="index-item-meta-item">🧩 3 actividades</span>
+                            <span class="index-item-meta-item">📚 Nivel: Principiante</span>
+                        </div>
+                        <div class="index-item-link-container">
+                           <a href="capitulos/episodio-1/capitulo-7.html" class="index-item-link">Leer capítulo →</a>
+                        </div>
+                    </li>
+                    <li class="index-item">
+                        <div class="index-item-header">
+                            <span class="index-item-prefix">Cierre Ep. 1</span>
+                            <h3 class="index-item-title"><a href="capitulos/episodio-1/cierre-episodio-1.html">Ya hablás el idioma de la compu</a></h3>
+                            <span class="index-item-status status-available">Disponible</span>
+                        </div>
+                        <p class="index-item-description">¡Aplicación real en Python! Cierre creativo para ejercitar todo lo que aprendiste. Vas a hacer una app interactiva de adivinanzas.</p>
+                        <div class="index-item-meta">
+                            <span class="index-item-meta-item"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>15 min</span>
+                            <span class="index-item-meta-item">🧩 1 proyecto</span>
+                            <span class="index-item-meta-item">📚 Nivel: Principiante</span>
+                        </div>
+                        <div class="index-item-link-container">
+                            <a href="capitulos/episodio-1/cierre-episodio-1.html" class="index-item-link">Leer capítulo →</a>
+                        </div>
+                    </li>
+                </ul>
+            </section>
+            
+            <section class="index-section" id="episodio-2">
+                <h2 class="index-section-title"><span class="episode-icon">🏗️</span>Episodio 2: Creando Nuestra Primera Aplicación Web con Django</h2>
+                <ul class="index-list">
+                    <li class="index-item">
+                        <div class="index-item-header">
+                            <span class="index-item-prefix">Cap. 1</span>
+                            <h3 class="index-item-title"><a href="capitulos/episodio-2/capitulo-1.html">Presentación del Tutorial y Proyecto Inicial</a></h3>
+                            <span class="index-item-status status-available">Disponible</span>
+                        </div>
+                        <p class="index-item-description">El capítulo presenta el curso, define Django y detalla los pasos iniciales para construir una aplicación web básica con un modelo de proveedores mostrado en el administrador.</p>
+                        <div class="index-item-meta">
+                            <span class="index-item-meta-item"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>10 min</span>
+                            <span class="index-item-meta-item">🧩 0 actividades</span>
+                            <span class="index-item-meta-item">📚 Nivel: Principiante</span>
+                        </div>
+                        <div class="index-item-link-container">
+                            <a href="capitulos/episodio-2/capitulo-1.html" class="index-item-link">Leer capítulo →</a>
+                        </div>
+                    </li>
+                    <li class="index-item">
+                        <div class="index-item-header">
+                            <span class="index-item-prefix">Cap. 2</span>
+                            <h3 class="index-item-title"><a href="capitulos/episodio-2/capitulo-2.html">Introducción a Django y Conceptos Clave</a></h3>
+                            <span class="index-item-status status-available">Disponible</span>
+                        </div>
+                        <p class="index-item-description">Django simplifica el desarrollo al encargarse de funcionalidades estándar como autenticación y CRUD, permitiendo al programador centrarse en la lógica específica de la aplicación.</p>
+                        <div class="index-item-meta">
+                            <span class="index-item-meta-item"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>12 min</span>
+                            <span class="index-item-meta-item">🧩 0 actividades</span>
+                             <span class="index-item-meta-item">📚 Nivel: Principiante</span>
+                        </div>
+                        <div class="index-item-link-container">
+                           <a href="capitulos/episodio-2/capitulo-2.html" class="index-item-link">Leer capítulo →</a>
+                        </div>
+                    </li>
+                    <li class="index-item">
+                        <div class="index-item-header">
+                            <span class="index-item-prefix">Cap. 3</span>
+                            <h3 class="index-item-title"><a href="capitulos/episodio-2/capitulo-3.html">Instalación de Python y Verificación</a></h3>
+                            <span class="index-item-status status-available">Disponible</span>
+                        </div>
+                        <p class="index-item-description">Python es esencial para usar Django; puedes verificar si lo tienes instalado abriendo la terminal y escribiendo <code>python</code>.</p>
+                        <div class="index-item-meta">
+                            <span class="index-item-meta-item"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>8 min</span>
+                            <span class="index-item-meta-item">🧩 1 actividad</span>
+                             <span class="index-item-meta-item">📚 Nivel: Principiante</span>
+                        </div>
+                        <div class="index-item-link-container">
+                           <a href="capitulos/episodio-2/capitulo-3.html" class="index-item-link">Leer capítulo →</a>
+                        </div>
+                    </li>
+                    <li class="index-item">
+                        <div class="index-item-header">
+                            <span class="index-item-prefix">Cap. 4</span>
+                            <h3 class="index-item-title"><a href="capitulos/episodio-2/capitulo-4.html">Creación del Entorno Virtual</a></h3>
+                            <span class="index-item-status status-available">Disponible</span>
+                        </div>
+                        <p class="index-item-description">Un entorno virtual aísla las dependencias del proyecto; se crea con <code>python -m venv [nombre_entorno]</code>.</p>
+                        <div class="index-item-meta">
+                            <span class="index-item-meta-item"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>7 min</span>
+                            <span class="index-item-meta-item">🧩 1 actividad</span>
+                             <span class="index-item-meta-item">📚 Nivel: Principiante</span>
+                        </div>
+                        <div class="index-item-link-container">
+                           <a href="capitulos/episodio-2/capitulo-4.html" class="index-item-link">Leer capítulo →</a>
+                        </div>
+                    </li>
+                    <li class="index-item">
+                        <div class="index-item-header">
+                            <span class="index-item-prefix">Cap. 5</span>
+                            <h3 class="index-item-title"><a href="capitulos/episodio-2/capitulo-5.html">Activación del Entorno Virtual</a></h3>
+                            <span class="index-item-status status-available">Disponible</span>
+                        </div>
+                        <p class="index-item-description">Para usar el entorno virtual, debes activarlo ejecutando el archivo <code>activate</code> dentro de su carpeta.</p>
+                        <div class="index-item-meta">
+                            <span class="index-item-meta-item"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>6 min</span>
+                            <span class="index-item-meta-item">🧩 1 actividad</span>
+                             <span class="index-item-meta-item">📚 Nivel: Principiante</span>
+                        </div>
+                        <div class="index-item-link-container">
+                           <a href="capitulos/episodio-2/capitulo-5.html" class="index-item-link">Leer capítulo →</a>
+                        </div>
+                    </li>
+                    <li class="index-item">
+                        <div class="index-item-header">
+                            <span class="index-item-prefix">Cap. 6</span>
+                            <h3 class="index-item-title"><a href="capitulos/episodio-2/capitulo-6.html">Instalación de Django con Pip</a></h3>
+                            <span class="index-item-status status-available">Disponible</span>
+                        </div>
+                        <p class="index-item-description"><code>pip</code> es la herramienta para instalar paquetes de Python; usa <code>pip install django</code> en la terminal con el entorno virtual activado.</p>
+                        <div class="index-item-meta">
+                            <span class="index-item-meta-item"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>5 min</span>
+                            <span class="index-item-meta-item">🧩 1 actividad</span>
+                             <span class="index-item-meta-item">📚 Nivel: Principiante</span>
+                        </div>
+                        <div class="index-item-link-container">
+                           <a href="capitulos/episodio-2/capitulo-6.html" class="index-item-link">Leer capítulo →</a>
+                        </div>
+                    </li>
+                    <li class="index-item">
+                        <div class="index-item-header">
+                            <span class="index-item-prefix">Cap. 7</span>
+                            <h3 class="index-item-title"><a href="capitulos/episodio-2/capitulo-7.html">Instalación de Visual Studio Code</a></h3>
+                            <span class="index-item-status status-available">Disponible</span>
+                        </div>
+                        <p class="index-item-description">Instala Visual Studio Code desde su sitio web oficial para usarlo como tu editor de código.</p>
+                        <div class="index-item-meta">
+                            <span class="index-item-meta-item"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>4 min</span>
+                            <span class="index-item-meta-item">🧩 1 actividad</span>
+                             <span class="index-item-meta-item">📚 Nivel: Principiante</span>
+                        </div>
+                        <div class="index-item-link-container">
+                           <a href="capitulos/episodio-2/capitulo-7.html" class="index-item-link">Leer capítulo →</a>
+                        </div>
+                    </li>
+                    <li class="index-item">
+                        <div class="index-item-header">
+                            <span class="index-item-prefix">Cap. 8</span>
+                            <h3 class="index-item-title"><a href="capitulos/episodio-2/capitulo-8.html">Creación y Ejecución del Proyecto Django</a></h3>
+                            <span class="index-item-status status-available">Disponible</span>
+                        </div>
+                        <p class="index-item-description">Crea el proyecto con <code>django-admin startproject [nombre]</code> y corre el servidor con <code>python manage.py runserver</code>.</p>
+                        <div class="index-item-meta">
+                            <span class="index-item-meta-item"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>10 min</span>
+                            <span class="index-item-meta-item">🧩 2 actividades</span>
+                            <span class="index-item-meta-item">📚 Nivel: Principiante</span>
+                        </div>
+                        <div class="index-item-link-container">
+                           <a href="capitulos/episodio-2/capitulo-8.html" class="index-item-link">Leer capítulo →</a>
+                        </div>
+                    </li>
+                    <li class="index-item">
+                        <div class="index-item-header">
+                            <span class="index-item-prefix">Cap. 9</span>
+                            <h3 class="index-item-title"><a href="capitulos/episodio-2/capitulo-9.html">Aplicando Migraciones Iniciales</a></h3>
+                            <span class="index-item-status status-available">Disponible</span>
+                        </div>
+                        <p class="index-item-description">Ejecuta <code>python manage.py migrate</code> para crear las tablas de base de datos por defecto de Django.</p>
+                        <div class="index-item-meta">
+                            <span class="index-item-meta-item"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>7 min</span>
+                            <span class="index-item-meta-item">🧩 1 actividad</span>
+                            <span class="index-item-meta-item">📚 Nivel: Principiante</span>
+                        </div>
+                        <div class="index-item-link-container">
+                           <a href="capitulos/episodio-2/capitulo-9.html" class="index-item-link">Leer capítulo →</a>
+                        </div>
+                    </li>
+                    <li class="index-item">
+                        <div class="index-item-header">
+                            <span class="index-item-prefix">Cap. 10</span>
+                            <h3 class="index-item-title"><a href="capitulos/episodio-2/capitulo-10.html">Creación de un Superusuario</a></h3>
+                            <span class="index-item-status status-available">Disponible</span>
+                        </div>
+                        <p class="index-item-description">Crea un superusuario con <code>python manage.py createsuperuser</code> para poder administrar el sitio Django.</p>
+                        <div class="index-item-meta">
+                            <span class="index-item-meta-item"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>8 min</span>
+                            <span class="index-item-meta-item">🧩 1 actividad</span>
+                            <span class="index-item-meta-item">📚 Nivel: Principiante</span>
+                        </div>
+                        <div class="index-item-link-container">
+                           <a href="capitulos/episodio-2/capitulo-10.html" class="index-item-link">Leer capítulo →</a>
+                        </div>
+                    </li>
+                    <li class="index-item">
+                        <div class="index-item-header">
+                            <span class="index-item-prefix">Cap. 11</span>
+                            <h3 class="index-item-title"><a href="capitulos/episodio-2/capitulo-11.html">Explorando el Panel de Administración de Django</a></h3>
+                            <span class="index-item-status status-available">Disponible</span>
+                        </div>
+                        <p class="index-item-description">El panel de administración de Django ofrece funcionalidades básicas de gestión de usuarios y es la interfaz para interactuar con los modelos.</p>
+                        <div class="index-item-meta">
+                            <span class="index-item-meta-item"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>6 min</span>
+                            <span class="index-item-meta-item">🧩 1 actividad</span>
+                            <span class="index-item-meta-item">📚 Nivel: Principiante</span>
+                        </div>
+                        <div class="index-item-link-container">
+                           <a href="capitulos/episodio-2/capitulo-11.html" class="index-item-link">Leer capítulo →</a>
+                        </div>
+                    </li>
+                    <li class="index-item">
+                        <div class="index-item-header">
+                            <span class="index-item-prefix">Cap. 12</span>
+                            <h3 class="index-item-title"><a href="capitulos/episodio-2/capitulo-12.html">Estructura de Directorios del Proyecto Django</a></h3>
+                            <span class="index-item-status status-available">Disponible</span>
+                        </div>
+                        <p class="index-item-description">Un proyecto Django incluye una carpeta principal, una interna para la app general (con <code>settings</code> y <code>urls</code>), <code>manage.py</code> y una base de datos SQLite.</p>
+                        <div class="index-item-meta">
+                            <span class="index-item-meta-item"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>7 min</span>
+                            <span class="index-item-meta-item">🧩 0 actividades</span>
+                            <span class="index-item-meta-item">📚 Nivel: Principiante</span>
+                        </div>
+                        <div class="index-item-link-container">
+                           <a href="capitulos/episodio-2/capitulo-12.html" class="index-item-link">Leer capítulo →</a>
+                        </div>
+                    </li>
+                    <li class="index-item">
+                        <div class="index-item-header">
+                            <span class="index-item-prefix">Cap. 13</span>
+                            <h3 class="index-item-title"><a href="capitulos/episodio-2/capitulo-13.html">Datos y su Estructuración en Bases de Datos</a></h3>
+                            <span class="index-item-status status-available">Disponible</span>
+                        </div>
+                        <p class="index-item-description">Las bases de datos organizan información eficientemente; Django usa un ORM para interactuar con ellas sin necesidad de escribir SQL directamente.</p>
+                        <div class="index-item-meta">
+                            <span class="index-item-meta-item"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>9 min</span>
+                            <span class="index-item-meta-item">🧩 0 actividades</span>
+                            <span class="index-item-meta-item">📚 Nivel: Principiante</span>
+                        </div>
+                        <div class="index-item-link-container">
+                           <a href="capitulos/episodio-2/capitulo-13.html" class="index-item-link">Leer capítulo →</a>
+                        </div>
+                    </li>
+                    <li class="index-item">
+                        <div class="index-item-header">
+                            <span class="index-item-prefix">Cap. 14</span>
+                            <h3 class="index-item-title"><a href="capitulos/episodio-2/capitulo-14.html">Tipos de Datos en Django Models</a></h3>
+                            <span class="index-item-status status-available">Disponible</span>
+                        </div>
+                        <p class="index-item-description">Al definir campos en los modelos, es crucial especificar el tipo de dato correcto (<code>CharField</code>, <code>IntegerField</code>, etc.) y usar argumentos como <code>max_length</code>, <code>blank</code> y <code>null</code>.</p>
+                        <div class="index-item-meta">
+                            <span class="index-item-meta-item"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>10 min</span>
+                            <span class="index-item-meta-item">🧩 0 actividades</span>
+                            <span class="index-item-meta-item">📚 Nivel: Principiante</span>
+                        </div>
+                        <div class="index-item-link-container">
+                           <a href="capitulos/episodio-2/capitulo-14.html" class="index-item-link">Leer capítulo →</a>
+                        </div>
+                    </li>
+                    <li class="index-item">
+                        <div class="index-item-header">
+                            <span class="index-item-prefix">Cap. 15</span>
+                            <h3 class="index-item-title"><a href="capitulos/episodio-2/capitulo-15.html">Creando una Aplicación (App) en Django</a></h3>
+                            <span class="index-item-status status-available">Disponible</span>
+                        </div>
+                        <p class="index-item-description">Crea un módulo de aplicación reutilizable dentro de tu proyecto con <code>python manage.py startapp [nombre_app]</code>.</p>
+                        <div class="index-item-meta">
+                            <span class="index-item-meta-item"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>8 min</span>
+                            <span class="index-item-meta-item">🧩 1 actividad</span>
+                            <span class="index-item-meta-item">📚 Nivel: Principiante</span>
+                        </div>
+                        <div class="index-item-link-container">
+                           <a href="capitulos/episodio-2/capitulo-15.html" class="index-item-link">Leer capítulo →</a>
+                        </div>
+                    </li>
+                     <li class="index-item">
+                        <div class="index-item-header">
+                            <span class="index-item-prefix">Cap. 16</span>
+                            <h3 class="index-item-title"><a href="capitulos/episodio-2/capitulo-16.html">Creando Modelo de Proveedores (Tabla)</a></h3>
+                            <span class="index-item-status status-available">Disponible</span>
+                        </div>
+                        <p class="index-item-description">Define tu tabla (modelo) como una clase en <code>models.py</code>, heredando de <code>models.Model</code> y especificando los campos.</p>
+                        <div class="index-item-meta">
+                            <span class="index-item-meta-item"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>10 min</span>
+                            <span class="index-item-meta-item">🧩 1 actividad</span>
+                            <span class="index-item-meta-item">📚 Nivel: Principiante</span>
+                        </div>
+                        <div class="index-item-link-container">
+                           <a href="capitulos/episodio-2/capitulo-16.html" class="index-item-link">Leer capítulo →</a>
+                        </div>
+                    </li>
+                    <li class="index-item">
+                        <div class="index-item-header">
+                            <span class="index-item-prefix">Cap. 17</span>
+                            <h3 class="index-item-title"><a href="capitulos/episodio-2/capitulo-17.html">Conectando la Aplicación con el Proyecto Principal</a></h3>
+                            <span class="index-item-status status-available">Disponible</span>
+                        </div>
+                        <p class="index-item-description">Para que tu proyecto Django use una nueva app, regístrala agregando su nombre a <code>INSTALLED_APPS</code> en <code>settings.py</code>.</p>
+                        <div class="index-item-meta">
+                            <span class="index-item-meta-item"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>6 min</span>
+                            <span class="index-item-meta-item">🧩 1 actividad</span>
+                            <span class="index-item-meta-item">📚 Nivel: Principiante</span>
+                        </div>
+                        <div class="index-item-link-container">
+                           <a href="capitulos/episodio-2/capitulo-17.html" class="index-item-link">Leer capítulo →</a>
+                        </div>
+                    </li>
+                    <li class="index-item">
+                        <div class="index-item-header">
+                            <span class="index-item-prefix">Cap. 18</span>
+                            <h3 class="index-item-title"><a href="capitulos/episodio-2/capitulo-18.html">Aplicando Migraciones (para el Modelo Propio)</a></h3>
+                            <span class="index-item-status status-available">Disponible</span>
+                        </div>
+                        <p class="index-item-description">Siempre que modifiques <code>models.py</code>, ejecuta <code>makemigrations</code> y luego <code>migrate</code> para actualizar la base de datos.</p>
+                        <div class="index-item-meta">
+                            <span class="index-item-meta-item"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>9 min</span>
+                            <span class="index-item-meta-item">🧩 1 actividad</span>
+                            <span class="index-item-meta-item">📚 Nivel: Principiante</span>
+                        </div>
+                        <div class="index-item-link-container">
+                           <a href="capitulos/episodio-2/capitulo-18.html" class="index-item-link">Leer capítulo →</a>
+                        </div>
+                    </li>
+                    <li class="index-item">
+                        <div class="index-item-header">
+                            <span class="index-item-prefix">Cap. 19</span>
+                            <h3 class="index-item-title"><a href="capitulos/episodio-2/capitulo-19.html">Mostrando el Modelo en el Administrador</a></h3>
+                            <span class="index-item-status status-available">Disponible</span>
+                        </div>
+                        <p class="index-item-description">Para ver y gestionar tu modelo en el admin, impórtalo y regístralo en <code>admin.py</code>, usando <code>list_display</code> para personalizar.</p>
+                        <div class="index-item-meta">
+                            <span class="index-item-meta-item"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>9 min</span>
+                            <span class="index-item-meta-item">🧩 1 actividad</span>
+                            <span class="index-item-meta-item">📚 Nivel: Principiante</span>
+                        </div>
+                        <div class="index-item-link-container">
+                           <a href="capitulos/episodio-2/capitulo-19.html" class="index-item-link">Leer capítulo →</a>
+                        </div>
+                    </li>
+                    <li class="index-item">
+                        <div class="index-item-header">
+                            <span class="index-item-prefix">Cap. 20</span>
+                            <h3 class="index-item-title"><a href="capitulos/episodio-2/capitulo-20.html">Personalización Adicional del Panel de Administración</a></h3>
+                            <span class="index-item-status status-available">Disponible</span>
+                        </div>
+                        <p class="index-item-description">Mejora la usabilidad del admin añadiendo filtros con <code>list_filter</code> y un buscador con <code>search_fields</code>.</p>
+                        <div class="index-item-meta">
+                            <span class="index-item-meta-item"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>7 min</span>
+                            <span class="index-item-meta-item">🧩 1 actividad</span>
+                            <span class="index-item-meta-item">📚 Nivel: Principiante</span>
+                        </div>
+                        <div class="index-item-link-container">
+                           <a href="capitulos/episodio-2/capitulo-20.html" class="index-item-link">Leer capítulo →</a>
+                        </div>
+                    </li>
+                    <li class="index-item">
+                        <div class="index-item-header">
+                            <span class="index-item-prefix">Cap. 21</span>
+                            <h3 class="index-item-title"><a href="capitulos/episodio-2/capitulo-21.html">Instalación y Uso de Django Jazzmin</a></h3>
+                            <span class="index-item-status status-available">Disponible</span>
+                        </div>
+                        <p class="index-item-description">Instala <code>django-jazzmin</code> con <code>pip</code> y agrégala a <code>INSTALLED_APPS</code> para mejorar la apariencia del panel de administración.</p>
+                        <div class="index-item-meta">
+                            <span class="index-item-meta-item"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>6 min</span>
+                            <span class="index-item-meta-item">🧩 1 actividad</span>
+                            <span class="index-item-meta-item">📚 Nivel: Principiante</span>
+                        </div>
+                        <div class="index-item-link-container">
+                           <a href="capitulos/episodio-2/capitulo-21.html" class="index-item-link">Leer capítulo →</a>
+                        </div>
+                    </li>
+                    <li class="index-item">
+                        <div class="index-item-header">
+                            <span class="index-item-prefix">Cap. 22</span>
+                            <h3 class="index-item-title"><a href="capitulos/episodio-2/capitulo-22.html">Cierre y Ejercicio Propuesto</a></h3>
+                            <span class="index-item-status status-available">Disponible</span>
+                        </div>
+                        <p class="index-item-description">Se sugiere crear un modelo de Cliente como ejercicio y se recomienda investigar <code>django-import-export</code>.</p>
+                        <div class="index-item-meta">
+                            <span class="index-item-meta-item"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>5 min</span>
+                            <span class="index-item-meta-item">🧩 1 ejercicio</span>
+                            <span class="index-item-meta-item">📚 Nivel: Principiante</span>
+                        </div>
+                        <div class="index-item-link-container">
+                           <a href="capitulos/episodio-2/capitulo-22.html" class="index-item-link">Leer capítulo →</a>
+                        </div>
+                    </li>
+                </ul>
+            </section>
+            
+            <section class="index-section" id="episodio-3">
+                 <h2 class="index-section-title"><span class="episode-icon">🚀</span>Episodio 3: Aplicaciones Web con Python y Django (Avanzado)</h2>
+                <ul class="index-list">
+                    <li class="index-item">
+                        <div class="index-item-header">
+                             <span class="index-item-prefix">Próximamente</span>
+                            <h3 class="index-item-title">Desarrollo de Vistas y Plantillas</h3>
+                             <span class="index-item-status status-coming-soon">Próximamente</span>
+                        </div>
+                        <p class="index-item-description">Aprende a crear las páginas que verán tus usuarios, mostrando datos de forma dinámica y atractiva.</p>
+                        <div class="index-item-meta">
+                            <span class="index-item-meta-item">📚 Nivel: Intermedio</span>
+                        </div>
+                    </li>
+                </ul>
+            </section>
+
+        </div>
+    </main>
+    
+    <footer class="footer">
+        <div class="footer-container">
+            <a href="index.html" class="footer-logo">Programación para Mortales</a>
+            
+            <div class="footer-links">
+                <a href="index.html" class="footer-link">Inicio</a>
+                <a href="indice.html" class="footer-link active">Índice completo</a>
+                <a href="about.html" class="footer-link">Acerca de</a>
+                <a href="terminos-y-condiciones.html" class="footer-link">Términos y condiciones</a>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2025 Programación para Mortales. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+    
+    <script>
+        // Mobile Menu Toggle
+        const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+        const nav = document.querySelector('.nav');
+        
+        mobileMenuBtn.addEventListener('click', () => {
+            nav.classList.toggle('active');
+        });
+        
+        // Header Scroll Effect
+        const header = document.querySelector('.header');
+        
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+        
+        // Reading Progress Bar
+        const progressBar = document.getElementById('progressBar');
+        
+        window.addEventListener('scroll', () => {
+            const windowHeight = window.innerHeight;
+            const documentHeight = document.documentElement.scrollHeight - windowHeight;
+            const scrollTop = window.scrollY;
+            const progress = (scrollTop / documentHeight) * 100;
+            progressBar.style.width = progress + '%';
+        });
+        
+        // Search Functionality
+        const searchInput = document.getElementById('searchInput');
+        const indexSections = document.querySelectorAll('.index-section'); // Seleccionar secciones de episodio
+        
+        searchInput.addEventListener('input', () => {
+            const searchTerm = searchInput.value.toLowerCase().trim();
+            
+            indexSections.forEach(section => {
+                const episodeTitle = section.querySelector('.index-section-title').textContent.toLowerCase();
+                const chapterItems = section.querySelectorAll('.index-item');
+                let sectionVisible = false;
+
+                if (episodeTitle.includes(searchTerm)) {
+                    sectionVisible = true;
+                    chapterItems.forEach(item => item.style.display = 'block'); // Mostrar todos los capítulos si el título del episodio coincide
+                } else {
+                    let hasVisibleChapter = false;
+                    chapterItems.forEach(item => {
+                        const title = item.querySelector('.index-item-title').textContent.toLowerCase();
+                        const description = item.querySelector('.index-item-description').textContent.toLowerCase();
+                        
+                        if (title.includes(searchTerm) || description.includes(searchTerm)) {
+                            item.style.display = 'block';
+                            hasVisibleChapter = true;
+                            sectionVisible = true; 
+                        } else {
+                            item.style.display = 'none';
+                        }
+                    });
+                }
+                section.style.display = sectionVisible ? 'block' : 'none';
+            });
+        });
+    </script>
+</body>
+</html>

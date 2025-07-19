@@ -1,0 +1,1365 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Programación para Mortales</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700;900&family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="icon" href="icon.ico" type="image/x-icon">
+    <style>
+        :root {
+            /* Paleta de colores */
+            --primary: #4f46e5; /* Un morado moderno y accesible */
+            --primary-dark: #3730a3;
+            --primary-light: #818cf8;
+            --secondary: #10b981; /* Verde esmeralda para acentos y éxito */
+            --secondary-dark: #059669;
+            --accent: #f59e0b; /* Naranja/ámbar para llamadas a la acción o advertencias sutiles */
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --dark: #1e293b; /* Azul oscuro casi negro para texto principal */
+            --dark-blue: #0f172a; /* Para fondos oscuros o elementos contrastantes */
+            --light: #f8fafc; /* Un blanco ligeramente cálido para fondos */
+            --gray: #64748b; /* Gris azulado para texto secundario */
+            --gray-light: #e2e8f0; /* Para bordes o fondos muy sutiles */
+            --cream: #fffbeb; /* Crema para secciones destacadas */
+            --paper: #fdf6e3; /* Un color papel más cálido y amigable */
+            
+            /* Tipografía */
+            --font-heading: 'Merriweather', serif;
+            --font-body: 'Montserrat', sans-serif;
+            
+            /* Espaciado */
+            --spacing-xs: 0.25rem;
+            --spacing-sm: 0.5rem;
+            --spacing-md: 1rem;
+            --spacing-lg: 1.5rem;
+            --spacing-xl: 2rem;
+            --spacing-2xl: 3rem;
+            --spacing-3xl: 4rem;
+            
+            /* Bordes y sombras */
+            --radius-sm: 0.375rem; /* Un poco más redondeado */
+            --radius-md: 0.5rem;
+            --radius-lg: 0.75rem;
+            --radius-xl: 1rem;
+            --radius-full: 9999px;
+            
+            --shadow-sm: 0 1px 2px rgba(0,0,0,0.04), 0 1px 1px rgba(0,0,0,0.02);
+            --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.08), 0 2px 4px -1px rgba(0,0,0,0.04);
+            --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.08), 0 4px 6px -2px rgba(0,0,0,0.04);
+            --shadow-xl: 0 20px 25px -5px rgba(0,0,0,0.08), 0 10px 10px -5px rgba(0,0,0,0.03);
+            --shadow-book: 0 15px 25px -12px rgba(0,0,0,0.3), 5px 5px 10px 0 rgba(0,0,0,0.1);
+            
+            /* Transiciones */
+            --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-normal: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-slow: 500ms cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html {
+            font-size: 16px;
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            font-family: var(--font-body);
+            color: var(--dark);
+            background-color: var(--paper);
+            line-height: 1.7; /* Un poco más de interlineado para legibilidad */
+            overflow-x: hidden;
+            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23e2e8f0' fill-opacity='0.1' fill-rule='evenodd'/%3E%3C/svg%3E");
+            background-attachment: fixed;
+        }
+        
+        h1, h2, h3, h4, h5, h6 {
+            font-family: var(--font-heading);
+            font-weight: 700;
+            line-height: 1.3; /* Ligeramente más compacto para títulos */
+        }
+        
+        a {
+            text-decoration: none;
+            color: inherit;
+            transition: var(--transition-normal);
+        }
+        
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block; /* Para centrar con margin auto */
+        }
+        
+        button {
+            cursor: pointer;
+            font-family: var(--font-body);
+            border: none;
+            background: none;
+        }
+        
+        /* Layout */
+        .container {
+            width: 100%;
+            max-width: 1280px; /* Un poco más ancho para diseños modernos */
+            margin: 0 auto;
+            padding: 0 var(--spacing-lg);
+        }
+        
+        .section {
+            padding: var(--spacing-3xl) 0;
+        }
+
+        /* Header - NO TOCAR (Replicado) */
+        /* ... estilos del header ... */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 100;
+            background-color: rgba(253, 246, 227, 0.85); /* Usar --paper con opacidad */
+            backdrop-filter: blur(10px);
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition-normal);
+        }
+        .header.scrolled { box-shadow: var(--shadow-md); }
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+        }
+        .logo {
+            font-family: var(--font-heading);
+            font-weight: 800;
+            font-size: 1.5rem;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+        }
+        .logo-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            background-color: var(--primary);
+            color: white;
+            border-radius: var(--radius-md);
+            font-weight: 700;
+        }
+        .nav {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-xl);
+        }
+        .nav-link {
+            font-weight: 500;
+            color: var(--dark);
+            position: relative;
+            padding: var(--spacing-sm) 0;
+        }
+        .nav-link:hover { color: var(--primary); }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0; /* Se posiciona mejor con padding en nav-link */
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--primary);
+            transition: var(--transition-normal);
+        }
+        .nav-link:hover::after, .nav-link.active::after { width: 100%; }
+        .nav-link.active { color: var(--primary); }
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.65rem 1.5rem; /* Ligeramente más pequeño */
+            font-weight: 600;
+            border-radius: var(--radius-full);
+            transition: var(--transition-normal);
+            gap: var(--spacing-sm);
+            text-align: center;
+        }
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+            box-shadow: var(--shadow-sm);
+        }
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+        .btn-secondary {
+            background-color: var(--secondary);
+            color: white;
+            box-shadow: var(--shadow-sm);
+        }
+        .btn-secondary:hover {
+            background-color: var(--secondary-dark);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+        .btn-outline {
+            border: 2px solid var(--primary);
+            color: var(--primary);
+        }
+        .btn-outline:hover {
+            background-color: var(--primary);
+            color: white;
+        }
+        .mobile-menu-btn {
+            display: none;
+            font-size: 1.8rem; /* Icono más grande */
+            color: var(--dark);
+            background: transparent;
+            border: none;
+            padding: var(--spacing-sm);
+        }
+        
+        /* Hero Section */
+        .hero {
+            position: relative;
+            min-height: 90vh; /* Un poco menos para que se vea el scroll */
+            display: flex;
+            align-items: center;
+            padding-top: 100px; /* Más espacio para el header fijo */
+            overflow: hidden;
+        }
+        .hero-container {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-3xl);
+            width: 100%;
+        }
+        .hero-content {
+            flex: 1.2; /* Dar un poco más de espacio al texto */
+            animation: fadeIn 0.8s ease-out forwards;
+        }
+        .hero-title {
+            font-size: clamp(2.5rem, 5vw, 4rem); /* Título responsive */
+            margin-bottom: var(--spacing-lg);
+            color: var(--dark-blue);
+            position: relative;
+            line-height: 1.2;
+        }
+        .hero-title::after {
+            content: '';
+            position: absolute;
+            bottom: -12px; /* Ajuste */
+            left: 0;
+            width: 80px; /* Más corto */
+            height: 5px; /* Más grueso */
+            background-color: var(--secondary); /* Usar color secundario */
+            border-radius: var(--radius-sm);
+        }
+        .hero-subtitle {
+            font-size: clamp(1rem, 2.5vw, 1.25rem); /* Subtítulo responsive */
+            margin-bottom: var(--spacing-xl);
+            color: var(--gray);
+            max-width: 600px; /* Limitar ancho para mejor lectura */
+        }
+        .hero-buttons {
+            display: flex;
+            gap: var(--spacing-md);
+            margin-top: var(--spacing-xl);
+            flex-wrap: wrap; /* Para que los botones se ajusten en pantallas pequeñas */
+        }
+        .hero-book {
+            flex: 0.8; /* Menos espacio para el libro, más para el texto */
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center; /* Centrar el libro verticalmente */
+        }
+        .book-cover {
+            width: clamp(250px, 30vw, 320px); /* Ancho responsive */
+            height: auto; /* Mantener proporción */
+            aspect-ratio: 2 / 3; /* Proporción de libro común */
+            background: linear-gradient(135deg, var(--primary-light) 0%, var(--primary) 100%); /* Gradiente más sutil */
+            border-radius: var(--radius-md); /* Bordes más suaves */
+            box-shadow: var(--shadow-book);
+            position: relative;
+            overflow: hidden;
+            transform: perspective(1200px) rotateY(-12deg) rotateX(2deg); /* Efecto 3D más pronunciado */
+            transition: transform 0.4s var(--transition-normal);
+        }
+        .book-cover:hover {
+            transform: perspective(1500px) rotateY(-5deg) rotateX(0deg) scale(1.03); /* Efecto hover más dinámico */
+        }
+        /* ... otros estilos de book-cover, book-content ... */
+        .book-content {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: var(--spacing-lg);
+            color: white;
+            text-align: center;
+            z-index: 1;
+        }
+        .book-title {
+            font-size: clamp(1.5rem, 4vw, 2rem);
+            margin-bottom: var(--spacing-sm);
+            line-height: 1.2;
+            font-weight: 700; /* Más peso */
+        }
+        .book-author {
+            font-size: clamp(0.875rem, 2vw, 1rem);
+            margin-bottom: var(--spacing-lg); /* Más espacio */
+            opacity: 0.85;
+        }
+        .book-cover img { /* Estilo para el logo dentro del libro */
+            max-width: 60%;
+            height: auto;
+            margin-bottom: var(--spacing-md);
+        }
+        .book-cover .book-subtitle-text { /* Nuevo estilo para el texto pequeño del libro */
+            font-size: clamp(0.75rem, 1.8vw, 0.875rem);
+            opacity: 0.8;
+            line-height: 1.4;
+        }
+
+        /* Episodes Section */
+        .episodes {
+            padding: var(--spacing-3xl) 0;
+            background-color: var(--cream); /* Fondo sutil para destacar la sección */
+        }
+        .section-title {
+            font-size: clamp(2rem, 4vw, 2.8rem); /* Título responsive */
+            margin-bottom: var(--spacing-md); /* Menos margen inferior */
+            text-align: center;
+            color: var(--dark-blue);
+            position: relative;
+            padding-bottom: var(--spacing-md); /* Espacio para la línea */
+        }
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0; /* Línea debajo del texto */
+            left: 50%;
+            transform: translateX(-50%);
+            width: 70px; /* Más corta y centrada */
+            height: 4px; /* Más gruesa */
+            background-color: var(--primary);
+            border-radius: var(--radius-sm);
+        }
+        .section-subtitle {
+            font-size: clamp(1rem, 2.5vw, 1.2rem);
+            margin-bottom: var(--spacing-2xl);
+            text-align: center;
+            color: var(--gray);
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .episodes-container {
+            display: grid; /* Usar grid para las tarjetas de episodios */
+            grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); /* Columnas responsivas */
+            gap: var(--spacing-xl); /* Espacio entre tarjetas */
+        }
+        .episode { /* Ya no es un contenedor flex, sino el elemento grid */
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+            display: flex; /* Para alinear contenido interno si es necesario */
+            flex-direction: column;
+        }
+        /* .episode-header y .episode-books se eliminan, el contenido va directo al book-card */
+        
+        .book-card {
+            background-color: white;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-md);
+            overflow: hidden; /* Para que el contenido no se salga */
+            transition: var(--transition-normal);
+            display: flex;
+            flex-direction: column; /* Para organizar contenido interno */
+            height: 100%; /* Para que todas las tarjetas tengan la misma altura en una fila grid */
+            text-decoration: none; /* Quitar subrayado de enlaces */
+        }
+        .book-card:hover {
+            transform: translateY(-8px); /* Efecto hover más pronunciado */
+            box-shadow: var(--shadow-lg);
+        }
+        .book-card-image-placeholder { /* Para simular una imagen de portada */
+            height: 180px;
+            background: linear-gradient(135deg, var(--primary-light) 0%, var(--accent) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: white;
+            font-family: var(--font-heading);
+        }
+        .book-card-content {
+            padding: var(--spacing-lg);
+            flex-grow: 1; /* Para que el contenido ocupe el espacio disponible */
+            display: flex;
+            flex-direction: column;
+        }
+        .book-card-title { /* Aplicado al título dentro de la tarjeta */
+            font-size: 1.5rem;
+            margin-bottom: var(--spacing-sm);
+            color: var(--dark-blue);
+            font-weight: 700;
+        }
+        .book-card-subtitle { /* Aplicado a la descripción */
+            font-size: 0.95rem;
+            color: var(--gray);
+            margin-bottom: var(--spacing-lg);
+            flex-grow: 1; /* Para empujar el footer hacia abajo */
+        }
+        .book-card-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.8rem;
+            color: var(--gray);
+            margin-top: auto; /* Empujar al final */
+            padding-top: var(--spacing-md);
+            border-top: 1px solid var(--gray-light);
+        }
+        .book-card-level, .book-card-status { /* Estilos combinados y mejorados */
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: var(--spacing-xs) var(--spacing-sm);
+            border-radius: var(--radius-full);
+            color: white;
+        }
+        .level-beginner { background-color: var(--success); }
+        .level-intermediate { background-color: var(--warning); }
+        .level-advanced { background-color: var(--danger); }
+        .status-available { background-color: var(--secondary); }
+        .status-coming-soon { background-color: var(--accent); color: var(--dark-blue); }
+        .book-card-chapters-count { /* Para el número de capítulos */
+            font-weight: 500;
+        }
+        
+        /* Modal (sin cambios significativos, pero asegurar que funcione con el nuevo DOM si se usa) */
+        /* ... estilos del modal ... */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: rgba(0,0,0,0.75); backdrop-filter: blur(8px);
+            z-index: 1000; display: flex; justify-content: center; align-items: center;
+            opacity: 0; visibility: hidden; transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+        .modal-overlay.active { opacity: 1; visibility: visible; }
+        .modal {
+            width: 90%; max-width: 800px; max-height: 90vh;
+            background-color: var(--light); border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-xl); overflow: hidden;
+            transform: scale(0.95) translateY(10px); opacity: 0;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+        .modal-overlay.active .modal { transform: scale(1) translateY(0); opacity: 1; }
+        .modal-header {
+            padding: var(--spacing-lg);
+            background: var(--primary); color: white;
+            position: relative; display: flex; justify-content: space-between; align-items: center;
+        }
+        .modal-title { font-size: 1.5rem; margin-bottom: 0; color: white; }
+        .modal-subtitle { font-size: 1rem; opacity: 0.9; color:white; margin-top: var(--spacing-xs);}
+        .modal-close {
+            background: transparent; border: none; color: white;
+            font-size: 2rem; line-height: 1; cursor: pointer;
+            transition: var(--transition-fast); padding: var(--spacing-xs);
+        }
+        .modal-close:hover { transform: rotate(90deg); color: var(--primary-light); }
+        .modal-body { padding: var(--spacing-lg); max-height: calc(90vh - 120px); overflow-y: auto; }
+        .chapters-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: var(--spacing-lg);
+        }
+        .chapter-item {
+            background-color: white; border-radius: var(--radius-md);
+            padding: var(--spacing-lg); box-shadow: var(--shadow-md);
+            transition: var(--transition-normal); border-left: 4px solid var(--primary-light);
+        }
+        .chapter-item:hover { transform: translateY(-5px); box-shadow: var(--shadow-lg); border-left-color: var(--primary); }
+        .chapter-item-title { font-size: 1.2rem; margin-bottom: var(--spacing-xs); color: var(--dark-blue); }
+        .chapter-item-description { color: var(--gray); margin-bottom: var(--spacing-md); font-size: 0.875rem; }
+        .chapter-item-footer { display: flex; justify-content: space-between; align-items: center; }
+        .chapter-item-meta { display: flex; align-items: center; gap: var(--spacing-sm); color: var(--gray); font-size: 0.75rem; }
+        .chapter-item-link {
+            color: var(--primary); font-weight: 600; font-size: 0.875rem;
+            display: inline-flex; align-items: center; gap: 4px;
+            padding: var(--spacing-xs) var(--spacing-sm); border-radius:var(--radius-sm);
+        }
+        .chapter-item-link:hover { background-color: var(--primary-light); color: var(--primary-dark); }
+
+
+        /* YouTube Section */
+        .youtube-section {
+            padding: var(--spacing-3xl) 0;
+            background-color: var(--cream); /* Un fondo diferente para variedad */
+        }
+        .youtube-container { text-align: center; }
+        /* ...youtube-title, youtube-description sin cambios mayores ... */
+        .youtube-embed {
+            position: relative; width: 100%; max-width: 850px; /* Un poco más grande */
+            margin: 0 auto; border-radius: var(--radius-lg);
+            overflow: hidden; box-shadow: var(--shadow-xl); /* Sombra más pronunciada */
+        }
+        /* ... iframe sin cambios ... */
+        /* ... youtube-cta sin cambios mayores ... */
+        
+        /* Future Courses */
+        .future-courses {
+            padding: var(--spacing-3xl) 0;
+            /* background-color: var(--light); Ya no es crema para alternar */
+        }
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr)); /* Tarjetas un poco más anchas */
+            gap: var(--spacing-xl);
+            margin-top: var(--spacing-2xl);
+        }
+        .course-card {
+            background-color: white;
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+            transition: var(--transition-normal);
+            display: flex; /* Para control interno */
+            flex-direction: column; /* Organizar contenido */
+            height: 100%; /* Asegurar misma altura en filas grid */
+        }
+        .course-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-xl);
+        }
+        .course-image {
+            width: 100%; height: 200px; /* Altura fija para la imagen */
+            background-size: cover; background-position: center;
+            position: relative;
+        }
+        .course-badge {
+            position: absolute; top: var(--spacing-md); right: var(--spacing-md);
+            background-color: var(--accent); /* Usar accent color */
+            color: white; font-weight: 700;
+            padding: 0.3rem 0.85rem; /* Ajuste de padding */
+            border-radius: var(--radius-full); font-size: 0.8rem; /* Ligeramente más pequeño */
+        }
+        .course-content {
+            padding: var(--spacing-lg);
+            flex-grow: 1; /* Ocupar espacio disponible */
+            display: flex;
+            flex-direction: column; /* Para alinear footer abajo */
+        }
+        .course-title {
+            font-size: 1.6rem; /* Título más grande */
+            margin-bottom: var(--spacing-sm); /* Menos espacio */
+            color: var(--dark-blue);
+            line-height: 1.3;
+        }
+        .course-description {
+            color: var(--gray);
+            margin-bottom: var(--spacing-lg);
+            font-size: 0.95rem;
+            flex-grow: 1; /* Empujar footer abajo */
+        }
+        .course-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: auto; /* Empujar al final */
+            padding-top: var(--spacing-md);
+            border-top: 1px solid var(--gray-light);
+        }
+        .course-meta {
+            display: flex; align-items: center; gap: var(--spacing-sm);
+            color: var(--gray); font-size: 0.8rem; /* Más pequeño */
+        }
+        .course-meta span { /* Para alinear iconos con texto */
+            display: inline-flex;
+            align-items: center;
+        }
+        .course-link {
+            color: var(--primary); font-weight: 700; /* Más peso */
+            display: inline-flex; align-items: center; gap: 4px;
+            padding: var(--spacing-xs) var(--spacing-sm);
+            border-radius: var(--radius-sm);
+            font-size: 0.9rem;
+        }
+        .course-link:hover {
+            background-color: var(--primary-light);
+            color: var(--primary-dark);
+        }
+        
+        /* Footer - NO TOCAR (Replicado) */
+        /* ... estilos del footer ... */
+        .footer {
+            background-color: var(--dark);
+            color: white;
+            padding: var(--spacing-2xl) 0;
+        }
+        .footer-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--spacing-xl);
+        }
+        .footer-logo {
+            font-family: var(--font-heading);
+            font-weight: 800;
+            font-size: 1.5rem;
+            margin-bottom: var(--spacing-md);
+            display: inline-block;
+        }
+        .footer-description {
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: var(--spacing-lg);
+        }
+        .footer-social {
+            display: flex;
+            gap: var(--spacing-md);
+        }
+        .footer-social-link {
+            width: 36px;
+            height: 36px;
+            border-radius: var(--radius-full);
+            background-color: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition-normal);
+        }
+        .footer-social-link:hover {
+            background-color: var(--primary);
+            transform: translateY(-3px);
+        }
+        .footer-heading {
+            font-size: 1.25rem;
+            margin-bottom: var(--spacing-lg);
+            color: white;
+        }
+        .footer-links { list-style: none; padding:0; } /* Reset padding para ul */
+        .footer-link { margin-bottom: var(--spacing-sm); }
+        .footer-link a {
+            color: rgba(255, 255, 255, 0.7);
+            transition: var(--transition-normal);
+        }
+        .footer-link a:hover {
+            color: white;
+            padding-left: var(--spacing-sm);
+        }
+        .footer-bottom {
+            margin-top: var(--spacing-2xl);
+            padding-top: var(--spacing-lg);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.875rem;
+            flex-wrap: wrap; /* Para responsividad */
+        }
+        .footer-bottom-links {
+            display: flex;
+            gap: var(--spacing-lg);
+        }
+        .footer-bottom-link {
+            color: rgba(255, 255, 255, 0.7);
+            transition: var(--transition-normal);
+        }
+        .footer-bottom-link:hover { color: white; }
+
+        /* Responsive Styles */
+        @media (max-width: 992px) {
+            .hero-container {
+                flex-direction: column-reverse;
+                text-align: center;
+                gap: var(--spacing-xl);
+            }
+            .hero-title::after { left: 50%; transform: translateX(-50%); }
+            .hero-buttons { justify-content: center; }
+        }
+        @media (max-width: 768px) {
+            .nav {
+                position: fixed; top: 60px; left: 0; width: 100%; height: 0;
+                background-color: white; flex-direction: column; align-items: flex-start;
+                padding: 0 var(--spacing-lg); overflow: hidden; transition: var(--transition-normal);
+                box-shadow: var(--shadow-md); opacity: 0; visibility: hidden; z-index: 99; /* Asegurar que esté sobre el contenido */
+            }
+            .nav.active { height: auto; padding: var(--spacing-lg); opacity: 1; visibility: visible; }
+            .mobile-menu-btn { display: block; }
+            .hero-title { font-size: 2.2rem; }
+            .hero-subtitle { font-size: 1rem; }
+            .hero-buttons { flex-direction: column; width: 100%; }
+            .hero-buttons .btn { width: 100%; }
+            .section-title { font-size: 1.8rem; }
+            .footer-bottom { flex-direction: column; gap: var(--spacing-md); text-align: center; }
+            .footer-bottom-links { justify-content: center; }
+            .episodes-container, .courses-grid { grid-template-columns: 1fr; } /* 1 columna en móvil */
+        }
+        @media (max-width: 576px) {
+            .hero-title { font-size: 1.8rem; }
+            .section-title { font-size: 1.6rem; }
+            .book-card { width: 100%; height: auto; } /* Ajustar tarjetas para móvil */
+            .book-card-title { font-size: 1.1rem; }
+            .course-card { width: 100%; }
+            .course-title { font-size: 1.3rem;}
+        }
+        
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in { animation: fadeIn 0.5s ease-out forwards; }
+        .delay-100 { animation-delay: 100ms; }
+        .delay-200 { animation-delay: 200ms; }
+        .delay-300 { animation-delay: 300ms; }
+        .delay-400 { animation-delay: 400ms; }
+        .delay-500 { animation-delay: 500ms; }
+        
+        /* Utility Classes */
+        .text-center { text-align: center; }
+        .mt-1 { margin-top: var(--spacing-sm); }
+        .mt-2 { margin-top: var(--spacing-md); }
+        .mt-3 { margin-top: var(--spacing-lg); }
+        .mt-4 { margin-top: var(--spacing-xl); }
+        .mt-5 { margin-top: var(--spacing-2xl); }
+        .mb-1 { margin-bottom: var(--spacing-sm); }
+        .mb-2 { margin-bottom: var(--spacing-md); }
+        .mb-3 { margin-bottom: var(--spacing-lg); }
+        .mb-4 { margin-bottom: var(--spacing-xl); }
+        .mb-5 { margin-bottom: var(--spacing-2xl); }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container header-container">
+            <a href="index.html" class="logo">
+                <span class="logo-icon">P</span>
+                <span>Programación para Mortales</span>
+            </a>
+            
+            <nav class="nav">
+                <a href="index.html" class="nav-link active">Inicio</a>
+                <a href="#episodes" class="nav-link">Episodios</a>
+                <a href="#future-courses" class="nav-link">Próximos cursos</a>
+                <a href="about.html" class="nav-link">Acerca de</a>
+                <a href="indice.html" class="nav-link">Índice completo</a>
+                <a href="capitulos/introduccion.html" class="btn btn-primary">Comenzar</a>
+            </nav>
+            
+            <button class="mobile-menu-btn">☰</button>
+        </div>
+    </header>
+    
+    <section class="hero">
+        <div class="container hero-container">
+            <div class="hero-content">
+                <h1 class="hero-title animate-fade-in">Programación para Mortales</h1>
+                <p class="hero-subtitle animate-fade-in delay-200">Un libro digital interactivo para aprender a programar desde cero, sin importar tu formación o experiencia previa. Explicado de forma simple y práctica.</p>
+                <div class="hero-buttons">
+                    <a href="#episodes" class="btn btn-primary animate-fade-in delay-300">Ver Episodios</a>
+                    <a href="capitulos/introduccion.html" class="btn btn-secondary animate-fade-in delay-400">Comenzar a Leer</a>
+                </div>
+            </div>
+            
+            <div class="hero-book">
+                <div class="book-cover">
+                    <div class="book-decoration"></div>
+                    <div class="book-content">
+                        <h2 class="book-title">Programación para Mortales</h2>
+                        <p class="book-author">Por Kevin Turkienich</p>
+                        <img src="assets/img/logo-excel-ente.svg" alt="Logo del libro">
+                        <p class="book-subtitle-text">Aprende a programar desde cero con explicaciones simples y ejemplos prácticos</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section id="episodes" class="episodes section">
+        <div class="container">
+            <div style="text-align: center; margin-bottom: var(--spacing-2xl);">
+                 <h2 class="section-title" style="display: inline-block; margin-bottom: var(--spacing-md);">Explora los Episodios</h2>
+            </div>
+            <p class="section-subtitle">Cada episodio está diseñado para guiarte paso a paso en tu viaje de aprendizaje, con ejemplos prácticos y actividades interactivas.</p>
+            
+            <div class="episodes-container">
+                <a href="#" class="book-card" data-modal="episodio-1">
+                    <div class="book-card-image-placeholder">E1</div>
+                    <div class="book-card-content">
+                        <h3 class="book-card-title">Entender la compu para poder hablarle</h3>
+                        <p class="book-card-subtitle">Aprende los fundamentos de la programación y cómo funciona una computadora. Descubre Python y cómo darle tus primeras instrucciones.</p>
+                        <div class="book-card-meta">
+                            <div>
+                                <span class="book-card-level level-beginner">Principiante</span>
+                                <span class="book-card-status status-available">Disponible</span>
+                            </div>
+                            <span class="book-card-chapters-count">8 Capítulos</span>
+                        </div>
+                    </div>
+                </a>
+                            
+                <a href="#" class="book-card" data-modal="episodio-2">
+                    <div class="book-card-image-placeholder">E2</div>
+                    <div class="book-card-content">
+                        <h3 class="book-card-title">Creando Nuestra Primera Aplicación Web con Django</h3>
+                        <p class="book-card-subtitle">Desde la configuración inicial hasta tener un panel de administración funcional para gestionar datos. ¡Tu primera app web real!</p>
+                        <div class="book-card-meta">
+                             <div>
+                                <span class="book-card-level level-beginner">Principiante</span>
+                                <span class="book-card-status status-available">Disponible</span>
+                            </div>
+                            <span class="book-card-chapters-count">22 Capítulos</span>
+                        </div>
+                    </div>
+                </a>
+                
+                <a href="#" class="book-card" data-modal="episodio-3">
+                    <div class="book-card-image-placeholder">E3</div>
+                    <div class="book-card-content">
+                        <h3 class="book-card-title">Aplicaciones Web con Python y Django (Avanzado)</h3>
+                        <p class="book-card-subtitle">Profundiza en Django: vistas, plantillas, formularios, y despliegue de aplicaciones web completas y dinámicas.</p>
+                        <div class="book-card-meta">
+                            <div>
+                                <span class="book-card-level level-advanced">Avanzado</span>
+                                <span class="book-card-status status-coming-soon">Próximamente</span>
+                            </div>
+                           <span class="book-card-chapters-count">Próximamente</span>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+    
+    <section class="youtube-section">
+        <div class="container youtube-container">
+            <div style="text-align: center; margin-bottom: var(--spacing-2xl);">
+                <h2 class="section-title" style="display: inline-block; margin-bottom: var(--spacing-md);">Aprende también en YouTube</h2>
+            </div>
+            <p class="youtube-description">Complementa tu aprendizaje con tutoriales en video, ejemplos prácticos y explicaciones detalladas en mi canal de YouTube.</p>
+            
+            <div class="youtube-embed">
+                <iframe width="560" height="315"
+                    src="https://www.youtube.com/embed/0XHxqXcWYVg?start=0"
+                    title="Canal de YouTube Excel-ente"
+                    frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen>
+                </iframe>
+            </div>
+            
+            <div class="youtube-cta mt-4">
+                <a href="https://www.youtube.com/@excel-ente" target="_blank" class="btn btn-primary">Visitar canal de YouTube</a>
+            </div>
+        </div>
+    </section>
+    
+    <section id="future-courses" class="future-courses section">
+        <div class="container">
+            <div style="text-align: center; margin-bottom: var(--spacing-2xl);">
+                <h2 class="section-title" style="display: inline-block; margin-bottom: var(--spacing-md);">Cursos Disponibles y Próximamente</h2>
+            </div>
+            <p class="section-subtitle">Explora nuestros cursos de VBA, IA y más. ¡Siempre estamos añadiendo nuevo contenido!</p>
+        
+            <div class="courses-grid">
+                <div class="course-card">
+                    <div class="course-image" style="background-image: url('https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80');">
+                        <span class="course-badge">VBA</span>
+                    </div>
+                    <div class="course-content">
+                        <h3 class="course-title">Excel VBA: Nivel 1</h3>
+                        <p class="course-description">Iníciate en la automatización de Excel. Aprende los fundamentos de VBA y crea tu primera macro paso a paso.</p>
+                        <div class="course-footer">
+                            <div class="course-meta">
+                                <span><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 4px;"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>Clase 1 Disp.</span>
+                            </div>
+                            <a href="capitulos/vba-excel-macros-clase-1.html" class="course-link">Ver Nivel 1 →</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="course-card">
+                    <div class="course-image" style="background-image: url('https://images.unsplash.com/photo-1620712943543-bcc4688e7485?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80');"> <span class="course-badge">IA</span>
+                    </div>
+                    <div class="course-content">
+                        <h3 class="course-title">Excel VBA: Nivel 2</h3>
+                        <p class="course-description">Conociendo las Variables, segunda clase de programacion con VBA.</p>
+                        <div class="course-footer">
+                            <div class="course-meta">
+                                <span><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 4px;"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>Contenido</span>
+                            </div>
+                            <a href="capitulos/vba-excel-macros-clase-2.html" class="course-link">Ir al Curso →</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="course-card">
+                    <div class="course-image" style="background-image: url('https://images.unsplash.com/photo-1531545514256-b1400bc00f31?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80');"> <span class="course-badge coming-soon">Próximamente</span>
+                    </div>
+                    <div class="course-content">
+                        <h3 class="course-title">+ Cursos</h3>
+                        <p class="course-description">Explora nuestro catálogo completo de cursos. Siempre estamos trabajando para traerte más contenido de calidad.</p>
+                        <div class="course-footer">
+                            <div class="course-meta">
+                                <span><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 4px;"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>Catálogo</span>
+                            </div>
+                            <a href="catalogo-cursos.html" class="course-link">Ver Catálogo →</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-container">
+                <div>
+                    <a href="index.html" class="footer-logo">Programación para Mortales</a>
+                    <p class="footer-description">Un libro digital interactivo para aprender a programar desde cero, sin importar tu formación o experiencia previa.</p>
+                    <div class="footer-social">
+                        <a href="https://www.youtube.com/@excel-ente" target="_blank" class="footer-social-link" title="YouTube">📺</a>
+                        <a href="https://www.linkedin.com/in/kevinturkienich" target="_blank" class="footer-social-link" title="LinkedIn">📱</a>
+                        <a href="mailto:info@programacionparamortales.com" class="footer-social-link" title="Email">📧</a>
+                        <a href="https://github.com/Excel-ente" target="_blank" class="footer-social-link" title="GitHub">📘</a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h3 class="footer-heading">Navegación</h3>
+                    <ul class="footer-links">
+                        <li class="footer-link"><a href="index.html">Inicio</a></li>
+                        <li class="footer-link"><a href="#episodes">Episodios</a></li>
+                        <li class="footer-link"><a href="#future-courses">Próximos cursos</a></li>
+                        <li class="footer-link"><a href="about.html">Acerca de</a></li>
+                        <li class="footer-link"><a href="indice.html">Índice completo</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="footer-heading">Recursos</h3>
+                    <ul class="footer-links">
+                        <li class="footer-link"><a href="https://www.youtube.com/@excel-ente" target="_blank">Canal de YouTube</a></li>
+                        <li class="footer-link"><a href="https://github.com/Excel-ente" target="_blank">Repositorios GitHub</a></li>
+                        <li class="footer-link"><a href="#">Comunidad</a></li>
+                        <li class="footer-link"><a href="#">Preguntas frecuentes</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="footer-heading">Contacto</h3>
+                    <ul class="footer-links">
+                        <li class="footer-link"><a href="mailto:info@programacionparamortales.com">Soporte</a></li>
+                        <li class="footer-link"><a href="mailto:info@programacionparamortales.com">Contacto</a></li>
+                        <li class="footer-link"><a href="#">Colaboraciones</a></li>
+                        <li class="footer-link"><a href="#">Sugerencias</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>© 2025 Programación para Mortales. Todos los derechos reservados.</p>
+                <div class="footer-bottom-links">
+                    <a href="terminos-y-condiciones.html" class="footer-bottom-link">Términos y condiciones</a>
+                    <a href="privacidad.html" class="footer-bottom-link">Política de privacidad</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+    <div class="modal-overlay" id="modal-episodio-1">
+        <div class="modal">
+            <div class="modal-header">
+                <div>
+                    <h3 class="modal-title">Episodio 1: Entender la compu para poder hablarle</h3>
+                    <p class="modal-subtitle">Fundamentos de programación y cómo funciona una computadora</p>
+                </div>
+                <button class="modal-close">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="chapters-list">
+                    <div class="chapter-item">
+                        <h4 class="chapter-item-title">Introducción</h4>
+                        <p class="chapter-item-description">Conoce quién soy y por qué este contenido te interesa. Una breve presentación del libro y su enfoque.</p>
+                        <div class="chapter-item-footer">
+                            <div class="chapter-item-meta"><span>⏱️ 5 min</span><span>🧩 0 actividades</span></div>
+                            <a href="capitulos/introduccion.html" class="chapter-item-link">Leer capítulo →</a>
+                        </div>
+                    </div>
+                    <div class="chapter-item">
+                        <h4 class="chapter-item-title">Capítulo 1: ¿Qué es programar?</h4>
+                        <p class="chapter-item-description">Descubrí cómo se comunican las personas y las máquinas, y por qué aprender a programar es como aprender un nuevo idioma.</p>
+                        <div class="chapter-item-footer">
+                            <div class="chapter-item-meta"><span>⏱️ 15 min</span><span>🧩 3 actividades</span></div>
+                            <a href="capitulos/episodio-1/capitulo-1.html" class="chapter-item-link">Leer capítulo →</a>
+                        </div>
+                    </div>
+                    <div class="chapter-item">
+                        <h4 class="chapter-item-title">Capítulo 2: ¿Qué hay dentro de una computadora?</h4>
+                        <p class="chapter-item-description">Viaje al corazón de la máquina: el cerebro, la memoria, la energía y el esqueleto de tu compu, contados desde lo simple.</p>
+                        <div class="chapter-item-footer">
+                            <div class="chapter-item-meta"><span>⏱️ 20 min</span><span>🧩 3 actividades</span></div>
+                            <a href="capitulos/episodio-1/capitulo-2.html" class="chapter-item-link">Leer capítulo →</a>
+                        </div>
+                    </div>
+                    <div class="chapter-item">
+                        <h4 class="chapter-item-title">Capítulo 3: Explorando la compu desde adentro</h4>
+                        <p class="chapter-item-description">Primeros pasos con la terminal. Aprendé a moverte entre carpetas como un verdadero explorador digital.</p>
+                        <div class="chapter-item-footer">
+                            <div class="chapter-item-meta"><span>⏱️ 20 min</span><span>🧩 4 actividades</span></div>
+                            <a href="capitulos/episodio-1/capitulo-3.html" class="chapter-item-link">Leer capítulo →</a>
+                        </div>
+                    </div>
+                    <div class="chapter-item">
+                        <h4 class="chapter-item-title">Capítulo 4: Hablando con la compu por primera vez</h4>
+                        <p class="chapter-item-description">Instalamos Python y comenzamos a hablarle: funciones, tipos de datos y los primeros comandos en tiempo real.</p>
+                        <div class="chapter-item-footer">
+                            <div class="chapter-item-meta"><span>⏱️ 20 min</span><span>🧩 3 actividades</span></div>
+                            <a href="capitulos/episodio-1/capitulo-4.html" class="chapter-item-link">Leer capítulo →</a>
+                        </div>
+                    </div>
+                    <div class="chapter-item">
+                        <h4 class="chapter-item-title">Capítulo 5: Jugando con datos</h4>
+                        <p class="chapter-item-description">Aprendé qué son las variables, cómo guardar cosas, sumarlas, cambiarlas… y cómo hacer que la compu recuerde por vos.</p>
+                        <div class="chapter-item-footer">
+                            <div class="chapter-item-meta"><span>⏱️ 20 min</span><span>🧩 3 actividades</span></div>
+                            <a href="capitulos/episodio-1/capitulo-5.html" class="chapter-item-link">Leer capítulo →</a>
+                        </div>
+                    </div>
+                    <div class="chapter-item">
+                        <h4 class="chapter-item-title">Capítulo 6: Que la compu decida por nosotros</h4>
+                        <p class="chapter-item-description">Condicionales, lógica booleana y decisiones automáticas. Programá tu primer "si pasa esto → hacé esto".</p>
+                        <div class="chapter-item-footer">
+                            <div class="chapter-item-meta"><span>⏱️ 20 min</span><span>🧩 3 actividades</span></div>
+                            <a href="capitulos/episodio-1/capitulo-6.html" class="chapter-item-link">Leer capítulo →</a>
+                        </div>
+                    </div>
+                    <div class="chapter-item">
+                        <h4 class="chapter-item-title">Capítulo 7: ¡Hacelo de nuevo!</h4>
+                        <p class="chapter-item-description">Bucles y repeticiones. Lográ que la computadora repita tareas sin que vos repitas código.</p>
+                        <div class="chapter-item-footer">
+                            <div class="chapter-item-meta"><span>⏱️ 20 min</span><span>🧩 3 actividades</span></div>
+                            <a href="capitulos/episodio-1/capitulo-7.html" class="chapter-item-link">Leer capítulo →</a>
+                        </div>
+                    </div>
+                    <div class="chapter-item">
+                        <h4 class="chapter-item-title">Cierre del Episodio 1: Ya hablás el idioma de la compu</h4>
+                        <p class="chapter-item-description">¡Aplicación real en Python! Cierre creativo para ejercitar todo lo que aprendiste. Vas a hacer una app interactiva de adivinanzas.</p>
+                        <div class="chapter-item-footer">
+                            <div class="chapter-item-meta"><span>⏱️ 15 min</span><span>🧩 1 proyecto</span></div>
+                            <a href="capitulos/episodio-1/cierre-episodio-1.html" class="chapter-item-link">Leer capítulo →</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="modal-overlay" id="modal-episodio-2">
+        <div class="modal">
+            <div class="modal-header">
+                <div>
+                    <h3 class="modal-title">Episodio 2: Creando Nuestra Primera Aplicación Web con Django</h3>
+                    <p class="modal-subtitle">Desde la configuración hasta un panel de administración funcional.</p>
+                </div>
+                <button class="modal-close">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="chapters-list">
+                    <div class="chapter-item">
+                        <h4 class="chapter-item-title">Cap. 1: Presentación del Tutorial y Proyecto Inicial</h4>
+                        <p class="chapter-item-description">Introducción al objetivo del episodio: crear aplicaciones web con Python y Django, y plan de trabajo inicial.</p>
+                        <div class="chapter-item-footer">
+                            <div class="chapter-item-meta"><span>⏱️ 10 min</span></div>
+                            <a href="capitulos/episodio-2/capitulo-1.html" class="chapter-item-link">Leer capítulo →</a>
+                        </div>
+                    </div>
+                    <div class="chapter-item">
+                        <h4 class="chapter-item-title">Cap. 2: Introducción a Django y Conceptos Clave</h4>
+                        <p class="chapter-item-description">Qué es Django, cómo simplifica el desarrollo web (autenticación, CRUD) y en qué se enfocará el programador.</p>
+                        <div class="chapter-item-footer">
+                            <div class="chapter-item-meta"><span>⏱️ 12 min</span></div>
+                            <a href="capitulos/episodio-2/capitulo-2.html" class="chapter-item-link">Leer capítulo →</a>
+                        </div>
+                    </div>
+                    <div class="chapter-item">
+                        <h4 class="chapter-item-title">Cap. 3: Instalación de Python y Verificación</h4>
+                        <p class="chapter-item-description">Por qué Python es esencial y cómo verificar si ya está instalado en tu sistema usando la terminal.</p>
+                        <div class="chapter-item-footer">
+                            <div class="chapter-item-meta"><span>⏱️ 8 min</span></div>
+                            <a href="capitulos/episodio-2/capitulo-3.html" class="chapter-item-link">Leer capítulo →</a>
+                        </div>
+                    </div>
+                    <div class="chapter-item">
+                        <h4 class="chapter-item-title">Cap. 4: Creación del Entorno Virtual</h4>
+                        <p class="chapter-item-description">Concepto de entorno virtual para aislar dependencias y comando para crearlo con <code>venv</code>.</p>
+                        <div class="chapter-item-footer">
+                            <div class="chapter-item-meta"><span>⏱️ 7 min</span></div>
+                            <a href="capitulos/episodio-2/capitulo-4.html" class="chapter-item-link">Leer capítulo →</a>
+                        </div>
+                    </div>
+                    <div class="chapter-item">
+                        <h4 class="chapter-item-title">Cap. 5: Activación del Entorno Virtual</h4>
+                        <p class="chapter-item-description">Cómo "encender" el entorno virtual ejecutando el script <code>activate</code> para trabajar de forma aislada.</p>
+                        <div class="chapter-item-footer">
+                            <div class="chapter-item-meta"><span>⏱️ 6 min</span></div>
+                            <a href="capitulos/episodio-2/capitulo-5.html" class="chapter-item-link">Leer capítulo →</a>
+                        </div>
+                    </div>
+                    <div class="chapter-item">
+                        <h4 class="chapter-item-title">Cap. 6: Instalación de Django con Pip</h4>
+                        <p class="chapter-item-description">Uso de <code>pip</code> para instalar Django dentro del entorno virtual activado.</p>
+                        <div class="chapter-item-footer">
+                            <div class="chapter-item-meta"><span>⏱️ 5 min</span></div>
+                            <a href="capitulos/episodio-2/capitulo-6.html" class="chapter-item-link">Leer capítulo →</a>
+                        </div>
+                    </div>
+                    <div class="chapter-item">
+                        <h4 class="chapter-item-title">Cap. 7: Instalación de Visual Studio Code</h4>
+                        <p class="chapter-item-description">Recomendación y guía para descargar e instalar VS Code como editor de código.</p>
+                        <div class="chapter-item-footer">
+                            <div class="chapter-item-meta"><span>⏱️ 4 min</span></div>
+                            <a href="capitulos/episodio-2/capitulo-7.html" class="chapter-item-link">Leer capítulo →</a>
+                        </div>
+                    </div>
+                    <div class="chapter-item">
+                        <h4 class="chapter-item-title">Cap. 8: Creación y Ejecución del Proyecto Django</h4>
+                        <p class="chapter-item-description">Comandos <code>startproject</code> y <code>runserver</code>, estructura inicial y primera vista de Django.</p>
+                        <div class="chapter-item-footer">
+                            <div class="chapter-item-meta"><span>⏱️ 10 min</span></div>
+                            <a href="capitulos/episodio-2/capitulo-8.html" class="chapter-item-link">Leer capítulo →</a>
+                        </div>
+                    </div>
+                    <div class="chapter-item">
+                        <h4 class="chapter-item-title">Cap. 9: Aplicando Migraciones Iniciales</h4>
+                        <p class="chapter-item-description">Por qué fallaba el <code>/admin</code> y cómo el comando <code>migrate</code> crea las tablas por defecto de Django.</p>
+                        <div class="chapter-item-footer">
+                            <div class="chapter-item-meta"><span>⏱️ 7 min</span></div>
+                            <a href="capitulos/episodio-2/capitulo-9.html" class="chapter-item-link">Leer capítulo →</a>
+                        </div>
+                    </div>
+                     <div class="chapter-item">
+                        <h4 class="chapter-item-title">Cap. 10: Creación de un Superusuario</h4>
+                        <p class="chapter-item-description">Comando <code>createsuperuser</code> para acceder al panel de administración de Django.</p>
+                        <div class="chapter-item-footer">
+                            <div class="chapter-item-meta"><span>⏱️ 8 min</span></div>
+                            <a href="capitulos/episodio-2/capitulo-10.html" class="chapter-item-link">Leer capítulo →</a>
+                        </div>
+                    </div>
+                    <div class="chapter-item">
+                        <h4 class="chapter-item-title">Cap. 11: Explorando el Panel de Administración de Django</h4>
+                        <p class="chapter-item-description">Un vistazo a la interfaz y funcionalidades básicas del admin, como la gestión de usuarios.</p>
+                        <div class="chapter-item-footer">
+                            <div class="chapter-item-meta"><span>⏱️ 6 min</span></div>
+                            <a href="capitulos/episodio-2/capitulo-11.html" class="chapter-item-link">Leer capítulo →</a>
+                        </div>
+                    </div>
+                    <div class="chapter-item">
+                        <h4 class="chapter-item-title">Cap. 12: Estructura de Directorios del Proyecto Django</h4>
+                        <p class="chapter-item-description">Conociendo <code>manage.py</code>, la carpeta de aplicación general, <code>settings.py</code>, <code>urls.py</code> y la base de datos.</p>
+                        <div class="chapter-item-footer">
+                            <div class="chapter-item-meta"><span>⏱️ 7 min</span></div>
+                            <a href="capitulos/episodio-2/capitulo-12.html" class="chapter-item-link">Leer capítulo →</a>
+                        </div>
+                    </div>
+                    <div class="chapter-item">
+                        <h4 class="chapter-item-title">Cap. 13: Datos y su Estructuración en Bases de Datos</h4>
+                        <p class="chapter-item-description">Diferencia entre hojas de cálculo y bases de datos, SQL y el rol del ORM de Django.</p>
+                        <div class="chapter-item-footer">
+                            <div class="chapter-item-meta"><span>⏱️ 9 min</span></div>
+                            <a href="capitulos/episodio-2/capitulo-13.html" class="chapter-item-link">Leer capítulo →</a>
+                        </div>
+                    </div>
+                    <div class="chapter-item">
+                        <h4 class="chapter-item-title">Cap. 14: Tipos de Datos en Django Models</h4>
+                        <p class="chapter-item-description">Importancia de los tipos de datos (CharField, IntegerField, etc.) y argumentos como <code>max_length</code>, <code>blank</code>, <code>null</code>.</p>
+                        <div class="chapter-item-footer">
+                            <div class="chapter-item-meta"><span>⏱️ 10 min</span></div>
+                            <a href="capitulos/episodio-2/capitulo-14.html" class="chapter-item-link">Leer capítulo →</a>
+                        </div>
+                    </div>
+                    <div class="chapter-item">
+                        <h4 class="chapter-item-title">Cap. 15: Creando una Aplicación (App) en Django</h4>
+                        <p class="chapter-item-description">Concepto de "app", comando <code>startapp</code> y archivos generados como <code>models.py</code> y <code>admin.py</code>.</p>
+                        <div class="chapter-item-footer">
+                            <div class="chapter-item-meta"><span>⏱️ 8 min</span></div>
+                            <a href="capitulos/episodio-2/capitulo-15.html" class="chapter-item-link">Leer capítulo →</a>
+                        </div>
+                    </div>
+                    <div class="chapter-item">
+                        <h4 class="chapter-item-title">Cap. 16: Creando Modelo de Proveedores (Tabla)</h4>
+                        <p class="chapter-item-description">Definición de un modelo <code>Proveedor</code> en <code>models.py</code> con sus campos y el método <code>__str__</code>.</p>
+                        <div class="chapter-item-footer">
+                            <div class="chapter-item-meta"><span>⏱️ 10 min</span></div>
+                            <a href="capitulos/episodio-2/capitulo-16.html" class="chapter-item-link">Leer capítulo →</a>
+                        </div>
+                    </div>
+                    <div class="chapter-item">
+                        <h4 class="chapter-item-title">Cap. 17: Conectando la App con el Proyecto Principal</h4>
+                        <p class="chapter-item-description">Cómo registrar la nueva app en <code>INSTALLED_APPS</code> dentro de <code>settings.py</code>.</p>
+                        <div class="chapter-item-footer">
+                            <div class="chapter-item-meta"><span>⏱️ 6 min</span></div>
+                            <a href="capitulos/episodio-2/capitulo-17.html" class="chapter-item-link">Leer capítulo →</a>
+                        </div>
+                    </div>
+                    <div class="chapter-item">
+                        <h4 class="chapter-item-title">Cap. 18: Aplicando Migraciones (para el Modelo Propio)</h4>
+                        <p class="chapter-item-description">El proceso de dos pasos: <code>makemigrations</code> y <code>migrate</code> para actualizar la base de datos.</p>
+                        <div class="chapter-item-footer">
+                            <div class="chapter-item-meta"><span>⏱️ 9 min</span></div>
+                            <a href="capitulos/episodio-2/capitulo-18.html" class="chapter-item-link">Leer capítulo →</a>
+                        </div>
+                    </div>
+                    <div class="chapter-item">
+                        <h4 class="chapter-item-title">Cap. 19: Mostrando el Modelo en el Administrador</h4>
+                        <p class="chapter-item-description">Registrar el modelo en <code>admin.py</code> y personalizar la vista de lista con <code>list_display</code>.</p>
+                        <div class="chapter-item-footer">
+                            <div class="chapter-item-meta"><span>⏱️ 9 min</span></div>
+                            <a href="capitulos/episodio-2/capitulo-19.html" class="chapter-item-link">Leer capítulo →</a>
+                        </div>
+                    </div>
+                    <div class="chapter-item">
+                        <h4 class="chapter-item-title">Cap. 20: Personalización Adicional del Panel de Administración</h4>
+                        <p class="chapter-item-description">Añadir filtros con <code>list_filter</code> y un buscador con <code>search_fields</code> al admin.</p>
+                        <div class="chapter-item-footer">
+                            <div class="chapter-item-meta"><span>⏱️ 7 min</span></div>
+                            <a href="capitulos/episodio-2/capitulo-20.html" class="chapter-item-link">Leer capítulo →</a>
+                        </div>
+                    </div>
+                    <div class="chapter-item">
+                        <h4 class="chapter-item-title">Cap. 21: Instalación y Uso de Django Jazzmin</h4>
+                        <p class="chapter-item-description">Mejorar la estética del admin instalando y configurando <code>django-jazzmin</code>.</p>
+                        <div class="chapter-item-footer">
+                            <div class="chapter-item-meta"><span>⏱️ 6 min</span></div>
+                            <a href="capitulos/episodio-2/capitulo-21.html" class="chapter-item-link">Leer capítulo →</a>
+                        </div>
+                    </div>
+                    <div class="chapter-item">
+                        <h4 class="chapter-item-title">Cap. 22: Cierre y Ejercicio Propuesto</h4>
+                        <p class="chapter-item-description">Resumen del episodio y un ejercicio para crear un modelo de Cliente.</p>
+                        <div class="chapter-item-footer">
+                            <div class="chapter-item-meta"><span>⏱️ 5 min</span></div>
+                            <a href="capitulos/episodio-2/capitulo-22.html" class="chapter-item-link">Leer capítulo →</a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Mobile Menu Toggle
+        const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+        const nav = document.querySelector('.nav');
+        
+        mobileMenuBtn.addEventListener('click', () => {
+            nav.classList.toggle('active');
+        });
+        
+        // Header Scroll Effect
+        const header = document.querySelector('.header');
+        
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+        
+        // Smooth Scroll for Navigation Links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 70, // Ajuste por header fijo
+                        behavior: 'smooth'
+                    });
+                    nav.classList.remove('active'); // Cerrar menú móvil
+                }
+            });
+        });
+        
+        // Scroll Animation for Episodes
+        const episodes = document.querySelectorAll('.episode'); // Esto debería ser para .book-card ahora
+        const cardsToAnimate = document.querySelectorAll('.book-card, .course-card');
+
+
+        function checkScroll() {
+            cardsToAnimate.forEach(card => {
+                const cardTop = card.getBoundingClientRect().top;
+                const windowHeight = window.innerHeight;
+                if (cardTop < windowHeight * 0.85) { // Ajustar umbral si es necesario
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }
+            });
+        }
+         // Aplicar estilos iniciales para la animación
+        cardsToAnimate.forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(30px)';
+            card.style.transition = 'opacity 0.6s ease-out, transform 0.6s ease-out';
+        });
+
+        window.addEventListener('scroll', checkScroll);
+        checkScroll(); // Para elementos visibles al cargar
+
+        // Modal Functionality
+        const bookCards = document.querySelectorAll('.book-card[data-modal]'); // Asegurar que solo se seleccionen los que tienen data-modal
+        const modalOverlays = document.querySelectorAll('.modal-overlay');
+        const modalCloses = document.querySelectorAll('.modal-close');
+        
+        bookCards.forEach(card => {
+            card.addEventListener('click', (event) => {
+                event.preventDefault(); // Prevenir navegación si es un enlace
+                const modalId = card.dataset.modal;
+                if(modalId){ // Solo proceder si hay un modalId
+                    const modal = document.getElementById(`modal-${modalId}`);
+                    if (modal) {
+                        modal.classList.add('active');
+                        document.body.style.overflow = 'hidden'; // Evitar scroll del body
+                    }
+                }
+            });
+        });
+        
+        modalCloses.forEach(close => {
+            close.addEventListener('click', () => {
+                const modal = close.closest('.modal-overlay');
+                modal.classList.remove('active');
+                document.body.style.overflow = 'auto'; // Restaurar scroll del body
+            });
+        });
+        
+        modalOverlays.forEach(overlay => {
+            overlay.addEventListener('click', (e) => {
+                if (e.target === overlay) { // Si se hace clic en el fondo del overlay
+                    overlay.classList.remove('active');
+                    document.body.style.overflow = 'auto'; // Restaurar scroll del body
+                }
+            });
+        });
+        
+    </script>
+</body>
+</html>

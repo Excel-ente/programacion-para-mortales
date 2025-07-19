@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Política de Privacidad - Programación para Mortales</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="icon" href="icon.ico" type="image/x-icon">
+    <style>
+        :root {
+            --primary-color: #4a6fa5;
+            --secondary-color: #166088;
+            --accent-color: #4fc3dc;
+            --text-color: #333;
+            --light-bg: #f5f7fa;
+            --white: #ffffff;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --border-radius: 8px;
+            --success-color: #2ecc71;
+            --info-color: #3498db;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--light-bg);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 1rem 0;
+            box-shadow: var(--shadow);
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 0;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: white;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+        }
+
+        .logo i {
+            margin-right: 10px;
+            font-size: 1.8rem;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-links li {
+            margin-left: 1.5rem;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-color);
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        main {
+            padding: 2rem 0;
+        }
+
+        .privacy-container {
+            background-color: var(--white);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .privacy-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .privacy-header i {
+            font-size: 3rem;
+            color: var(--secondary-color);
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        h1 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            font-size: 2rem;
+        }
+
+        .subtitle {
+            color: #666;
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .last-updated {
+            font-style: italic;
+            color: #666;
+            margin-bottom: 2rem;
+        }
+
+        .intro {
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background-color: rgba(79, 195, 220, 0.1);
+            border-radius: var(--border-radius);
+            border-left: 4px solid var(--accent-color);
+        }
+
+        .section {
+            margin-bottom: 2.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .section:last-child {
+            border-bottom: none;
+        }
+
+        h2 {
+            color: var(--secondary-color);
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+        }
+
+        h2 i {
+            margin-right: 0.75rem;
+            color: var(--accent-color);
+        }
+
+        p, ul {
+            margin-bottom: 1rem;
+        }
+
+        ul {
+            padding-left: 2rem;
+        }
+
+        .highlight-box {
+            background-color: rgba(46, 204, 113, 0.1);
+            padding: 1.5rem;
+            border-radius: var(--border-radius);
+            margin: 1.5rem 0;
+            border-left: 4px solid var(--success-color);
+        }
+
+        .highlight-box h3 {
+            color: var(--success-color);
+            margin-bottom: 0.75rem;
+            font-size: 1.2rem;
+        }
+
+        .info-box {
+            background-color: rgba(52, 152, 219, 0.1);
+            padding: 1.5rem;
+            border-radius: var(--border-radius);
+            margin: 1.5rem 0;
+            border-left: 4px solid var(--info-color);
+        }
+
+        .info-box h3 {
+            color: var(--info-color);
+            margin-bottom: 0.75rem;
+            font-size: 1.2rem;
+        }
+
+        .independent-badge {
+            display: inline-block;
+            background-color: var(--success-color);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-weight: bold;
+            margin-bottom: 1.5rem;
+        }
+
+        .contact-info {
+            background-color: rgba(74, 111, 165, 0.1);
+            padding: 1.5rem;
+            border-radius: var(--border-radius);
+            margin-top: 2rem;
+        }
+
+        .contact-info h3 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.75rem;
+        }
+
+        .contact-item i {
+            margin-right: 0.75rem;
+            color: var(--secondary-color);
+            width: 20px;
+            text-align: center;
+        }
+
+        footer {
+            background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+            color: white;
+            padding: 2rem 0;
+            margin-top: 2rem;
+        }
+
+        .footer-content {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+
+        .footer-section {
+            flex: 1;
+            min-width: 200px;
+            margin-bottom: 1rem;
+            padding: 0 1rem;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 1rem;
+            color: var(--white);
+            font-size: 1.2rem;
+        }
+
+        .footer-section ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-section a {
+            color: var(--white);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-section a:hover {
+            color: var(--accent-color);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .social-links a {
+            color: var(--white);
+            font-size: 1.5rem;
+            transition: color 0.3s;
+        }
+
+        .social-links a:hover {
+            color: var(--accent-color);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 1.5rem;
+            margin-top: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 70px;
+                left: 0;
+                right: 0;
+                background-color: var(--primary-color);
+                padding: 1rem;
+                box-shadow: var(--shadow);
+                z-index: 100;
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .nav-links li {
+                margin: 0.5rem 0;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .footer-section {
+                flex: 100%;
+                margin-bottom: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <a href="index.html" class="logo">
+                    <i class="fas fa-code"></i>
+                    Programación para Mortales
+                </a>
+                <button class="mobile-menu-btn">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <ul class="nav-links">
+                    <li><a href="index.html">Inicio</a></li>
+                    <li><a href="indice.html">Índice</a></li>
+                    <li><a href="about.html">Acerca de</a></li>
+                    <li><a href="privacidad.html">Privacidad</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="privacy-container">
+            <div class="privacy-header">
+                <i class="fas fa-shield-alt"></i>
+                <h1>🛡️ Política de Privacidad</h1>
+                <p class="last-updated">Última actualización: 10 de abril de 2025</p>
+                <span class="independent-badge"><i class="fas fa-user"></i> Proyecto 100% Independiente</span>
+            </div>
+            
+            <div class="intro">
+                <p>Bienvenido a Programación para Mortales. Valoramos tu privacidad y queremos que sepas que <strong>no recopilamos información personal identificable, ni vendemos, ni compartimos tus datos con terceros</strong>.</p>
+                <p>Nuestro objetivo es brindar una experiencia de aprendizaje segura, transparente y respetuosa con tus datos.</p>
+                <p>Esta política te explica qué información técnica se recopila (de forma mínima), por qué, y cómo la protegemos.</p>
+            </div>
+            
+            <div class="section">
+                <h2><i class="fas fa-question-circle"></i> 1. ¿Qué información recolectamos?</h2>
+                <p>Cuando accedés a nuestro sitio web, <strong>no te pedimos nombre, correo ni ningún dato personal</strong>.</p>
+                <p>Solo recopilamos de forma automática:</p>
+                <ul>
+                    <li>Dirección IP (para garantizar la seguridad del sitio y prevenir ataques).</li>
+                    <li>Datos de sesión (navegador, sistema operativo, tiempo de permanencia, interacción técnica con las páginas).</li>
+                </ul>
+                <p>Estos datos no están vinculados a tu identidad y se usan únicamente con fines técnicos y estadísticos.</p>
+            </div>
+            
+            <div class="section">
+                <h2><i class="fas fa-cogs"></i> 2. ¿Para qué usamos esa información?</h2>
+                <p>Usamos esta información técnica solo con fines de seguridad y mantenimiento del sitio. En particular:</p>
+                <ul>
+                    <li>Para prevenir fraudes o accesos indebidos.</li>
+                    <li>Para garantizar el funcionamiento correcto de la plataforma.</li>
+                    <li>Para entender de forma general cómo se usa el sitio y mejorarlo.</li>
+                </ul>
+                <div class="highlight-box">
+                    <h3>Lo que NO hacemos:</h3>
+                    <ul>
+                        <li>No hacemos seguimiento personalizado ni perfiles de usuario.</li>
+                        <li>No enviamos emails ni usamos tus datos para marketing.</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2><i class="fas fa-share-alt"></i> 3. ¿Con quién compartimos tus datos?</h2>
+                <div class="highlight-box">
+                    <h3>👉 Con nadie.</h3>
+                    <p>No compartimos, transferimos ni vendemos ningún dato, ni siquiera los datos técnicos.</p>
+                    <p>Toda la información técnica se procesa de forma automática y segura en los servidores donde está alojado el sitio.</p>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2><i class="fas fa-cookie-bite"></i> 4. Cookies 🍪</h2>
+                <p>Este sitio utiliza cookies técnicas mínimas, necesarias para el funcionamiento correcto (por ejemplo, recordar el idioma o mantener la sesión activa si el contenido se vuelve interactivo).</p>
+                <div class="info-box">
+                    <h3>Transparencia total:</h3>
+                    <ul>
+                        <li>No usamos cookies de terceros</li>
+                        <li>No hay rastreo publicitario</li>
+                        <li>No utilizamos herramientas de análisis invasivas como Google Analytics</li>
+                    </ul>
+                </div>
+                <p>Podés desactivar las cookies desde tu navegador, pero puede afectar la experiencia de navegación.</p>
+            </div>
+            
+            <div class="section">
+                <h2><i class="fas fa-lock"></i> 5. Seguridad de tu información 🔒</h2>
+                <p>La seguridad es una prioridad. El sitio cuenta con conexión segura (HTTPS) y monitoreamos el tráfico para prevenir abusos o accesos indebidos.</p>
+                <ul>
+                    <li>No almacenamos información que permita identificarte.</li>
+                    <li>Cualquier dato técnico se trata de forma anónima y segura.</li>
+                </ul>
+            </div>
+            
+            <div class="section">
+                <h2><i class="fas fa-user-shield"></i> 6. Tus derechos</h2>
+                <p>Aunque no recolectamos datos personales, igual podés:</p>
+                <ul>
+                    <li>Consultarnos qué tipo de datos técnicos se registran.</li>
+                    <li>Pedir que eliminemos registros técnicos vinculados a tu IP (si existieran).</li>
+                    <li>Solicitar más información sobre nuestra política de privacidad.</li>
+                </ul>
+            </div>
+            
+            <div class="section">
+                <h2><i class="fas fa-envelope"></i> 7. Contacto</h2>
+                <p>¿Tenés dudas o querés hacer un pedido relacionado con tus datos?</p>
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <i class="fas fa-envelope"></i>
+                        <span>Email: info@programacionparamortales.com</span>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-globe"></i>
+                        <span>Web: www.programacionparamortales.com</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="highlight-box" style="text-align: center; margin-top: 2rem;">
+                <h3>🧠 Programación para Mortales</h3>
+                <p>Aprender a programar paso a paso, sin vueltas, sin pedirte nada.</p>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Programación para Mortales</h3>
+                    <p>Aprendizaje de programación simplificado para todos.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-github"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Enlaces rápidos</h3>
+                    <ul>
+                        <li><a href="index.html">Inicio</a></li>
+                        <li><a href="indice.html">Índice</a></li>
+                        <li><a href="about.html">Acerca de</a></li>
+                        <li><a href="terminos-y-condiciones.html">Términos y condiciones</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Contacto</h3>
+                    <p>
+                        <i class="fas fa-envelope"></i> info@programacionparamortales.com
+                    </p>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2025 Programación para Mortales. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        document.querySelector('.mobile-menu-btn').addEventListener('click', function() {
+            document.querySelector('.nav-links').classList.toggle('active');
+        });
+    </script>
+</body>
+</html>

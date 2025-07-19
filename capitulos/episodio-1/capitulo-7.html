@@ -1,0 +1,1967 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hacelo de nuevo! Bucles, repeticiones y automatización - Programación para Mortales</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@300;400;500;600;700&family=Fira+Code:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+    /* Paleta de colores vibrante y moderna */
+    --primary: #6366f1;
+    --primary-dark: #4f46e5;
+    --primary-light: #a5b4fc;
+    --secondary: #ec4899;
+    --secondary-dark: #db2777;
+    --accent: #06b6d4;
+    --success: #10b981;
+    --warning: #f59e0b;
+    --danger: #ef4444;
+    --dark: #0f172a;
+    --dark-blue: #1e293b;
+    --light: #f8fafc;
+    --gray: #64748b;
+    --gray-light: #e2e8f0;
+    
+    /* Tipografía */
+    --font-heading: 'Space Grotesk', sans-serif;
+    --font-body: 'Outfit', sans-serif;
+    --font-code: 'Fira Code', monospace;
+    
+    /* Espaciado */
+    --spacing-xs: 0.25rem;
+    --spacing-sm: 0.5rem;
+    --spacing-md: 1rem;
+    --spacing-lg: 1.5rem;
+    --spacing-xl: 2rem;
+    --spacing-2xl: 3rem;
+    --spacing-3xl: 4rem;
+    
+    /* Bordes y sombras */
+    --radius-sm: 0.25rem;
+    --radius-md: 0.5rem;
+    --radius-lg: 1rem;
+    --radius-xl: 1.5rem;
+    --radius-full: 9999px;
+    
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    
+    /* Transiciones */
+    --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-normal: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-slow: 500ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 16px;
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: var(--font-body);
+    color: var(--dark);
+    background-color: var(--light);
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: var(--spacing-lg);
+    color: var(--dark);
+}
+
+h1 {
+    font-size: 3rem;
+}
+
+h2 {
+    font-size: 2.25rem;
+    margin-top: var(--spacing-2xl);
+    position: relative;
+    padding-bottom: var(--spacing-sm);
+}
+
+h2::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 80px;
+    height: 4px;
+    background: var(--primary);
+    border-radius: 2px;
+}
+
+h3 {
+    font-size: 1.75rem;
+    margin-top: var(--spacing-xl);
+    color: var(--primary-dark);
+}
+
+p {
+    margin-bottom: var(--spacing-lg);
+    font-size: 1.125rem;
+}
+
+a {
+    text-decoration: none;
+    color: var(--primary);
+    transition: var(--transition-normal);
+}
+
+a:hover {
+    color: var(--primary-dark);
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    border-radius: var(--radius-md);
+}
+
+/* Layout */
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 var(--spacing-lg);
+}
+
+/* Header */
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 100;
+    background-color: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(10px);
+    box-shadow: var(--shadow-sm);
+    transition: var(--transition-normal);
+}
+
+.header.scrolled {
+    box-shadow: var(--shadow-md);
+}
+
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 70px;
+}
+
+.logo {
+    font-family: var(--font-heading);
+    font-weight: 800;
+    font-size: 1.5rem;
+    color: var(--primary);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+.logo-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    background-color: var(--primary);
+    color: white;
+    border-radius: var(--radius-md);
+    font-weight: 700;
+}
+
+.nav {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xl);
+}
+
+.nav-link {
+    font-weight: 500;
+    color: var(--dark);
+    position: relative;
+}
+
+.nav-link:hover {
+    color: var(--primary);
+}
+
+.nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: var(--primary);
+    transition: var(--transition-normal);
+}
+
+.nav-link:hover::after {
+    width: 100%;
+}
+
+.nav-link.active {
+    color: var(--primary);
+}
+
+.nav-link.active::after {
+    width: 100%;
+}
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.75rem 1.5rem;
+    font-weight: 600;
+    border-radius: var(--radius-full);
+    transition: var(--transition-normal);
+    gap: var(--spacing-sm);
+}
+
+.btn-primary {
+    background-color: var(--primary);
+    color: white;
+    box-shadow: var(--shadow-md);
+}
+
+.btn-primary:hover {
+    background-color: var(--primary-dark);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+}
+
+.mobile-menu-btn {
+    display: none;
+    font-size: 1.5rem;
+    color: var(--dark);
+    cursor: pointer;
+    border: none;
+    background: none;
+}
+
+/* Chapter Header */
+.chapter-header {
+    padding-top: 120px;
+    padding-bottom: var(--spacing-2xl);
+    background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+    color: white;
+    position: relative;
+    overflow: hidden;
+}
+
+.chapter-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    opacity: 0.5;
+}
+
+.chapter-header-content {
+    position: relative;
+    z-index: 1;
+}
+
+.chapter-number {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: var(--spacing-sm);
+    opacity: 0.9;
+}
+
+.chapter-title {
+    font-size: 3.5rem;
+    margin-bottom: var(--spacing-lg);
+    color: white;
+}
+
+.chapter-meta {
+    display: flex;
+    gap: var(--spacing-lg);
+    font-size: 1.125rem;
+    opacity: 0.9;
+}
+
+.chapter-meta-item {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+/* Chapter Content */
+.chapter-content {
+    padding: var(--spacing-3xl) 0;
+}
+
+.content-wrapper {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+/* Highlighted Boxes */
+.highlight-box {
+    background-color: rgba(99, 102, 241, 0.1);
+    border-left: 4px solid var(--primary);
+    padding: var(--spacing-lg);
+    border-radius: 0 var(--radius-md) var(--radius-md) 0;
+    margin: var(--spacing-xl) 0;
+}
+
+.note-box {
+    background-color: rgba(236, 72, 153, 0.1);
+    border-left: 4px solid var(--secondary);
+    padding: var(--spacing-lg);
+    border-radius: 0 var(--radius-md) var(--radius-md) 0;
+    margin: var(--spacing-xl) 0;
+}
+
+.history-box {
+    background-color: rgba(6, 182, 212, 0.1);
+    border-left: 4px solid var(--accent);
+    padding: var(--spacing-lg);
+    border-radius: 0 var(--radius-md) var(--radius-md) 0;
+    margin: var(--spacing-xl) 0;
+    display: flex;
+    gap: var(--spacing-lg);
+    align-items: center;
+}
+
+.history-image {
+    width: 120px;
+    flex-shrink: 0;
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-md);
+}
+
+.history-content {
+    flex: 1;
+}
+
+.history-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: var(--spacing-sm);
+    color: var(--accent);
+}
+
+.history-text {
+    font-size: 0.95rem;
+    margin-bottom: var(--spacing-sm);
+}
+
+/* Lists */
+ul, ol {
+    margin: 0 0 var(--spacing-lg) var(--spacing-xl);
+}
+
+li {
+    margin-bottom: var(--spacing-sm);
+}
+
+.feature-list {
+    list-style: none;
+    margin-left: 0;
+}
+
+.feature-list li {
+    position: relative;
+    padding-left: var(--spacing-xl);
+    margin-bottom: var(--spacing-md);
+}
+
+.feature-list li::before {
+    content: "✓";
+    position: absolute;
+    left: 0;
+    color: var(--success);
+    font-weight: bold;
+}
+
+/* Code Blocks */
+pre {
+    background-color: var(--dark-blue);
+    color: white;
+    padding: var(--spacing-lg);
+    border-radius: var(--radius-md);
+    overflow-x: auto;
+    margin: var(--spacing-lg) 0;
+    font-family: var(--font-code);
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+code {
+    font-family: var(--font-code);
+    background-color: var(--gray-light);
+    padding: 0.2rem 0.4rem;
+    border-radius: var(--radius-sm);
+    font-size: 0.9em;
+}
+
+pre code {
+    background-color: transparent;
+    padding: 0;
+    border-radius: 0;
+    font-size: 1em;
+}
+
+.code-block {
+    position: relative;
+    margin: var(--spacing-lg) 0;
+}
+
+.code-block-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: var(--dark);
+    color: white;
+    padding: var(--spacing-sm) var(--spacing-lg);
+    border-radius: var(--radius-md) var(--radius-md) 0 0;
+    font-family: var(--font-code);
+    font-size: 0.9rem;
+}
+
+.code-block-title {
+    font-weight: 600;
+}
+
+.code-block-actions {
+    display: flex;
+    gap: var(--spacing-sm);
+}
+
+.code-block-action {
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.7);
+    cursor: pointer;
+    transition: var(--transition-normal);
+    font-size: 0.9rem;
+    padding: 2px 8px;
+    border-radius: var(--radius-sm);
+}
+
+.code-block-action:hover {
+    color: white;
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.code-block pre {
+    margin: 0;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+
+/* Python Terminal Simulator */
+.python-terminal-container {
+    background-color: var(--dark-blue);
+    border-radius: var(--radius-md);
+    padding: var(--spacing-lg);
+    margin: var(--spacing-xl) 0;
+    font-family: var(--font-code);
+    color: white;
+}
+
+.python-terminal-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: var(--spacing-md);
+}
+
+.python-terminal-title {
+    font-size: 1rem;
+    margin-left: var(--spacing-md);
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.python-terminal-body {
+    height: 350px;
+    overflow-y: auto;
+    padding: var(--spacing-md);
+    background-color: rgba(0, 0, 0, 0.3);
+    border-radius: var(--radius-sm);
+    line-height: 1.5;
+}
+
+.python-terminal-output {
+    margin-bottom: var(--spacing-sm);
+    white-space: pre-wrap;
+}
+
+.python-terminal-prompt {
+    display: flex;
+    align-items: center;
+    margin-bottom: var(--spacing-sm);
+}
+
+.python-terminal-prompt-symbol {
+    color: var(--success);
+    margin-right: var(--spacing-sm);
+    font-weight: bold;
+}
+
+.python-terminal-input {
+    background: none;
+    border: none;
+    color: white;
+    font-family: var(--font-code);
+    font-size: 0.9rem;
+    width: 100%;
+    outline: none;
+}
+
+.python-prompt {
+    color: var(--primary-light);
+    margin-right: var(--spacing-sm);
+}
+
+/* Loop Visualizer */
+.loop-visualizer {
+    margin: var(--spacing-xl) 0;
+}
+
+.loop-container {
+    background-color: white;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    padding: var(--spacing-lg);
+    margin-bottom: var(--spacing-lg);
+}
+
+.loop-header {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-lg);
+    font-weight: 600;
+}
+
+.loop-inputs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-lg);
+}
+
+.loop-input-group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+}
+
+.loop-input-label {
+    font-weight: 500;
+    color: var(--gray);
+}
+
+.loop-input {
+    padding: var(--spacing-sm) var(--spacing-md);
+    border: 2px solid var(--gray-light);
+    border-radius: var(--radius-md);
+    font-family: var(--font-code);
+    font-size: 1rem;
+    outline: none;
+    transition: border-color 0.2s ease;
+}
+
+.loop-input:focus {
+    border-color: var(--primary);
+}
+
+.loop-execute {
+    padding: var(--spacing-sm) var(--spacing-lg);
+    background-color: var(--primary);
+    color: white;
+    border: none;
+    border-radius: var(--radius-md);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.loop-execute:hover {
+    background-color: var(--primary-dark);
+    transform: translateY(-2px);
+}
+
+.loop-result {
+    margin-top: var(--spacing-lg);
+    padding: var(--spacing-lg);
+    border-radius: var(--radius-md);
+    font-weight: 500;
+    max-height: 300px;
+    overflow-y: auto;
+    background-color: var(--gray-light);
+    font-family: var(--font-code);
+}
+
+/* Loop Animation */
+.loop-animation {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: var(--spacing-xl) 0;
+}
+
+.loop-animation-container {
+    position: relative;
+    width: 100%;
+    max-width: 600px;
+    height: 100px;
+    background-color: var(--gray-light);
+    border-radius: var(--radius-md);
+    margin-bottom: var(--spacing-lg);
+    overflow: hidden;
+}
+
+.loop-animation-item {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    background-color: var(--primary);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 700;
+    top: 25px;
+    left: 0;
+    transition: left 0.5s ease;
+}
+
+.loop-animation-controls {
+    display: flex;
+    gap: var(--spacing-md);
+}
+
+.loop-animation-button {
+    padding: var(--spacing-sm) var(--spacing-lg);
+    background-color: var(--primary);
+    color: white;
+    border: none;
+    border-radius: var(--radius-md);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.loop-animation-button:hover {
+    background-color: var(--primary-dark);
+    transform: translateY(-2px);
+}
+
+.loop-animation-button.reset {
+    background-color: var(--gray);
+}
+
+.loop-animation-button.reset:hover {
+    background-color: var(--dark);
+}
+
+/* Comparison Table */
+.comparison-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: var(--spacing-xl) 0;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
+}
+
+.comparison-table th {
+    background-color: var(--primary);
+    color: white;
+    padding: var(--spacing-md);
+    text-align: left;
+}
+
+.comparison-table td {
+    padding: var(--spacing-md);
+    border-bottom: 1px solid var(--gray-light);
+}
+
+.comparison-table tr:nth-child(even) {
+    background-color: rgba(99, 102, 241, 0.05);
+}
+
+.comparison-table tr:hover {
+    background-color: rgba(99, 102, 241, 0.1);
+}
+
+.comparison-table .check {
+    color: var(--success);
+    font-weight: bold;
+}
+
+.comparison-table .cross {
+    color: var(--danger);
+    font-weight: bold;
+}
+
+/* Interactive Elements */
+.interactive-section {
+    background-color: white;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    padding: var(--spacing-xl);
+    margin: var(--spacing-2xl) 0;
+}
+
+.interactive-title {
+    display: flex;
+    align-items: center;
+    font-size: 1.5rem;
+    margin-bottom: var(--spacing-lg);
+    color: var(--primary-dark);
+}
+
+.interactive-title::before {
+    content: "🎮";
+    margin-right: var(--spacing-sm);
+    font-size: 1.8rem;
+}
+
+/* Age Counter Simulator */
+.age-counter {
+    margin: var(--spacing-xl) 0;
+}
+
+.age-counter-form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-lg);
+}
+
+.age-counter-input-group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+}
+
+.age-counter-label {
+    font-weight: 500;
+    color: var(--gray);
+}
+
+.age-counter-input {
+    padding: var(--spacing-sm) var(--spacing-md);
+    border: 2px solid var(--gray-light);
+    border-radius: var(--radius-md);
+    font-family: var(--font-code);
+    font-size: 1rem;
+    outline: none;
+}
+
+.age-counter-input:focus {
+    border-color: var(--primary);
+}
+
+.age-counter-button {
+    padding: var(--spacing-md);
+    background-color: var(--primary);
+    color: white;
+    border: none;
+    border-radius: var(--radius-md);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    margin-top: var(--spacing-sm);
+}
+
+.age-counter-button:hover {
+    background-color: var(--primary-dark);
+    transform: translateY(-2px);
+}
+
+.age-counter-result {
+    margin-top: var(--spacing-lg);
+    padding: var(--spacing-lg);
+    border-radius: var(--radius-md);
+    background-color: var(--gray-light);
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.age-counter-message {
+    margin-bottom: var(--spacing-md);
+    font-weight: 500;
+}
+
+.age-counter-count {
+    font-family: var(--font-code);
+    padding: var(--spacing-xs) var(--spacing-sm);
+    margin-bottom: var(--spacing-xs);
+    border-radius: var(--radius-sm);
+    background-color: rgba(99, 102, 241, 0.1);
+    display: inline-block;
+}
+
+/* Chapter Navigation */
+.chapter-navigation {
+    display: flex;
+    justify-content: space-between;
+    margin-top: var(--spacing-3xl);
+    padding-top: var(--spacing-xl);
+    border-top: 1px solid var(--gray-light);
+}
+
+.nav-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    background-color: white;
+    color: var(--primary);
+    padding: var(--spacing-sm) var(--spacing-lg);
+    border-radius: var(--radius-full);
+    text-decoration: none;
+    font-weight: 600;
+    transition: var(--transition-normal);
+    border: 2px solid var(--primary);
+    cursor: pointer;
+}
+
+.nav-btn:hover {
+    background-color: var(--primary);
+    color: white;
+}
+
+.nav-btn.next {
+    background-color: var(--primary);
+    color: white;
+}
+
+.nav-btn.next:hover {
+    background-color: var(--primary-dark);
+    border-color: var(--primary-dark);
+}
+
+/* Progress Bar */
+.progress-container {
+    position: fixed;
+    top: 70px;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background-color: var(--gray-light);
+    z-index: 99;
+}
+
+.progress-bar {
+    height: 100%;
+    background-color: var(--secondary);
+    width: 0%;
+    transition: width 0.3s ease;
+}
+
+/* Table of Contents */
+.toc {
+    position: sticky;
+    top: 90px;
+    max-height: calc(100vh - 100px);
+    overflow-y: auto;
+    padding-right: var(--spacing-md);
+}
+
+.toc-title {
+    font-size: 1.25rem;
+    margin-bottom: var(--spacing-md);
+    padding-bottom: var(--spacing-sm);
+    border-bottom: 2px solid var(--primary);
+}
+
+.toc-list {
+    list-style: none;
+    margin-left: 0;
+}
+
+.toc-item {
+    margin-bottom: var(--spacing-sm);
+}
+
+.toc-link {
+    display: block;
+    padding: var(--spacing-xs) 0;
+    color: var(--gray);
+    transition: var(--transition-normal);
+    border-left: 2px solid transparent;
+    padding-left: var(--spacing-sm);
+}
+
+.toc-link:hover, .toc-link.active {
+    color: var(--primary);
+    border-left-color: var(--primary);
+    padding-left: var(--spacing-md);
+}
+
+.toc-sublist {
+    list-style: none;
+    margin-left: var(--spacing-lg);
+    margin-bottom: 0;
+}
+
+/* Footer */
+.footer {
+    background-color: var(--dark);
+    color: white;
+    padding: var(--spacing-2xl) 0;
+    margin-top: var(--spacing-3xl);
+}
+
+.footer-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.footer-logo {
+    font-family: var(--font-heading);
+    font-weight: 800;
+    font-size: 1.5rem;
+    color: white;
+}
+
+.footer-links {
+    display: flex;
+    gap: var(--spacing-lg);
+}
+
+.footer-link {
+    color: rgba(255, 255, 255, 0.7);
+    transition: var(--transition-normal);
+}
+
+.footer-link:hover {
+    color: white;
+}
+
+.footer-bottom {
+    margin-top: var(--spacing-lg);
+    padding-top: var(--spacing-lg);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    text-align: center;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.875rem;
+}
+
+/* Responsive Styles */
+@media (max-width: 992px) {
+    .chapter-title {
+        font-size: 2.5rem;
+    }
+    
+    .chapter-layout {
+        grid-template-columns: 1fr;
+    }
+    
+    .toc {
+        display: none;
+    }
+}
+
+@media (max-width: 768px) {
+    .header-container {
+        height: 60px;
+    }
+    
+    .nav {
+        position: fixed;
+        top: 60px;
+        left: 0;
+        width: 100%;
+        height: 0;
+        background-color: white;
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 0 var(--spacing-lg);
+        overflow: hidden;
+        transition: var(--transition-normal);
+        box-shadow: var(--shadow-md);
+        opacity: 0;
+        visibility: hidden;
+    }
+    
+    .nav.active {
+        height: auto;
+        padding: var(--spacing-lg);
+        opacity: 1;
+        visibility: visible;
+    }
+    
+    .mobile-menu-btn {
+        display: block;
+    }
+    
+    .chapter-title {
+        font-size: 2rem;
+    }
+    
+    .chapter-meta {
+        flex-direction: column;
+        gap: var(--spacing-sm);
+    }
+    
+    .chapter-navigation {
+        flex-direction: column;
+        gap: var(--spacing-md);
+    }
+    
+    .nav-btn {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .footer-container {
+        flex-direction: column;
+        gap: var(--spacing-lg);
+        text-align: center;
+    }
+    
+    .history-box {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .history-image {
+        width: 100%;
+        max-width: 200px;
+        margin-bottom: var(--spacing-md);
+    }
+    
+    .loop-inputs {
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 480px) {
+    .python-terminal-body {
+        height: 250px;
+    }
+    
+    .loop-animation-controls {
+        flex-direction: column;
+    }
+    
+    .loop-animation-button {
+        width: 100%;
+    }
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+    animation: fadeIn 0.5s ease-out forwards;
+}
+
+.delay-100 { animation-delay: 100ms; }
+.delay-200 { animation-delay: 200ms; }
+.delay-300 { animation-delay: 300ms; }
+.delay-400 { animation-delay: 400ms; }
+.delay-500 { animation-delay: 500ms; }
+
+/* Layout for chapter content */
+.chapter-layout {
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+    gap: var(--spacing-2xl);
+}
+</style>
+
+<style>
+    /* ========== ESTILOS DEL REPRODUCTOR DE PODCAST ========== */
+    .podcast-player-container .interactive-title::before {
+        content: '🎧'; /* O el emoji que prefieras */
+    }
+
+    .podcast-controls {
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-md);
+        margin-top: var(--spacing-lg);
+    }
+
+    #podcast-play-pause-btn {
+        padding: 0.5rem;
+        width: 50px;
+        height: 50px;
+    }
+
+    #podcast-play-pause-btn svg {
+        width: 100%;
+        height: 100%;
+    }
+
+    .podcast-progress-bar-container {
+        flex-grow: 1;
+    }
+
+    #podcast-progress-bar {
+        width: 100%;
+        -webkit-appearance: none;
+        appearance: none;
+        height: 8px;
+        background: var(--gray-light);
+        border-radius: var(--radius-full);
+        outline: none;
+        cursor: pointer;
+    }
+
+    /* Estilo para Chrome, Safari, Opera, Edge */
+    #podcast-progress-bar::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 20px;
+        height: 20px;
+        background: var(--primary);
+        border-radius: 50%;
+        cursor: pointer;
+        box-shadow: var(--shadow-sm);
+    }
+
+    /* Estilo para Firefox */
+    #podcast-progress-bar::-moz-range-thumb {
+        width: 20px;
+        height: 20px;
+        background: var(--primary);
+        border-radius: 50%;
+        cursor: pointer;
+        border: none;
+    }
+
+    .podcast-time-display {
+        font-family: var(--font-code);
+        font-weight: 500;
+        color: var(--gray);
+        min-width: 100px;
+        text-align: center;
+    }
+</style>
+
+</head>
+<body>
+<!-- Header -->
+<header class="header">
+<div class="container header-container">
+    <a href="../../index.html" class="logo">
+        <span class="logo-icon">P</span>
+        <span>Programación para Mortales</span>
+    </a>
+    
+    <nav class="nav">
+        <a href="../../index.html" class="nav-link">Inicio</a>
+        <a href="../../index.html#chapters" class="nav-link">Capítulos</a>
+        <a href="../../index.html#features" class="nav-link">Características</a>
+        <a href="../../about.html" class="nav-link">Acerca de</a>
+        <a href="cierre-episodio-1.html" class="btn btn-primary">Siguiente Capítulo</a>
+    </nav>
+    
+    <button class="mobile-menu-btn">☰</button>
+</div>
+</header>
+
+<!-- Progress Bar -->
+<div class="progress-container">
+<div class="progress-bar" id="progressBar"></div>
+</div>
+
+<!-- Chapter Header -->
+<section class="chapter-header">
+<div class="container chapter-header-content">
+    <div class="chapter-number animate-fade-in">Capítulo 7</div>
+    <h1 class="chapter-title animate-fade-in delay-100">Hacelo de nuevo! Bucles, repeticiones y automatización</h1>
+    <div class="chapter-meta animate-fade-in delay-200">
+        <div class="chapter-meta-item">
+            <span>⏱️ Tiempo de lectura: 20 minutos</span>
+        </div>
+        <div class="chapter-meta-item">
+            <span>🧩 Actividades: 3</span>
+        </div>
+        <div class="chapter-meta-item">
+            <span>📚 Nivel: Principiante</span>
+        </div>
+    </div>
+</div>
+</section>
+
+
+<section class="chapter-content">
+<div class="container">
+
+
+    
+    <div class="podcast-player-container interactive-section">
+        <h3 class="interactive-title" style="--interactive-icon: '🎧';">Escuchá el resumen en audio</h3>
+        <audio id="podcast-audio" preload="metadata">
+            <source src="../../assets/audio/ppm/E1/capitulo_7.mp3" type="audio/mpeg">
+            Tu navegador no soporta el elemento de audio.
+        </audio>
+        <div class="podcast-controls">
+            <button id="podcast-play-pause-btn" class="btn btn-primary">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+            </button>
+            <div class="podcast-progress-bar-container">
+                <input type="range" id="podcast-progress-bar" value="0" step="1">
+            </div>
+            <div id="podcast-time" class="podcast-time-display">00:00 / 00:00</div>
+        </div>
+        <div class="podcast-external-link" style="margin-top: 1rem;">
+            <a href="https://www.youtube.com/playlist?list=PL2q5bMDgOj6Zg9DWlwBIEWgpXATKYS-YN" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">
+                ▶️ Ver lista de reproducción en YouTube
+            </a>
+        </div> <!-- .podcast-player-container -->
+    </div>
+    
+    <div class="chapter-layout">
+        <div class="content-wrapper">
+            <h2 id="repetir-muchas-veces">🌀 ¿Y si quiero que la compu haga algo... muchas veces?</h2>
+            
+            <p>Si tuvieses que escribir "hola" 5 veces seguidas, son pocas, pero lo primero que se nos viene a la mente es escribir 5 veces print("hola"), por ejemplo algo así:</p>
+            
+            <div class="code-block">
+                <div class="code-block-header">
+                    <div class="code-block-title">Python</div>
+                    <div class="code-block-actions">
+                        <button class="code-block-action copy-btn" data-code='print("Hola")
+print("Hola")
+print("Hola")
+print("Hola")
+print("Hola")'>Copiar</button>
+                    </div>
+                </div>
+                <pre><code>print("Hola")
+print("Hola")
+print("Hola")
+print("Hola")
+print("Hola")</code></pre>
+            </div>
+            
+            <p>Pero así no lo hacen los programadores mortales. ¿Qué pasa si quiero que lo haga 100 veces? ¿O 10.000? ¿Y si quiero que lo haga mientras alguien no diga "basta"? 🤯</p>
+            
+            <p>Acá entra en escena una herramienta espectacular: los bucles.</p>
+            
+            <h2 id="historia-bucles">📜 ¿Quién inventó la idea del bucle?</h2>
+            
+            <div class="history-box">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Ada_Lovelace_portrait.jpg/800px-Ada_Lovelace_portrait.jpg" alt="Ada Lovelace" class="history-image">
+                <div class="history-content">
+                    <div class="history-title">Ada Lovelace: La primera programadora</div>
+                    <div class="history-text">
+                        <p>Por 1843, una matemática llamada Ada Lovelace escribió las primeras instrucciones para una máquina que ni siquiera existía todavía: la máquina analítica de Charles Babbage.</p>
+                        <p>Ada no solo era una genia de las matemáticas, sino que también tenía una gran imaginación. En sus anotaciones describió algo muy parecido a lo que hoy llamamos bucle: una serie de pasos que podían repetirse.</p>
+                        <p>Fue la primera persona en imaginar un programa con lógica repetitiva y no solo eso, ¡una mujer pionera en la computación!</p>
+                    </div>
+                </div>
+            </div>
+            
+            <p>Después, en los años 50 y 60, cuando aparecieron los primeros lenguajes de programación como FORTRAN, BASIC o COBOL, los bucles se volvieron una herramienta esencial. Aparecían con palabras como GOTO, FOR, WHILE... y marcaron el comienzo de la programación moderna.</p>
+            
+            <h2 id="que-es-bucle">🔁 ¿Qué es un bucle?</h2>
+            
+            <p>Un bucle (o loop) es una estructura que repite instrucciones automáticamente. Le decimos a la computadora:</p>
+            
+            <p>"Mientras algo pase... seguí haciendo esto".</p>
+            <p>O también:</p>
+            <p>"Hacelo X cantidad de veces".</p>
+            
+            <p>Hay dos tipos principales de bucles en Python:</p>
+            <ul>
+                <li><code>while</code> → mientras algo sea verdadero, seguí repitiendo.</li>
+                <li><code>for</code> → repetilo una cantidad de veces definida.</li>
+            </ul>
+            
+            <h2 id="bucle-while">🧠 Bucle while: repetí mientras sea cierto</h2>
+            
+            <p>Vamos con un ejemplo simple:</p>
+            
+            <div class="code-block">
+                <div class="code-block-header">
+                    <div class="code-block-title">Python</div>
+                    <div class="code-block-actions">
+                        <button class="code-block-action copy-btn" data-code='contador = 1
+while contador <= 5:
+    print("Hola", contador)
+    contador = contador + 1'>Copiar</button>
+                    </div>
+                </div>
+                <pre><code>contador = 1
+while contador <= 5:
+    print("Hola", contador)
+    contador = contador + 1</code></pre>
+            </div>
+            
+            <p>¿Qué pasa acá?</p>
+            <ol>
+                <li>Creamos una variable llamada <code>contador</code> que vale 1.</li>
+                <li>Usamos <code>while contador <= 5:</code> → que significa: "mientras el contador sea menor o igual a 5".</li>
+                <li>Dentro del bucle, mostramos un mensaje y sumamos 1 al contador.</li>
+            </ol>
+            
+            <p>💡 Resultado: se imprime "Hola 1", "Hola 2", hasta llegar a 5.</p>
+            
+            <div class="note-box">
+                <p>📌 ¿Y si nunca se cumple la condición? El bucle puede repetirse infinitamente. Por eso hay que tener cuidado de siempre hacer que eventualmente la condición se vuelva falsa.</p>
+            </div>
+            
+            <!-- Actividad 1: Visualizador de While -->
+            <div class="interactive-section">
+                <h3 class="interactive-title">Actividad 1: Visualizador de While</h3>
+                
+                <p>🎯 <strong>Objetivo:</strong> Entender cómo funciona un bucle while y cómo cambia el contador en cada iteración.</p>
+                
+                <div class="loop-visualizer">
+                    <div class="loop-container">
+                        <div class="loop-header">
+                            <span>Bucle While:</span>
+                        </div>
+                        
+                        <div class="loop-inputs">
+                            <div class="loop-input-group">
+                                <label class="loop-input-label">Valor inicial:</label>
+                                <input type="number" class="loop-input" id="whileStartInput" value="1">
+                            </div>
+                            <div class="loop-input-group">
+                                <label class="loop-input-label">Valor final:</label>
+                                <input type="number" class="loop-input" id="whileEndInput" value="5">
+                            </div>
+                        </div>
+                        
+                        <button class="loop-execute" id="executeWhileBtn">Ejecutar bucle</button>
+                        
+                        <div class="loop-result" id="whileResult"></div>
+                    </div>
+                    
+                    <div class="loop-animation">
+                        <div class="loop-animation-container" id="whileAnimationContainer">
+                            <div class="loop-animation-item" id="whileAnimationItem">1</div>
+                        </div>
+                        <div class="loop-animation-controls">
+                            <button class="loop-animation-button" id="whileAnimationStartBtn">Iniciar animación</button>
+                            <button class="loop-animation-button reset" id="whileAnimationResetBtn">Reiniciar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <h2 id="bucle-for">🔢 Bucle for: repetí algo una cantidad exacta de veces</h2>
+            
+            <p>El otro tipo de bucle se llama <code>for</code>. Acá usamos algo llamado <code>range()</code> que genera una secuencia de números.</p>
+            
+            <div class="code-block">
+                <div class="code-block-header">
+                    <div class="code-block-title">Python</div>
+                    <div class="code-block-actions">
+                        <button class="code-block-action copy-btn" data-code='for i in range(5):
+    print("Hola", i)'>Copiar</button>
+                    </div>
+                </div>
+                <pre><code>for i in range(5):
+    print("Hola", i)</code></pre>
+            </div>
+            
+            <p>Esto hace lo mismo que antes, pero de una forma más compacta.</p>
+            
+            <p>🔎 ¿Qué es <code>i</code>? Es una variable temporaria que va cambiando su valor en cada vuelta del bucle. En este caso, arranca en 0 y termina en 4.</p>
+            
+            <p>📌 ¿Y si quiero que arranque desde 1? Fácil:</p>
+            
+            <div class="code-block">
+                <div class="code-block-header">
+                    <div class="code-block-title">Python</div>
+                    <div class="code-block-actions">
+                        <button class="code-block-action copy-btn" data-code='for i in range(1, 6):
+    print("Hola", i)'>Copiar</button>
+                    </div>
+                </div>
+                <pre><code>for i in range(1, 6):
+    print("Hola", i)</code></pre>
+            </div>
+            
+            <!-- Actividad 2: Visualizador de For -->
+            <div class="interactive-section">
+                <h3 class="interactive-title">Actividad 2: Visualizador de For</h3>
+                
+                <p>🎯 <strong>Objetivo:</strong> Entender cómo funciona un bucle for y cómo cambia la variable i en cada iteración.</p>
+                
+                <div class="loop-visualizer">
+                    <div class="loop-container">
+                        <div class="loop-header">
+                            <span>Bucle For:</span>
+                        </div>
+                        
+                        <div class="loop-inputs">
+                            <div class="loop-input-group">
+                                <label class="loop-input-label">Valor inicial:</label>
+                                <input type="number" class="loop-input" id="forStartInput" value="0">
+                            </div>
+                            <div class="loop-input-group">
+                                <label class="loop-input-label">Valor final:</label>
+                                <input type="number" class="loop-input" id="forEndInput" value="5">
+                            </div>
+                        </div>
+                        
+                        <button class="loop-execute" id="executeForBtn">Ejecutar bucle</button>
+                        
+                        <div class="loop-result" id="forResult"></div>
+                    </div>
+                    
+                    <div class="loop-animation">
+                        <div class="loop-animation-container" id="forAnimationContainer">
+                            <div class="loop-animation-item" id="forAnimationItem">0</div>
+                        </div>
+                        <div class="loop-animation-controls">
+                            <button class="loop-animation-button" id="forAnimationStartBtn">Iniciar animación</button>
+                            <button class="loop-animation-button reset" id="forAnimationResetBtn">Reiniciar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <h2 id="cuando-usar">🧩 ¿Cuándo uso uno y cuándo el otro?</h2>
+            
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Caso</th>
+                        <th>Usá for</th>
+                        <th>Usá while</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Sabés cuántas veces repetir</td>
+                        <td class="check">✅</td>
+                        <td class="cross">❌</td>
+                    </tr>
+                    <tr>
+                        <td>No sabés cuántas veces, depende de algo externo</td>
+                        <td class="cross">❌</td>
+                        <td class="check">✅</td>
+                    </tr>
+                    <tr>
+                        <td>Querés recorrer una lista o conjunto</td>
+                        <td class="check">✅</td>
+                        <td class="cross">❌</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <h2 id="bucle-infinito">🧠 Tip: El bucle infinito (¡con cuidado!)</h2>
+            
+            <p>Si hacés esto:</p>
+            
+            <div class="code-block">
+                <div class="code-block-header">
+                    <div class="code-block-title">Python</div>
+                    <div class="code-block-actions">
+                        <button class="code-block-action copy-btn" data-code='while True:
+    print("Nunca voy a parar 😵")'>Copiar</button>
+                    </div>
+                </div>
+                <pre><code>while True:
+    print("Nunca voy a parar 😵")</code></pre>
+            </div>
+            
+            <p>¡Cuidado! Este bucle nunca termina, porque <code>True</code> siempre es verdadero.</p>
+            <p>Para frenarlo necesitás presionar Ctrl + C (o cerrar la terminal).</p>
+            
+            <!-- Actividad 3: Tu edad tiene algo para decir -->
+            <div class="interactive-section">
+                <h3 class="interactive-title">Actividad 3: ¡Tu edad tiene algo para decir!</h3>
+                
+                <p>🎯 <strong>Objetivo:</strong> Crear un programa que detecte tu etapa de vida y haga un conteo hasta tu edad.</p>
+                
+                <div class="age-counter">
+                    <div class="age-counter-form">
+                        <div class="age-counter-input-group">
+                            <label class="age-counter-label">¿Cómo te llamás?</label>
+                            <input type="text" class="age-counter-input" id="nameInput" placeholder="Tu nombre">
+                        </div>
+                        <div class="age-counter-input-group">
+                            <label class="age-counter-label">¿Cuántos años tenés?</label>
+                            <input type="number" class="age-counter-input" id="ageInput" placeholder="Tu edad">
+                        </div>
+                        <button class="age-counter-button" id="runAgeCounterBtn">Ejecutar programa</button>
+                    </div>
+                    
+                    <div class="age-counter-result" id="ageCounterResult">
+                        <p>Completá el formulario y hacé clic en "Ejecutar programa" para ver el resultado.</p>
+                    </div>
+                </div>
+                
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <div class="code-block-title">Python</div>
+                        <div class="code-block-actions">
+                            <button class="code-block-action copy-btn" data-code='nombre = input("¿Cómo te llamás? ")
+edad = int(input("¿Cuántos años tenés? "))
+
+print("Analizando tu perfil... 🤔")
+
+if edad < 13:
+    print("👶 Hola", nombre + ", sos un niño/a. ¡A disfrutar los juegos y los dibujos!")
+elif edad >= 13 and edad < 18:
+    print("🧑‍🎓 Hola", nombre + ", estás en plena adolescencia. ¡Etapa de cambios y aventuras!")
+else:
+    print("🧑‍💼 Hola", nombre + ", sos una persona adulta. ¡El mundo te necesita!")
+
+print("Vamos a hacer un conteo épico hasta tu edad...")
+print("🚀 Preparando despegue...")
+
+for i in range(1, edad + 1):
+    print("🔹 Edad:", i)
+
+print("🎉 ¡Listo! Ya conté hasta tu edad, " + nombre + ". ¡Qué viaje!")'>Copiar</button>
+                        </div>
+                    </div>
+                    <pre><code>nombre = input("¿Cómo te llamás? ")
+edad = int(input("¿Cuántos años tenés? "))
+
+print("Analizando tu perfil... 🤔")
+
+if edad < 13:
+    print("👶 Hola", nombre + ", sos un niño/a. ¡A disfrutar los juegos y los dibujos!")
+elif edad >= 13 and edad < 18:
+    print("🧑‍🎓 Hola", nombre + ", estás en plena adolescencia. ¡Etapa de cambios y aventuras!")
+else:
+    print("🧑‍💼 Hola", nombre + ", sos una persona adulta. ¡El mundo te necesita!")
+
+print("Vamos a hacer un conteo épico hasta tu edad...")
+print("🚀 Preparando despegue...")
+
+for i in range(1, edad + 1):
+    print("🔹 Edad:", i)
+
+print("🎉 ¡Listo! Ya conté hasta tu edad, " + nombre + ". ¡Qué viaje!")</code></pre>
+                </div>
+                
+                <p>💡 <strong>¿Qué cosas nuevas usás en este ejercicio?</strong></p>
+                <ul>
+                    <li><code>input()</code> para pedirle datos al usuario</li>
+                    <li><code>int()</code> para convertir el texto a número</li>
+                    <li><code>if</code>, <code>elif</code>, <code>else</code> para tomar decisiones</li>
+                    <li><code>for</code> + <code>range()</code> para repetir algo</li>
+                    <li>Concatenación de strings y emojis para darle onda 😉</li>
+                </ul>
+                
+                <p>🎯 <strong>Desafíos extra (si te animás):</strong></p>
+                <ul>
+                    <li>Hacé que después del conteo, el programa diga cuántos años faltan para los 100.</li>
+                    <li>Si el usuario tiene menos de 5 años, que diga: "¡Wow, sos muy chiquito para estar programando!" 😄</li>
+                    <li>Hacé que el mensaje final diga cuántas vueltas dio el bucle usando <code>print("Di", i, "vueltas")</code>.</li>
+                </ul>
+            </div>
+            
+            <h2 id="cierre">✅ Cierre del capítulo</h2>
+            
+            <div class="highlight-box">
+                <p>Hoy aprendiste que podés hacer que la compu repita tareas automáticamente. Con <code>for</code> y <code>while</code>, podés recorrer, contar, repetir y automatizar un montón de cosas.</p>
+                
+                <p>Desde ahora, ya no hace falta copiar y pegar mil veces un <code>print()</code>. ¡La compu puede hacerlo sola!</p>
+                
+                <p>En el próximo capítulo, vamos a aprender a organizar nuestro código en funciones reutilizables, para que nuestros programas sean más ordenados y fáciles de mantener.</p>
+            </div>
+            
+            <!-- Navegación entre capítulos -->
+            <div class="chapter-navigation">
+                <a href="capitulo-6.html" class="nav-btn">
+                    <span>←</span> Capítulo anterior
+                </a>
+                <a href="cierre-episodio-1.html" class="nav-btn next">
+                    Siguiente capítulo <span>→</span>
+                </a>
+            </div>
+        </div>
+        
+        <!-- Tabla de contenidos -->
+        <aside class="toc">
+            <h3 class="toc-title">Contenido del capítulo</h3>
+            <ul class="toc-list">
+                <li class="toc-item">
+                    <a href="#repetir-muchas-veces" class="toc-link">¿Y si quiero que la compu haga algo... muchas veces?</a>
+                </li>
+                <li class="toc-item">
+                    <a href="#historia-bucles" class="toc-link">¿Quién inventó la idea del bucle?</a>
+                </li>
+                <li class="toc-item">
+                    <a href="#que-es-bucle" class="toc-link">¿Qué es un bucle?</a>
+                </li>
+                <li class="toc-item">
+                    <a href="#bucle-while" class="toc-link">Bucle while: repetí mientras sea cierto</a>
+                </li>
+                <li class="toc-item">
+                    <a href="#bucle-for" class="toc-link">Bucle for: repetí algo una cantidad exacta de veces</a>
+                </li>
+                <li class="toc-item">
+                    <a href="#cuando-usar" class="toc-link">¿Cuándo uso uno y cuándo el otro?</a>
+                </li>
+                <li class="toc-item">
+                    <a href="#bucle-infinito" class="toc-link">Tip: El bucle infinito (¡con cuidado!)</a>
+                </li>
+                <li class="toc-item">
+                    <a href="#cierre" class="toc-link">Cierre del capítulo</a>
+                </li>
+            </ul>
+        </aside>
+    </div>
+</div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+<div class="container">
+    <div class="footer-container">
+        <a href="../index.html" class="footer-logo">Programación para Mortales</a>
+        
+        <div class="footer-links">
+            <a href="../index.html" class="footer-link">Inicio</a>
+            <a href="../indice.html" class="footer-link">Índice completo</a>
+            <a href="../about.html" class="footer-link">Acerca de</a>
+            <a href="../terminos-y-condiciones.html" class="footer-link">Términos y condiciones</a>
+        </div>
+    </div>
+    
+    <div class="footer-bottom">
+        <p>&copy; 2025 Programación para Mortales. Todos los derechos reservados.</p>
+    </div>
+</div>
+</footer>
+
+<script>
+// Mobile Menu Toggle
+const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+const nav = document.querySelector('.nav');
+
+mobileMenuBtn.addEventListener('click', () => {
+    nav.classList.toggle('active');
+});
+
+// Header Scroll Effect
+const header = document.querySelector('.header');
+
+window.addEventListener('scroll', () => {
+    if (window.scrollY > 50) {
+        header.classList.add('scrolled');
+    } else {
+        header.classList.remove('scrolled');
+    }
+});
+
+// Reading Progress Bar
+const progressBar = document.getElementById('progressBar');
+
+window.addEventListener('scroll', () => {
+    const windowHeight = window.innerHeight;
+    const documentHeight = document.documentElement.scrollHeight - windowHeight;
+    const scrollTop = window.scrollY;
+    const progress = (scrollTop / documentHeight) * 100;
+    progressBar.style.width = progress + '%';
+});
+
+// Table of Contents Active Link
+const tocLinks = document.querySelectorAll('.toc-link');
+const sections = document.querySelectorAll('h2, h3');
+
+window.addEventListener('scroll', () => {
+    let current = '';
+    
+    sections.forEach(section => {
+        const sectionTop = section.offsetTop - 100;
+        if (window.scrollY >= sectionTop) {
+            current = section.getAttribute('id');
+        }
+    });
+    
+    tocLinks.forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('href').substring(1) === current) {
+            link.classList.add('active');
+        }
+    });
+});
+
+// Copy Code Button
+const copyButtons = document.querySelectorAll('.copy-btn');
+
+copyButtons.forEach(button => {
+    button.addEventListener('click', () => {
+        const code = button.dataset.code;
+        navigator.clipboard.writeText(code);
+        
+        // Change button text temporarily
+        const originalText = button.textContent;
+        button.textContent = '¡Copiado!';
+        button.style.backgroundColor = 'var(--success)';
+        button.style.color = 'white';
+        
+        setTimeout(() => {
+            button.textContent = originalText;
+            button.style.backgroundColor = '';
+            button.style.color = '';
+        }, 2000);
+    });
+});
+
+// While Loop Visualizer
+const whileStartInput = document.getElementById('whileStartInput');
+const whileEndInput = document.getElementById('whileEndInput');
+const executeWhileBtn = document.getElementById('executeWhileBtn');
+const whileResult = document.getElementById('whileResult');
+const whileAnimationItem = document.getElementById('whileAnimationItem');
+const whileAnimationStartBtn = document.getElementById('whileAnimationStartBtn');
+const whileAnimationResetBtn = document.getElementById('whileAnimationResetBtn');
+
+executeWhileBtn.addEventListener('click', () => {
+    const start = parseInt(whileStartInput.value);
+    const end = parseInt(whileEndInput.value);
+    
+    whileResult.innerHTML = '';
+    
+    let counter = start;
+    while (counter <= end) {
+        const line = document.createElement('div');
+        line.textContent = `Hola ${counter}`;
+        whileResult.appendChild(line);
+        counter++;
+    }
+    
+    // Reset animation
+    whileAnimationItem.textContent = start;
+    whileAnimationItem.style.left = '0';
+});
+
+whileAnimationStartBtn.addEventListener('click', () => {
+    const start = parseInt(whileStartInput.value);
+    const end = parseInt(whileEndInput.value);
+    
+    let counter = start;
+    let position = 0;
+    
+    whileAnimationItem.textContent = counter;
+    whileAnimationItem.style.left = position + 'px';
+    
+    const animationInterval = setInterval(() => {
+        counter++;
+        position += 50;
+        
+        if (counter <= end) {
+            whileAnimationItem.textContent = counter;
+            whileAnimationItem.style.left = position + 'px';
+        } else {
+            clearInterval(animationInterval);
+        }
+    }, 1000);
+});
+
+whileAnimationResetBtn.addEventListener('click', () => {
+    const start = parseInt(whileStartInput.value);
+    whileAnimationItem.textContent = start;
+    whileAnimationItem.style.left = '0';
+});
+
+// For Loop Visualizer
+const forStartInput = document.getElementById('forStartInput');
+const forEndInput = document.getElementById('forEndInput');
+const executeForBtn = document.getElementById('executeForBtn');
+const forResult = document.getElementById('forResult');
+const forAnimationItem = document.getElementById('forAnimationItem');
+const forAnimationStartBtn = document.getElementById('forAnimationStartBtn');
+const forAnimationResetBtn = document.getElementById('forAnimationResetBtn');
+
+executeForBtn.addEventListener('click', () => {
+    const start = parseInt(forStartInput.value);
+    const end = parseInt(forEndInput.value);
+    
+    forResult.innerHTML = '';
+    
+    for (let i = start; i < end; i++) {
+        const line = document.createElement('div');
+        line.textContent = `Hola ${i}`;
+        forResult.appendChild(line);
+    }
+    
+    // Reset animation
+    forAnimationItem.textContent = start;
+    forAnimationItem.style.left = '0';
+});
+
+forAnimationStartBtn.addEventListener('click', () => {
+    const start = parseInt(forStartInput.value);
+    const end = parseInt(forEndInput.value);
+    
+    let counter = start;
+    let position = 0;
+    
+    forAnimationItem.textContent = counter;
+    forAnimationItem.style.left = position + 'px';
+    
+    const animationInterval = setInterval(() => {
+        counter++;
+        position += 50;
+        
+        if (counter < end) {
+            forAnimationItem.textContent = counter;
+            forAnimationItem.style.left = position + 'px';
+        } else {
+            clearInterval(animationInterval);
+        }
+    }, 1000);
+});
+
+forAnimationResetBtn.addEventListener('click', () => {
+    const start = parseInt(forStartInput.value);
+    forAnimationItem.textContent = start;
+    forAnimationItem.style.left = '0';
+});
+
+// Age Counter Activity
+const nameInput = document.getElementById('nameInput');
+const ageInput = document.getElementById('ageInput');
+const runAgeCounterBtn = document.getElementById('runAgeCounterBtn');
+const ageCounterResult = document.getElementById('ageCounterResult');
+
+runAgeCounterBtn.addEventListener('click', () => {
+    const nombre = nameInput.value;
+    const edad = parseInt(ageInput.value);
+    
+    if (!nombre || isNaN(edad)) {
+        ageCounterResult.innerHTML = '<p style="color: var(--danger);">Por favor, completá todos los campos correctamente.</p>';
+        return;
+    }
+    
+    ageCounterResult.innerHTML = '';
+    
+    // Analyzing profile
+    const profileMessage = document.createElement('p');
+    profileMessage.className = 'age-counter-message';
+    profileMessage.textContent = 'Analizando tu perfil... 🤔';
+    ageCounterResult.appendChild(profileMessage);
+    
+    // Age category message
+    const categoryMessage = document.createElement('p');
+    categoryMessage.className = 'age-counter-message';
+    
+    if (edad < 5) {
+        categoryMessage.innerHTML = `👶 Hola ${nombre}, ¡wow, sos muy chiquito para estar programando! ¡Impresionante!`;
+    } else if (edad < 13) {
+        categoryMessage.innerHTML = `👶 Hola ${nombre}, sos un niño/a. ¡A disfrutar los juegos y los dibujos!`;
+    } else if (edad >= 13 && edad < 18) {
+        categoryMessage.innerHTML = `🧑‍🎓 Hola ${nombre}, estás en plena adolescencia. ¡Etapa de cambios y aventuras!`;
+    } else {
+        categoryMessage.innerHTML = `🧑‍💼 Hola ${nombre}, sos una persona adulta. ¡El mundo te necesita!`;
+    }
+    
+    ageCounterResult.appendChild(categoryMessage);
+    
+    // Countdown message
+    const countdownIntro = document.createElement('p');
+    countdownIntro.className = 'age-counter-message';
+    countdownIntro.innerHTML = 'Vamos a hacer un conteo épico hasta tu edad...<br>🚀 Preparando despegue...';
+    ageCounterResult.appendChild(countdownIntro);
+    
+    // Age countdown
+    for (let i = 1; i <= edad; i++) {
+        const countItem = document.createElement('div');
+        countItem.className = 'age-counter-count';
+        countItem.textContent = `🔹 Edad: ${i}`;
+        ageCounterResult.appendChild(countItem);
+    }
+    
+    // Final message
+    const finalMessage = document.createElement('p');
+    finalMessage.className = 'age-counter-message';
+    finalMessage.innerHTML = `🎉 ¡Listo! Ya conté hasta tu edad, ${nombre}. ¡Qué viaje!`;
+    ageCounterResult.appendChild(finalMessage);
+    
+    // Extra challenge: Years to 100
+    const yearsTo100 = 100 - edad;
+    const extraMessage = document.createElement('p');
+    extraMessage.className = 'age-counter-message';
+    extraMessage.innerHTML = `🎂 Te faltan ${yearsTo100} años para llegar a los 100. ¡Seguí programando!`;
+    ageCounterResult.appendChild(extraMessage);
+    
+    // Extra challenge: Loop count
+    const loopMessage = document.createElement('p');
+    loopMessage.className = 'age-counter-message';
+    loopMessage.innerHTML = `🔄 Di ${edad} vueltas en el bucle para contar tu edad.`;
+    ageCounterResult.appendChild(loopMessage);
+});
+</script>
+
+<script>
+    // ========== SCRIPT DEL REPRODUCTOR DE PODCAST ==========
+    const audio = document.getElementById('podcast-audio');
+    const playPauseBtn = document.getElementById('podcast-play-pause-btn');
+    const playIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>';
+    const pauseIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>';
+    const podcastProgressBar = document.getElementById('podcast-progress-bar');
+    const timeDisplay = document.getElementById('podcast-time');
+
+    function togglePlayPause() {
+        if (audio.paused) {
+            audio.play();
+            playPauseBtn.innerHTML = pauseIcon;
+        } else {
+            audio.pause();
+            playPauseBtn.innerHTML = playIcon;
+        }
+    }
+
+    function formatTime(seconds) {
+        const minutes = Math.floor(seconds / 60);
+        
+        const secs = Math.floor(seconds % 60);
+        return `${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+    }
+
+    function updateProgress() {
+        podcastProgressBar.value = (audio.currentTime / audio.duration) * 100 || 0;
+        timeDisplay.textContent = `${formatTime(audio.currentTime)} / ${formatTime(audio.duration || 0)}`;
+    }
+
+    playPauseBtn.addEventListener('click', togglePlayPause);
+    audio.addEventListener('timeupdate', updateProgress);
+    audio.addEventListener('loadedmetadata', updateProgress);
+
+    podcastProgressBar.addEventListener('input', () => {
+        const seekTime = (podcastProgressBar.value / 100) * audio.duration;
+        audio.currentTime = seekTime;
+    });
+
+    // Cuando el audio termina
+    audio.addEventListener('ended', () => {
+        playPauseBtn.innerHTML = playIcon;
+        audio.currentTime = 0;
+        podcastProgressBar.value = 0;
+    });
+</script>
+
+</body>
+</html>

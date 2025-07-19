@@ -1,0 +1,2278 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hablando con la compu por primera vez - Programación para Mortales</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@300;400;500;600;700&family=Fira+Code:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root {
+    /* Paleta de colores vibrante y moderna */
+    --primary: #6366f1;
+    --primary-dark: #4f46e5;
+    --primary-light: #a5b4fc;
+    --secondary: #ec4899;
+    --secondary-dark: #db2777;
+    --accent: #06b6d4;
+    --success: #10b981;
+    --warning: #f59e0b;
+    --danger: #ef4444;
+    --dark: #0f172a;
+    --dark-blue: #1e293b;
+    --light: #f8fafc;
+    --gray: #64748b;
+    --gray-light: #e2e8f0;
+    
+    /* Tipografía */
+    --font-heading: 'Space Grotesk', sans-serif;
+    --font-body: 'Outfit', sans-serif;
+    --font-code: 'Fira Code', monospace;
+    
+    /* Espaciado */
+    --spacing-xs: 0.25rem;
+    --spacing-sm: 0.5rem;
+    --spacing-md: 1rem;
+    --spacing-lg: 1.5rem;
+    --spacing-xl: 2rem;
+    --spacing-2xl: 3rem;
+    --spacing-3xl: 4rem;
+    
+    /* Bordes y sombras */
+    --radius-sm: 0.25rem;
+    --radius-md: 0.5rem;
+    --radius-lg: 1rem;
+    --radius-xl: 1.5rem;
+    --radius-full: 9999px;
+    
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    
+    /* Transiciones */
+    --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-normal: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-slow: 500ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 16px;
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: var(--font-body);
+    color: var(--dark);
+    background-color: var(--light);
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: var(--spacing-lg);
+    color: var(--dark);
+}
+
+h1 {
+    font-size: 3rem;
+}
+
+h2 {
+    font-size: 2.25rem;
+    margin-top: var(--spacing-2xl);
+    position: relative;
+    padding-bottom: var(--spacing-sm);
+}
+
+h2::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 80px;
+    height: 4px;
+    background: var(--primary);
+    border-radius: 2px;
+}
+
+h3 {
+    font-size: 1.75rem;
+    margin-top: var(--spacing-xl);
+    color: var(--primary-dark);
+}
+
+p {
+    margin-bottom: var(--spacing-lg);
+    font-size: 1.125rem;
+}
+
+a {
+    text-decoration: none;
+    color: var(--primary);
+    transition: var(--transition-normal);
+}
+
+a:hover {
+    color: var(--primary-dark);
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    border-radius: var(--radius-md);
+}
+
+/* Layout */
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 var(--spacing-lg);
+}
+
+/* Header */
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 100;
+    background-color: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(10px);
+    box-shadow: var(--shadow-sm);
+    transition: var(--transition-normal);
+}
+
+.header.scrolled {
+    box-shadow: var(--shadow-md);
+}
+
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 70px;
+}
+
+.logo {
+    font-family: var(--font-heading);
+    font-weight: 800;
+    font-size: 1.5rem;
+    color: var(--primary);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+.logo-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    background-color: var(--primary);
+    color: white;
+    border-radius: var(--radius-md);
+    font-weight: 700;
+}
+
+.nav {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xl);
+}
+
+.nav-link {
+    font-weight: 500;
+    color: var(--dark);
+    position: relative;
+}
+
+.nav-link:hover {
+    color: var(--primary);
+}
+
+.nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: var(--primary);
+    transition: var(--transition-normal);
+}
+
+.nav-link:hover::after {
+    width: 100%;
+}
+
+.nav-link.active {
+    color: var(--primary);
+}
+
+.nav-link.active::after {
+    width: 100%;
+}
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.75rem 1.5rem;
+    font-weight: 600;
+    border-radius: var(--radius-full);
+    transition: var(--transition-normal);
+    gap: var(--spacing-sm);
+}
+
+.btn-primary {
+    background-color: var(--primary);
+    color: white;
+    box-shadow: var(--shadow-md);
+}
+
+.btn-primary:hover {
+    background-color: var(--primary-dark);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+}
+
+.mobile-menu-btn {
+    display: none;
+    font-size: 1.5rem;
+    color: var(--dark);
+    cursor: pointer;
+    border: none;
+    background: none;
+}
+
+/* Chapter Header */
+.chapter-header {
+    padding-top: 120px;
+    padding-bottom: var(--spacing-2xl);
+    background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+    color: white;
+    position: relative;
+    overflow: hidden;
+}
+
+.chapter-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    opacity: 0.5;
+}
+
+.chapter-header-content {
+    position: relative;
+    z-index: 1;
+}
+
+.chapter-number {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: var(--spacing-sm);
+    opacity: 0.9;
+}
+
+.chapter-title {
+    font-size: 3.5rem;
+    margin-bottom: var(--spacing-lg);
+    color: white;
+}
+
+.chapter-meta {
+    display: flex;
+    gap: var(--spacing-lg);
+    font-size: 1.125rem;
+    opacity: 0.9;
+}
+
+.chapter-meta-item {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+/* Chapter Content */
+.chapter-content {
+    padding: var(--spacing-3xl) 0;
+}
+
+.content-wrapper {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+/* Highlighted Boxes */
+.highlight-box {
+    background-color: rgba(99, 102, 241, 0.1);
+    border-left: 4px solid var(--primary);
+    padding: var(--spacing-lg);
+    border-radius: 0 var(--radius-md) var(--radius-md) 0;
+    margin: var(--spacing-xl) 0;
+}
+
+.note-box {
+    background-color: rgba(236, 72, 153, 0.1);
+    border-left: 4px solid var(--secondary);
+    padding: var(--spacing-lg);
+    border-radius: 0 var(--radius-md) var(--radius-md) 0;
+    margin: var(--spacing-xl) 0;
+}
+
+/* Lists */
+ul, ol {
+    margin: 0 0 var(--spacing-lg) var(--spacing-xl);
+}
+
+li {
+    margin-bottom: var(--spacing-sm);
+}
+
+.feature-list {
+    list-style: none;
+    margin-left: 0;
+}
+
+.feature-list li {
+    position: relative;
+    padding-left: var(--spacing-xl);
+    margin-bottom: var(--spacing-md);
+}
+
+.feature-list li::before {
+    content: "✓";
+    position: absolute;
+    left: 0;
+    color: var(--success);
+    font-weight: bold;
+}
+
+/* Code Blocks */
+pre {
+    background-color: var(--dark-blue);
+    color: white;
+    padding: var(--spacing-lg);
+    border-radius: var(--radius-md);
+    overflow-x: auto;
+    margin: var(--spacing-lg) 0;
+    font-family: var(--font-code);
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+code {
+    font-family: var(--font-code);
+    background-color: var(--gray-light);
+    padding: 0.2rem 0.4rem;
+    border-radius: var(--radius-sm);
+    font-size: 0.9em;
+}
+
+pre code {
+    background-color: transparent;
+    padding: 0;
+    border-radius: 0;
+    font-size: 1em;
+}
+
+.code-block {
+    position: relative;
+    margin: var(--spacing-lg) 0;
+}
+
+.code-block-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: var(--dark);
+    color: white;
+    padding: var(--spacing-sm) var(--spacing-lg);
+    border-radius: var(--radius-md) var(--radius-md) 0 0;
+    font-family: var(--font-code);
+    font-size: 0.9rem;
+}
+
+.code-block-title {
+    font-weight: 600;
+}
+
+.code-block-actions {
+    display: flex;
+    gap: var(--spacing-sm);
+}
+
+.code-block-action {
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.7);
+    cursor: pointer;
+    transition: var(--transition-normal);
+    font-size: 0.9rem;
+    padding: 2px 8px;
+    border-radius: var(--radius-sm);
+}
+
+.code-block-action:hover {
+    color: white;
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.code-block pre {
+    margin: 0;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+
+/* Terminal Simulator */
+.terminal-container {
+    background-color: var(--dark-blue);
+    border-radius: var(--radius-md);
+    padding: var(--spacing-lg);
+    margin: var(--spacing-xl) 0;
+    font-family: var(--font-code);
+    color: white;
+}
+
+.terminal-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: var(--spacing-md);
+}
+
+.terminal-title {
+    font-size: 1rem;
+    margin-left: var(--spacing-md);
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.terminal-dots {
+    display: flex;
+    gap: 6px;
+}
+
+.terminal-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+}
+
+.terminal-dot-red {
+    background-color: #ff5f56;
+}
+
+.terminal-dot-yellow {
+    background-color: #ffbd2e;
+}
+
+.terminal-dot-green {
+    background-color: #27c93f;
+}
+
+.terminal-body {
+    height: 300px;
+    overflow-y: auto;
+    padding: var(--spacing-md);
+    background-color: rgba(0, 0, 0, 0.3);
+    border-radius: var(--radius-sm);
+    line-height: 1.5;
+}
+
+.terminal-output {
+    margin-bottom: var(--spacing-sm);
+    white-space: pre-wrap;
+}
+
+.terminal-prompt {
+    display: flex;
+    align-items: center;
+    margin-bottom: var(--spacing-sm);
+}
+
+.terminal-prompt-symbol {
+    color: var(--success);
+    margin-right: var(--spacing-sm);
+    font-weight: bold;
+}
+
+.terminal-input {
+    background: none;
+    border: none;
+    color: white;
+    font-family: var(--font-code);
+    font-size: 0.9rem;
+    width: 100%;
+    outline: none;
+}
+
+/* Python Terminal Simulator */
+.python-terminal-container {
+    background-color: var(--dark-blue);
+    border-radius: var(--radius-md);
+    padding: var(--spacing-lg);
+    margin: var(--spacing-xl) 0;
+    font-family: var(--font-code);
+    color: white;
+}
+
+.python-terminal-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: var(--spacing-md);
+}
+
+.python-terminal-title {
+    font-size: 1rem;
+    margin-left: var(--spacing-md);
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.python-terminal-body {
+    height: 350px;
+    overflow-y: auto;
+    padding: var(--spacing-md);
+    background-color: rgba(0, 0, 0, 0.3);
+    border-radius: var(--radius-sm);
+    line-height: 1.5;
+}
+
+.python-terminal-output {
+    margin-bottom: var(--spacing-sm);
+    white-space: pre-wrap;
+}
+
+.python-terminal-prompt {
+    display: flex;
+    align-items: center;
+    margin-bottom: var(--spacing-sm);
+}
+
+.python-terminal-prompt-symbol {
+    color: var(--success);
+    margin-right: var(--spacing-sm);
+    font-weight: bold;
+}
+
+.python-terminal-input {
+    background: none;
+    border: none;
+    color: white;
+    font-family: var(--font-code);
+    font-size: 0.9rem;
+    width: 100%;
+    outline: none;
+}
+
+.python-prompt {
+    color: var(--primary-light);
+    margin-right: var(--spacing-sm);
+}
+
+/* Function Syntax Game */
+.function-syntax-game {
+    margin: var(--spacing-xl) 0;
+}
+
+.syntax-options {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-lg);
+}
+
+.syntax-option {
+    padding: var(--spacing-md);
+    background-color: white;
+    border: 2px solid var(--gray-light);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: var(--font-code);
+}
+
+.syntax-option:hover {
+    border-color: var(--primary-light);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.syntax-option.correct {
+    border-color: var(--success);
+    background-color: rgba(16, 185, 129, 0.1);
+}
+
+.syntax-option.incorrect {
+    border-color: var(--danger);
+    background-color: rgba(239, 68, 68, 0.1);
+}
+
+.syntax-feedback {
+    margin-top: var(--spacing-md);
+    padding: var(--spacing-md);
+    border-radius: var(--radius-md);
+    display: none;
+}
+
+.syntax-feedback.correct {
+    background-color: rgba(16, 185, 129, 0.1);
+    border: 1px solid var(--success);
+    display: block;
+}
+
+.syntax-feedback.incorrect {
+    background-color: rgba(239, 68, 68, 0.1);
+    border: 1px solid var(--danger);
+    display: block;
+}
+
+/* Data Type Matching Game */
+.data-type-game {
+    margin: var(--spacing-xl) 0;
+}
+
+.data-type-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-lg);
+}
+
+.data-type-card {
+    height: 100px;
+    background-color: white;
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    padding: var(--spacing-md);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.data-type-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-lg);
+}
+
+.data-type-card.selected {
+    border: 2px solid var(--primary);
+}
+
+.data-type-card.matched {
+    border: 2px solid var(--success);
+    background-color: rgba(16, 185, 129, 0.1);
+    pointer-events: none;
+}
+
+.data-type-value {
+    font-family: var(--font-code);
+    font-weight: 600;
+}
+
+.data-type-type {
+    font-family: var(--font-code);
+    color: var(--primary-dark);
+}
+
+.data-type-feedback {
+    margin-top: var(--spacing-md);
+    padding: var(--spacing-md);
+    border-radius: var(--radius-md);
+    display: none;
+}
+
+.data-type-feedback.success {
+    background-color: rgba(16, 185, 129, 0.1);
+    border: 1px solid var(--success);
+    display: block;
+}
+
+.data-type-feedback.error {
+    background-color: rgba(239, 68, 68, 0.1);
+    border: 1px solid var(--danger);
+    display: block;
+}
+
+/* Function Playground */
+.function-playground {
+    margin: var(--spacing-xl) 0;
+}
+
+.function-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-lg);
+}
+
+.function-option {
+    padding: var(--spacing-sm) var(--spacing-md);
+    background-color: var(--primary-light);
+    color: var(--primary-dark);
+    border-radius: var(--radius-full);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: var(--font-code);
+    font-weight: 500;
+}
+
+.function-option:hover {
+    background-color: var(--primary);
+    color: white;
+}
+
+.function-input-container {
+    display: flex;
+    gap: var(--spacing-sm);
+    margin-bottom: var(--spacing-md);
+}
+
+.function-input {
+    flex: 1;
+    padding: var(--spacing-md);
+    border: 2px solid var(--gray-light);
+    border-radius: var(--radius-md);
+    font-family: var(--font-code);
+    outline: none;
+    transition: border-color 0.2s ease;
+}
+
+.function-input:focus {
+    border-color: var(--primary);
+}
+
+.function-execute {
+    padding: var(--spacing-sm) var(--spacing-lg);
+    background-color: var(--primary);
+    color: white;
+    border: none;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-weight: 600;
+}
+
+.function-execute:hover {
+    background-color: var(--primary-dark);
+    transform: translateY(-2px);
+}
+
+.function-result {
+    margin-top: var(--spacing-md);
+    padding: var(--spacing-md);
+    background-color: var(--dark-blue);
+    color: white;
+    border-radius: var(--radius-md);
+    font-family: var(--font-code);
+    min-height: 100px;
+}
+
+/* Interactive Elements */
+.interactive-section {
+    background-color: white;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    padding: var(--spacing-xl);
+    margin: var(--spacing-2xl) 0;
+}
+
+.interactive-title {
+    display: flex;
+    align-items: center;
+    font-size: 1.5rem;
+    margin-bottom: var(--spacing-lg);
+    color: var(--primary-dark);
+}
+
+.interactive-title::before {
+    content: "🎮";
+    margin-right: var(--spacing-sm);
+    font-size: 1.8rem;
+}
+
+/* Table Styles */
+.table-container {
+    overflow-x: auto;
+    margin: var(--spacing-xl) 0;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
+}
+
+thead {
+    background-color: var(--primary);
+    color: white;
+}
+
+th, td {
+    padding: var(--spacing-md);
+    text-align: left;
+    border-bottom: 1px solid var(--gray-light);
+}
+
+tbody tr:nth-child(even) {
+    background-color: rgba(99, 102, 241, 0.05);
+}
+
+tbody tr:hover {
+    background-color: rgba(99, 102, 241, 0.1);
+}
+
+/* Chapter Navigation */
+.chapter-navigation {
+    display: flex;
+    justify-content: space-between;
+    margin-top: var(--spacing-3xl);
+    padding-top: var(--spacing-xl);
+    border-top: 1px solid var(--gray-light);
+}
+
+.nav-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    background-color: white;
+    color: var(--primary);
+    padding: var(--spacing-sm) var(--spacing-lg);
+    border-radius: var(--radius-full);
+    text-decoration: none;
+    font-weight: 600;
+    transition: var(--transition-normal);
+    border: 2px solid var(--primary);
+    cursor: pointer;
+}
+
+.nav-btn:hover {
+    background-color: var(--primary);
+    color: white;
+}
+
+.nav-btn.next {
+    background-color: var(--primary);
+    color: white;
+}
+
+.nav-btn.next:hover {
+    background-color: var(--primary-dark);
+    border-color: var(--primary-dark);
+}
+
+/* Progress Bar */
+.progress-container {
+    position: fixed;
+    top: 70px;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background-color: var(--gray-light);
+    z-index: 99;
+}
+
+.progress-bar {
+    height: 100%;
+    background-color: var(--secondary);
+    width: 0%;
+    transition: width 0.3s ease;
+}
+
+/* Table of Contents */
+.toc {
+    position: sticky;
+    top: 90px;
+    max-height: calc(100vh - 100px);
+    overflow-y: auto;
+    padding-right: var(--spacing-md);
+}
+
+.toc-title {
+    font-size: 1.25rem;
+    margin-bottom: var(--spacing-md);
+    padding-bottom: var(--spacing-sm);
+    border-bottom: 2px solid var(--primary);
+}
+
+.toc-list {
+    list-style: none;
+    margin-left: 0;
+}
+
+.toc-item {
+    margin-bottom: var(--spacing-sm);
+}
+
+.toc-link {
+    display: block;
+    padding: var(--spacing-xs) 0;
+    color: var(--gray);
+    transition: var(--transition-normal);
+    border-left: 2px solid transparent;
+    padding-left: var(--spacing-sm);
+}
+
+.toc-link:hover, .toc-link.active {
+    color: var(--primary);
+    border-left-color: var(--primary);
+    padding-left: var(--spacing-md);
+}
+
+.toc-sublist {
+    list-style: none;
+    margin-left: var(--spacing-lg);
+    margin-bottom: 0;
+}
+
+/* Footer */
+.footer {
+    background-color: var(--dark);
+    color: white;
+    padding: var(--spacing-2xl) 0;
+    margin-top: var(--spacing-3xl);
+}
+
+.footer-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.footer-logo {
+    font-family: var(--font-heading);
+    font-weight: 800;
+    font-size: 1.5rem;
+    color: white;
+}
+
+.footer-links {
+    display: flex;
+    gap: var(--spacing-lg);
+}
+
+.footer-link {
+    color: rgba(255, 255, 255, 0.7);
+    transition: var(--transition-normal);
+}
+
+.footer-link:hover {
+    color: white;
+}
+
+.footer-bottom {
+    margin-top: var(--spacing-lg);
+    padding-top: var(--spacing-lg);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    text-align: center;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.875rem;
+}
+
+/* Responsive Styles */
+@media (max-width: 992px) {
+    .chapter-title {
+        font-size: 2.5rem;
+    }
+    
+    .chapter-layout {
+        grid-template-columns: 1fr;
+    }
+    
+    .toc {
+        display: none;
+    }
+}
+
+@media (max-width: 768px) {
+    .header-container {
+        height: 60px;
+    }
+    
+    .nav {
+        position: fixed;
+        top: 60px;
+        left: 0;
+        width: 100%;
+        height: 0;
+        background-color: white;
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 0 var(--spacing-lg);
+        overflow: hidden;
+        transition: var(--transition-normal);
+        box-shadow: var(--shadow-md);
+        opacity: 0;
+        visibility: hidden;
+    }
+    
+    .nav.active {
+        height: auto;
+        padding: var(--spacing-lg);
+        opacity: 1;
+        visibility: visible;
+    }
+    
+    .mobile-menu-btn {
+        display: block;
+    }
+    
+    .chapter-title {
+        font-size: 2rem;
+    }
+    
+    .chapter-meta {
+        flex-direction: column;
+        gap: var(--spacing-sm);
+    }
+    
+    .chapter-navigation {
+        flex-direction: column;
+        gap: var(--spacing-md);
+    }
+    
+    .nav-btn {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .footer-container {
+        flex-direction: column;
+        gap: var(--spacing-lg);
+        text-align: center;
+    }
+    
+    .data-type-container {
+        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    }
+}
+
+@media (max-width: 480px) {
+    .terminal-body, .python-terminal-body {
+        height: 250px;
+    }
+    
+    .function-input-container {
+        flex-direction: column;
+    }
+    
+    .function-execute {
+        width: 100%;
+    }
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+    animation: fadeIn 0.5s ease-out forwards;
+}
+
+.delay-100 { animation-delay: 100ms; }
+.delay-200 { animation-delay: 200ms; }
+.delay-300 { animation-delay: 300ms; }
+.delay-400 { animation-delay: 400ms; }
+.delay-500 { animation-delay: 500ms; }
+
+/* Layout for chapter content */
+.chapter-layout {
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+    gap: var(--spacing-2xl);
+}
+</style>
+
+<style>
+    /* ========== ESTILOS DEL REPRODUCTOR DE PODCAST ========== */
+    .podcast-player-container .interactive-title::before {
+        content: '🎧'; /* O el emoji que prefieras */
+    }
+
+    .podcast-controls {
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-md);
+        margin-top: var(--spacing-lg);
+    }
+
+    #podcast-play-pause-btn {
+        padding: 0.5rem;
+        width: 50px;
+        height: 50px;
+    }
+
+    #podcast-play-pause-btn svg {
+        width: 100%;
+        height: 100%;
+    }
+
+    .podcast-progress-bar-container {
+        flex-grow: 1;
+    }
+
+    #podcast-progress-bar {
+        width: 100%;
+        -webkit-appearance: none;
+        appearance: none;
+        height: 8px;
+        background: var(--gray-light);
+        border-radius: var(--radius-full);
+        outline: none;
+        cursor: pointer;
+    }
+
+    /* Estilo para Chrome, Safari, Opera, Edge */
+    #podcast-progress-bar::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 20px;
+        height: 20px;
+        background: var(--primary);
+        border-radius: 50%;
+        cursor: pointer;
+        box-shadow: var(--shadow-sm);
+    }
+
+    /* Estilo para Firefox */
+    #podcast-progress-bar::-moz-range-thumb {
+        width: 20px;
+        height: 20px;
+        background: var(--primary);
+        border-radius: 50%;
+        cursor: pointer;
+        border: none;
+    }
+
+    .podcast-time-display {
+        font-family: var(--font-code);
+        font-weight: 500;
+        color: var(--gray);
+        min-width: 100px;
+        text-align: center;
+    }
+</style>
+
+</head>
+<body>
+<!-- Header -->
+<header class="header">
+<div class="container header-container">
+    <a href="../index.html" class="logo">
+        <span class="logo-icon">P</span>
+        <span>Programación para Mortales</span>
+    </a>
+    
+    <nav class="nav">
+        <a href="../index.html" class="nav-link">Inicio</a>
+        <a href="../index.html#chapters" class="nav-link">Capítulos</a>
+        <a href="../index.html#features" class="nav-link">Características</a>
+        <a href="../about.html" class="nav-link">Acerca de</a>
+        <a href="capitulo-5.html" class="btn btn-primary">Siguiente Capítulo</a>
+    </nav>
+    
+    <button class="mobile-menu-btn">☰</button>
+</div>
+</header>
+
+<!-- Progress Bar -->
+<div class="progress-container">
+<div class="progress-bar" id="progressBar"></div>
+</div>
+
+<!-- Chapter Header -->
+<section class="chapter-header">
+<div class="container chapter-header-content">
+    <div class="chapter-number animate-fade-in">Capítulo 4</div>
+    <h1 class="chapter-title animate-fade-in delay-100">Hablando con la compu por primera vez</h1>
+    <div class="chapter-meta animate-fade-in delay-200">
+        <div class="chapter-meta-item">
+            <span>⏱️ Tiempo de lectura: 20 minutos</span>
+        </div>
+        <div class="chapter-meta-item">
+            <span>🧩 Actividades: 3</span>
+        </div>
+        <div class="chapter-meta-item">
+            <span>📚 Nivel: Principiante</span>
+        </div>
+    </div>
+</div>
+</section>
+
+<!-- Chapter Content -->
+<section class="chapter-content">
+<div class="container">
+
+    <div class="podcast-player-container interactive-section">
+        <h3 class="interactive-title" style="--interactive-icon: '🎧';">Escuchá el resumen en audio</h3>
+        <audio id="podcast-audio" preload="metadata">
+            <source src="../../assets/audio/ppm/E1/capitulo_4.mp3" type="audio/mpeg">
+            Tu navegador no soporta el elemento de audio.
+        </audio>
+        <div class="podcast-controls">
+            <button id="podcast-play-pause-btn" class="btn btn-primary">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+            </button>
+            <div class="podcast-progress-bar-container">
+                <input type="range" id="podcast-progress-bar" value="0" step="1">
+            </div>
+            <div id="podcast-time" class="podcast-time-display">00:00 / 00:00</div>
+        </div>
+        <div class="podcast-external-link" style="margin-top: 1rem;">
+            <a href="https://www.youtube.com/playlist?list=PL2q5bMDgOj6Zg9DWlwBIEWgpXATKYS-YN" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">
+                ▶️ Ver lista de reproducción en YouTube
+            </a>
+        </div> <!-- .podcast-player-container -->
+    </div>
+    
+    <div class="chapter-layout">
+        <div class="content-wrapper">
+            <p>¿Te acordás cuando dijimos que programar es hablarle a la computadora? Bueno… ahora sí, llegó el momento de hablarle a nuestra pc.</p>
+            
+            <h2 id="como-le-hablamos">💬 ¿Pero cómo le hablamos?</h2>
+            
+            <p>Como ya sabés, las computadoras no entienden palabras como nosotros. No entienden "imprimí esto", "abrí la foto", ni siquiera "hola". Solo entienden combinaciones de 1s y 0s.</p>
+            
+            <p>Pero claro... escribir algo como:</p>
+            
+            <div class="code-block">
+                <div class="code-block-header">
+                    <div class="code-block-title">Código binario</div>
+                </div>
+                <pre><code>00010101101010100101010101001010</code></pre>
+            </div>
+            
+            <p>...cada vez que querés decir "Hola mundo", es una locura. 🫠</p>
+            
+            <p>Entonces, para hacerle la vida más fácil a los humanos, alguien dijo: "¿Y si inventamos un lenguaje más amigable para escribirle instrucciones a la compu… y después alguien (o algo) lo traduce a 1s y 0s?" ¡Y así nacieron los lenguajes de programación!</p>
+            
+            <h2 id="que-lenguaje">🐍 ¿Qué lenguaje vamos a usar?</h2>
+            
+            <p>Nosotros vamos a usar Python, uno de los lenguajes más simples y poderosos que existen.</p>
+            
+            <p>Podés hacer desde cuentas matemáticas, hasta aplicaciones web, bots, videojuegos, o inteligencia artificial.</p>
+            
+            <p>Pero antes de usarlo, necesitamos "instalárselo" a nuestra compu. (Es como enseñarle a hablar inglés a nuestra PC).</p>
+            
+            <h2 id="como-saber">💻 ¿Cómo saber si ya tengo Python instalado?</h2>
+            
+            <p>Antes de arrancar a escribirle cosas a la compu, tenemos que asegurarnos de que… bueno, nos entienda. Como dijimos, las compus no hablan nuestro idioma. Nosotros vamos a hablarle en Python, así que lo primero es saber si ya lo tiene instalado.</p>
+            
+            <p>Pensalo así: si querés hablar con alguien en francés, primero tenés que chequear si el otro entiende francés, ¿no? Bueno, acá lo mismo.</p>
+            
+            <h3 id="como-lo-hacemos">✨ ¿Cómo lo hacemos?</h3>
+            
+            <p>Abrimos la terminal (esa ventanita negra que ya conocés) y escribimos:</p>
+            
+            <div class="code-block">
+                <div class="code-block-header">
+                    <div class="code-block-title">Verificar Python</div>
+                    <div class="code-block-actions">
+                        <button class="code-block-action copy-btn" data-code="python">Copiar</button>
+                    </div>
+                </div>
+                <pre><code>python</code></pre>
+            </div>
+            
+            <p>Si todo va bien, vas a ver algo así: <code>>>></code> Esa triple flechita (>>>) significa que la compu te está escuchando en modo Python. Ya podés empezar a escribirle cosas en este nuevo lenguaje.</p>
+            
+            <h3 id="si-no-pasa">🛑 Pero... ¿y si no pasa eso?</h3>
+            
+            <p>Si te salta un cartel que dice algo como: 'python' no se reconoce como un comando interno o externo Tranqui, no explotó nada. Eso solo significa que la compu no sabe qué es "python". Como si me hablaras en Inglés a mi y yo sólo sé Español (obvio que es así).</p>
+            
+            <p>No pasa nada. Probá con otras formas que a veces funcionan:</p>
+            
+            <div class="code-block">
+                <div class="code-block-header">
+                    <div class="code-block-title">Alternativas</div>
+                    <div class="code-block-actions">
+                        <button class="code-block-action copy-btn" data-code="python3">Copiar</button>
+                    </div>
+                </div>
+                <pre><code>python3</code></pre>
+            </div>
+            
+            <div class="code-block">
+                <div class="code-block-header">
+                    <div class="code-block-title">Otra alternativa</div>
+                    <div class="code-block-actions">
+                        <button class="code-block-action copy-btn" data-code="py">Copiar</button>
+                    </div>
+                </div>
+                <pre><code>py</code></pre>
+            </div>
+            
+            <p>Si alguna de esas funciona y te aparece el >>>, ya está: misión cumplida. Ésa es la palabra clave que debemos decirle a la terminal para que entienda que le hablaremos en modo Python.</p>
+            
+            <h3 id="por-que-escribimos">🧠 ¿Y por qué escribimos "python" en la terminal?</h3>
+            
+            <p>Porque esa palabra le dice a la computadora: "Ey, escuchame, que lo que te voy a escribir ahora está en lenguaje Python, ¿sí?" Y eso no es exclusivo de Python.</p>
+            
+            <p>Si algún día querés usar otros lenguajes, como JavaScript o PHP, también vas a empezar con una palabra clave distinta.</p>
+            
+            <p>Es como decirle: "atenti, que cambio de idioma".</p>
+            
+            <h3 id="si-no-lo-tengo">📥 ¿Y si no lo tengo instalado?</h3>
+            
+            <p>Puede pasar. Pero no te preocupes, instalar Python es lo más fácil que hay.</p>
+            
+            <p>Si usás Windows, lo más probable es que cuando escribas python, se te abra automáticamente la tienda de Microsoft (la que nadie usa 😅) y te ofrezca instalarlo. Aceptá, siguiente, siguiente, esperá un rato y cuando termine, si volves a abrir la terminal, ya lo tendras listo.</p>
+            
+            <p>Si eso no pasa, podés ir directo a la fuente, abrí un navegador de internet (puede ser Edge, Chrome, Opera, u otro) y pegá este link: 👉 <a href="https://www.python.org/downloads" target="_blank">https://www.python.org/downloads</a></p>
+            
+            <p>Ahí en esa pagina vas a ver un botón amarillo gigante que dice "Download Python" (Deberías leer absolutamente todo para estar tranquilo de lo que instalás 😉, pero yo solo haré clic en el botón amarillo, lo instalaré y listo).</p>
+            
+            <p>En este libro no nos vamos a detener mucho con la instalación porque lo más probable es que ya lo tengas, o que puedas resolverlo en 5 minutos.</p>
+            
+            <p>Si algo no te funciona, volvé a leer este bloque tranquilo, y si hace falta, buscá un tutorial o pedí ayuda. La idea es que no te frustres en este paso.</p>
+            
+            <p>Una vez que superás esto, empieza la parte más divertida. 😄</p>
+            
+            <!-- Actividad 1: Terminal Python Interactiva -->
+            <div class="interactive-section">
+                <h3 class="interactive-title">Actividad 1: Tu primera conversación con Python</h3>
+                
+                <p>🎯 <strong>Objetivo:</strong> Practicar cómo interactuar con Python en la terminal.</p>
+                
+                <p>Probá escribir comandos en esta terminal Python simulada. Escribí alguno de estos comandos y presioná Enter:</p>
+                <ul>
+                    <li><code>print("Hola, mundo")</code></li>
+                    <li><code>2 + 2</code></li>
+                    <li><code>type("Hola")</code></li>
+                    <li><code>type(42)</code></li>
+                    <li><code>exit()</code></li>
+                </ul>
+                
+                <div class="python-terminal-container">
+                    <div class="terminal-header">
+                        <div class="terminal-dots">
+                            <div class="terminal-dot terminal-dot-red"></div>
+                            <div class="terminal-dot terminal-dot-yellow"></div>
+                            <div class="terminal-dot terminal-dot-green"></div>
+                        </div>
+                        <div class="terminal-title">Terminal Python Interactiva</div>
+                    </div>
+                    
+                    <div class="python-terminal-body" id="pythonTerminalBody">
+                        <div class="python-terminal-output">Python 3.10.0 (default, Oct 10 2023, 12:34:56)</div>
+                        <div class="python-terminal-output">[GCC 9.3.0] on linux</div>
+                        <div class="python-terminal-output">Type "help", "copyright", "credits" or "license" for more information.</div>
+                        
+                        <div class="python-terminal-prompt">
+                            <span class="python-prompt">>>></span>
+                            <input type="text" class="python-terminal-input" id="pythonTerminalInput" placeholder="Escribí un comando...">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <h2 id="entrando-mundo">🐍 Entrando al mundo de Python</h2>
+            
+            <p>Una vez que tenés Python instalado, vamos a abrir la terminal y escribir esta palabra mágica:</p>
+            
+            <div class="code-block">
+                <div class="code-block-header">
+                    <div class="code-block-title">Iniciar Python</div>
+                    <div class="code-block-actions">
+                        <button class="code-block-action copy-btn" data-code="python">Copiar</button>
+                    </div>
+                </div>
+                <pre><code>python</code></pre>
+            </div>
+            
+            <p>y si todo salió bien, vas a ver que te aparece esto: <code>>>></code> a partir de ahora, todo lo que escribas ahí, lo va a tratar de ejecutar en tiempo real.</p>
+            
+            <h3 id="como-salgo">🔚 ¿Y cómo salgo si me quiero ir?</h3>
+            
+            <p>No te preocupes, esto no es una cueva sin salida. Para salir del modo Python, simplemente escribí:</p>
+            
+            <div class="code-block">
+                <div class="code-block-header">
+                    <div class="code-block-title">Salir de Python</div>
+                    <div class="code-block-actions">
+                        <button class="code-block-action copy-btn" data-code="exit()">Copiar</button>
+                    </div>
+                </div>
+                <pre><code>exit()</code></pre>
+            </div>
+            
+            <p>Y volvés a tu terminal normal. Listo.</p>
+            
+            <p>No explotó nada. No te preocupes si no entendiste todo todavía, lo importante es que estás adentro… y podés salir.</p>
+            
+            <h2 id="que-es-funcion">🛠️ Pero pará... ¿Qué es una función?</h2>
+            
+            <p>Antes de seguir escribiendo cosas, vamos a entender bien qué estamos haciendo. Cuando en el modo Python escribimos algo como: <code>exit()</code> o <code>print("Hola")</code> Lo que estamos usando se llama función.</p>
+            
+            <h3 id="que-hace-funcion">💡 ¿Qué hace una función?</h3>
+            
+            <p>Una función es como una herramienta lista para hacer una tarea específica. Vos le das una orden, le pasás algo que necesita, y ella hace lo suyo.</p>
+            
+            <p>Pensalo así:</p>
+            <ul>
+                <li>Si querés salir del modo Python, usás <code>exit()</code></li>
+                <li>Si querés mostrar algo en pantalla, usás <code>print()</code></li>
+                <li>Si querés saber qué tipo de dato estás usando, podés usar <code>type()</code></li>
+            </ul>
+            
+            <p>Las funciones ya vienen listas, no tenés que construirlas vos (por ahora 😉). Vos solo necesitás saber qué hacen y cómo se escriben.</p>
+            
+            <h3 id="como-se-escribe">🧩 ¿Cómo se escribe una función?</h3>
+            
+            <p>Todas las funciones tienen una estructura que se repite siempre:</p>
+            
+            <div class="code-block">
+                <div class="code-block-header">
+                    <div class="code-block-title">Estructura de una función</div>
+                </div>
+                <pre><code>nombre_de_la_funcion(lo_que_necesita_adentro)</code></pre>
+            </div>
+            
+            <p>Sí o sí:</p>
+            <ul>
+                <li>Tiene un nombre (por ejemplo, print)</li>
+                <li>Tiene paréntesis ()</li>
+                <li>Y adentro de los paréntesis, le pasás la "cosa" con la que tiene que trabajar (algunas funciones no necesitan un argumento, por ejemplo exit() ).</li>
+            </ul>
+            
+            <p>Por ejemplo:</p>
+            <ul>
+                <li><code>print("Hola")</code> → Mostrá la palabra "Hola".</li>
+                <li><code>exit()</code> → Cerrá el modo Python.</li>
+                <li><code>type("hola")</code> → Decime qué tipo de dato es "hola".</li>
+            </ul>
+
+<h2 id="tipos-de-datos">📊 Los tipos de datos en Python</h2>
+
+<p>Antes de seguir, vamos a entender qué tipos de datos podemos usar en Python. Pensalo así: en la vida real, tenemos diferentes tipos de cosas: números, palabras, listas de compras, respuestas de sí o no...</p>
+
+<p>En Python es igual. Cada cosa que le pasamos a una función tiene un "tipo" que determina qué podemos hacer con ella.</p>
+
+<div class="table-container">
+    <table>
+        <thead>
+            <tr>
+                <th>Tipo de dato</th>
+                <th>¿Qué es?</th>
+                <th>Ejemplo</th>
+                <th>¿Para qué se usa?</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>str</code> (string)</td>
+                <td>Texto</td>
+                <td><code>"Hola"</code> o <code>'Mundo'</code></td>
+                <td>Nombres, mensajes, cualquier texto</td>
+            </tr>
+            <tr>
+                <td><code>int</code> (integer)</td>
+                <td>Número entero</td>
+                <td><code>42</code>, <code>-7</code>, <code>0</code></td>
+                <td>Contar cosas, edades, cantidades exactas</td>
+            </tr>
+            <tr>
+                <td><code>float</code></td>
+                <td>Número decimal</td>
+                <td><code>3.14</code>, <code>-2.5</code></td>
+                <td>Medidas precisas, porcentajes, dinero</td>
+            </tr>
+            <tr>
+                <td><code>bool</code> (boolean)</td>
+                <td>Verdadero o falso</td>
+                <td><code>True</code>, <code>False</code></td>
+                <td>Condiciones, verificaciones, estados</td>
+            </tr>
+            <tr>
+                <td><code>list</code></td>
+                <td>Lista de cosas</td>
+                <td><code>[1, 2, 3]</code>, <code>["a", "b", "c"]</code></td>
+                <td>Colecciones ordenadas de elementos</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<p>¿Por qué es importante saber esto? Porque cada tipo de dato se comporta diferente:</p>
+
+<ul>
+    <li>Con los <code>str</code> (textos) podés unirlos: <code>"Hola" + " mundo"</code> → <code>"Hola mundo"</code></li>
+    <li>Con los <code>int</code> y <code>float</code> (números) podés hacer matemáticas: <code>5 + 3</code> → <code>8</code></li>
+    <li>Con los <code>bool</code> (verdadero/falso) podés tomar decisiones</li>
+    <li>Con las <code>list</code> (listas) podés guardar muchas cosas juntas</li>
+</ul>
+
+<div class="note-box">
+    <p>Cuando usamos la función <code>type()</code>, Python nos dice exactamente qué tipo de dato estamos usando. Esto es súper útil para entender cómo va a comportarse.</p>
+</div>
+            
+            
+            <!-- Actividad 2: Juego de Sintaxis de Funciones -->
+            <div class="interactive-section">
+                <h3 class="interactive-title">Actividad 2: ¿Está bien escrita esta función?</h3>
+                
+                <p>🎯 <strong>Objetivo:</strong> Aprender a identificar la sintaxis correcta de las funciones en Python.</p>
+                
+                <p>Para cada ejemplo, hacé clic en la opción que creas que está correctamente escrita:</p>
+                
+                <div id="syntaxGame">
+                    <div class="function-syntax-game">
+                        <h4>Ejemplo 1: Mostrar "Hola mundo" en pantalla</h4>
+                        <div class="syntax-options">
+                            <div class="syntax-option" data-correct="false">print "Hola mundo"</div>
+                            <div class="syntax-option" data-correct="true">print("Hola mundo")</div>
+                            <div class="syntax-option" data-correct="false">print["Hola mundo"]</div>
+                        </div>
+                        <div class="syntax-feedback" id="feedback1"></div>
+                    </div>
+                    
+                    <div class="function-syntax-game">
+                        <h4>Ejemplo 2: Verificar el tipo de dato del número 42</h4>
+                        <div class="syntax-options">
+                            <div class="syntax-option" data-correct="false">type 42</div>
+                            <div class="syntax-option" data-correct="false">type[42]</div>
+                            <div class="syntax-option" data-correct="true">type(42)</div>
+                        </div>
+                        <div class="syntax-feedback" id="feedback2"></div>
+                    </div>
+                    
+                    <div class="function-syntax-game">
+                        <h4>Ejemplo 3: Salir del modo Python</h4>
+                        <div class="syntax-options">
+                            <div class="syntax-option" data-correct="true">exit()</div>
+                            <div class="syntax-option" data-correct="false">exit</div>
+                            <div class="syntax-option" data-correct="false">exit[]</div>
+                        </div>
+                        <div class="syntax-feedback" id="feedback3"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <h3 id="como-no-se-escribe">🚫 ¿Cómo NO se escribe una función?</h3>
+            
+            <p>❌ Sin paréntesis: → <code>print "Hola"</code></p>
+            <p>❌ Mezclando comillas: → <code>print('Hola")</code> # ERROR</p>
+            <p>❌ Con nombres mal escritos: → <code>prnt("Hola")</code> # ERROR</p>
+            <p>❌ Usando palabras reservadas: → <code>if("hola")</code> # Esto no es una función</p>
+            
+            <p>Python es bastante piola, pero no le gusta que escribas cosas mal. Si hay un error, te lo va a avisar, y te va a decir más o menos dónde te equivocaste.</p>
+            
+            <h3 id="proba-esto">🧪 Probá esto (jugando con funciones):</h3>
+            
+            <p>Salí del modo Python con <code>exit()</code> (por si ya estabas dentro).</p>
+            <p>Volvé a entrar al modo python con <code>python</code></p>
+            <p>Y escribí estos 4 comandos uno por uno y presioná enter:</p>
+            
+            <div class="code-block">
+                <div class="code-block-header">
+                    <div class="code-block-title">Comandos para probar</div>
+                    <div class="code-block-actions">
+                        <button class="code-block-action copy-btn" data-code='print("Hola, soy Pepito")
+type("Pepito")
+type(27)
+exit()'>Copiar</button>
+                    </div>
+                </div>
+                <pre><code>print("Hola, soy Pepito")
+type("Pepito")
+type(27)
+exit()</code></pre>
+            </div>
+            
+            <p>Cuando escribimos una función, la compu hace lo que le pedimos y nos devuelve un resultado. Ese resultado aparece justo abajo, como respuesta.</p>
+            
+            <p>Mirá lo que pasa con estas:</p>
+            <ul>
+                <li><code>print("Hola, soy Pepito")</code> → La terminal te responde: <code>Hola, soy Pepito</code></li>
+                <li><code>type("Pepito")</code> → La terminal te responde: <code>&lt;class 'str'&gt;</code></li>
+                <li><code>type(27)</code> → La terminal te responde: <code>&lt;class 'int'&gt;</code></li>
+                <li><code>exit()</code> → La terminal sale del modo Python.</li>
+            </ul>
+            
+            <h3 id="te-explico">💡 Te explico rápido:</h3>
+            
+            <p><code>str</code> quiere decir string, o sea, texto.</p>
+            <p><code>int</code> es integer, o sea, un número entero.</p>
+            
+            <p>Cuando usamos la función <code>print()</code>, lo que le estamos diciendo a la compu es: "Mostrá esto en pantalla." Y ella simplemente lo hace. Así de fiel.</p>
+            
+            <p>Pero cuando usamos <code>type()</code>, la cosa cambia un poco. Lo que le pedimos es:</p>
+            <p>"Decime de qué tipo es esto que te pasé." Y ella nos contesta: "Esto es un texto", o "esto es un número", o "esto es una lista", o "esto es... (lo que sea)".</p>
+            
+            <!-- Actividad 3: Juego de Tipos de Datos -->
+            <div class="interactive-section">
+                <h3 class="interactive-title">Actividad 3: Adivina el tipo de dato</h3>
+                
+                <p>🎯 <strong>Objetivo:</strong> Aprender a identificar los diferentes tipos de datos en Python.</p>
+                
+                <p>Hacé clic en un valor y luego en su tipo correspondiente para formar parejas:</p>
+                
+                <div id="dataTypeGame" class="data-type-game">
+                    <div class="data-type-container">
+                        <!-- Valores -->
+                        <div class="data-type-card" data-type="value" data-match="str">"Hola mundo"</div>
+                        <div class="data-type-card" data-type="value" data-match="int">42</div>
+                        <div class="data-type-card" data-type="value" data-match="float">3.14</div>
+                        <div class="data-type-card" data-type="value" data-match="bool">True</div>
+                        <div class="data-type-card" data-type="value" data-match="list">[1, 2, 3]</div>
+                        
+                        <!-- Tipos -->
+                        <div class="data-type-card" data-type="type" data-match="str">str (texto)</div>
+                        <div class="data-type-card" data-type="type" data-match="int">int (entero)</div>
+                        <div class="data-type-card" data-type="type" data-match="float">float (decimal)</div>
+                        <div class="data-type-card" data-type="type" data-match="bool">bool (verdadero/falso)</div>
+                        <div class="data-type-card" data-type="type" data-match="list">list (lista)</div>
+                    </div>
+                    
+                    <div class="data-type-feedback" id="dataTypeFeedback"></div>
+                </div>
+            </div>
+            
+            <h3 id="por-que-importa">🔍 ¿Por qué importa el tipo de dato?</h3>
+            
+            <p>Porque saber qué tipo de dato estamos manejando es CLAVE para poder programar bien. No es lo mismo sumar dos números, que juntar dos textos, o mezclar una lista con una fecha.</p>
+            
+            <p>Cada cosa tiene su forma, su lógica, su manera de comportarse.</p>
+            
+            <p>Y cuanto mejor entiendas los datos… más fácil será hablar el idioma de la compu.</p>
+            
+            <h3 id="que-funciones-conocimos">🧠 ¿Qué funciones conocimos hasta ahora?</h3>
+            
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Función</th>
+                            <th>¿Qué hace?</th>
+                            <th>Ejemplo</th>
+                            <th>Resultado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>print()</td>
+                            <td>Muestra algo en pantalla</td>
+                            <td>print("Hola")</td>
+                            <td>Hola</td>
+                        </tr>
+                        <tr>
+                            <td>type()</td>
+                            <td>Te dice qué tipo de dato estás usando</td>
+                            <td>type(5.5)</td>
+                            <td>&lt;class 'float'&gt;</td>
+                        </tr>
+                        <tr>
+                            <td>exit()</td>
+                            <td>Sale del modo Python</td>
+                            <td>exit()</td>
+                            <td>Vuelve al símbolo de la terminal</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <p>Y todas siguen esta estructura: <code>nombre_de_funcion(argumento)</code></p>
+            
+            <!-- Actividad Bonus: Playground de Funciones -->
+            <div class="interactive-section">
+                <h3 class="interactive-title">Actividad Bonus: Playground de Funciones</h3>
+                
+                <p>🎯 <strong>Objetivo:</strong> Experimentar con diferentes funciones de Python y ver sus resultados en tiempo real.</p>
+                
+                <p>Elegí una función, escribí un valor para probar y mirá el resultado:</p>
+                
+                <div class="function-playground">
+                    <div class="function-options">
+                        <div class="function-option" data-function="print">print()</div>
+                        <div class="function-option" data-function="type">type()</div>
+                        <div class="function-option" data-function="len">len()</div>
+                        <div class="function-option" data-function="str">str()</div>
+                        <div class="function-option" data-function="int">int()</div>
+                    </div>
+                    
+                    <div class="function-input-container">
+                        <input type="text" class="function-input" id="functionInput" placeholder="Escribí un valor para probar...">
+                        <button class="function-execute" id="executeFunction">Ejecutar</button>
+                    </div>
+                    
+                    <div class="function-result" id="functionResult">
+                        <p>El resultado aparecerá aquí...</p>
+                    </div>
+                </div>
+            </div>
+            
+            <h2 id="importancia-funciones">🎯 La importancia de las funciones en la programación</h2>
+            
+            <p>Todo en programación se construye con funciones. Algunas ya vienen creadas (como las que vimos), y otras las vas a crear vos más adelante.</p>
+            
+            <p>Hoy aprendiste algo fundamental: Las funciones son bloques básicos de la programación. Es como si fueran "palabras especiales" que le dicen a la compu: hacé esto.</p>
+            
+            <div class="highlight-box">
+                <p>En este capítulo aprendiste:</p>
+                
+                <ul>
+                    <li>Que las computadoras entienden lenguajes de programación, no lenguaje humano.</li>
+                    <li>Cómo verificar si tenés Python instalado y cómo instalarlo si no lo tenés.</li>
+                    <li>Cómo entrar y salir del modo Python en la terminal.</li>
+                    <li>Qué son las funciones y cómo usarlas.</li>
+                    <li>Algunos tipos de datos básicos en Python.</li>
+                </ul>
+                
+                <p>En el próximo capítulo, vamos a empezar a crear nuestros propios programas y guardarlos en archivos para poder ejecutarlos cuando queramos.</p>
+            </div>
+            
+            <!-- Navegación entre capítulos -->
+            <div class="chapter-navigation">
+                <a href="capitulo-3.html" class="nav-btn">
+                    <span>←</span> Capítulo anterior
+                </a>
+                <a href="capitulo-5.html" class="nav-btn next">
+                    Siguiente capítulo <span>→</span>
+                </a>
+            </div>
+        </div>
+        
+        <!-- Tabla de contenidos -->
+        <aside class="toc">
+            <h3 class="toc-title">Contenido del capítulo</h3>
+            <ul class="toc-list">
+                <li class="toc-item">
+                    <a href="#como-le-hablamos" class="toc-link">¿Pero cómo le hablamos?</a>
+                </li>
+                <li class="toc-item">
+                    <a href="#que-lenguaje" class="toc-link">¿Qué lenguaje vamos a usar?</a>
+                </li>
+                <li class="toc-item">
+                    <a href="#como-saber" class="toc-link">¿Cómo saber si ya tengo Python instalado?</a>
+                    <ul class="toc-sublist">
+                        <li><a href="#como-lo-hacemos" class="toc-link">¿Cómo lo hacemos?</a></li>
+                        <li><a href="#si-no-pasa" class="toc-link">¿Y si no pasa eso?</a></li>
+                        <li><a href="#por-que-escribimos" class="toc-link">¿Por qué escribimos "python"?</a></li>
+                        <li><a href="#si-no-lo-tengo" class="toc-link">¿Y si no lo tengo instalado?</a></li>
+                    </ul>
+                </li>
+                <li class="toc-item">
+                    <a href="#entrando-mundo" class="toc-link">Entrando al mundo de Python</a>
+                    <ul class="toc-sublist">
+                        <li><a href="#como-salgo" class="toc-link">¿Cómo salgo si me quiero ir?</a></li>
+                    </ul>
+                </li>
+                <li class="toc-item">
+                    <a href="#que-es-funcion" class="toc-link">¿Qué es una función?</a>
+                    <ul class="toc-sublist">
+                        <li><a href="#que-hace-funcion" class="toc-link">¿Qué hace una función?</a></li>
+                        <li><a href="#como-se-escribe" class="toc-link">¿Cómo se escribe una función?</a></li>
+                        <li><a href="#como-no-se-escribe" class="toc-link">¿Cómo NO se escribe una función?</a></li>
+                        <li><a href="#proba-esto" class="toc-link">Probá esto</a></li>
+                        <li><a href="#te-explico" class="toc-link">Te explico rápido</a></li>
+                        <li><a href="#por-que-importa" class="toc-link">¿Por qué importa el tipo de dato?</a></li>
+                        <li><a href="#que-funciones-conocimos" class="toc-link">¿Qué funciones conocimos?</a></li>
+                    </ul>
+                </li>
+                <li class="toc-item">
+                    <a href="#importancia-funciones" class="toc-link">La importancia de las funciones</a>
+                </li>
+            </ul>
+        </aside>
+    </div>
+</div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+<div class="container">
+    <div class="footer-container">
+        <a href="../index.html" class="footer-logo">Programación para Mortales</a>
+        
+        <div class="footer-links">
+            <a href="../index.html" class="footer-link">Inicio</a>
+            <a href="../indice.html" class="footer-link">Índice completo</a>
+            <a href="../about.html" class="footer-link">Acerca de</a>
+            <a href="../terminos-y-condiciones.html" class="footer-link">Términos y condiciones</a>
+        </div>
+    </div>
+    
+    <div class="footer-bottom">
+        <p>&copy; 2025 Programación para Mortales. Todos los derechos reservados.</p>
+    </div>
+</div>
+</footer>
+
+<script>
+// Mobile Menu Toggle
+const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+const nav = document.querySelector('.nav');
+
+mobileMenuBtn.addEventListener('click', () => {
+    nav.classList.toggle('active');
+});
+
+// Header Scroll Effect
+const header = document.querySelector('.header');
+
+window.addEventListener('scroll', () => {
+    if (window.scrollY > 50) {
+        header.classList.add('scrolled');
+    } else {
+        header.classList.remove('scrolled');
+    }
+});
+
+// Reading Progress Bar
+const progressBar = document.getElementById('progressBar');
+
+window.addEventListener('scroll', () => {
+    const windowHeight = window.innerHeight;
+    const documentHeight = document.documentElement.scrollHeight - windowHeight;
+    const scrollTop = window.scrollY;
+    const progress = (scrollTop / documentHeight) * 100;
+    progressBar.style.width = progress + '%';
+});
+
+// Table of Contents Active Link
+const tocLinks = document.querySelectorAll('.toc-link');
+const sections = document.querySelectorAll('h2, h3');
+
+window.addEventListener('scroll', () => {
+    let current = '';
+    
+    sections.forEach(section => {
+        const sectionTop = section.offsetTop - 100;
+        if (window.scrollY >= sectionTop) {
+            current = section.getAttribute('id');
+        }
+    });
+    
+    tocLinks.forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('href').substring(1) === current) {
+            link.classList.add('active');
+        }
+    });
+});
+
+// Copy Code Button
+const copyButtons = document.querySelectorAll('.copy-btn');
+
+copyButtons.forEach(button => {
+    button.addEventListener('click', () => {
+        const code = button.dataset.code;
+        navigator.clipboard.writeText(code);
+        
+        // Change button text temporarily
+        const originalText = button.textContent;
+        button.textContent = '¡Copiado!';
+        button.style.backgroundColor = 'var(--success)';
+        button.style.color = 'white';
+        
+        setTimeout(() => {
+            button.textContent = originalText;
+            button.style.backgroundColor = '';
+            button.style.color = '';
+        }, 2000);
+    });
+});
+
+// Python Terminal Simulator
+const pythonTerminalInput = document.getElementById('pythonTerminalInput');
+const pythonTerminalBody = document.getElementById('pythonTerminalBody');
+
+pythonTerminalInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+        const command = pythonTerminalInput.value.trim();
+        
+        // Crear un nuevo prompt con el comando
+        const commandOutput = document.createElement('div');
+        commandOutput.className = 'python-terminal-output';
+        commandOutput.innerHTML = `<span class="python-prompt">>>></span> ${command}`;
+        
+        // Insertar antes del prompt actual
+        const prompt = pythonTerminalBody.querySelector('.python-terminal-prompt');
+        pythonTerminalBody.insertBefore(commandOutput, prompt);
+        
+        // Procesar el comando
+        processPythonCommand(command);
+        
+        // Limpiar el input
+        pythonTerminalInput.value = '';
+        
+        // Scroll al final
+        pythonTerminalBody.scrollTop = pythonTerminalBody.scrollHeight;
+    }
+});
+
+function processPythonCommand(command) {
+    let result = '';
+    
+    // Simular comandos básicos de Python
+    if (command.startsWith('print(') && command.endsWith(')')) {
+        // Extraer el contenido entre paréntesis
+        const content = command.substring(6, command.length - 1);
+        
+        // Manejar diferentes tipos de comillas
+        if ((content.startsWith('"') && content.endsWith('"')) || 
+            (content.startsWith("'") && content.endsWith("'"))) {
+            result = content.substring(1, content.length - 1);
+        } else {
+            try {
+                // Intentar evaluar expresiones simples
+                result = eval(content);
+            } catch (e) {
+                result = `Error: ${e.message}`;
+            }
+        }
+    } else if (command.startsWith('type(') && command.endsWith(')')) {
+        const content = command.substring(5, command.length - 1);
+        
+        if ((content.startsWith('"') && content.endsWith('"')) || 
+            (content.startsWith("'") && content.endsWith("'"))) {
+            result = "<class 'str'>";
+        } else if (!isNaN(content) && content.indexOf('.') === -1) {
+            result = "<class 'int'>";
+        } else if (!isNaN(content) && content.indexOf('.') !== -1) {
+            result = "<class 'float'>";
+        } else if (content === 'True' || content === 'False') {
+            result = "<class 'bool'>";
+        } else if (content.startsWith('[') && content.endsWith(']')) {
+            result = "<class 'list'>";
+        } else {
+            result = "Error: invalid syntax";
+        }
+    } else if (command === 'exit()' || command === 'quit()') {
+        result = "Saliendo del modo Python...";
+        
+        // Simular salida después de un breve retraso
+        setTimeout(() => {
+            const exitOutput = document.createElement('div');
+            exitOutput.className = 'python-terminal-output';
+            exitOutput.textContent = "$ ";
+            
+            // Insertar antes del prompt actual
+            const prompt = pythonTerminalBody.querySelector('.python-terminal-prompt');
+            pythonTerminalBody.insertBefore(exitOutput, prompt);
+            
+            // Scroll al final
+            pythonTerminalBody.scrollTop = pythonTerminalBody.scrollHeight;
+        }, 1000);
+    } else if (command.includes('+') || command.includes('-') || command.includes('*') || command.includes('/')) {
+        try {
+            result = eval(command);
+        } catch (e) {
+            result = `Error: ${e.message}`;
+        }
+    } else if (command === 'help()') {
+        result = "Ayuda de Python (simulada):\n\nComandos disponibles:\n- print(valor) - Muestra un valor en pantalla\n- type(valor) - Muestra el tipo de un valor\n- exit() - Sale del modo Python\n\nPrueba también operaciones matemáticas como 2 + 2";
+    } else if (command === '') {
+        // No hacer nada si el comando está vacío
+        return;
+    } else {
+        result = `Error: nombre '${command}' no está definido`;
+    }
+    
+    // Mostrar el resultado
+    const resultOutput = document.createElement('div');
+    resultOutput.className = 'python-terminal-output';
+    resultOutput.textContent = result;
+    
+    // Insertar antes del prompt actual
+    const prompt = pythonTerminalBody.querySelector('.python-terminal-prompt');
+    pythonTerminalBody.insertBefore(resultOutput, prompt);
+}
+
+// Juego de Sintaxis de Funciones
+const syntaxOptions = document.querySelectorAll('.syntax-option');
+
+syntaxOptions.forEach(option => {
+    option.addEventListener('click', function() {
+        const isCorrect = this.dataset.correct === 'true';
+        const gameContainer = this.closest('.function-syntax-game');
+        const feedbackElement = gameContainer.querySelector('.syntax-feedback');
+        
+        // Limpiar clases previas
+        const options = gameContainer.querySelectorAll('.syntax-option');
+        options.forEach(opt => {
+            opt.classList.remove('correct', 'incorrect');
+        });
+        
+        // Marcar la opción seleccionada
+        if (isCorrect) {
+            this.classList.add('correct');
+            feedbackElement.classList.add('correct');
+            feedbackElement.classList.remove('incorrect');
+            feedbackElement.textContent = '¡Correcto! Esta es la forma adecuada de escribir la función.';
+        } else {
+            this.classList.add('incorrect');
+            feedbackElement.classList.add('incorrect');
+            feedbackElement.classList.remove('correct');
+            feedbackElement.textContent = 'Incorrecto. Recordá que las funciones necesitan paréntesis y la sintaxis correcta.';
+            
+            // Mostrar la opción correcta
+            options.forEach(opt => {
+                if (opt.dataset.correct === 'true') {
+                    opt.classList.add('correct');
+                }
+            });
+        }
+    });
+});
+
+// Juego de Tipos de Datos
+const dataTypeCards = document.querySelectorAll('.data-type-card');
+const dataTypeFeedback = document.getElementById('dataTypeFeedback');
+let selectedCard = null;
+
+dataTypeCards.forEach(card => {
+    card.addEventListener('click', function() {
+        // Si la tarjeta ya está emparejada, no hacer nada
+        if (this.classList.contains('matched')) {
+            return;
+        }
+        
+        // Si no hay tarjeta seleccionada, seleccionar esta
+        if (!selectedCard) {
+            selectedCard = this;
+            this.classList.add('selected');
+            return;
+        }
+        
+        // Si la tarjeta seleccionada es del mismo tipo (valor o tipo), deseleccionar
+        if (selectedCard.dataset.type === this.dataset.type) {
+            selectedCard.classList.remove('selected');
+            selectedCard = this;
+            this.classList.add('selected');
+            return;
+        }
+        
+        // Verificar si es una coincidencia
+        if (selectedCard.dataset.match === this.dataset.match) {
+            // ¡Coincidencia!
+            selectedCard.classList.remove('selected');
+            selectedCard.classList.add('matched');
+            this.classList.add('matched');
+            
+            dataTypeFeedback.textContent = '¡Bien hecho! Has encontrado una coincidencia.';
+            dataTypeFeedback.classList.add('success');
+            dataTypeFeedback.classList.remove('error');
+            
+            // Verificar si todas las tarjetas están emparejadas
+            const allMatched = Array.from(dataTypeCards).every(card => card.classList.contains('matched'));
+            if (allMatched) {
+                dataTypeFeedback.textContent = '¡Felicitaciones! Has emparejado todos los tipos de datos correctamente.';
+            }
+            
+            selectedCard = null;
+        } else {
+            // No coincide
+            const prevSelected = selectedCard;
+            selectedCard = null;
+            
+            prevSelected.classList.remove('selected');
+            
+            dataTypeFeedback.textContent = 'Esos no coinciden. Intentá de nuevo.';
+            dataTypeFeedback.classList.add('error');
+            dataTypeFeedback.classList.remove('success');
+        }
+    });
+});
+
+// Playground de Funciones
+const functionOptions = document.querySelectorAll('.function-option');
+const functionInput = document.getElementById('functionInput');
+const executeFunction = document.getElementById('executeFunction');
+const functionResult = document.getElementById('functionResult');
+let selectedFunction = 'print';
+
+functionOptions.forEach(option => {
+    option.addEventListener('click', function() {
+        selectedFunction = this.dataset.function;
+        
+        // Resaltar la opción seleccionada
+        functionOptions.forEach(opt => opt.style.backgroundColor = '');
+        this.style.backgroundColor = 'var(--primary)';
+        this.style.color = 'white';
+        
+        // Actualizar placeholder según la función
+        switch (selectedFunction) {
+            case 'print':
+                functionInput.placeholder = 'Ejemplo: "Hola mundo"';
+                break;
+            case 'type':
+                functionInput.placeholder = 'Ejemplo: 42 o "texto"';
+                break;
+            case 'len':
+                functionInput.placeholder = 'Ejemplo: "Python" o [1, 2, 3]';
+                break;
+            case 'str':
+                functionInput.placeholder = 'Ejemplo: 42';
+                break;
+            case 'int':
+                functionInput.placeholder = 'Ejemplo: "42" o 3.14';
+                break;
+        }
+    });
+});
+
+executeFunction.addEventListener('click', function() {
+    const inputValue = functionInput.value.trim();
+    
+    if (!inputValue) {
+        functionResult.innerHTML = '<p style="color: var(--danger);">Por favor, ingresá un valor para probar.</p>';
+        return;
+    }
+    
+    let result = '';
+    let processedValue = inputValue;
+    let originalType = '';
+    
+    // Procesar el valor según el tipo
+    if ((inputValue.startsWith('"') && inputValue.endsWith('"')) || 
+        (inputValue.startsWith("'") && inputValue.endsWith("'"))) {
+        // Es un string
+        processedValue = inputValue.substring(1, inputValue.length - 1);
+        originalType = 'str';
+    } else if (inputValue === 'True' || inputValue === 'False') {
+        // Es un booleano
+        processedValue = inputValue === 'True';
+        originalType = 'bool';
+    } else if (inputValue.startsWith('[') && inputValue.endsWith(']')) {
+        // Es una lista
+        try {
+            processedValue = JSON.parse(inputValue.replace(/'/g, '"'));
+            originalType = 'list';
+        } catch (e) {
+            result = `Error: ${e.message}`;
+        }
+    } else if (!isNaN(inputValue)) {
+        // Es un número
+        if (inputValue.includes('.')) {
+            processedValue = parseFloat(inputValue);
+            originalType = 'float';
+        } else {
+            processedValue = parseInt(inputValue);
+            originalType = 'int';
+        }
+    } else {
+        // No se pudo determinar el tipo
+        originalType = typeof processedValue;
+    }
+    
+    // Ejecutar la función seleccionada
+    if (!result) {
+        switch (selectedFunction) {
+            case 'print':
+                result = String(processedValue);
+                break;
+            case 'type':
+                // Usar el tipo original determinado arriba
+                if (originalType) {
+                    result = `<class '${originalType}'>`;
+                } else {
+                    result = `<class '${typeof processedValue}'>`;
+                }
+                break;
+            case 'len':
+                if (typeof processedValue === 'string' || Array.isArray(processedValue)) {
+                    result = processedValue.length;
+                } else {
+                    result = "Error: object has no len()";
+                }
+                break;
+            case 'str':
+                result = String(processedValue);
+                break;
+            case 'int':
+                try {
+                    result = parseInt(processedValue);
+                    if (isNaN(result)) {
+                        throw new Error("invalid literal for int()");
+                    }
+                } catch (e) {
+                    result = `Error: ${e.message}`;
+                }
+                break;
+        }
+    }
+    
+    // Mostrar el resultado
+    functionResult.innerHTML = `<p><span style="color: var(--primary-dark);">${selectedFunction}(${inputValue})</span> → <span style="color: var(--success);">${result}</span></p>`;
+});
+
+// Inicializar la primera opción de función como seleccionada
+functionOptions[0].click();
+</script>
+
+<script>
+    // ========== SCRIPT DEL REPRODUCTOR DE PODCAST ==========
+    const audio = document.getElementById('podcast-audio');
+    const playPauseBtn = document.getElementById('podcast-play-pause-btn');
+    const playIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>';
+    const pauseIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>';
+    const podcastProgressBar = document.getElementById('podcast-progress-bar');
+    const timeDisplay = document.getElementById('podcast-time');
+
+    function togglePlayPause() {
+        if (audio.paused) {
+            audio.play();
+            playPauseBtn.innerHTML = pauseIcon;
+        } else {
+            audio.pause();
+            playPauseBtn.innerHTML = playIcon;
+        }
+    }
+
+    function formatTime(seconds) {
+        const minutes = Math.floor(seconds / 60);
+        
+        const secs = Math.floor(seconds % 60);
+        return `${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+    }
+
+    function updateProgress() {
+        podcastProgressBar.value = (audio.currentTime / audio.duration) * 100 || 0;
+        timeDisplay.textContent = `${formatTime(audio.currentTime)} / ${formatTime(audio.duration || 0)}`;
+    }
+
+    playPauseBtn.addEventListener('click', togglePlayPause);
+    audio.addEventListener('timeupdate', updateProgress);
+    audio.addEventListener('loadedmetadata', updateProgress);
+
+    podcastProgressBar.addEventListener('input', () => {
+        const seekTime = (podcastProgressBar.value / 100) * audio.duration;
+        audio.currentTime = seekTime;
+    });
+
+    // Cuando el audio termina
+    audio.addEventListener('ended', () => {
+        playPauseBtn.innerHTML = playIcon;
+        audio.currentTime = 0;
+        podcastProgressBar.value = 0;
+    });
+</script>
+
+</body>
+</html>

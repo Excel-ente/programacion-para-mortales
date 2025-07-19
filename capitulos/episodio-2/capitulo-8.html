@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Episodio 2, Cap. 8: Creando y Ejecutando el Proyecto Django - Programación para Mortales</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@300;400;500;600;700&family=Fira+Code:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Paleta de colores vibrante y moderna */
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --primary-light: #a5b4fc;
+            --secondary: #ec4899;
+            --secondary-dark: #db2777;
+            --accent: #06b6d4;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --dark: #0f172a;
+            --dark-blue: #1e293b;
+            --light: #f8fafc;
+            --gray: #64748b;
+            --gray-light: #e2e8f0;
+
+            /* Tipografía */
+            --font-heading: 'Space Grotesk', sans-serif;
+            --font-body: 'Outfit', sans-serif;
+            --font-code: 'Fira Code', monospace;
+
+            /* Espaciado */
+            --spacing-xs: 0.25rem;
+            --spacing-sm: 0.5rem;
+            --spacing-md: 1rem;
+            --spacing-lg: 1.5rem;
+            --spacing-xl: 2rem;
+            --spacing-2xl: 3rem;
+            --spacing-3xl: 4rem;
+
+            /* Bordes y sombras */
+            --radius-sm: 0.25rem;
+            --radius-md: 0.5rem;
+            --radius-lg: 1rem;
+            --radius-xl: 1.5rem;
+            --radius-full: 9999px;
+
+            --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+
+            /* Transiciones */
+            --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-normal: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-slow: 500ms cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            font-size: 16px;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-body);
+            color: var(--dark);
+            background-color: var(--light);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: var(--font-heading);
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: var(--spacing-lg);
+            color: var(--dark);
+        }
+
+        h1 { font-size: 3rem; }
+        h2 {
+            font-size: 2.25rem;
+            margin-top: var(--spacing-2xl);
+            position: relative;
+            padding-bottom: var(--spacing-sm);
+        }
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 80px;
+            height: 4px;
+            background: var(--primary);
+            border-radius: 2px;
+        }
+        h3 {
+            font-size: 1.75rem;
+            margin-top: var(--spacing-xl);
+            color: var(--primary-dark);
+        }
+
+        p {
+            margin-bottom: var(--spacing-lg);
+            font-size: 1.125rem;
+        }
+
+        a {
+            text-decoration: none;
+            color: var(--primary);
+            transition: var(--transition-normal);
+        }
+        a:hover { color: var(--primary-dark); }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            border-radius: var(--radius-md);
+            display: block; 
+        }
+        
+        .img-analogy {
+            border: 2px solid var(--gray-light);
+            box-shadow: var(--shadow-md);
+            margin-top: var(--spacing-sm);
+            margin-bottom: var(--spacing-lg);
+        }
+        
+        .img-centered {
+            margin-left: auto;
+            margin-right: auto;
+            max-width: 600px; 
+        }
+        
+        .img-screenshot {
+            border: 1px solid var(--gray-light);
+            box-shadow: var(--shadow-lg);
+            border-radius: var(--radius-sm);
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 var(--spacing-lg);
+        }
+
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 100;
+            background-color: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition-normal);
+        }
+        .header.scrolled { box-shadow: var(--shadow-md); }
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+        }
+        .logo {
+            font-family: var(--font-heading);
+            font-weight: 800;
+            font-size: 1.5rem;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+        }
+        .logo-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            background-color: var(--primary);
+            color: white;
+            border-radius: var(--radius-md);
+            font-weight: 700;
+        }
+        .nav {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-xl);
+        }
+        .nav-link {
+            font-weight: 500;
+            color: var(--dark);
+            position: relative;
+        }
+        .nav-link:hover { color: var(--primary); }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--primary);
+            transition: var(--transition-normal);
+        }
+        .nav-link:hover::after { width: 100%; }
+        .nav-link.active { color: var(--primary); }
+        .nav-link.active::after { width: 100%; }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.75rem 1.5rem;
+            font-weight: 600;
+            border-radius: var(--radius-full);
+            transition: var(--transition-normal);
+            gap: var(--spacing-sm);
+        }
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+            box-shadow: var(--shadow-md);
+        }
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+        .mobile-menu-btn {
+            display: none;
+            font-size: 1.5rem;
+            color: var(--dark);
+            cursor: pointer;
+            border: none;
+            background: none;
+        }
+
+        .chapter-header {
+            padding-top: 120px;
+            padding-bottom: var(--spacing-2xl);
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+        .chapter-header::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            opacity: 0.5;
+        }
+        .chapter-header-content { position: relative; z-index: 1; }
+        .chapter-number {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: var(--spacing-sm);
+            opacity: 0.9;
+        }
+        .chapter-title {
+            font-size: 3.5rem;
+            margin-bottom: var(--spacing-lg);
+            color: white;
+        }
+        .chapter-meta {
+            display: flex;
+            gap: var(--spacing-lg);
+            font-size: 1.125rem;
+            opacity: 0.9;
+        }
+        .chapter-meta-item {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+        }
+
+        .chapter-content { padding: var(--spacing-3xl) 0; }
+        .content-wrapper { max-width: 800px; margin: 0 auto; }
+
+        .highlight-box {
+            background-color: rgba(99, 102, 241, 0.1);
+            border-left: 4px solid var(--primary);
+            padding: var(--spacing-lg);
+            border-radius: 0 var(--radius-md) var(--radius-md) 0;
+            margin: var(--spacing-xl) 0;
+        }
+        .note-box {
+            background-color: rgba(236, 72, 153, 0.1);
+            border-left: 4px solid var(--secondary);
+            padding: var(--spacing-lg);
+            border-radius: 0 var(--radius-md) var(--radius-md) 0;
+            margin: var(--spacing-xl) 0;
+        }
+        .youtube-embed-container {
+            position: relative;
+            overflow: hidden;
+            width: 100%;
+            padding-top: 56.25%; 
+            margin: var(--spacing-xl) 0;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg);
+        }
+        .youtube-embed-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+        .image-container {
+            margin: var(--spacing-xl) 0;
+            text-align: center;
+        }
+        .image-caption {
+            margin-top: var(--spacing-sm);
+            font-size: 0.9rem;
+            color: var(--gray);
+            text-align: center;
+        }
+
+        ul, ol { margin: 0 0 var(--spacing-lg) var(--spacing-xl); }
+        li { margin-bottom: var(--spacing-sm); }
+        
+        .code-block {
+            position: relative;
+            margin: var(--spacing-lg) 0;
+        }
+        .code-block-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: var(--dark);
+            color: white;
+            padding: var(--spacing-sm) var(--spacing-lg);
+            border-radius: var(--radius-md) var(--radius-md) 0 0;
+            font-family: var(--font-code);
+            font-size: 0.9rem;
+        }
+        .code-block-title { font-weight: 600; }
+        .code-block-actions { display: flex; gap: var(--spacing-sm); }
+        .code-block-action {
+            background: none;
+            border: none;
+            color: rgba(255, 255, 255, 0.7);
+            cursor: pointer;
+            transition: var(--transition-normal);
+            font-size: 0.9rem;
+            padding: 2px 8px;
+            border-radius: var(--radius-sm);
+        }
+        .code-block-action:hover {
+            color: white;
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        .code-block pre {
+            margin: 0;
+            border-top-left-radius: 0;
+            border-top-right-radius: 0;
+        }
+        pre {
+            background-color: var(--dark-blue);
+            color: white;
+            padding: var(--spacing-lg);
+            border-radius: var(--radius-md);
+            overflow-x: auto;
+            margin: var(--spacing-lg) 0;
+            font-family: var(--font-code);
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+        code {
+            font-family: var(--font-code);
+            background-color: var(--gray-light);
+            padding: 0.2rem 0.4rem;
+            border-radius: var(--radius-sm);
+            font-size: 0.9em;
+        }
+        pre code {
+            background-color: transparent;
+            padding: 0;
+            border-radius: 0;
+            font-size: 1em;
+        }
+
+        .chapter-navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: var(--spacing-3xl);
+            padding-top: var(--spacing-xl);
+            border-top: 1px solid var(--gray-light);
+        }
+        .nav-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            background-color: white;
+            color: var(--primary);
+            padding: var(--spacing-sm) var(--spacing-lg);
+            border-radius: var(--radius-full);
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition-normal);
+            border: 2px solid var(--primary);
+            cursor: pointer;
+        }
+        .nav-btn:hover {
+            background-color: var(--primary);
+            color: white;
+        }
+        .nav-btn.next {
+            background-color: var(--primary);
+            color: white;
+        }
+        .nav-btn.next:hover {
+            background-color: var(--primary-dark);
+            border-color: var(--primary-dark);
+        }
+
+        .progress-container {
+            position: fixed;
+            top: 70px;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background-color: var(--gray-light);
+            z-index: 99;
+        }
+        .progress-bar {
+            height: 100%;
+            background-color: var(--secondary);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .toc {
+            position: sticky;
+            top: 90px; 
+            max-height: calc(100vh - 100px); 
+            overflow-y: auto;
+            padding-right: var(--spacing-md);
+        }
+        .toc-title {
+            font-size: 1.25rem;
+            margin-bottom: var(--spacing-md);
+            padding-bottom: var(--spacing-sm);
+            border-bottom: 2px solid var(--primary);
+        }
+        .toc-list { list-style: none; margin-left: 0; }
+        .toc-item { margin-bottom: var(--spacing-sm); }
+        .toc-link {
+            display: block;
+            padding: var(--spacing-xs) 0;
+            color: var(--gray);
+            transition: var(--transition-normal);
+            border-left: 2px solid transparent;
+            padding-left: var(--spacing-sm);
+        }
+        .toc-link:hover, .toc-link.active {
+            color: var(--primary);
+            border-left-color: var(--primary);
+            padding-left: var(--spacing-md);
+        }
+        .toc-sublist { list-style: none; margin-left: var(--spacing-lg); margin-bottom: 0; }
+
+        .footer {
+            background-color: var(--dark);
+            color: white;
+            padding: var(--spacing-2xl) 0;
+            margin-top: var(--spacing-3xl);
+        }
+        .footer-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .footer-logo {
+            font-family: var(--font-heading);
+            font-weight: 800;
+            font-size: 1.5rem;
+            color: white;
+        }
+        .footer-links {
+            display: flex;
+            gap: var(--spacing-lg);
+        }
+        .footer-link {
+            color: rgba(255, 255, 255, 0.7);
+            transition: var(--transition-normal);
+        }
+        .footer-link:hover { color: white; }
+        .footer-bottom {
+            margin-top: var(--spacing-lg);
+            padding-top: var(--spacing-lg);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.875rem;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in { animation: fadeIn 0.5s ease-out forwards; }
+        .delay-100 { animation-delay: 100ms; }
+        .delay-200 { animation-delay: 200ms; }
+        .delay-300 { animation-delay: 300ms; }
+
+        .chapter-layout {
+            display: grid;
+            grid-template-columns: 3fr 1fr; 
+            gap: var(--spacing-2xl);
+        }
+
+        @media (max-width: 992px) {
+            .chapter-title { font-size: 2.5rem; }
+            .chapter-layout { grid-template-columns: 1fr; }
+            .toc { display: none; } 
+        }
+        @media (max-width: 768px) {
+            .header-container { height: 60px; }
+            .nav {
+                position: fixed;
+                top: 60px; 
+                left: 0;
+                width: 100%;
+                height: 0; 
+                background-color: white;
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 0 var(--spacing-lg);
+                overflow: hidden;
+                transition: var(--transition-normal);
+                box-shadow: var(--shadow-md);
+                opacity: 0;
+                visibility: hidden;
+            }
+            .nav.active {
+                height: auto; 
+                padding: var(--spacing-lg);
+                opacity: 1;
+                visibility: visible;
+            }
+            .mobile-menu-btn { display: block; }
+            .chapter-title { font-size: 2rem; }
+            .chapter-meta { flex-direction: column; gap: var(--spacing-sm); }
+            .chapter-navigation { flex-direction: column; gap: var(--spacing-md); }
+            .nav-btn { width: 100%; justify-content: center; }
+            .footer-container { flex-direction: column; gap: var(--spacing-lg); text-align: center; }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container header-container">
+            <a href="../../index.html" class="logo">
+                <span class="logo-icon">P</span>
+                <span>Programación para Mortales</span>
+            </a>
+            <nav class="nav">
+                <a href="../../index.html" class="nav-link">Inicio</a>
+                <a href="../../index.html#episodes" class="nav-link">Episodios</a>
+                <a href="../../index.html#future-courses" class="nav-link">Próximos cursos</a>
+                <a href="../../about.html" class="nav-link">Acerca de</a>
+                <a href="../../indice.html" class="nav-link">Índice completo</a>
+                <a href="capitulo-9.html" class="btn btn-primary">Siguiente Capítulo</a>
+            </nav>
+            <button class="mobile-menu-btn">☰</button>
+        </div>
+    </header>
+
+    <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+    <section class="chapter-header">
+        <div class="container chapter-header-content">
+            <div class="chapter-number animate-fade-in">Episodio 2, Capítulo 8</div>
+            <h1 class="chapter-title animate-fade-in delay-100">Creación y Ejecución del Proyecto Django</h1>
+            <div class="chapter-meta animate-fade-in delay-200">
+                <div class="chapter-meta-item">
+                    <span>⏱️ Tiempo de lectura: 10 minutos</span>
+                </div>
+                <div class="chapter-meta-item">
+                    <span>🧩 Actividades: 2 (Crear y correr proyecto)</span>
+                </div>
+                <div class="chapter-meta-item">
+                    <span>📚 Nivel: Principiante</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="chapter-content">
+        <div class="container">
+            <div class="chapter-layout">
+                <div class="content-wrapper">
+                    <h2 id="manos-al-codigo">💻 ¡Manos al Código! Creando Nuestro Primer Proyecto Django</h2>
+                    <p>¡Llegó el momento de la verdad! Ya tenemos nuestro entorno preparado, Python listo, Django instalado y nuestro editor de código (Visual Studio Code) esperando. Ahora vamos a dar el paso fundamental: <strong>crear nuestro primer proyecto Django</strong> y verlo funcionar por primera vez.</p>
+
+                    <h3 id="abriendo-vs-code">1. Abriendo Nuestro Espacio de Trabajo en VS Code</h3>
+                    <p>Primero, abre Visual Studio Code. Luego, necesitas abrir la carpeta donde creaste tu entorno virtual (por ejemplo, la carpeta "MisProyectosDjango" que mencionamos antes, donde adentro está tu carpeta <code>venv</code>).</p>
+                    <p>Puedes hacerlo de dos maneras:</p>
+                    <ul>
+                        <li>Ve a "Archivo" (o "File") en el menú superior, luego "Abrir Carpeta..." (o "Open Folder...") y selecciona tu carpeta principal de proyecto.</li>
+                        <li>O, más fácil aún, ¡simplemente arrastra la carpeta de tu proyecto directamente a la ventana de Visual Studio Code!</li>
+                    </ul>
+                    <p>Una vez abierta, verás los archivos y carpetas de tu proyecto en el panel lateral izquierdo de VS Code.</p>
+
+                    <div class="image-container">
+                        <img src="https://i.imgur.com/7xSPu8k.png" alt="Visual Studio Code con carpeta de proyecto abierta" class="img-screenshot img-centered">
+                        <p class="image-caption">Así se vería VS Code con tu carpeta de proyecto abierta (ejemplo).</p>
+                    </div>
+
+                    <h3 id="terminal-integrada">2. La Terminal Integrada: Nuestra Aliada</h3>
+                    <p>Visual Studio Code tiene una funcionalidad genial: una terminal integrada. Esto significa que no necesitas tener una ventana de terminal separada; puedes ejecutar todos tus comandos directamente desde el editor.</p>
+                    <p>Para abrirla, ve al menú superior "Terminal" y selecciona "Nueva terminal" (o "New Terminal"). Se abrirá un panel en la parte inferior de VS Code, ¡y es exactamente igual a la terminal de tu sistema operativo!</p>
+                    
+                    <div class="highlight-box">
+                        <p><strong>¡Importantísimo!</strong> Asegúrate de que tu <strong>entorno virtual esté activado</strong> en esta nueva terminal de VS Code. Si al abrirla no ves el nombre de tu entorno entre paréntesis (ej: <code>(venv)</code>), necesitas activarlo nuevamente como aprendimos en el capítulo anterior (ej: <code>venv\Scripts\activate</code> en Windows o <code>source venv/bin/activate</code> en Mac/Linux).</p>
+                    </div>
+
+                    <h3 id="creando-proyecto-django">3. El Nacimiento del Proyecto: <code>django-admin startproject</code></h3>
+                    <p>Con la terminal abierta en VS Code y tu entorno virtual activado, ¡es hora de crear el proyecto! Django nos da una herramienta de línea de comandos llamada <code>django-admin</code> para realizar varias tareas administrativas. Para crear un nuevo proyecto, usamos el comando <code>startproject</code>.</p>
+                    <p>Escribe lo siguiente en la terminal y presiona Enter:</p>
+                    <div class="code-block">
+                        <div class="code-block-header">
+                            <div class="code-block-title">Terminal (entorno activado)</div>
+                            <div class="code-block-actions">
+                                <button class="code-block-action copy-btn" data-code="django-admin startproject agenda .">Copiar</button>
+                            </div>
+                        </div>
+                        <pre><code>django-admin startproject agenda .</code></pre>
+                    </div>
+                    <p>Desglosemos este comando:</p>
+                    <ul>
+                        <li><code>django-admin</code>: La herramienta de línea de comandos de Django.</li>
+                        <li><code>startproject</code>: La orden para iniciar un nuevo proyecto.</li>
+                        <li><code>agenda</code>: ¡Este es el nombre que le daremos a nuestro proyecto! Puedes elegir otro si quieres (por ejemplo, "mi_primera_app", "gestor_tareas", etc.), pero para seguir el tutorial, usemos "agenda".</li>
+                        <li><code>.</code> (un punto al final): Este punto es importante. Le dice a Django que cree los archivos del proyecto <strong>directamente en la carpeta actual</strong> (que debería ser "MisProyectosDjango" o como la hayas llamado, donde ya está tu <code>venv</code>). Si omites el punto, Django creará una carpeta extra llamada "agenda" y meterá todo ahí, lo cual puede ser un poco redundante.</li>
+                    </ul>
+                    <p>Después de ejecutar el comando, ¡verás que aparecen nuevos archivos y carpetas en tu panel lateral de VS Code! Miremos qué se creó:</p>
+                    
+                    <div class="image-container">
+                        <img src="https://i.imgur.com/uJ8ODtP.png" alt="Estructura de carpetas de un proyecto Django inicial" class="img-screenshot img-centered">
+                        <p class="image-caption">Estructura típica de un proyecto Django recién creado.</p>
+                    </div>
+
+                    <ul>
+                        <li>Una carpeta llamada <code>agenda</code> (la carpeta interna): Esta es la carpeta principal de la aplicación de tu proyecto. Contiene archivos importantes como:
+                            <ul>
+                                <li><code>settings.py</code>: Aquí van todas las configuraciones de tu proyecto Django (base de datos, aplicaciones instaladas, etc.).</li>
+                                <li><code>urls.py</code>: Define las "direcciones" o rutas de tu aplicación web.</li>
+                                <li><code>wsgi.py</code> y <code>asgi.py</code>: Archivos relacionados con cómo tu aplicación se comunica con los servidores web (no te preocupes mucho por ellos ahora).</li>
+                            </ul>
+                        </li>
+                        <li>Un archivo llamado <code>manage.py</code>: ¡Este archivo es tu mejor amigo en Django! Es una utilidad de línea de comandos que te permite interactuar con tu proyecto de muchas maneras: correr el servidor de desarrollo, crear aplicaciones, aplicar cambios a la base de datos (migraciones), crear usuarios, y mucho más. Es como el "comandante en jefe" de tu proyecto.</li>
+                    </ul>
+                    <p>La carpeta exterior (donde están <code>manage.py</code> y la carpeta interna <code>agenda</code>, y también tu carpeta <code>venv</code>) es la <strong>carpeta raíz de tu proyecto</strong>.</p>
+
+                    <h3 id="corriendo-servidor">4. ¡A Correr se Ha Dicho! El Servidor de Desarrollo</h3>
+                    <p>Django viene con un servidor web liviano incorporado, perfecto para desarrollar y probar tu aplicación localmente en tu computadora. Para ponerlo en marcha, asegúrate de estar en la terminal, dentro de la carpeta raíz de tu proyecto (la que contiene el archivo <code>manage.py</code>) y con tu entorno virtual activado.</p>
+                    <p>Luego, ejecuta el siguiente comando:</p>
+                    <div class="code-block">
+                        <div class="code-block-header">
+                            <div class="code-block-title">Terminal (en la carpeta del proyecto, entorno activado)</div>
+                            <div class="code-block-actions">
+                                <button class="code-block-action copy-btn" data-code="python manage.py runserver">Copiar</button>
+                            </div>
+                        </div>
+                        <pre><code>python manage.py runserver</code></pre>
+                        <p class="image-caption">(Nuevamente, si usas <code>python3</code>, sería <code>python3 manage.py runserver</code>).</p>
+                    </div>
+                    <p>Desglosemos:</p>
+                    <ul>
+                        <li><code>python</code> (o <code>python3</code>): Le decimos que vamos a ejecutar un script de Python.</li>
+                        <li><code>manage.py</code>: El script "comandante" de nuestro proyecto.</li>
+                        <li><code>runserver</code>: La orden específica que le damos a <code>manage.py</code> para que inicie el servidor de desarrollo.</li>
+                    </ul>
+                    <p>Si todo va bien, verás unos mensajes en la terminal, y uno de ellos te dirá algo como:</p>
+                    <pre><code>Starting development server at http://127.0.0.1:8000/
+Quit the server with CONTROL-C.</code></pre>
+                    <p>¡Esa dirección <code>http://127.0.0.1:8000/</code> es la puerta de entrada a tu aplicación! Copia esa dirección, pégala en tu navegador web (Chrome, Firefox, Edge, el que uses) y presiona Enter.</p>
+                    
+                    <div class="image-container">
+                        <img src="https://i.imgur.com/8wLgYqG.png" alt="Página de inicio por defecto de Django" class="img-screenshot img-centered">
+                        <p class="image-caption">¡Felicidades! Esta es la página de bienvenida de Django. Significa que tu proyecto está funcionando.</p>
+                    </div>
+
+                    <p>¡Y voilà! Deberías ver una página de bienvenida de Django, usualmente con un cohete y un mensaje de felicitaciones. ¡Significa que tu proyecto Django está creado y el servidor de desarrollo está funcionando correctamente!</p>
+                    <p>Para detener el servidor de desarrollo, simplemente vuelve a la terminal donde se está ejecutando y presiona <code>Control + C</code>.</p>
+
+                    <div class="youtube-embed-container">
+                        <iframe src="https://www.youtube.com/embed/bm679dIDM28" title="Video de YouTube sobre Creación y Ejecución de Proyectos Django" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                    <p class="image-caption">El video de este capítulo te mostrará todo este proceso visualmente.</p>
+
+                    <div class="note-box">
+                        <h4>Pequeño Resumen del Capítulo 8 (Episodio 2)</h4>
+                        <p>Para crear un nuevo proyecto Django, abre la terminal en la carpeta deseada (con el entorno virtual activado) y ejecuta <code>django-admin startproject nombre_proyecto .</code>. Esto creará la estructura básica del proyecto, incluyendo el importante archivo <code>manage.py</code>. Luego, para ver tu proyecto en acción, navega a la carpeta raíz del proyecto en la terminal y ejecuta <code>python manage.py runserver</code>. Abre la dirección que te indica la terminal (usualmente <code>http://127.0.0.1:8000/</code>) en tu navegador para ver la página de bienvenida de Django.</p>
+                    </div>
+
+                    <p>¡Acabas de crear y correr tu primer proyecto Django! Aunque todavía no hemos añadido nuestra propia lógica, este es un hito fundamental. En los próximos capítulos, empezaremos a darle forma a nuestra aplicación "agenda".</p>
+
+                </div>
+
+                <aside class="toc">
+                    <h3 class="toc-title">En este capítulo</h3>
+                    <ul class="toc-list">
+                        <li class="toc-item"><a href="#manos-al-codigo" class="toc-link">¡Manos al Código!</a></li>
+                        <li class="toc-item"><a href="#abriendo-vs-code" class="toc-link">1. Abriendo VS Code</a></li>
+                        <li class="toc-item"><a href="#terminal-integrada" class="toc-link">2. La Terminal Integrada</a></li>
+                        <li class="toc-item"><a href="#creando-proyecto-django" class="toc-link">3. Creando el Proyecto</a></li>
+                        <li class="toc-item"><a href="#corriendo-servidor" class="toc-link">4. ¡A Correr el Servidor!</a></li>
+                    </ul>
+                </aside>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <div class="container">
+            <div class="content-wrapper">
+                <div class="chapter-navigation">
+                    <a href="capitulo-7.html" class="nav-btn">
+                        <span>←</span> Capítulo anterior
+                    </a>
+                    <a href="capitulo-9.html" class="nav-btn next">
+                        Siguiente Capítulo <span>→</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container footer-container">
+            <a href="../../index.html" class="footer-logo">Programación para Mortales</a>
+            <div class="footer-links">
+                <a href="../../index.html" class="footer-link">Inicio</a>
+                <a href="../../indice.html" class="footer-link">Índice completo</a>
+                <a href="../../about.html" class="footer-link">Acerca de</a>
+                <a href="../../terminos-y-condiciones.html" class="footer-link">Términos y condiciones</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2025 Programación para Mortales. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile Menu Toggle
+        const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+        const nav = document.querySelector('.nav');
+        mobileMenuBtn.addEventListener('click', () => {
+            nav.classList.toggle('active');
+        });
+
+        // Header Scroll Effect
+        const header = document.querySelector('.header');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // Reading Progress Bar
+        const progressBar = document.getElementById('progressBar');
+        window.addEventListener('scroll', () => {
+            const windowHeight = window.innerHeight;
+            const documentHeight = document.documentElement.scrollHeight - windowHeight;
+            const scrollTop = window.scrollY;
+            const progress = (scrollTop / documentHeight) * 100;
+            progressBar.style.width = progress + '%';
+        });
+
+        // Table of Contents Active Link
+        const tocLinks = document.querySelectorAll('.toc-link');
+        const sections = document.querySelectorAll('.content-wrapper h2, .content-wrapper h3');
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop - (header.offsetHeight + 20);
+                if (window.scrollY >= sectionTop) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            tocLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href').substring(1) === current) {
+                    link.classList.add('active');
+                }
+            });
+        });
+        
+        // Copy Code Button
+        const copyButtons = document.querySelectorAll('.copy-btn');
+        copyButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const codeToCopy = button.closest('.code-block').querySelector('pre code').innerText;
+                navigator.clipboard.writeText(codeToCopy).then(() => {
+                    const originalText = button.textContent;
+                    button.textContent = '¡Copiado!';
+                    button.style.backgroundColor = 'var(--success)';
+                    setTimeout(() => {
+                        button.textContent = originalText;
+                        button.style.backgroundColor = '';
+                    }, 2000);
+                }).catch(err => {
+                    console.error('Error al copiar:', err);
+                    alert('Error al copiar el código.');
+                });
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Episodio 2, Cap. 20: Personalizando Más el Admin - Programación para Mortales</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@300;400;500;600;700&family=Fira+Code:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Paleta de colores vibrante y moderna */
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --primary-light: #a5b4fc;
+            --secondary: #ec4899;
+            --secondary-dark: #db2777;
+            --accent: #06b6d4;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --dark: #0f172a;
+            --dark-blue: #1e293b;
+            --light: #f8fafc;
+            --gray: #64748b;
+            --gray-light: #e2e8f0;
+
+            /* Tipografía */
+            --font-heading: 'Space Grotesk', sans-serif;
+            --font-body: 'Outfit', sans-serif;
+            --font-code: 'Fira Code', monospace;
+
+            /* Espaciado */
+            --spacing-xs: 0.25rem;
+            --spacing-sm: 0.5rem;
+            --spacing-md: 1rem;
+            --spacing-lg: 1.5rem;
+            --spacing-xl: 2rem;
+            --spacing-2xl: 3rem;
+            --spacing-3xl: 4rem;
+
+            /* Bordes y sombras */
+            --radius-sm: 0.25rem;
+            --radius-md: 0.5rem;
+            --radius-lg: 1rem;
+            --radius-xl: 1.5rem;
+            --radius-full: 9999px;
+
+            --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+
+            /* Transiciones */
+            --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-normal: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-slow: 500ms cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            font-size: 16px;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-body);
+            color: var(--dark);
+            background-color: var(--light);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: var(--font-heading);
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: var(--spacing-lg);
+            color: var(--dark);
+        }
+
+        h1 { font-size: 3rem; }
+        h2 {
+            font-size: 2.25rem;
+            margin-top: var(--spacing-2xl);
+            position: relative;
+            padding-bottom: var(--spacing-sm);
+        }
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 80px;
+            height: 4px;
+            background: var(--primary);
+            border-radius: 2px;
+        }
+        h3 {
+            font-size: 1.75rem;
+            margin-top: var(--spacing-xl);
+            color: var(--primary-dark);
+        }
+
+        p {
+            margin-bottom: var(--spacing-lg);
+            font-size: 1.125rem;
+        }
+
+        a {
+            text-decoration: none;
+            color: var(--primary);
+            transition: var(--transition-normal);
+        }
+        a:hover { color: var(--primary-dark); }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            border-radius: var(--radius-md);
+            display: block; 
+        }
+        
+        .img-analogy {
+            border: 2px solid var(--gray-light);
+            box-shadow: var(--shadow-md);
+            margin-top: var(--spacing-sm);
+            margin-bottom: var(--spacing-lg);
+        }
+        
+        .img-centered {
+            margin-left: auto;
+            margin-right: auto;
+            max-width: 750px; 
+        }
+        
+        .img-screenshot {
+            border: 1px solid var(--gray-light);
+            box-shadow: var(--shadow-lg);
+            border-radius: var(--radius-sm);
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 var(--spacing-lg);
+        }
+
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 100;
+            background-color: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition-normal);
+        }
+        .header.scrolled { box-shadow: var(--shadow-md); }
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+        }
+        .logo {
+            font-family: var(--font-heading);
+            font-weight: 800;
+            font-size: 1.5rem;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+        }
+        .logo-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            background-color: var(--primary);
+            color: white;
+            border-radius: var(--radius-md);
+            font-weight: 700;
+        }
+        .nav {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-xl);
+        }
+        .nav-link {
+            font-weight: 500;
+            color: var(--dark);
+            position: relative;
+        }
+        .nav-link:hover { color: var(--primary); }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--primary);
+            transition: var(--transition-normal);
+        }
+        .nav-link:hover::after { width: 100%; }
+        .nav-link.active { color: var(--primary); }
+        .nav-link.active::after { width: 100%; }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.75rem 1.5rem;
+            font-weight: 600;
+            border-radius: var(--radius-full);
+            transition: var(--transition-normal);
+            gap: var(--spacing-sm);
+        }
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+            box-shadow: var(--shadow-md);
+        }
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+        .mobile-menu-btn {
+            display: none;
+            font-size: 1.5rem;
+            color: var(--dark);
+            cursor: pointer;
+            border: none;
+            background: none;
+        }
+
+        .chapter-header {
+            padding-top: 120px;
+            padding-bottom: var(--spacing-2xl);
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+        .chapter-header::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            opacity: 0.5;
+        }
+        .chapter-header-content { position: relative; z-index: 1; }
+        .chapter-number {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: var(--spacing-sm);
+            opacity: 0.9;
+        }
+        .chapter-title {
+            font-size: 3.5rem;
+            margin-bottom: var(--spacing-lg);
+            color: white;
+        }
+        .chapter-meta {
+            display: flex;
+            gap: var(--spacing-lg);
+            font-size: 1.125rem;
+            opacity: 0.9;
+        }
+        .chapter-meta-item {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+        }
+
+        .chapter-content { padding: var(--spacing-3xl) 0; }
+        .content-wrapper { max-width: 800px; margin: 0 auto; }
+
+        .highlight-box {
+            background-color: rgba(99, 102, 241, 0.1);
+            border-left: 4px solid var(--primary);
+            padding: var(--spacing-lg);
+            border-radius: 0 var(--radius-md) var(--radius-md) 0;
+            margin: var(--spacing-xl) 0;
+        }
+        .note-box {
+            background-color: rgba(236, 72, 153, 0.1);
+            border-left: 4px solid var(--secondary);
+            padding: var(--spacing-lg);
+            border-radius: 0 var(--radius-md) var(--radius-md) 0;
+            margin: var(--spacing-xl) 0;
+        }
+        .youtube-embed-container {
+            position: relative;
+            overflow: hidden;
+            width: 100%;
+            padding-top: 56.25%; 
+            margin: var(--spacing-xl) 0;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg);
+        }
+        .youtube-embed-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+        .image-container {
+            margin: var(--spacing-xl) 0;
+            text-align: center;
+        }
+        .image-caption {
+            margin-top: var(--spacing-sm);
+            font-size: 0.9rem;
+            color: var(--gray);
+            text-align: center;
+        }
+
+        ul, ol { margin: 0 0 var(--spacing-lg) var(--spacing-xl); }
+        li { margin-bottom: var(--spacing-sm); }
+        
+        .code-block {
+            position: relative;
+            margin: var(--spacing-lg) 0;
+        }
+        .code-block-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: var(--dark);
+            color: white;
+            padding: var(--spacing-sm) var(--spacing-lg);
+            border-radius: var(--radius-md) var(--radius-md) 0 0;
+            font-family: var(--font-code);
+            font-size: 0.9rem;
+        }
+        .code-block-title { font-weight: 600; }
+        .code-block-actions { display: flex; gap: var(--spacing-sm); }
+        .code-block-action {
+            background: none;
+            border: none;
+            color: rgba(255, 255, 255, 0.7);
+            cursor: pointer;
+            transition: var(--transition-normal);
+            font-size: 0.9rem;
+            padding: 2px 8px;
+            border-radius: var(--radius-sm);
+        }
+        .code-block-action:hover {
+            color: white;
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        .code-block pre {
+            margin: 0;
+            border-top-left-radius: 0;
+            border-top-right-radius: 0;
+        }
+        pre {
+            background-color: var(--dark-blue);
+            color: white;
+            padding: var(--spacing-lg);
+            border-radius: var(--radius-md);
+            overflow-x: auto;
+            margin: var(--spacing-lg) 0;
+            font-family: var(--font-code);
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+        code {
+            font-family: var(--font-code);
+            background-color: var(--gray-light);
+            padding: 0.2rem 0.4rem;
+            border-radius: var(--radius-sm);
+            font-size: 0.9em;
+        }
+        pre code {
+            background-color: transparent;
+            padding: 0;
+            border-radius: 0;
+            font-size: 1em;
+        }
+
+        .chapter-navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: var(--spacing-3xl);
+            padding-top: var(--spacing-xl);
+            border-top: 1px solid var(--gray-light);
+        }
+        .nav-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            background-color: white;
+            color: var(--primary);
+            padding: var(--spacing-sm) var(--spacing-lg);
+            border-radius: var(--radius-full);
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition-normal);
+            border: 2px solid var(--primary);
+            cursor: pointer;
+        }
+        .nav-btn:hover {
+            background-color: var(--primary);
+            color: white;
+        }
+        .nav-btn.next {
+            background-color: var(--primary);
+            color: white;
+        }
+        .nav-btn.next:hover {
+            background-color: var(--primary-dark);
+            border-color: var(--primary-dark);
+        }
+
+        .progress-container {
+            position: fixed;
+            top: 70px;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background-color: var(--gray-light);
+            z-index: 99;
+        }
+        .progress-bar {
+            height: 100%;
+            background-color: var(--secondary);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .toc {
+            position: sticky;
+            top: 90px; 
+            max-height: calc(100vh - 100px); 
+            overflow-y: auto;
+            padding-right: var(--spacing-md);
+        }
+        .toc-title {
+            font-size: 1.25rem;
+            margin-bottom: var(--spacing-md);
+            padding-bottom: var(--spacing-sm);
+            border-bottom: 2px solid var(--primary);
+        }
+        .toc-list { list-style: none; margin-left: 0; }
+        .toc-item { margin-bottom: var(--spacing-sm); }
+        .toc-link {
+            display: block;
+            padding: var(--spacing-xs) 0;
+            color: var(--gray);
+            transition: var(--transition-normal);
+            border-left: 2px solid transparent;
+            padding-left: var(--spacing-sm);
+        }
+        .toc-link:hover, .toc-link.active {
+            color: var(--primary);
+            border-left-color: var(--primary);
+            padding-left: var(--spacing-md);
+        }
+        .toc-sublist { list-style: none; margin-left: var(--spacing-lg); margin-bottom: 0; }
+
+        .footer {
+            background-color: var(--dark);
+            color: white;
+            padding: var(--spacing-2xl) 0;
+            margin-top: var(--spacing-3xl);
+        }
+        .footer-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .footer-logo {
+            font-family: var(--font-heading);
+            font-weight: 800;
+            font-size: 1.5rem;
+            color: white;
+        }
+        .footer-links {
+            display: flex;
+            gap: var(--spacing-lg);
+        }
+        .footer-link {
+            color: rgba(255, 255, 255, 0.7);
+            transition: var(--transition-normal);
+        }
+        .footer-link:hover { color: white; }
+        .footer-bottom {
+            margin-top: var(--spacing-lg);
+            padding-top: var(--spacing-lg);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.875rem;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in { animation: fadeIn 0.5s ease-out forwards; }
+        .delay-100 { animation-delay: 100ms; }
+        .delay-200 { animation-delay: 200ms; }
+        .delay-300 { animation-delay: 300ms; }
+
+        .chapter-layout {
+            display: grid;
+            grid-template-columns: 3fr 1fr; 
+            gap: var(--spacing-2xl);
+        }
+
+        @media (max-width: 992px) {
+            .chapter-title { font-size: 2.5rem; }
+            .chapter-layout { grid-template-columns: 1fr; }
+            .toc { display: none; } 
+        }
+        @media (max-width: 768px) {
+            .header-container { height: 60px; }
+            .nav {
+                position: fixed;
+                top: 60px; 
+                left: 0;
+                width: 100%;
+                height: 0; 
+                background-color: white;
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 0 var(--spacing-lg);
+                overflow: hidden;
+                transition: var(--transition-normal);
+                box-shadow: var(--shadow-md);
+                opacity: 0;
+                visibility: hidden;
+            }
+            .nav.active {
+                height: auto; 
+                padding: var(--spacing-lg);
+                opacity: 1;
+                visibility: visible;
+            }
+            .mobile-menu-btn { display: block; }
+            .chapter-title { font-size: 2rem; }
+            .chapter-meta { flex-direction: column; gap: var(--spacing-sm); }
+            .chapter-navigation { flex-direction: column; gap: var(--spacing-md); }
+            .nav-btn { width: 100%; justify-content: center; }
+            .footer-container { flex-direction: column; gap: var(--spacing-lg); text-align: center; }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container header-container">
+            <a href="../../index.html" class="logo">
+                <span class="logo-icon">P</span>
+                <span>Programación para Mortales</span>
+            </a>
+            <nav class="nav">
+                <a href="../../index.html" class="nav-link">Inicio</a>
+                <a href="../../index.html#episodes" class="nav-link">Episodios</a>
+                <a href="../../index.html#future-courses" class="nav-link">Próximos cursos</a>
+                <a href="../../about.html" class="nav-link">Acerca de</a>
+                <a href="../../indice.html" class="nav-link">Índice completo</a>
+                <a href="capitulo-21.html" class="btn btn-primary">Siguiente Capítulo</a>
+            </nav>
+            <button class="mobile-menu-btn">☰</button>
+        </div>
+    </header>
+
+    <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+    <section class="chapter-header">
+        <div class="container chapter-header-content">
+            <div class="chapter-number animate-fade-in">Episodio 2, Capítulo 20</div>
+            <h1 class="chapter-title animate-fade-in delay-100">Personalización Adicional del Panel de Administración</h1>
+            <div class="chapter-meta animate-fade-in delay-200">
+                <div class="chapter-meta-item">
+                    <span>⏱️ Tiempo de lectura: 7 minutos</span>
+                </div>
+                <div class="chapter-meta-item">
+                    <span>🧩 Actividades: 1 (Mejorar `admin.py`)</span>
+                </div>
+                <div class="chapter-meta-item">
+                    <span>📚 Nivel: Principiante</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="chapter-content">
+        <div class="container">
+            <div class="chapter-layout">
+                <div class="content-wrapper">
+                    <h2 id="admin-mas-potente">✨ Haciendo Nuestro Admin Aún Más Potente</h2>
+                    <p>En el capítulo anterior, logramos que nuestro modelo <code>Proveedor</code> apareciera en el panel de administración y personalizamos las columnas que se muestran en la lista usando <code>list_display</code>. ¡Eso ya es un gran avance! Pero el admin de Django es como una navaja suiza: tiene muchas más herramientas para hacernos la vida más fácil, especialmente cuando empezamos a tener muchos registros (muchos proveedores, en nuestro caso).</p>
+                    <p>Hoy vamos a explorar dos personalizaciones muy útiles que podemos agregar a nuestra clase <code>ProveedorAdmin</code> en el archivo <code>libreta/admin.py</code>: los filtros y el buscador.</p>
+
+                    <div class="image-container">
+                        <img src="https://images.unsplash.com/photo-1508697014178-5ee58c9CF34f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Lupa y herramientas de organización" class="img-centered img-analogy">
+                        <p class="image-caption">Añadir filtros y un buscador es como darle una lupa y mejores herramientas de organización a nuestro panel de administración.</p>
+                    </div>
+
+                    <h3 id="list-filter">🔍 Filtrando Resultados: <code>list_filter</code></h3>
+                    <p>Imagina que tienes cientos o miles de proveedores. Encontrar uno específico o ver solo aquellos que cumplen ciertos criterios (por ejemplo, todos los de una ciudad) podría ser tedioso si solo puedes ordenar por columnas. ¡Aquí es donde entra <code>list_filter</code>!</p>
+                    <p>El atributo <code>list_filter</code> en nuestra clase <code>ProveedorAdmin</code> nos permite agregar una barra lateral en la página de la lista de proveedores con opciones para filtrar los resultados basados en los campos que elijamos.</p>
+                    <p>Vamos a modificar nuestro <code>libreta/admin.py</code>. Si quisiéramos poder filtrar nuestros proveedores por el campo "nombre" (aunque para nombres únicos no es el mejor ejemplo, nos sirve para ilustrar), haríamos esto:</p>
+
+                    <div class="code-block">
+                        <div class="code-block-header">
+                            <div class="code-block-title">libreta/admin.py (con list_filter)</div>
+                            <div class="code-block-actions">
+                                <button class="code-block-action copy-btn">Copiar</button>
+                            </div>
+                        </div>
+                        <pre><code class="language-python">
+from django.contrib import admin
+from .models import Proveedor
+
+@admin.register(Proveedor)
+class ProveedorAdmin(admin.ModelAdmin):
+    list_display = ('nombre', 'email', 'telefono', 'direccion')
+    list_filter = ('nombre',) # ¡Nueva línea! Filtro por nombre
+                        </code></pre>
+                    </div>
+                    <p>Al igual que <code>list_display</code>, <code>list_filter</code> debe ser una tupla de nombres de campos (strings) que existen en tu modelo <code>Proveedor</code>. Si solo pones un campo, ¡no olvides la coma al final para que Python sepa que es una tupla!</p>
+                    <p>Guarda el archivo. Si tu servidor está corriendo, debería recargarse. Ahora, ve a la lista de Proveedores en el admin (<code>/admin/libreta/proveedor/</code>). Deberías ver una nueva barra lateral a la derecha titulada "Filtrar" (o "Filter") con opciones basadas en los nombres de tus proveedores.</p>
+                    
+                    <div class="image-container">
+                        <img src="https://i.imgur.com/jS1P8kH.png" alt="Panel de admin con list_filter activado" class="img-screenshot img-centered">
+                        <p class="image-caption">El panel de administración ahora con la opción de filtrar por nombre a la derecha.</p>
+                    </div>
+                    <p><code>list_filter</code> es especialmente útil para campos que tienen un número limitado de opciones (como un campo de "estado" con opciones "activo"/"inactivo", o un campo de "país") o para campos de fecha (Django automáticamente provee filtros inteligentes como "Hoy", "Últimos 7 días", etc.).</p>
+
+
+                    <h3 id="search-fields">🔎 Agregando un Buscador: <code>search_fields</code></h3>
+                    <p>Otra herramienta súper útil para manejar muchos datos es un campo de búsqueda. ¿Y si queremos encontrar rápidamente a todos los proveedores que tengan "Feliz" en su nombre o que estén en una dirección que contenga "Avenida Siempreviva"? Para esto, usamos <code>search_fields</code>.</p>
+                    <p><code>search_fields</code> le dice a Django en qué campos de tu modelo debe buscar cuando el usuario escribe algo en la barra de búsqueda que aparecerá en la parte superior de la lista.</p>
+                    <p>Agreguemos un buscador a nuestro <code>ProveedorAdmin</code> para buscar por nombre y dirección:</p>
+
+                    <div class="code-block">
+                        <div class="code-block-header">
+                            <div class="code-block-title">libreta/admin.py (con search_fields)</div>
+                            <div class="code-block-actions">
+                                <button class="code-block-action copy-btn">Copiar</button>
+                            </div>
+                        </div>
+                        <pre><code class="language-python">
+from django.contrib import admin
+from .models import Proveedor
+
+@admin.register(Proveedor)
+class ProveedorAdmin(admin.ModelAdmin):
+    list_display = ('nombre', 'email', 'telefono', 'direccion')
+    list_filter = ('nombre',) 
+    search_fields = ('nombre', 'direccion') # ¡Nueva línea! Buscador
+                        </code></pre>
+                    </div>
+                    <p><code>search_fields</code> también es una tupla de nombres de campos. Django buscará el texto ingresado por el usuario dentro de los campos que especifiques aquí. La búsqueda no distingue entre mayúsculas y minúsculas por defecto.</p>
+                    <p>Guarda el archivo, asegúrate de que tu servidor esté corriendo (o reinícialo), y refresca la página de la lista de Proveedores en el admin. ¡Ahora deberías ver una barra de búsqueda en la parte superior!</p>
+
+                    <div class="image-container">
+                        <img src="https://i.imgur.com/6M6t7xP.png" alt="Panel de admin con barra de búsqueda gracias a search_fields" class="img-screenshot img-centered">
+                        <p class="image-caption">¡Ahora podemos buscar proveedores por nombre o dirección directamente!</p>
+                    </div>
+                    <p>Prueba a escribir parte del nombre de un proveedor o parte de una dirección y presiona Enter o haz clic en el botón de buscar. Django te mostrará solo los resultados que coincidan.</p>
+
+                    <div class="highlight-box">
+                        <h4>¡Más Personalizaciones Posibles!</h4>
+                        <p><code>list_display</code>, <code>list_filter</code>, y <code>search_fields</code> son solo el comienzo. El <code>ModelAdmin</code> de Django ofrece muchísimas más opciones para personalizar cómo se ven y se comportan tus modelos en el panel de administración. Algunas otras cosas que puedes controlar incluyen:</p>
+                        <ul>
+                            <li><strong><code>ordering</code></strong>: Para definir el orden por defecto de los elementos en la lista.</li>
+                            <li><strong><code>date_hierarchy</code></strong>: Para agregar una navegación jerárquica por fechas.</li>
+                            <li><strong><code>fields</code></strong> y <strong><code>fieldsets</code></strong>: Para personalizar cómo se muestran los campos en el formulario de edición de un objeto.</li>
+                            <li>¡Y muchas más! Siempre puedes consultar la <a href="https://docs.djangoproject.com/en/stable/ref/contrib/admin/#modeladmin-options" target="_blank" rel="noopener noreferrer">documentación de ModelAdmin</a> para descubrir todas las posibilidades.</li>
+                        </ul>
+                    </div>
+
+                    <div class="youtube-embed-container">
+                        <iframe src="https://www.youtube.com/embed/3ZA5wesjgcw" title="Video de YouTube sobre Personalización Avanzada del Admin de Django" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                    <p class="image-caption">En el video de este capítulo, exploramos en vivo cómo añadir y usar <code>list_filter</code> y <code>search_fields</code>.</p>
+
+                    <div class="note-box">
+                        <h4>Pequeño Resumen del Capítulo 20 (Episodio 2)</h4>
+                        <p>Podemos hacer que nuestro panel de administración de Django sea aún más útil y fácil de usar personalizando la clase <code>ModelAdmin</code> asociada a nuestros modelos (ej: <code>ProveedorAdmin</code> en <code>admin.py</code>). Con <code>list_filter = ('campo1', 'campo2')</code> podemos agregar filtros laterales para encontrar registros más fácilmente. Con <code>search_fields = ('campo1', 'campo2')</code> añadimos una barra de búsqueda que nos permite buscar texto dentro de los campos especificados. ¡Estas pequeñas adiciones marcan una gran diferencia cuando trabajas con muchos datos!</p>
+                    </div>
+
+                    <p>Con estas herramientas, nuestro panel de administración para Proveedores ya es bastante funcional. Pero, ¿qué tal si queremos que se vea un poco más moderno y atractivo? ¡Eso es lo que veremos en el próximo capítulo!</p>
+
+                </div>
+
+                <aside class="toc">
+                    <h3 class="toc-title">En este capítulo</h3>
+                    <ul class="toc-list">
+                        <li class="toc-item"><a href="#admin-mas-potente" class="toc-link">Admin Más Potente</a></li>
+                        <li class="toc-item"><a href="#list-filter" class="toc-link">Filtrando con <code>list_filter</code></a></li>
+                        <li class="toc-item"><a href="#search-fields" class="toc-link">Buscando con <code>search_fields</code></a></li>
+                        <li class="toc-item"><a href="#mas-personalizaciones" class="toc-link">¡Y Hay Más!</a></li>
+                    </ul>
+                </aside>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <div class="container">
+            <div class="content-wrapper">
+                <div class="chapter-navigation">
+                    <a href="capitulo-19.html" class="nav-btn">
+                        <span>←</span> Capítulo anterior
+                    </a>
+                    <a href="capitulo-21.html" class="nav-btn next">
+                        Siguiente Capítulo <span>→</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container footer-container">
+            <a href="../../index.html" class="footer-logo">Programación para Mortales</a>
+            <div class="footer-links">
+                <a href="../../index.html" class="footer-link">Inicio</a>
+                <a href="../../indice.html" class="footer-link">Índice completo</a>
+                <a href="../../about.html" class="footer-link">Acerca de</a>
+                <a href="../../terminos-y-condiciones.html" class="footer-link">Términos y condiciones</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2025 Programación para Mortales. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile Menu Toggle
+        const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+        const nav = document.querySelector('.nav');
+        mobileMenuBtn.addEventListener('click', () => {
+            nav.classList.toggle('active');
+        });
+
+        // Header Scroll Effect
+        const header = document.querySelector('.header');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // Reading Progress Bar
+        const progressBar = document.getElementById('progressBar');
+        window.addEventListener('scroll', () => {
+            const windowHeight = window.innerHeight;
+            const documentHeight = document.documentElement.scrollHeight - windowHeight;
+            const scrollTop = window.scrollY;
+            const progress = (scrollTop / documentHeight) * 100;
+            progressBar.style.width = progress + '%';
+        });
+
+        // Table of Contents Active Link
+        const tocLinks = document.querySelectorAll('.toc-link');
+        const sections = document.querySelectorAll('.content-wrapper h2, .content-wrapper h3');
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop - (header.offsetHeight + 20);
+                if (window.scrollY >= sectionTop) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            tocLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href').substring(1) === current) {
+                    link.classList.add('active');
+                }
+            });
+        });
+        
+        // Copy Code Button
+        const copyButtons = document.querySelectorAll('.copy-btn');
+        copyButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const codeToCopy = button.closest('.code-block').querySelector('pre code').innerText;
+                navigator.clipboard.writeText(codeToCopy).then(() => {
+                    const originalText = button.textContent;
+                    button.textContent = '¡Copiado!';
+                    button.style.backgroundColor = 'var(--success)';
+                    setTimeout(() => {
+                        button.textContent = originalText;
+                        button.style.backgroundColor = '';
+                    }, 2000);
+                }).catch(err => {
+                    console.error('Error al copiar:', err);
+                    alert('Error al copiar el código.');
+                });
+            });
+        });
+    </script>
+</body>
+</html>

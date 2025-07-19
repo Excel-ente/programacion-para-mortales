@@ -1,0 +1,2274 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Que la compu decida por nosotros — Condicionales, decisiones y lógica - Programación para Mortales</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@300;400;500;600;700&family=Fira+Code:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+    /* Paleta de colores vibrante y moderna */
+    --primary: #6366f1;
+    --primary-dark: #4f46e5;
+    --primary-light: #a5b4fc;
+    --secondary: #ec4899;
+    --secondary-dark: #db2777;
+    --accent: #06b6d4;
+    --success: #10b981;
+    --warning: #f59e0b;
+    --danger: #ef4444;
+    --dark: #0f172a;
+    --dark-blue: #1e293b;
+    --light: #f8fafc;
+    --gray: #64748b;
+    --gray-light: #e2e8f0;
+    
+    /* Tipografía */
+    --font-heading: 'Space Grotesk', sans-serif;
+    --font-body: 'Outfit', sans-serif;
+    --font-code: 'Fira Code', monospace;
+    
+    /* Espaciado */
+    --spacing-xs: 0.25rem;
+    --spacing-sm: 0.5rem;
+    --spacing-md: 1rem;
+    --spacing-lg: 1.5rem;
+    --spacing-xl: 2rem;
+    --spacing-2xl: 3rem;
+    --spacing-3xl: 4rem;
+    
+    /* Bordes y sombras */
+    --radius-sm: 0.25rem;
+    --radius-md: 0.5rem;
+    --radius-lg: 1rem;
+    --radius-xl: 1.5rem;
+    --radius-full: 9999px;
+    
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    
+    /* Transiciones */
+    --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-normal: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-slow: 500ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 16px;
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: var(--font-body);
+    color: var(--dark);
+    background-color: var(--light);
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: var(--spacing-lg);
+    color: var(--dark);
+}
+
+h1 {
+    font-size: 3rem;
+}
+
+h2 {
+    font-size: 2.25rem;
+    margin-top: var(--spacing-2xl);
+    position: relative;
+    padding-bottom: var(--spacing-sm);
+}
+
+h2::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 80px;
+    height: 4px;
+    background: var(--primary);
+    border-radius: 2px;
+}
+
+h3 {
+    font-size: 1.75rem;
+    margin-top: var(--spacing-xl);
+    color: var(--primary-dark);
+}
+
+p {
+    margin-bottom: var(--spacing-lg);
+    font-size: 1.125rem;
+}
+
+a {
+    text-decoration: none;
+    color: var(--primary);
+    transition: var(--transition-normal);
+}
+
+a:hover {
+    color: var(--primary-dark);
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    border-radius: var(--radius-md);
+}
+
+/* Layout */
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 var(--spacing-lg);
+}
+
+/* Header */
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 100;
+    background-color: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(10px);
+    box-shadow: var(--shadow-sm);
+    transition: var(--transition-normal);
+}
+
+.header.scrolled {
+    box-shadow: var(--shadow-md);
+}
+
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 70px;
+}
+
+.logo {
+    font-family: var(--font-heading);
+    font-weight: 800;
+    font-size: 1.5rem;
+    color: var(--primary);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+.logo-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    background-color: var(--primary);
+    color: white;
+    border-radius: var(--radius-md);
+    font-weight: 700;
+}
+
+.nav {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xl);
+}
+
+.nav-link {
+    font-weight: 500;
+    color: var(--dark);
+    position: relative;
+}
+
+.nav-link:hover {
+    color: var(--primary);
+}
+
+.nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: var(--primary);
+    transition: var(--transition-normal);
+}
+
+.nav-link:hover::after {
+    width: 100%;
+}
+
+.nav-link.active {
+    color: var(--primary);
+}
+
+.nav-link.active::after {
+    width: 100%;
+}
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.75rem 1.5rem;
+    font-weight: 600;
+    border-radius: var(--radius-full);
+    transition: var(--transition-normal);
+    gap: var(--spacing-sm);
+}
+
+.btn-primary {
+    background-color: var(--primary);
+    color: white;
+    box-shadow: var(--shadow-md);
+}
+
+.btn-primary:hover {
+    background-color: var(--primary-dark);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+}
+
+.mobile-menu-btn {
+    display: none;
+    font-size: 1.5rem;
+    color: var(--dark);
+    cursor: pointer;
+    border: none;
+    background: none;
+}
+
+/* Chapter Header */
+.chapter-header {
+    padding-top: 120px;
+    padding-bottom: var(--spacing-2xl);
+    background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+    color: white;
+    position: relative;
+    overflow: hidden;
+}
+
+.chapter-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    opacity: 0.5;
+}
+
+.chapter-header-content {
+    position: relative;
+    z-index: 1;
+}
+
+.chapter-number {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: var(--spacing-sm);
+    opacity: 0.9;
+}
+
+.chapter-title {
+    font-size: 3.5rem;
+    margin-bottom: var(--spacing-lg);
+    color: white;
+}
+
+.chapter-meta {
+    display: flex;
+    gap: var(--spacing-lg);
+    font-size: 1.125rem;
+    opacity: 0.9;
+}
+
+.chapter-meta-item {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+/* Chapter Content */
+.chapter-content {
+    padding: var(--spacing-3xl) 0;
+}
+
+.content-wrapper {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+/* Highlighted Boxes */
+.highlight-box {
+    background-color: rgba(99, 102, 241, 0.1);
+    border-left: 4px solid var(--primary);
+    padding: var(--spacing-lg);
+    border-radius: 0 var(--radius-md) var(--radius-md) 0;
+    margin: var(--spacing-xl) 0;
+}
+
+.note-box {
+    background-color: rgba(236, 72, 153, 0.1);
+    border-left: 4px solid var(--secondary);
+    padding: var(--spacing-lg);
+    border-radius: 0 var(--radius-md) var(--radius-md) 0;
+    margin: var(--spacing-xl) 0;
+}
+
+.movie-box {
+    background-color: rgba(6, 182, 212, 0.1);
+    border-left: 4px solid var(--accent);
+    padding: var(--spacing-lg);
+    border-radius: 0 var(--radius-md) var(--radius-md) 0;
+    margin: var(--spacing-xl) 0;
+    display: flex;
+    gap: var(--spacing-lg);
+    align-items: center;
+}
+
+.movie-poster {
+    width: 120px;
+    flex-shrink: 0;
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-md);
+}
+
+.movie-info {
+    flex: 1;
+}
+
+.movie-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: var(--spacing-sm);
+    color: var(--accent);
+}
+
+.movie-description {
+    font-size: 0.95rem;
+    margin-bottom: var(--spacing-sm);
+}
+
+/* Lists */
+ul, ol {
+    margin: 0 0 var(--spacing-lg) var(--spacing-xl);
+}
+
+li {
+    margin-bottom: var(--spacing-sm);
+}
+
+.feature-list {
+    list-style: none;
+    margin-left: 0;
+}
+
+.feature-list li {
+    position: relative;
+    padding-left: var(--spacing-xl);
+    margin-bottom: var(--spacing-md);
+}
+
+.feature-list li::before {
+    content: "✓";
+    position: absolute;
+    left: 0;
+    color: var(--success);
+    font-weight: bold;
+}
+
+/* Code Blocks */
+pre {
+    background-color: var(--dark-blue);
+    color: white;
+    padding: var(--spacing-lg);
+    border-radius: var(--radius-md);
+    overflow-x: auto;
+    margin: var(--spacing-lg) 0;
+    font-family: var(--font-code);
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+code {
+    font-family: var(--font-code);
+    background-color: var(--gray-light);
+    padding: 0.2rem 0.4rem;
+    border-radius: var(--radius-sm);
+    font-size: 0.9em;
+}
+
+pre code {
+    background-color: transparent;
+    padding: 0;
+    border-radius: 0;
+    font-size: 1em;
+}
+
+.code-block {
+    position: relative;
+    margin: var(--spacing-lg) 0;
+}
+
+.code-block-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: var(--dark);
+    color: white;
+    padding: var(--spacing-sm) var(--spacing-lg);
+    border-radius: var(--radius-md) var(--radius-md) 0 0;
+    font-family: var(--font-code);
+    font-size: 0.9rem;
+}
+
+.code-block-title {
+    font-weight: 600;
+}
+
+.code-block-actions {
+    display: flex;
+    gap: var(--spacing-sm);
+}
+
+.code-block-action {
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.7);
+    cursor: pointer;
+    transition: var(--transition-normal);
+    font-size: 0.9rem;
+    padding: 2px 8px;
+    border-radius: var(--radius-sm);
+}
+
+.code-block-action:hover {
+    color: white;
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.code-block pre {
+    margin: 0;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+
+/* Python Terminal Simulator */
+.python-terminal-container {
+    background-color: var(--dark-blue);
+    border-radius: var(--radius-md);
+    padding: var(--spacing-lg);
+    margin: var(--spacing-xl) 0;
+    font-family: var(--font-code);
+    color: white;
+}
+
+.python-terminal-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: var(--spacing-md);
+}
+
+.python-terminal-title {
+    font-size: 1rem;
+    margin-left: var(--spacing-md);
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.python-terminal-body {
+    height: 350px;
+    overflow-y: auto;
+    padding: var(--spacing-md);
+    background-color: rgba(0, 0, 0, 0.3);
+    border-radius: var(--radius-sm);
+    line-height: 1.5;
+}
+
+.python-terminal-output {
+    margin-bottom: var(--spacing-sm);
+    white-space: pre-wrap;
+}
+
+.python-terminal-prompt {
+    display: flex;
+    align-items: center;
+    margin-bottom: var(--spacing-sm);
+}
+
+.python-terminal-prompt-symbol {
+    color: var(--success);
+    margin-right: var(--spacing-sm);
+    font-weight: bold;
+}
+
+.python-terminal-input {
+    background: none;
+    border: none;
+    color: white;
+    font-family: var(--font-code);
+    font-size: 0.9rem;
+    width: 100%;
+    outline: none;
+}
+
+.python-prompt {
+    color: var(--primary-light);
+    margin-right: var(--spacing-sm);
+}
+
+/* Conditional Visualizer */
+.conditional-visualizer {
+    margin: var(--spacing-xl) 0;
+}
+
+.condition-container {
+    background-color: white;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    padding: var(--spacing-lg);
+    margin-bottom: var(--spacing-lg);
+}
+
+.condition-header {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-lg);
+    font-weight: 600;
+}
+
+.condition-inputs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-lg);
+}
+
+.condition-input-group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+}
+
+.condition-input-label {
+    font-weight: 500;
+    color: var(--gray);
+}
+
+.condition-input {
+    padding: var(--spacing-sm) var(--spacing-md);
+    border: 2px solid var(--gray-light);
+    border-radius: var(--radius-md);
+    font-family: var(--font-code);
+    font-size: 1rem;
+    outline: none;
+    transition: border-color 0.2s ease;
+}
+
+.condition-input:focus {
+    border-color: var(--primary);
+}
+
+.condition-toggle {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    cursor: pointer;
+}
+
+.toggle-switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 30px;
+}
+
+.toggle-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.toggle-slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: var(--gray-light);
+    transition: .4s;
+    border-radius: 30px;
+}
+
+.toggle-slider:before {
+    position: absolute;
+    content: "";
+    height: 22px;
+    width: 22px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+}
+
+input:checked + .toggle-slider {
+    background-color: var(--success);
+}
+
+input:checked + .toggle-slider:before {
+    transform: translateX(30px);
+}
+
+.condition-evaluate {
+    padding: var(--spacing-sm) var(--spacing-lg);
+    background-color: var(--primary);
+    color: white;
+    border: none;
+    border-radius: var(--radius-md);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.condition-evaluate:hover {
+    background-color: var(--primary-dark);
+    transform: translateY(-2px);
+}
+
+.condition-result {
+    margin-top: var(--spacing-lg);
+    padding: var(--spacing-lg);
+    border-radius: var(--radius-md);
+    font-weight: 500;
+    display: none;
+}
+
+.condition-result.true {
+    background-color: rgba(16, 185, 129, 0.1);
+    border: 1px solid var(--success);
+    color: var(--success);
+    display: block;
+}
+
+.condition-result.false {
+    background-color: rgba(239, 68, 68, 0.1);
+    border: 1px solid var(--danger);
+    color: var(--danger);
+    display: block;
+}
+
+/* Decision Tree Visualizer */
+.decision-tree {
+    margin: var(--spacing-xl) 0;
+    position: relative;
+}
+
+.decision-node {
+    background-color: white;
+    border: 2px solid var(--primary);
+    border-radius: var(--radius-md);
+    padding: var(--spacing-md);
+    margin-bottom: var(--spacing-lg);
+    position: relative;
+    max-width: 300px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    font-weight: 500;
+    box-shadow: var(--shadow-md);
+}
+
+.decision-node.condition {
+    background-color: var(--primary-light);
+    color: var(--primary-dark);
+}
+
+.decision-node.action {
+    background-color: var(--success);
+    color: white;
+    border-color: var(--success);
+}
+
+.decision-node.action-false {
+    background-color: var(--danger);
+    color: white;
+    border-color: var(--danger);
+}
+
+.decision-branches {
+    display: flex;
+    justify-content: space-around;
+    position: relative;
+    margin-top: var(--spacing-lg);
+}
+
+.decision-branch {
+    width: 45%;
+    position: relative;
+}
+
+.decision-branch::before {
+    content: '';
+    position: absolute;
+    top: -20px;
+    left: 50%;
+    width: 2px;
+    height: 20px;
+    background-color: var(--gray);
+}
+
+.decision-branch-label {
+    position: absolute;
+    top: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: white;
+    padding: 0 var(--spacing-sm);
+    font-size: 0.8rem;
+    color: var(--gray);
+}
+
+/* Interactive Elements */
+.interactive-section {
+    background-color: white;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    padding: var(--spacing-xl);
+    margin: var(--spacing-2xl) 0;
+}
+
+.interactive-title {
+    display: flex;
+    align-items: center;
+    font-size: 1.5rem;
+    margin-bottom: var(--spacing-lg);
+    color: var(--primary-dark);
+}
+
+.interactive-title::before {
+    content: "🎮";
+    margin-right: var(--spacing-sm);
+    font-size: 1.8rem;
+}
+
+/* Table Styles */
+.table-container {
+    overflow-x: auto;
+    margin: var(--spacing-xl) 0;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
+}
+
+thead {
+    background-color: var(--primary);
+    color: white;
+}
+
+th, td {
+    padding: var(--spacing-md);
+    text-align: left;
+    border-bottom: 1px solid var(--gray-light);
+}
+
+tbody tr:nth-child(even) {
+    background-color: rgba(99, 102, 241, 0.05);
+}
+
+tbody tr:hover {
+    background-color: rgba(99, 102, 241, 0.1);
+}
+
+/* Chapter Navigation */
+.chapter-navigation {
+    display: flex;
+    justify-content: space-between;
+    margin-top: var(--spacing-3xl);
+    padding-top: var(--spacing-xl);
+    border-top: 1px solid var(--gray-light);
+}
+
+.nav-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    background-color: white;
+    color: var(--primary);
+    padding: var(--spacing-sm) var(--spacing-lg);
+    border-radius: var(--radius-full);
+    text-decoration: none;
+    font-weight: 600;
+    transition: var(--transition-normal);
+    border: 2px solid var(--primary);
+    cursor: pointer;
+}
+
+.nav-btn:hover {
+    background-color: var(--primary);
+    color: white;
+}
+
+.nav-btn.next {
+    background-color: var(--primary);
+    color: white;
+}
+
+.nav-btn.next:hover {
+    background-color: var(--primary-dark);
+    border-color: var(--primary-dark);
+}
+
+/* Progress Bar */
+.progress-container {
+    position: fixed;
+    top: 70px;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background-color: var(--gray-light);
+    z-index: 99;
+}
+
+.progress-bar {
+    height: 100%;
+    background-color: var(--secondary);
+    width: 0%;
+    transition: width 0.3s ease;
+}
+
+/* Table of Contents */
+.toc {
+    position: sticky;
+    top: 90px;
+    max-height: calc(100vh - 100px);
+    overflow-y: auto;
+    padding-right: var(--spacing-md);
+}
+
+.toc-title {
+    font-size: 1.25rem;
+    margin-bottom: var(--spacing-md);
+    padding-bottom: var(--spacing-sm);
+    border-bottom: 2px solid var(--primary);
+}
+
+.toc-list {
+    list-style: none;
+    margin-left: 0;
+}
+
+.toc-item {
+    margin-bottom: var(--spacing-sm);
+}
+
+.toc-link {
+    display: block;
+    padding: var(--spacing-xs) 0;
+    color: var(--gray);
+    transition: var(--transition-normal);
+    border-left: 2px solid transparent;
+    padding-left: var(--spacing-sm);
+}
+
+.toc-link:hover, .toc-link.active {
+    color: var(--primary);
+    border-left-color: var(--primary);
+    padding-left: var(--spacing-md);
+}
+
+.toc-sublist {
+    list-style: none;
+    margin-left: var(--spacing-lg);
+    margin-bottom: 0;
+}
+
+/* Footer */
+.footer {
+    background-color: var(--dark);
+    color: white;
+    padding: var(--spacing-2xl) 0;
+    margin-top: var(--spacing-3xl);
+}
+
+.footer-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.footer-logo {
+    font-family: var(--font-heading);
+    font-weight: 800;
+    font-size: 1.5rem;
+    color: white;
+}
+
+.footer-links {
+    display: flex;
+    gap: var(--spacing-lg);
+}
+
+.footer-link {
+    color: rgba(255, 255, 255, 0.7);
+    transition: var(--transition-normal);
+}
+
+.footer-link:hover {
+    color: white;
+}
+
+.footer-bottom {
+    margin-top: var(--spacing-lg);
+    padding-top: var(--spacing-lg);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    text-align: center;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.875rem;
+}
+
+/* User Input Simulator */
+.user-input-simulator {
+    margin: var(--spacing-xl) 0;
+}
+
+.input-container {
+    background-color: white;
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-md);
+    padding: var(--spacing-lg);
+    margin-bottom: var(--spacing-lg);
+}
+
+.input-prompt {
+    margin-bottom: var(--spacing-md);
+    font-weight: 500;
+}
+
+.input-field {
+    width: 100%;
+    padding: var(--spacing-md);
+    border: 2px solid var(--gray-light);
+    border-radius: var(--radius-md);
+    font-family: var(--font-code);
+    font-size: 1rem;
+    margin-bottom: var(--spacing-md);
+    outline: none;
+}
+
+.input-field:focus {
+    border-color: var(--primary);
+}
+
+.input-submit {
+    padding: var(--spacing-sm) var(--spacing-lg);
+    background-color: var(--primary);
+    color: white;
+    border: none;
+    border-radius: var(--radius-md);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.input-submit:hover {
+    background-color: var(--primary-dark);
+    transform: translateY(-2px);
+}
+
+.input-result {
+    margin-top: var(--spacing-md);
+    padding: var(--spacing-md);
+    border-radius: var(--radius-md);
+    font-weight: 500;
+    display: none;
+}
+
+.input-result.success {
+    background-color: rgba(16, 185, 129, 0.1);
+    border: 1px solid var(--success);
+    display: block;
+}
+
+.input-result.error {
+    background-color: rgba(239, 68, 68, 0.1);
+    border: 1px solid var(--danger);
+    display: block;
+}
+
+/* Weather Forecast Simulator */
+.weather-simulator {
+    margin: var(--spacing-xl) 0;
+    background-color: var(--light);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-lg);
+    box-shadow: var(--shadow-lg);
+}
+
+.weather-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--spacing-lg);
+    border-bottom: 1px solid var(--gray-light);
+    padding-bottom: var(--spacing-md);
+}
+
+.weather-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--primary-dark);
+}
+
+.weather-content {
+    margin-bottom: var(--spacing-lg);
+}
+
+.weather-message {
+    margin-bottom: var(--spacing-md);
+    line-height: 1.5;
+}
+
+.weather-icon {
+    font-size: 2.5rem;
+    margin-bottom: var(--spacing-sm);
+    text-align: center;
+}
+
+.weather-controls {
+    display: flex;
+    gap: var(--spacing-md);
+    align-items: center;
+}
+
+.weather-input {
+    flex: 1;
+    padding: var(--spacing-md);
+    border: 2px solid var(--gray-light);
+    border-radius: var(--radius-md);
+    font-family: var(--font-code);
+    font-size: 1rem;
+    outline: none;
+}
+
+.weather-input:focus {
+    border-color: var(--primary);
+}
+
+.weather-button {
+    padding: var(--spacing-sm) var(--spacing-lg);
+    background-color: var(--primary);
+    color: white;
+    border: none;
+    border-radius: var(--radius-md);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.weather-button:hover {
+    background-color: var(--primary-dark);
+    transform: translateY(-2px);
+}
+
+.weather-result {
+    margin-top: var(--spacing-lg);
+    padding: var(--spacing-lg);
+    border-radius: var(--radius-md);
+    font-weight: 500;
+    display: none;
+    text-align: center;
+}
+
+.weather-result.hot {
+    background-color: rgba(239, 68, 68, 0.1);
+    border: 1px solid var(--danger);
+    color: var(--danger);
+    display: block;
+}
+
+.weather-result.warm {
+    background-color: rgba(245, 158, 11, 0.1);
+    border: 1px solid var(--warning);
+    color: var(--warning);
+    display: block;
+}
+
+.weather-result.cool {
+    background-color: rgba(6, 182, 212, 0.1);
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    display: block;
+}
+
+.weather-result.cold {
+    background-color: rgba(99, 102, 241, 0.1);
+    border: 1px solid var(--primary);
+    color: var(--primary);
+    display: block;
+}
+
+/* Historical Timeline */
+.timeline {
+    position: relative;
+    max-width: 1200px;
+    margin: var(--spacing-2xl) auto;
+}
+
+.timeline::after {
+    content: '';
+    position: absolute;
+    width: 6px;
+    background-color: var(--primary-light);
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    margin-left: -3px;
+    border-radius: var(--radius-full);
+}
+
+.timeline-item {
+    padding: var(--spacing-md) 40px;
+    position: relative;
+    width: 50%;
+    box-sizing: border-box;
+}
+
+.timeline-item::after {
+    content: '';
+    position: absolute;
+    width: 25px;
+    height: 25px;
+    right: -12px;
+    background-color: white;
+    border: 4px solid var(--primary);
+    top: 15px;
+    border-radius: 50%;
+    z-index: 1;
+}
+
+.timeline-item.left {
+    left: 0;
+}
+
+.timeline-item.right {
+    left: 50%;
+}
+
+.timeline-item.right::after {
+    left: -12px;
+}
+
+.timeline-content {
+    padding: var(--spacing-lg);
+    background-color: white;
+    position: relative;
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-md);
+}
+
+.timeline-date {
+    font-weight: 700;
+    color: var(--primary);
+    margin-bottom: var(--spacing-sm);
+}
+
+.timeline-title {
+    margin-bottom: var(--spacing-sm);
+    color: var(--dark);
+}
+
+/* Responsive Styles */
+@media (max-width: 992px) {
+    .chapter-title {
+        font-size: 2.5rem;
+    }
+    
+    .chapter-layout {
+        grid-template-columns: 1fr;
+    }
+    
+    .toc {
+        display: none;
+    }
+    
+    .decision-branches {
+        flex-direction: column;
+        gap: var(--spacing-xl);
+    }
+    
+    .decision-branch {
+        width: 100%;
+    }
+    
+    .timeline::after {
+        left: 31px;
+    }
+    
+    .timeline-item {
+        width: 100%;
+        padding-left: 70px;
+        padding-right: 25px;
+    }
+    
+    .timeline-item.right {
+        left: 0;
+    }
+    
+    .timeline-item::after {
+        left: 18px;
+    }
+    
+    .timeline-item.right::after {
+        left: 18px;
+    }
+}
+
+@media (max-width: 768px) {
+    .header-container {
+        height: 60px;
+    }
+    
+    .nav {
+        position: fixed;
+        top: 60px;
+        left: 0;
+        width: 100%;
+        height: 0;
+        background-color: white;
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 0 var(--spacing-lg);
+        overflow: hidden;
+        transition: var(--transition-normal);
+        box-shadow: var(--shadow-md);
+        opacity: 0;
+        visibility: hidden;
+    }
+    
+    .nav.active {
+        height: auto;
+        padding: var(--spacing-lg);
+        opacity: 1;
+        visibility: visible;
+    }
+    
+    .mobile-menu-btn {
+        display: block;
+    }
+    
+    .chapter-title {
+        font-size: 2rem;
+    }
+    
+    .chapter-meta {
+        flex-direction: column;
+        gap: var(--spacing-sm);
+    }
+    
+    .chapter-navigation {
+        flex-direction: column;
+        gap: var(--spacing-md);
+    }
+    
+    .nav-btn {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .footer-container {
+        flex-direction: column;
+        gap: var(--spacing-lg);
+        text-align: center;
+    }
+    
+    .condition-inputs {
+        flex-direction: column;
+    }
+    
+    .movie-box {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .movie-poster {
+        width: 100%;
+        max-width: 200px;
+        margin-bottom: var(--spacing-md);
+    }
+}
+
+@media (max-width: 480px) {
+    .python-terminal-body {
+        height: 250px;
+    }
+    
+    .weather-controls {
+        flex-direction: column;
+    }
+    
+    .weather-button {
+        width: 100%;
+    }
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+    animation: fadeIn 0.5s ease-out forwards;
+}
+
+.delay-100 { animation-delay: 100ms; }
+.delay-200 { animation-delay: 200ms; }
+.delay-300 { animation-delay: 300ms; }
+.delay-400 { animation-delay: 400ms; }
+.delay-500 { animation-delay: 500ms; }
+
+/* Layout for chapter content */
+.chapter-layout {
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+    gap: var(--spacing-2xl);
+}
+</style>
+
+
+<style>
+    /* ========== ESTILOS DEL REPRODUCTOR DE PODCAST ========== */
+    .podcast-player-container .interactive-title::before {
+        content: '🎧'; /* O el emoji que prefieras */
+    }
+
+    .podcast-controls {
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-md);
+        margin-top: var(--spacing-lg);
+    }
+
+    #podcast-play-pause-btn {
+        padding: 0.5rem;
+        width: 50px;
+        height: 50px;
+    }
+
+    #podcast-play-pause-btn svg {
+        width: 100%;
+        height: 100%;
+    }
+
+    .podcast-progress-bar-container {
+        flex-grow: 1;
+    }
+
+    #podcast-progress-bar {
+        width: 100%;
+        -webkit-appearance: none;
+        appearance: none;
+        height: 8px;
+        background: var(--gray-light);
+        border-radius: var(--radius-full);
+        outline: none;
+        cursor: pointer;
+    }
+
+    /* Estilo para Chrome, Safari, Opera, Edge */
+    #podcast-progress-bar::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 20px;
+        height: 20px;
+        background: var(--primary);
+        border-radius: 50%;
+        cursor: pointer;
+        box-shadow: var(--shadow-sm);
+    }
+
+    /* Estilo para Firefox */
+    #podcast-progress-bar::-moz-range-thumb {
+        width: 20px;
+        height: 20px;
+        background: var(--primary);
+        border-radius: 50%;
+        cursor: pointer;
+        border: none;
+    }
+
+    .podcast-time-display {
+        font-family: var(--font-code);
+        font-weight: 500;
+        color: var(--gray);
+        min-width: 100px;
+        text-align: center;
+    }
+</style>
+
+
+</head>
+<body>
+<!-- Header -->
+<header class="header">
+<div class="container header-container">
+    <a href="../index.html" class="logo">
+        <span class="logo-icon">P</span>
+        <span>Programación para Mortales</span>
+    </a>
+    
+    <nav class="nav">
+        <a href="../index.html" class="nav-link">Inicio</a>
+        <a href="../index.html#chapters" class="nav-link">Capítulos</a>
+        <a href="../index.html#features" class="nav-link">Características</a>
+        <a href="../about.html" class="nav-link">Acerca de</a>
+        <a href="capitulo-7.html" class="btn btn-primary">Siguiente Capítulo</a>
+    </nav>
+    
+    <button class="mobile-menu-btn">☰</button>
+</div>
+</header>
+
+<!-- Progress Bar -->
+<div class="progress-container">
+<div class="progress-bar" id="progressBar"></div>
+</div>
+
+<!-- Chapter Header -->
+<section class="chapter-header">
+<div class="container chapter-header-content">
+    <div class="chapter-number animate-fade-in">Capítulo 6</div>
+    <h1 class="chapter-title animate-fade-in delay-100">Que la compu decida por nosotros — Condicionales, decisiones y lógica</h1>
+    <div class="chapter-meta animate-fade-in delay-200">
+        <div class="chapter-meta-item">
+            <span>⏱️ Tiempo de lectura: 20 minutos</span>
+        </div>
+        <div class="chapter-meta-item">
+            <span>🧩 Actividades: 3</span>
+        </div>
+        <div class="chapter-meta-item">
+            <span>📚 Nivel: Principiante</span>
+        </div>
+    </div>
+</div>
+</section>
+
+<!-- Chapter Content -->
+<section class="chapter-content">
+<div class="container">
+
+    <div class="podcast-player-container interactive-section">
+        <h3 class="interactive-title" style="--interactive-icon: '🎧';">Escuchá el resumen en audio</h3>
+        <audio id="podcast-audio" preload="metadata">
+            <source src="../../assets/audio/ppm/E1/capitulo_6.mp3" type="audio/mpeg">
+            Tu navegador no soporta el elemento de audio.
+        </audio>
+        <div class="podcast-controls">
+            <button id="podcast-play-pause-btn" class="btn btn-primary">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+            </button>
+            <div class="podcast-progress-bar-container">
+                <input type="range" id="podcast-progress-bar" value="0" step="1">
+            </div>
+            <div id="podcast-time" class="podcast-time-display">00:00 / 00:00</div>
+        </div>
+        <div class="podcast-external-link" style="margin-top: 1rem;">
+            <a href="https://www.youtube.com/playlist?list=PL2q5bMDgOj6Zg9DWlwBIEWgpXATKYS-YN" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">
+                ▶️ Ver lista de reproducción en YouTube
+            </a>
+        </div> <!-- .podcast-player-container -->
+    </div>
+    
+
+    <div class="chapter-layout">
+        <div class="content-wrapper">
+            <h2 id="puede-pensar">🕵️‍♂️ Antes que nada... ¿Puede una computadora pensar?</h2>
+            
+            <p>Tal vez te parezca obvio que las máquinas "piensan". Total, hoy en día tenés a ChatGPT, autos que se manejan solos, o celulares que te recomiendan qué mirar... ¿no? Pero... ¿realmente piensan?</p>
+            
+            <p>La respuesta es: no como nosotros. Las computadoras no tienen conciencia, ni sentimientos, ni intuición. Lo que sí tienen es una capacidad bestial de ejecutar miles de instrucciones por segundo, y de tomar decisiones según reglas lógicas muy simples. Tan simples que, si las entendés, vas a descubrir cómo se construyen esos "cerebros digitales".</p>
+            
+            <h2 id="recomendacion-pelicula">🎬 Una recomendación: El código enigma</h2>
+            
+            <div class="movie-box">
+                <img src="https://m.media-amazon.com/images/M/MV5BOTgwMzFiMWYtZDhlNS00ODNkLWJiODAtZDVhNzgyNzJhYjQ4L2ltYWdlXkEyXkFqcGdeQXVyNzEzOTYxNTQ@._V1_.jpg" alt="The Imitation Game" class="movie-poster">
+                <div class="movie-info">
+                    <div class="movie-title">The Imitation Game (El código enigma)</div>
+                    <div class="movie-description">
+                        <p>Cuenta la historia de Alan Turing, un matemático británico que durante la Segunda Guerra Mundial ayudó a descifrar los mensajes secretos de los nazis. Pero más allá de eso... ¡Turing creó una de las primeras ideas de lo que sería una computadora moderna!</p>
+                        <p>Él no programaba como nosotros hoy. Ni siquiera existía Python. Pero sí desarrolló una máquina que seguía una serie de reglas lógicas para deducir si un mensaje tenía sentido. Básicamente, si pasaba algo, la máquina hacía algo. Y si no, hacía otra cosa.</p>
+                        <p>Ese pequeño "si pasa esto... entonces hacé esto" fue el inicio de la inteligencia artificial moderna.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <p>Eso, querido lector, es la esencia de lo que vamos a aprender hoy: los condicionales y la lógica booleana.</p>
+            
+            <h2 id="logica-booleana">🔗 La lógica booleana</h2>
+            
+            <p>Detrás de todo pensamiento computacional hay una base fundamental: la lógica booleana, que viene de un señor llamado George Boole (sí, el nombre no es casual).</p>
+            
+            <p>Boole propuso que todas las decisiones podían reducirse a algo simple:</p>
+            <ul>
+                <li>Verdadero o Falso.</li>
+                <li>Sí o No.</li>
+                <li>1 o 0.</li>
+                <li>Encendido o Apagado.</li>
+            </ul>
+            
+            <div class="timeline">
+                <div class="timeline-item left">
+                    <div class="timeline-content">
+                        <div class="timeline-date">1815</div>
+                        <h3 class="timeline-title">Nacimiento de George Boole</h3>
+                        <p>Matemático y filósofo británico que sentaría las bases de la lógica computacional moderna.</p>
+                    </div>
+                </div>
+                <div class="timeline-item right">
+                    <div class="timeline-content">
+                        <div class="timeline-date">1854</div>
+                        <h3 class="timeline-title">Publicación de "Las Leyes del Pensamiento"</h3>
+                        <p>Boole publica su obra donde establece el álgebra booleana, base de la lógica digital.</p>
+                    </div>
+                </div>
+                <div class="timeline-item left">
+                    <div class="timeline-content">
+                        <div class="timeline-date">1937-1938</div>
+                        <h3 class="timeline-title">Claude Shannon aplica el álgebra booleana</h3>
+                        <p>Shannon demuestra que los circuitos eléctricos pueden resolver problemas lógicos usando el álgebra de Boole.</p>
+                    </div>
+                </div>
+                <div class="timeline-item right">
+                    <div class="timeline-content">
+                        <div class="timeline-date">1940s</div>
+                        <h3 class="timeline-title">Alan Turing y la máquina Enigma</h3>
+                        <p>Turing aplica principios lógicos para descifrar códigos nazis durante la Segunda Guerra Mundial.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <p>La lógica booleana está por todos lados. Un semáforo, por ejemplo:</p>
+            <ul>
+                <li>¿La luz encendida es roja?</li>
+                <li>Sí → No puedo avanzar</li>
+                <li>No → Puedo avanzar</li>
+            </ul>
+            
+            <p>Una app de clima:</p>
+            <ul>
+                <li>¿Está lloviendo?</li>
+                <li>Sí → mostrar paraguas</li>
+                <li>No → mostrar sol</li>
+            </ul>
+            
+            <p>Esa estructura de "preguntar algo y hacer algo según la respuesta" es lo que hoy vamos a programar.</p>
+            
+            <h2 id="condicionales">🧭 Condicionales: enseñándole a la compu a decidir</h2>
+            
+            <p>En Python, las decisiones se hacen con una palabra mágica: <code>if</code>. Que, adivinaste, significa "si". Como si estuviesemos diciendo "Si me alcanza el dinero que tengo, compraré esa gaseosa que tanto me gusta", ese SI es quien determina el resultado, porque SI tengo el dinero → puedo comprarla. SI no tengo el dinero → No podre comprar la gaseosa.</p>
+            
+            <p>Miremos este ejemplo:</p>
+            
+            <div class="code-block">
+                <div class="code-block-header">
+                    <div class="code-block-title">Python</div>
+                    <div class="code-block-actions">
+                        <button class="code-block-action copy-btn" data-code="temperatura = 30   # acá estamos diciendo que la temperatura es 30
+if temperatura > 25: # acá aplicamos la condicion, &quot;si la temeratura es más grande que 25&quot;.
+    print(&quot;Hace calor&quot;) # Imprime en pantalla &quot;Hace Calor&quot;">Copiar</button>
+                    </div>
+                </div>
+                <pre><code>temperatura = 30   # acá estamos diciendo que la temperatura es 30
+if temperatura > 25: # acá aplicamos la condicion, "si la temeratura es más grande que 25".
+    print("Hace calor") # Imprime en pantalla "Hace Calor"</code></pre>
+            </div>
+            <p>(Lo que vés despues de "#" es un comentario, todo ese texto NO se ejecutará por la máquina, sirve para dejar algun comentario sobre ésa linea de codigo.)</p>
+            
+            <p>¿Ves qué pasa? Si la variable temperatura es mayor que 25, entonces Python ejecuta el <code>print("Hace calor")</code>. Si no se cumple... no hace nada. Así de simple. Pero también, así de poderoso.</p>
+            
+            <h3 id="como-lee-python">🧠 ¿Y cómo lo lee Python?</h3>
+            
+            <ol>
+                <li>Ve que hay un <code>if</code> → sabe que va a evaluar una condición.</li>
+                <li>Revisa si <code>temperatura > 25</code> es verdadero.</li>
+                <li>Si sí → ejecuta el bloque indentado (lo que está debajo y más adentro).</li>
+                <li>Si no → lo ignora.</li>
+            </ol>
+            
+            <!-- Actividad 1: Visualizador de Condicionales -->
+            <div class="interactive-section">
+                <h3 class="interactive-title">Actividad 1: Visualizador de Condicionales</h3>
+                
+                <p>🎯 <strong>Objetivo:</strong> Entender cómo funcionan las condiciones y cómo afectan el flujo del programa.</p>
+                
+                <div class="conditional-visualizer">
+                    <div class="condition-container">
+                        <div class="condition-header">
+                            <span>Verificar si hace calor:</span>
+                        </div>
+                        
+                        <div class="condition-inputs">
+                            <div class="condition-input-group">
+                                <label class="condition-input-label">Temperatura:</label>
+                                <input type="number" class="condition-input" id="temperaturaInput" value="30">
+                            </div>
+                        </div>
+                        
+                        <button class="condition-evaluate" id="evaluateTemperatureBtn">Evaluar condición</button>
+                        
+                        <div class="condition-result" id="temperatureResult"></div>
+                    </div>
+                    
+                    <div class="decision-tree">
+                        <div class="decision-node condition">¿temperatura > 25?</div>
+                        <div class="decision-branches">
+                            <div class="decision-branch">
+                                <div class="decision-branch-label">Sí (True)</div>
+                                <div class="decision-node action">Hace calor</div>
+                            </div>
+                            <div class="decision-branch">
+                                <div class="decision-branch-label">No (False)</div>
+                                <div class="decision-node action-false">No hace nada</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <h3 id="que-pasa-si">🔄 ¿Y si quiero que haga otra cosa?</h3>
+            
+            <p>Fácil, usás <code>else</code>, que significa "si no":</p>
+            
+            <div class="code-block">
+                <div class="code-block-header">
+                    <div class="code-block-title">Python</div>
+                    <div class="code-block-actions">
+                        <button class="code-block-action copy-btn" data-code="temperatura = 18
+if temperatura > 25: # acá aplicamos la condicion, &quot;si la temeratura es más grande que 25&quot;.
+    print(&quot;Hace calor&quot;) # Imprime en pantalla &quot;Hace Calor&quot;
+else: # este &quot;else&quot; significa &quot;sino&quot;, y se ejecutará siempre si lo anterior NO se cumple.
+    print(&quot;Está fresco&quot;) # Imprime en pantalla &quot;Está fresco&quot;">Copiar</button>
+                    </div>
+                </div>
+                <pre><code>temperatura = 18
+if temperatura > 25: # acá aplicamos la condicion, "si la temeratura es más grande que 25".
+    print("Hace calor") # Imprime en pantalla "Hace Calor"
+else: # este "else" significa "sino", y se ejecutará siempre si lo anterior NO se cumple.
+    print("Está fresco") # Imprime en pantalla "Está fresco"</code></pre>
+            </div>
+            
+            <p>Esto sí que es una decisión completa.</p>
+            <ul>
+                <li>✔️ Si cumple la condición → hace algo.</li>
+                <li>❌ Si no → hace otra cosa.</li>
+            </ul>
+            
+            <!-- Actividad 2: Visualizador de If-Else -->
+            <div class="interactive-section">
+                <h3 class="interactive-title">Actividad 2: Visualizador de If-Else</h3>
+                
+                <p>🎯 <strong>Objetivo:</strong> Entender cómo funcionan las estructuras if-else.</p>
+                
+                <div class="conditional-visualizer">
+                    <div class="condition-container">
+                        <div class="condition-header">
+                            <span>Verificar si hace calor o está fresco:</span>
+                        </div>
+                        
+                        <div class="condition-inputs">
+                            <div class="condition-input-group">
+                                <label class="condition-input-label">Temperatura:</label>
+                                <input type="number" class="condition-input" id="temperaturaIfElseInput" value="18">
+                            </div>
+                        </div>
+                        
+                        <button class="condition-evaluate" id="evaluateIfElseBtn">Evaluar condición</button>
+                        
+                        <div class="condition-result" id="ifElseResult"></div>
+                    </div>
+                    
+                    <div class="decision-tree">
+                        <div class="decision-node condition">¿temperatura > 25?</div>
+                        <div class="decision-branches">
+                            <div class="decision-branch">
+                                <div class="decision-branch-label">Sí (True)</div>
+                                <div class="decision-node action">Hace calor</div>
+                            </div>
+                            <div class="decision-branch">
+                                <div class="decision-branch-label">No (False)</div>
+                                <div class="decision-node action-false">Está fresco</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <h3 id="mas-opciones">🔁 ¿Y si hay más de dos opciones?</h3>
+            
+            <p>Ahí usamos <code>elif</code> (abreviación de "else if") que significa, "sino, si ..." como si dijieramos que:</p>
+            
+            <div class="code-block">
+                <div class="code-block-header">
+                    <div class="code-block-title">Python</div>
+                    <div class="code-block-actions">
+                        <button class="code-block-action copy-btn" data-code="temperatura = 20
+if temperatura > 25: # Si pasa algo..
+    print(&quot;Hace calor&quot;) 
+elif temperatura > 15: # Sino, si pasa esto otro..
+    print(&quot;Está templado&quot;)
+else: # Sino, haz lo siguiente..
+    print(&quot;Hace frío&quot;)">Copiar</button>
+                    </div>
+                </div>
+                <pre><code>temperatura = 20
+if temperatura > 25: # Si pasa algo..
+    print("Hace calor") 
+elif temperatura > 15: # Sino, si pasa esto otro..
+    print("Está templado")
+else: # Sino, haz lo siguiente..
+    print("Hace frío")</code></pre>
+            </div>
+            
+            <p>Python va revisando, de arriba para abajo, hasta que encuentra una condición verdadera.</p>
+            
+            <!-- Actividad 3: El pronóstico según Python -->
+            <div class="interactive-section">
+                <h3 class="interactive-title">Actividad 3: ¡El pronóstico según Python!</h3>
+                
+                <p>🎯 <strong>Objetivo:</strong> Construir un programa que decida qué decirte según la temperatura.</p>
+                
+                <p>Vamos a trabajar con tres niveles:</p>
+                <ul>
+                    <li>If (si pasa algo)</li>
+                    <li>Elif (si no pasa eso, pero pasa otra cosa, hacé esto otro)</li>
+                    <li>Else (si no pasa nada de lo anterior, hacé esto)</li>
+                </ul>
+                
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <div class="code-block-title">Python</div>
+                        <div class="code-block-actions">
+                            <button class="code-block-action copy-btn" data-code="temperatura = int(input(&quot;¿Qué temperatura hace ahora en tu ciudad? &quot;))
+if temperatura > 30:
+    print(&quot;🔥 Hace MUCHO calor. ¡No te olvides del agua!&quot;)
+elif temperatura > 20:
+    print(&quot;😎 Está templado. Un clima ideal para salir.&quot;)
+elif temperatura > 10:
+    print(&quot;🧥 Hace fresco. Llevá un abrigo.&quot;)
+else:
+    print(&quot;❄️ Hace frío. ¡No te olvides los guantes!&quot;)">Copiar</button>
+                        </div>
+                    </div>
+                    <pre><code>temperatura = int(input("¿Qué temperatura hace ahora en tu ciudad? "))
+if temperatura > 30:
+    print("🔥 Hace MUCHO calor. ¡No te olvides del agua!")
+elif temperatura > 20:
+    print("😎 Está templado. Un clima ideal para salir.")
+elif temperatura > 10:
+    print("🧥 Hace fresco. Llevá un abrigo.")
+else:
+    print("❄️ Hace frío. ¡No te olvides los guantes!")</code></pre>
+                </div>
+                
+                <div class="weather-simulator">
+                    <div class="weather-header">
+                        <div class="weather-title">Simulador de Pronóstico</div>
+                    </div>
+                    
+                    <div class="weather-content">
+                        <div class="weather-message">
+                            Ingresá la temperatura actual en tu ciudad y te diremos qué ropa usar:
+                        </div>
+                        
+                        <div class="weather-controls">
+                            <input type="number" class="weather-input" id="weatherInput" placeholder="Temperatura en °C">
+                            <button class="weather-button" id="checkWeatherBtn">Verificar</button>
+                        </div>
+                        
+                        <div class="weather-icon" id="weatherIcon"></div>
+                        <div class="weather-result" id="weatherResult"></div>
+                    </div>
+                </div>
+                
+                <p>🧠 <strong>¿Qué estamos haciendo acá?</strong></p>
+                <ol>
+                    <li>Le pedimos al usuario que ingrese un número (<code>input()</code>).</li>
+                    <li>Usamos <code>int()</code> para convertir eso en número entero.</li>
+                    <li>Hacemos que la computadora tome decisiones según ese valor:
+                        <ul>
+                            <li>Si es mayor a 30 → dice que hace mucho calor.</li>
+                            <li>Si no, pero es mayor a 20 → clima templado.</li>
+                            <li>Si no, pero es mayor a 10 → fresco.</li>
+                            <li>Si no cumple nada de eso → hace frío.</li>
+                        </ul>
+                    </li>
+                </ol>
+                
+                <p>🎯 <strong>Desafíos:</strong></p>
+                <ul>
+                    <li>Cambiá la temperatura y ejecutá varias veces. ¿Qué respuestas obtenés?</li>
+                    <li>Modificá los mensajes por otros tuyos (podés poner memes, frases graciosas o emojis).</li>
+                    <li>Agregá más condiciones (¿Qué pasaría si querés que diga algo especial si la temperatura es exactamente 0?).</li>
+                </ul>
+                
+                <p>💡 <strong>Dato curioso:</strong> Este mismo tipo de estructura se usa en las apps del clima, en los juegos para decidir si un personaje pierde o gana, y hasta en sistemas bancarios para validar usuarios. ¡Estás programando como los grandes!</p>
+            </div>
+            
+            <h2 id="operadores-logicos">🧮 Operadores lógicos: combinando condiciones</h2>
+            
+            <p>A veces necesitamos combinar varias condiciones. Por ejemplo, "si hace calor Y es fin de semana, vamos a la playa". Para eso usamos operadores lógicos:</p>
+            
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Operador</th>
+                            <th>Significado</th>
+                            <th>Ejemplo</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>and</code></td>
+                            <td>y</td>
+                            <td>True and True → True</td>
+                        </tr>
+                        <tr>
+                            <td><code>or</code></td>
+                            <td>o</td>
+                            <td>True or False → True</td>
+                        </tr>
+                        <tr>
+                            <td><code>not</code></td>
+                            <td>no</td>
+                            <td>not True → False</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <p>Veamos un ejemplo:</p>
+            
+            <div class="code-block">
+                <div class="code-block-header">
+                    <div class="code-block-title">Python</div>
+                    <div class="code-block-actions">
+                        <button class="code-block-action copy-btn" data-code="hice_la_tarea = True
+llueve = False
+
+if hice_la_tarea and not llueve:
+    print(&quot;Podés salir a jugar 🎉&quot;)
+else:
+    print(&quot;Te quedás en casa 🙃&quot;)">Copiar</button>
+                    </div>
+                </div>
+                <pre><code>hice_la_tarea = True
+llueve = False
+
+if hice_la_tarea and not llueve:
+    print("Podés salir a jugar 🎉")
+else:
+    print("Te quedás en casa 🙃")</code></pre>
+            </div>
+            
+            <p>Acá estamos diciendo: "Si hiciste la tarea Y NO está lloviendo, podés salir a jugar". Ambas condiciones deben cumplirse para que puedas salir.</p>
+            
+            <!-- Actividad 4: ¿Puedo salir hoy? -->
+            <div class="interactive-section">
+                <h3 class="interactive-title">Actividad 4: ¿Puedo salir hoy?</h3>
+                
+                <p>🎯 <strong>Objetivo:</strong> Practicar con operadores lógicos como <code>and</code> y <code>not</code>.</p>
+                
+                <div class="conditional-visualizer">
+                    <div class="condition-container">
+                        <div class="condition-header">
+                            <span>Verificar si podés salir a jugar:</span>
+                        </div>
+                        
+                        <div class="condition-inputs">
+                            <div class="condition-input-group">
+                                <label class="condition-input-label">¿Hiciste la tarea?</label>
+                                <div class="condition-toggle">
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" id="tareaToggle" checked>
+                                        <span class="toggle-slider"></span>
+                                    </label>
+                                    <span id="tareaStatus">Sí</span>
+                                </div>
+                            </div>
+                            
+                            <div class="condition-input-group">
+                                <label class="condition-input-label">¿Está lloviendo?</label>
+                                <div class="condition-toggle">
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" id="lluviaToggle">
+                                        <span class="toggle-slider"></span>
+                                    </label>
+                                    <span id="lluviaStatus">No</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <button class="condition-evaluate" id="evaluateOutingBtn">Evaluar condición</button>
+                        
+                        <div class="condition-result" id="outingResult"></div>
+                    </div>
+                    
+                    <div class="decision-tree">
+                        <div class="decision-node condition">¿hice_la_tarea and not llueve?</div>
+                        <div class="decision-branches">
+                            <div class="decision-branch">
+                                <div class="decision-branch-label">Sí (True)</div>
+                                <div class="decision-node action">Podés salir a jugar 🎉</div>
+                            </div>
+                            <div class="decision-branch">
+                                <div class="decision-branch-label">No (False)</div>
+                                <div class="decision-node action-false">Te quedás en casa 🙃</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <h2 id="actividades-capitulo">🎯 Actividades del capítulo</h2>
+            
+            <ol>
+                <li>🔤 Hacé un programa que te pregunte tu nombre y tu edad, y te diga si sos mayor o menor.</li>
+                <li>💸 Otro que pregunte tu salario mensual. Si es más de 500000, que diga "Vivís en Suiza", si es más de 300000 "Estás bien", si es menos de eso: "¡A meterle ganas!"</li>
+                <li>🕹️ Simulá un juego: si el jugador tiene más de 3 vidas y su energía es mayor a 50, puede entrar al castillo. Si no, lo mandamos a entrenar.</li>
+            </ol>
+            
+            <h2 id="cierre">🧠 Cierre del capítulo</h2>
+            
+            <div class="highlight-box">
+                <p>Hoy aprendiste algo que cambia todo:</p>
+                
+                <ul class="feature-list">
+                    <li>Las computadoras no piensan por sí solas, pero podés hacer que parezca que lo hacen, si les enseñás a tomar decisiones.</li>
+                    <li>Lo hiciste con if, else, elif, y operadores como and, or, not.</li>
+                    <li>A partir de ahora, tus programas pueden tener ramas, como un árbol:
+                        <ul>
+                            <li>Si pasa esto → hacé esto</li>
+                            <li>Si no → hacé otra cosa</li>
+                        </ul>
+                    </li>
+                </ul>
+                
+                <p>📍 En el próximo capítulo, vamos a seguir por ese camino:</p>
+                <p>¡Vamos a hacer que nuestros programas repitan cosas automáticamente!</p>
+                <p>Sí, te espero para aprender los bucles (for, while) y hacer que la compu trabaje por vos 🔁</p>
+            </div>
+            
+            <!-- Navegación entre capítulos -->
+            <div class="chapter-navigation">
+                <a href="capitulo-5.html" class="nav-btn">
+                    <span>←</span> Capítulo anterior
+                </a>
+                <a href="capitulo-7.html" class="nav-btn next">
+                    Siguiente capítulo <span>→</span>
+                </a>
+            </div>
+        </div>
+        
+        <!-- Tabla de contenidos -->
+        <aside class="toc">
+            <h3 class="toc-title">Contenido del capítulo</h3>
+            <ul class="toc-list">
+                <li class="toc-item">
+                    <a href="#puede-pensar" class="toc-link">¿Puede una computadora pensar?</a>
+                </li>
+                <li class="toc-item">
+                    <a href="#recomendacion-pelicula" class="toc-link">Una recomendación: El código enigma</a>
+                </li>
+                <li class="toc-item">
+                    <a href="#logica-booleana" class="toc-link">La lógica booleana</a>
+                </li>
+                <li class="toc-item">
+                    <a href="#condicionales" class="toc-link">Condicionales: enseñándole a la compu a decidir</a>
+                    <ul class="toc-sublist">
+                        <li><a href="#como-lee-python" class="toc-link">¿Y cómo lo lee Python?</a></li>
+                        <li><a href="#que-pasa-si" class="toc-link">¿Y si quiero que haga otra cosa?</a></li>
+                        <li><a href="#mas-opciones" class="toc-link">¿Y si hay más de dos opciones?</a></li>
+                    </ul>
+                </li>
+                <li class="toc-item">
+                    <a href="#operadores-logicos" class="toc-link">Operadores lógicos: combinando condiciones</a>
+                </li>
+                <li class="toc-item">
+                    <a href="#actividades-capitulo" class="toc-link">Actividades del capítulo</a>
+                </li>
+                <li class="toc-item">
+                    <a href="#cierre" class="toc-link">Cierre del capítulo</a>
+                </li>
+            </ul>
+        </aside>
+    </div>
+</div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+<div class="container">
+    <div class="footer-container">
+        <a href="../index.html" class="footer-logo">Programación para Mortales</a>
+        
+        <div class="footer-links">
+            <a href="../index.html" class="footer-link">Inicio</a>
+            <a href="../indice.html" class="footer-link">Índice completo</a>
+            <a href="../about.html" class="footer-link">Acerca de</a>
+            <a href="../terminos-y-condiciones.html" class="footer-link">Términos y condiciones</a>
+        </div>
+    </div>
+    
+    <div class="footer-bottom">
+        <p>&copy; 2025 Programación para Mortales. Todos los derechos reservados.</p>
+    </div>
+</div>
+</footer>
+
+<script>
+// Mobile Menu Toggle
+const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+const nav = document.querySelector('.nav');
+
+mobileMenuBtn.addEventListener('click', () => {
+    nav.classList.toggle('active');
+});
+
+// Header Scroll Effect
+const header = document.querySelector('.header');
+
+window.addEventListener('scroll', () => {
+    if (window.scrollY > 50) {
+        header.classList.add('scrolled');
+    } else {
+        header.classList.remove('scrolled');
+    }
+});
+
+// Reading Progress Bar
+const progressBar = document.getElementById('progressBar');
+
+window.addEventListener('scroll', () => {
+    const windowHeight = window.innerHeight;
+    const documentHeight = document.documentElement.scrollHeight - windowHeight;
+    const scrollTop = window.scrollY;
+    const progress = (scrollTop / documentHeight) * 100;
+    progressBar.style.width = progress + '%';
+});
+
+// Table of Contents Active Link
+const tocLinks = document.querySelectorAll('.toc-link');
+const sections = document.querySelectorAll('h2, h3');
+
+window.addEventListener('scroll', () => {
+    let current = '';
+    
+    sections.forEach(section => {
+        const sectionTop = section.offsetTop - 100;
+        if (window.scrollY >= sectionTop) {
+            current = section.getAttribute('id');
+        }
+    });
+    
+    tocLinks.forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('href').substring(1) === current) {
+            link.classList.add('active');
+        }
+    });
+});
+
+// Copy Code Button
+const copyButtons = document.querySelectorAll('.copy-btn');
+
+copyButtons.forEach(button => {
+    button.addEventListener('click', () => {
+        const code = button.dataset.code;
+        navigator.clipboard.writeText(code);
+        
+        // Change button text temporarily
+        const originalText = button.textContent;
+        button.textContent = '¡Copiado!';
+        button.style.backgroundColor = 'var(--success)';
+        button.style.color = 'white';
+        
+        setTimeout(() => {
+            button.textContent = originalText;
+            button.style.backgroundColor = '';
+            button.style.color = '';
+        }, 2000);
+    });
+});
+
+// Actividad 1: Visualizador de Condicionales
+const temperaturaInput = document.getElementById('temperaturaInput');
+const evaluateTemperatureBtn = document.getElementById('evaluateTemperatureBtn');
+const temperatureResult = document.getElementById('temperatureResult');
+
+evaluateTemperatureBtn.addEventListener('click', () => {
+    const temperatura = parseInt(temperaturaInput.value);
+    
+    if (temperatura > 25) {
+        temperatureResult.textContent = "Hace calor";
+        temperatureResult.className = "condition-result true";
+    } else {
+        temperatureResult.textContent = "No hace nada (condición falsa)";
+        temperatureResult.className = "condition-result false";
+    }
+});
+
+// Actividad 2: Visualizador de If-Else
+const temperaturaIfElseInput = document.getElementById('temperaturaIfElseInput');
+const evaluateIfElseBtn = document.getElementById('evaluateIfElseBtn');
+const ifElseResult = document.getElementById('ifElseResult');
+
+evaluateIfElseBtn.addEventListener('click', () => {
+    const temperatura = parseInt(temperaturaIfElseInput.value);
+    
+    if (temperatura > 25) {
+        ifElseResult.textContent = "Hace calor";
+        ifElseResult.className = "condition-result true";
+    } else {
+        ifElseResult.textContent = "Está fresco";
+        ifElseResult.className = "condition-result false";
+    }
+});
+
+// Actividad 3: El pronóstico según Python
+const weatherInput = document.getElementById('weatherInput');
+const checkWeatherBtn = document.getElementById('checkWeatherBtn');
+const weatherResult = document.getElementById('weatherResult');
+const weatherIcon = document.getElementById('weatherIcon');
+
+checkWeatherBtn.addEventListener('click', () => {
+    const temperatura = parseInt(weatherInput.value);
+    
+    if (temperatura > 30) {
+        weatherResult.textContent = "🔥 Hace MUCHO calor. ¡No te olvides del agua!";
+        weatherResult.className = "weather-result hot";
+        weatherIcon.textContent = "🔥";
+    } else if (temperatura > 20) {
+        weatherResult.textContent = "😎 Está templado. Un clima ideal para salir.";
+        weatherResult.className = "weather-result warm";
+        weatherIcon.textContent = "😎";
+    } else if (temperatura > 10) {
+        weatherResult.textContent = "🧥 Hace fresco. Llevá un abrigo.";
+        weatherResult.className = "weather-result cool";
+        weatherIcon.textContent = "🧥";
+    } else {
+        weatherResult.textContent = "❄️ Hace frío. ¡No te olvides los guantes!";
+        weatherResult.className = "weather-result cold";
+        weatherIcon.textContent = "❄️";
+    }
+});
+
+// Actividad 4: ¿Puedo salir hoy?
+const tareaToggle = document.getElementById('tareaToggle');
+const lluviaToggle = document.getElementById('lluviaToggle');
+const tareaStatus = document.getElementById('tareaStatus');
+const lluviaStatus = document.getElementById('lluviaStatus');
+const evaluateOutingBtn = document.getElementById('evaluateOutingBtn');
+const outingResult = document.getElementById('outingResult');
+
+tareaToggle.addEventListener('change', () => {
+    tareaStatus.textContent = tareaToggle.checked ? "Sí" : "No";
+});
+
+lluviaToggle.addEventListener('change', () => {
+    lluviaStatus.textContent = lluviaToggle.checked ? "Sí" : "No";
+});
+
+evaluateOutingBtn.addEventListener('click', () => {
+    const hiceLaTarea = tareaToggle.checked;
+    const llueve = lluviaToggle.checked;
+    
+    if (hiceLaTarea && !llueve) {
+        outingResult.textContent = "Podés salir a jugar 🎉";
+        outingResult.className = "condition-result true";
+    } else {
+        outingResult.textContent = "Te quedás en casa 🙃";
+        outingResult.className = "condition-result false";
+    }
+});
+</script>
+
+<script>
+    // ========== SCRIPT DEL REPRODUCTOR DE PODCAST ==========
+    const audio = document.getElementById('podcast-audio');
+    const playPauseBtn = document.getElementById('podcast-play-pause-btn');
+    const playIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>';
+    const pauseIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>';
+    const podcastProgressBar = document.getElementById('podcast-progress-bar');
+    const timeDisplay = document.getElementById('podcast-time');
+
+    function togglePlayPause() {
+        if (audio.paused) {
+            audio.play();
+            playPauseBtn.innerHTML = pauseIcon;
+        } else {
+            audio.pause();
+            playPauseBtn.innerHTML = playIcon;
+        }
+    }
+
+    function formatTime(seconds) {
+        const minutes = Math.floor(seconds / 60);
+        
+        const secs = Math.floor(seconds % 60);
+        return `${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+    }
+
+    function updateProgress() {
+        podcastProgressBar.value = (audio.currentTime / audio.duration) * 100 || 0;
+        timeDisplay.textContent = `${formatTime(audio.currentTime)} / ${formatTime(audio.duration || 0)}`;
+    }
+
+    playPauseBtn.addEventListener('click', togglePlayPause);
+    audio.addEventListener('timeupdate', updateProgress);
+    audio.addEventListener('loadedmetadata', updateProgress);
+
+    podcastProgressBar.addEventListener('input', () => {
+        const seekTime = (podcastProgressBar.value / 100) * audio.duration;
+        audio.currentTime = seekTime;
+    });
+
+    // Cuando el audio termina
+    audio.addEventListener('ended', () => {
+        playPauseBtn.innerHTML = playIcon;
+        audio.currentTime = 0;
+        podcastProgressBar.value = 0;
+    });
+</script>
+
+</body>
+</html>

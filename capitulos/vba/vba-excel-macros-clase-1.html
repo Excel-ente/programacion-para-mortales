@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Curso VBA: Clase 1 - Introducción y Primera Macro - Programación para Mortales</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@300;400;500;600;700&family=Fira+Code:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" href="icon.ico" type="image/x-icon">
+    <style>
+        /* ==========================================================================
+           1. Variables Globales (:root)
+           ========================================================================== */
+        :root {
+            /* Paleta de colores principal (basada en index.html y about.html) */
+            --primary: #4f46e5;        /* Morado moderno y accesible */
+            --primary-dark: #3730a3;
+            --primary-light: #818cf8;
+            --secondary: #10b981;      /* Verde esmeralda para acentos y éxito */
+            --secondary-dark: #059669;
+            --accent: #f59e0b;          /* Naranja/ámbar para llamadas a la acción */
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --dark: #1e293b;            /* Azul oscuro casi negro para texto principal */
+            --dark-blue: #0f172a;       /* Para fondos oscuros o elementos contrastantes */
+            --light: #f8fafc;           /* Un blanco ligeramente cálido para fondos de página */
+            --gray: #64748b;            /* Gris azulado para texto secundario */
+            --gray-light: #e2e8f0;      /* Para bordes o fondos muy sutiles */
+            --paper: #ffffff;           /* Color papel más cálido y amigable (usado en index) */
+            --cream: #fffbeb;           /* Crema para secciones destacadas */
+
+            /* Tipografía (consistente) */
+            --font-heading: 'Space Grotesk', 'Merriweather', serif;
+            --font-body: 'Outfit', 'Montserrat', sans-serif;
+            --font-code: 'Fira Code', monospace;
+
+            /* Espaciado (consistente) */
+            --spacing-xs: 0.25rem;
+            --spacing-sm: 0.5rem;
+            --spacing-md: 1rem;
+            --spacing-lg: 1.5rem;
+            --spacing-xl: 2rem;
+            --spacing-2xl: 3rem;
+            --spacing-3xl: 4rem;
+            
+            /* Bordes y sombras (consistente) */
+            --radius-sm: 0.375rem;
+            --radius-md: 0.5rem;
+            --radius-lg: 0.75rem;
+            --radius-xl: 1rem;
+            --radius-full: 9999px;
+            
+            --shadow-sm: 0 1px 2px rgba(0,0,0,0.04), 0 1px 1px rgba(0,0,0,0.02);
+            --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.08), 0 2px 4px -1px rgba(0,0,0,0.04);
+            --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.08), 0 4px 6px -2px rgba(0,0,0,0.04);
+            --shadow-xl: 0 20px 25px -5px rgba(0,0,0,0.08), 0 10px 10px -5px rgba(0,0,0,0.03);
+            --shadow-book: 0 15px 25px -12px rgba(0,0,0,0.3), 5px 5px 10px 0 rgba(0,0,0,0.1);
+
+            /* Transiciones (consistente) */
+            --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-normal: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-slow: 500ms cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* ==========================================================================
+           2. Resets y Estilos Base
+           ========================================================================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            font-size: 16px;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-body);
+            color: var(--dark);
+            background-color: var(--paper); 
+            line-height: 1.7;
+            overflow-x: hidden;
+            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23e0e0e0' fill-opacity='0.1' fill-rule='evenodd'/%3E%3C/svg%3E");
+            background-attachment: fixed;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: var(--font-heading);
+            font-weight: 700;
+            line-height: 1.3;
+            color: var(--dark-blue); 
+            margin-bottom: var(--spacing-md);
+        }
+        h1 { font-size: clamp(2.5rem, 5vw, 3.5rem); }
+        h2 { 
+            font-size: clamp(2rem, 4vw, 2.8rem); 
+            margin-top: var(--spacing-2xl);
+            padding-bottom: var(--spacing-sm);
+            position: relative;
+        }
+        h2::after {
+            content: ''; position: absolute; bottom: -5px; left: 0;
+            width: 70px; height: 4px; background-color: var(--primary);
+            border-radius: var(--radius-sm);
+        }
+        h3 { font-size: clamp(1.5rem, 3vw, 2.2rem); margin-top: var(--spacing-xl); color: var(--primary-dark); }
+        p  { font-size: clamp(1rem, 2.5vw, 1.125rem); margin-bottom: var(--spacing-lg); }
+        a  { text-decoration: none; color: var(--primary); transition: color var(--transition-normal); }
+        a:hover { color: var(--primary-dark); text-decoration: underline; }
+        img { max-width: 100%; height: auto; display: block; border-radius: var(--radius-md); }
+        button { cursor: pointer; font-family: var(--font-body); border: none; background: none; }
+
+        /* ==========================================================================
+           3. Layout General y Contenedores
+           ========================================================================== */
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 var(--spacing-lg);
+        }
+        .section { padding: var(--spacing-3xl) 0; }
+
+        /* ==========================================================================
+           4. Header y Navegación
+           ========================================================================== */
+        .header {
+            position: fixed; top: 0; left: 0; width: 100%; z-index: 1000;
+            background-color: rgba(253, 246, 227, 0.9); 
+            backdrop-filter: blur(8px); box-shadow: var(--shadow-sm);
+            transition: box-shadow var(--transition-normal);
+        }
+        .header.scrolled { box-shadow: var(--shadow-md); }
+        .header-container { display: flex; justify-content: space-between; align-items: center; height: 70px; }
+        .logo { font-family: var(--font-heading); font-weight: 800; font-size: 1.5rem; color: var(--primary); display: flex; align-items: center; gap: var(--spacing-sm); }
+        .logo-icon { display: inline-flex; align-items: center; justify-content: center; width: 36px; height: 36px; background-color: var(--primary); color: white; border-radius: var(--radius-md); font-weight: 700; }
+        .nav { display: flex; align-items: center; gap: var(--spacing-xl); }
+        .nav-link { font-weight: 500; color: var(--dark); position: relative; padding: var(--spacing-sm) 0; }
+        .nav-link:hover { color: var(--primary); }
+        .nav-link::after { content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 2px; background-color: var(--primary); transition: width var(--transition-normal); }
+        .nav-link:hover::after, .nav-link.active::after { width: 100%; }
+        .nav-link.active { color: var(--primary); }
+        .mobile-menu-btn { display: none; font-size: 1.8rem; color: var(--dark); background: transparent; border: none; padding: var(--spacing-sm); cursor: pointer; }
+
+        /* ==========================================================================
+           5. Botones
+           ========================================================================== */
+        .btn { display: inline-flex; align-items: center; justify-content: center; padding: 0.75rem 1.5rem; font-weight: 600; border-radius: var(--radius-full); transition: all var(--transition-normal); gap: var(--spacing-sm); text-align: center; text-decoration: none; }
+        .btn-primary { background-color: var(--primary); color: white; box-shadow: var(--shadow-sm); }
+        .btn-primary:hover { background-color: var(--primary-dark); transform: translateY(-2px); box-shadow: var(--shadow-md); }
+        .btn-secondary { background-color: var(--secondary); color: white; box-shadow: var(--shadow-sm); }
+        .btn-secondary:hover { background-color: var(--secondary-dark); transform: translateY(-2px); box-shadow: var(--shadow-md); }
+        .btn-outline { border: 2px solid var(--primary); color: var(--primary); background-color: transparent; }
+        .btn-outline:hover { background-color: var(--primary); color: white; }
+
+        /* ==========================================================================
+           6. Footer
+           ========================================================================== */
+        .footer { background-color: var(--dark-blue); color: white; padding: var(--spacing-2xl) 0; margin-top: var(--spacing-3xl); }
+        .footer-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: var(--spacing-xl); align-items: start; }
+        .footer-column .footer-logo { font-family: var(--font-heading); font-weight: 800; font-size: 1.5rem; margin-bottom: var(--spacing-md); display: inline-block; color: white; }
+        .footer-description { color: rgba(255, 255, 255, 0.7); margin-bottom: var(--spacing-lg); font-size: 0.9rem; }
+        .footer-social { display: flex; gap: var(--spacing-md); }
+        .footer-social-link { width: 36px; height: 36px; border-radius: var(--radius-full); background-color: rgba(255, 255, 255, 0.1); display: flex; align-items: center; justify-content: center; color: white; font-size: 1.2rem; transition: var(--transition-normal); }
+        .footer-social-link:hover { background-color: var(--primary); transform: translateY(-3px); }
+        .footer-heading { font-size: 1.25rem; margin-bottom: var(--spacing-lg); color: white; font-weight: 600; }
+        .footer-links { list-style: none; padding: 0; margin: 0; }
+        .footer-link-item { margin-bottom: var(--spacing-sm); }
+        .footer-link { color: rgba(255, 255, 255, 0.7); transition: var(--transition-normal); font-size: 0.9rem; text-decoration: none;}
+        .footer-link a:hover { color: white; padding-left: var(--spacing-sm); }
+        .footer-bottom { margin-top: var(--spacing-2xl); padding-top: var(--spacing-lg); border-top: 1px solid rgba(255, 255, 255, 0.1); display: flex; justify-content: space-between; align-items: center; color: rgba(255, 255, 255, 0.7); font-size: 0.875rem; flex-wrap: wrap; }
+        .footer-bottom-links { display: flex; gap: var(--spacing-lg); }
+        .footer-bottom-link { color: rgba(255, 255, 255, 0.7); transition: var(--transition-normal); text-decoration: none;}
+        .footer-bottom-link:hover { color: white; }
+
+        /* ==========================================================================
+           7. Estilos de Contenido de Capítulos (Común)
+           ========================================================================== */
+        .chapter-header { padding-top: 120px; padding-bottom: var(--spacing-2xl); background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%); color: white; position: relative; overflow: hidden; text-align: center; }
+        .chapter-header::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E"); opacity: 0.3; }
+        .chapter-header-content { position: relative; z-index: 1; }
+        .chapter-number { font-size: 1.25rem; font-weight: 600; margin-bottom: var(--spacing-sm); opacity: 0.9; }
+        .chapter-title { font-size: clamp(2.5rem, 6vw, 3.5rem); margin-bottom: var(--spacing-lg); color: white; }
+        .chapter-meta { display: flex; flex-wrap: wrap; justify-content: center; gap: var(--spacing-md) var(--spacing-lg); font-size: 1rem; opacity: 0.9; }
+        .chapter-meta-item { display: flex; align-items: center; gap: var(--spacing-sm); }
+        .chapter-content { padding: var(--spacing-2xl) 0 var(--spacing-3xl); }
+        .chapter-layout { display: grid; grid-template-columns: 3fr 1fr; gap: var(--spacing-2xl); }
+        .content-wrapper { max-width: 800px; margin: 0 auto; }
+        .chapter-layout .content-wrapper { margin: 0; }
+        .toc { position: sticky; top: 90px; max-height: calc(100vh - 120px); overflow-y: auto; padding-right: var(--spacing-md); font-size: 0.9rem; }
+        .toc-title { font-size: 1.25rem; margin-bottom: var(--spacing-md); padding-bottom: var(--spacing-sm); border-bottom: 2px solid var(--primary); color: var(--primary-dark); }
+        .toc-list { list-style: none; margin-left: 0; padding-left: 0; }
+        .toc-item { margin-bottom: var(--spacing-sm); }
+        .toc-link { display: block; padding: var(--spacing-xs) 0; color: var(--gray); border-left: 3px solid transparent; padding-left: var(--spacing-md); text-decoration: none; transition: all var(--transition-fast); }
+        .toc-link:hover { color: var(--primary); padding-left: calc(var(--spacing-md) + 3px); }
+        .toc-link.active { color: var(--primary); font-weight: 600; border-left-color: var(--primary); padding-left: calc(var(--spacing-md) + 3px); }
+        .toc-sublist { list-style: none; margin-left: var(--spacing-lg); padding-left: var(--spacing-sm); margin-bottom: var(--spacing-sm); border-left: 1px dashed var(--gray-light); }
+        .code-block { position: relative; margin: var(--spacing-xl) 0; }
+        .code-block-header { display: flex; align-items: center; justify-content: space-between; background-color: var(--dark); color: rgba(255,255,255,0.8); padding: var(--spacing-sm) var(--spacing-lg); border-radius: var(--radius-md) var(--radius-md) 0 0; font-family: var(--font-code); font-size: 0.85rem; }
+        .code-block-title { font-weight: 500; }
+        .code-block-actions { display: flex; gap: var(--spacing-sm); }
+        .code-block-action { background-color: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: rgba(255,255,255,0.7); cursor: pointer; transition: var(--transition-normal); font-size: 0.8rem; padding: var(--spacing-xs) var(--spacing-sm); border-radius: var(--radius-sm); }
+        .code-block-action:hover { background-color: rgba(255,255,255,0.2); color: white; }
+        pre { background-color: var(--dark-blue); color: #f8f8f2; padding: var(--spacing-lg); border-radius: var(--radius-md); overflow-x: auto; margin: var(--spacing-lg) 0; font-family: var(--font-code); font-size: 0.9rem; line-height: 1.6; }
+        .code-block pre { margin: 0; border-top-left-radius: 0; border-top-right-radius: 0; }
+        code { font-family: var(--font-code); background-color: var(--gray-light); color: var(--primary-dark); padding: 0.2em 0.4em; border-radius: var(--radius-sm); font-size: 0.9em; }
+        pre code { background-color: transparent; padding: 0; border-radius: 0; font-size: 1em; color: inherit; }
+        .highlight-box, .note-box, .warning-box { padding: var(--spacing-lg); border-radius: var(--radius-md); margin: var(--spacing-xl) 0; border-left-width: 5px; border-left-style: solid; }
+        .highlight-box { background-color: rgba(79,70,229,0.05); border-left-color: var(--primary); color: var(--dark); } /* Usando RGB de --primary para opacidad */
+        .note-box { background-color: rgba(236,72,153,0.05); border-left-color: var(--secondary); color: var(--dark); } /* Usando RGB de --secondary para opacidad */
+        .warning-box { background-color: rgba(245,158,11,0.08); border-left-color: var(--warning); color: #855000; }
+        .warning-box strong { color: #c27803; }
+        .chapter-navigation { display: flex; justify-content: space-between; margin-top: var(--spacing-3xl); padding-top: var(--spacing-xl); border-top: 1px solid var(--gray-light); }
+        .progress-container { position: fixed; top: 70px; left: 0; width: 100%; height: 5px; background-color: transparent; z-index: 999; }
+        .progress-bar { height: 100%; background-color: var(--secondary); width: 0%; transition: width 0.1s ease-out; }
+        .image-container { margin: var(--spacing-xl) 0; text-align: center; }
+        .image-caption { margin-top: var(--spacing-sm); font-size: 0.9rem; color: var(--gray); text-align: center; }
+        .img-screenshot { border: 1px solid var(--gray-light); box-shadow: var(--shadow-lg); border-radius: var(--radius-sm); }
+
+
+        /* ==========================================================================
+           8. Clases de Utilidad y Animaciones (ya definidas en el general)
+           ========================================================================== */
+        .text-center { text-align: center; }
+        .animate-fade-in { animation: fadeIn 0.5s ease-out forwards; }
+        .delay-100 { animation-delay: 100ms; } .delay-200 { animation-delay: 200ms; } .delay-300 { animation-delay: 300ms; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ==========================================================================
+           9. Estilos Responsivos (ya definidos en el general)
+           ========================================================================== */
+        @media (max-width: 992px) {
+            .chapter-layout { grid-template-columns: 1fr; }
+            .toc { display: none; }
+            .chapter-title { font-size: 2.5rem; }
+        }
+        @media (max-width: 768px) {
+            .header-container { height: 60px; }
+            .progress-container { top: 60px; }
+            .nav { position: fixed; top: 60px; left: 0; width: 100%; height: 0; background-color: var(--paper); flex-direction: column; align-items: flex-start; padding: 0 var(--spacing-lg); overflow: hidden; transition: height var(--transition-normal), opacity var(--transition-normal), visibility var(--transition-normal); box-shadow: var(--shadow-md); opacity: 0; visibility: hidden; z-index: 999; }
+            .nav.active { height: auto; min-height: calc(100vh - 60px); padding: var(--spacing-lg); opacity: 1; visibility: visible; }
+            .nav-link { width: 100%; padding: var(--spacing-md) 0; border-bottom: 1px solid var(--gray-light); }
+            .nav-link:last-child { border-bottom: none; }
+            .nav .btn { width: 100%; margin-top: var(--spacing-md); }
+            .mobile-menu-btn { display: block; }
+            .chapter-title { font-size: 2rem; }
+            .chapter-meta { flex-direction: column; align-items: center; gap: var(--spacing-sm); }
+            .chapter-navigation { flex-direction: column; gap: var(--spacing-md); }
+            .nav-btn { width: 100%; justify-content: center; }
+            .footer-container { grid-template-columns: 1fr; text-align: center; }
+            .footer-social { justify-content: center; }
+            .footer-bottom { flex-direction: column; gap: var(--spacing-md); }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container header-container">
+            <a href="../index.html" class="logo">
+                <span class="logo-icon">P</span>
+                <span>Programación para Mortales</span>
+            </a>
+            <nav class="nav">
+                <a href="../index.html" class="nav-link">Inicio</a>
+                <a href="../index.html#episodes" class="nav-link">Python/Django</a>
+                <a href="../index.html#future-courses" class="nav-link active">Cursos VBA</a>
+                <a href="../about.html" class="nav-link">Acerca de</a>
+                <a href="../indice.html" class="nav-link">Índice Completo</a>
+            </nav>
+            <button class="mobile-menu-btn">☰</button>
+        </div>
+    </header>
+
+    <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+    <section class="chapter-header">
+        <div class="container chapter-header-content">
+            <div class="chapter-number animate-fade-in">Curso de Programación en Excel (VBA)</div>
+            <h1 class="chapter-title animate-fade-in delay-100">Clase 1: Introducción y Tu Primera Macro</h1>
+            <div class="chapter-meta animate-fade-in delay-200">
+                <div class="chapter-meta-item">
+                    <span>⏱️ Duración Video: [Indicar duración]</span>
+                </div>
+                <div class="chapter-meta-item">
+                    <span>📚 Nivel: Básico</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="chapter-content">
+        <div class="container">
+            <div class="chapter-layout">
+                <div class="content-wrapper">
+                    <p class="page-description" style="text-align: left; max-width: none; font-size: 1.2rem; margin-bottom: var(--spacing-xl);">Esta clase es tu punto de partida para automatizar y optimizar tareas en Excel utilizando Visual Basic for Applications (VBA). Cubriremos desde la habilitación del entorno de programación hasta la creación y ejecución de tu primera Macro.</p>
+
+                    <div class="youtube-embed-container" style="margin-bottom: var(--spacing-2xl);">
+                        <iframe 
+                            width="560" height="315" 
+                            src="https://www.youtube.com/embed/DyNSCZFcusM" 
+                            … 
+                        ></iframe>
+                        <p class="image-caption" style="margin-top:var(--spacing-sm);">Video explicativo de la Clase 1.</p>
+                    </div>
+
+                    <h2 id="vba-intro">1. Introducción a VBA y su Importancia</h2>
+                    <h3>¿Qué es VBA?</h3>
+                    <ul>
+                        <li>VBA (Visual Basic for Applications) es el lenguaje de programación que usa Excel y todo el paquete de Office.</li>
+                        <li>Fue creado por Microsoft.</li>
+                    </ul>
+                    <h3>¿Por qué aprender VBA?</h3>
+                    <ul>
+                        <li>Aunque existen lenguajes nuevos, la mayoría de las empresas hoy usan Excel.</li>
+                        <li>VBA permite automatizar y optimizar el trabajo.</li>
+                        <li>Aprenderlo es una excelente alternativa para conseguir un mejor puesto laboral o crecer en el actual.</li>
+                        <li>La lógica de programación (bucles, listas, arreglos) es similar entre lenguajes, lo que cambia es la sintaxis.</li>
+                    </ul>
+                    <div class="note-box">
+                        <p><strong>¡No subestimes el poder de Excel y VBA!</strong> Muchas tareas repetitivas que consumen horas pueden reducirse a segundos con una simple macro.</p>
+                    </div>
+
+                    <h2 id="vba-entorno">2. Preparando el Entorno de Programación</h2>
+                    <h3>Accediendo a Visual Basic</h3>
+                    <p>Para empezar a programar, necesitas acceder al entorno de programación de Visual Basic. Esto se hace desde la pestaña "Programador" en Excel.</p>
+                    
+                    <h3>Habilitar la Pestaña "Programador" (si no está visible)</h3>
+                    <p>Por defecto, la pestaña "Programador" no viene habilitada en Excel. Pasos para habilitarla:</p>
+                    <ol>
+                        <li>Ir a <strong>Archivo</strong>.</li>
+                        <li>Seleccionar <strong>Opciones</strong>.</li>
+                        <li>Elegir <strong>Personalizar cinta de opciones</strong>.</li>
+                        <li>En el cuadro de la derecha (Pestañas principales), buscar y marcar la casilla de <strong>Programador</strong> (o Desarrollador en algunas versiones).</li>
+                        <li>Hacer clic en <strong>Aceptar</strong>.</li>
+                    </ol>
+                    <p>Ahora verás una nueva pestaña llamada "Programador" (o "Desarrollador") en la cinta de opciones de Excel.</p>
+                    
+                    <h3>Entrar al Entorno de Visual Basic</h3>
+                    <ul>
+                        <li>Seleccionar la pestaña <strong>Programador</strong>.</li>
+                        <li>Hacer clic en el botón <strong>Visual Basic</strong> (normalmente el primer icono a la izquierda). También puedes usar el atajo <code>Alt + F11</code>.</li>
+                        <li>Esto abrirá una nueva ventana: el Editor de Visual Basic for Applications (VBE).</li>
+                    </ul>
+                    <div class="image-container">
+                        <!-- <img src="https://i.imgur.com/placeholder-vba-editor.png" alt="Editor de Visual Basic for Applications en Excel" class="img-screenshot">
+                        <p class="image-caption">El Editor de Visual Basic (VBE), tu nuevo espacio de trabajo para VBA. (Reemplaza esta imagen)</p> -->
+                    </div>
+
+                    <h2 id="vba-conociendo-entorno">3. Conociendo el Entorno de Visual Basic</h2>
+                    <p>Una vez dentro del VBE, familiarízate con sus partes principales:</p>
+                    <ul>
+                        <li><strong>Explorador de Proyectos (Ventana de Proyecto - VBAProject):</strong> Usualmente a la izquierda, muestra todos los libros de Excel abiertos y sus componentes (hojas, módulos, formularios).</li>
+                        <li><strong>Ventana de Propiedades:</strong> Debajo del Explorador de Proyectos, muestra las propiedades del objeto seleccionado (ej. un módulo, un botón).</li>
+                        <li><strong>Ventana de Código:</strong> Es el área principal donde escribirás tus macros. Si no ves un módulo, deberás insertarlo.</li>
+                        <li><strong>Barra de Menús y Herramientas:</strong> En la parte superior, con opciones para guardar, ejecutar, depurar código, etc.</li>
+                    </ul>
+
+                    <h2 id="vba-primer-codigo">4. Creando tu Primer Código (Módulo)</h2>
+                    <h3>¿Dónde va el código?</h3>
+                    <p>El código VBA que escribe las macros generalmente se almacena en <strong>Módulos</strong>.</p>
+                    <h3>Crear un Nuevo Módulo:</h3>
+                    <ol>
+                        <li>En el VBE, asegúrate de que tu archivo de Excel esté seleccionado en el Explorador de Proyectos.</li>
+                        <li>Ve al menú <strong>Insertar</strong> y selecciona <strong>Módulo</strong>.</li>
+                    </ol>
+                    <p>Aparecerá una nueva carpeta llamada "Módulos" (si no existía) en el Explorador de Proyectos, y dentro, "Módulo1" (o similar). La ventana de código se abrirá para este módulo.</p>
+                    <h3>Cambiar Nombre al Módulo (Opcional pero recomendado):</h3>
+                    <p>En la Ventana de Propiedades (usualmente abajo a la izquierda), selecciona el módulo recién creado. En la propiedad <code>(Name)</code>, puedes cambiar "Módulo1" por un nombre más descriptivo, por ejemplo, "MisMacrosExcelentes".</p>
+                     <div class="image-container">
+                        <!-- <img src="https://i.imgur.com/placeholder-vba-module.png" alt="Creación de un módulo en VBA" class="img-screenshot">
+                        <p class="image-caption">Insertando un nuevo módulo y cambiando su nombre en la ventana de propiedades. (Reemplaza esta imagen)</p> -->
+                    </div>
+
+                    <h2 id="vba-guardar-macro">5. Guardando el Archivo Habilitado para Macros</h2>
+                    <div class="warning-box"> 
+                        <p><strong>¡Este paso es CRUCIAL!</strong> Si guardas tu archivo Excel como un libro normal (<code>.xlsx</code>), ¡perderás todas tus macros!</p>
+                    </div>
+                    <h3>Cómo Guardar:</h3>
+                    <ol>
+                        <li>Desde Excel (no desde el VBE), ve a <strong>Archivo</strong>.</li>
+                        <li>Seleccionar <strong>Guardar como</strong>.</li>
+                        <li>Elegir la ruta deseada.</li>
+                        <li>En el desplegable "Tipo:", selecciona <strong>Libro de Excel habilitado para macros (*.xlsm)</strong>.</li>
+                        <li>Haz clic en <strong>Guardar</strong>.</li>
+                    </ol>
+                    <h3>Verificación:</h3>
+                    <p>El archivo ahora tendrá la extensión <code>.xlsm</code>. Si miras el icono del archivo, puede que tenga una pequeña exclamación o un símbolo diferente al de los archivos <code>.xlsx</code> normales.</p>
+
+                    <h2 id="vba-primera-macro">6. Creando tu Primera Macro ("Hola Mundo")</h2>
+                    <h3>¿Qué es una Macro?</h3>
+                    <p>Una Macro es simplemente una serie de instrucciones que le das a Excel para que las ejecute automáticamente. Cada macro comienza con <code>Sub NombreDeLaMacro()</code> y termina con <code>End Sub</code>.</p>
+                    <h3>Escribiendo la Primera Instrucción:</h3>
+                    <p>En la ventana de código de tu módulo (ej. "MisMacrosExcelentes"), escribe lo siguiente:</p>
+                    <div class="code-block"> 
+                        <div class="code-block-header"><div class="code-block-title">VBA</div></div>
+                        <pre><code>Sub HolaMundo()
+    MsgBox "Hola mundo"
+End Sub</code></pre>
+                    </div>
+                    <ul>
+                        <li><code>Sub HolaMundo()</code>: Inicia una macro llamada "HolaMundo". Los paréntesis son necesarios.</li>
+                        <li><code>MsgBox "Hola mundo"</code>: Esta es la instrucción. <code>MsgBox</code> es una función de VBA que muestra un cuadro de mensaje. El texto entre comillas es lo que aparecerá en ese cuadro.</li>
+                        <li><code>End Sub</code>: Indica el final de la macro.</li>
+                    </ul>
+
+                    <h2 id="vba-ejecutar-macro">7. Creando un Botón para Ejecutar la Macro</h2>
+                    <p>Aunque puedes ejecutar macros desde el VBE (con F5) o desde la lista de macros (Alt + F8), una forma más amigable para los usuarios es mediante un botón en la hoja de Excel:</p>
+                    <ol>
+                        <li>Vuelve a tu hoja de Excel.</li>
+                        <li>Ve a la pestaña <strong>Programador</strong>.</li>
+                        <li>En el grupo "Controles", haz clic en <strong>Insertar</strong>.</li>
+                        <li>Bajo "Controles de formulario", selecciona el primer ícono (<strong>Botón</strong>).</li>
+                        <li>El cursor cambiará a una cruz. Haz clic y arrastra en la hoja para dibujar el tamaño del botón.</li>
+                        <li>Al soltar el clic, aparecerá una ventana "Asignar macro". Selecciona tu macro "HolaMundo" de la lista y haz clic en Aceptar.</li>
+                        <li>Puedes cambiar el texto del botón haciendo clic derecho sobre él y seleccionando "Modificar texto". Escribe algo como "Saludar".</li>
+                    </ol>
+                    <p>¡Listo! Ahora, cada vez que hagas clic en ese botón, se ejecutará tu macro y aparecerá el mensaje "Hola mundo".</p>
+                     <div class="image-container">
+                        <!-- <img src="https://i.imgur.com/placeholder-vba-button.png" alt="Botón en Excel y mensaje de la macro Hola Mundo" class="img-screenshot"> -->
+                      
+                    </div>
+
+                    <h2 id="vba-practica">8. Práctica y Siguientes Pasos</h2>
+                    <h3>Importancia de Practicar:</h3>
+                    <p>La clave para aprender cualquier lenguaje de programación, incluido VBA, es la práctica constante. No te quedes solo con leer o ver; ¡inténtalo tú mismo!</p>
+                    <h3>Tarea:</h3>
+                    <ul>
+                        <li>Intenta recrear la macro "HolaMundo" pero con un mensaje diferente.</li>
+                        <li>Crea un nuevo módulo y una nueva macro con un nombre distinto.</li>
+                        <li>Asigna esa nueva macro a un nuevo botón.</li>
+                    </ul>
+                    <div class="highlight-box"> 
+                        <p><strong>¡Felicidades!</strong> Has configurado tu entorno, escrito tu primera línea de código VBA y la has ejecutado. Este es el primer paso para desbloquear un gran potencial de automatización en Excel.</p>
+                    </div>
+
+                    <div class="note-box"> 
+                        <h3>Consideraciones Adicionales</h3>
+                        <p>Para que este contenido sea aún más simple e interactivo, considera:</p>
+                        <ul>
+                            <li>Usar encabezados claros para cada sección.</li>
+                            <li>Incorporar capturas de pantalla reales de cada paso clave.</li>
+                            <li>Resaltar el código VBA con el formato de <code>code-block</code> que ya usas.</li>
+                            <li>Incluir un área de "Consejos del Mortal" o "Sabías que..." al final de secciones importantes.</li>
+                        </ul>
+                    </div>
+
+
+                    <div class="chapter-navigation">
+                        <a href="../index.html" class="nav-btn">
+                            <span>←</span> Volver a Cursos VBA
+                        </a>
+                        <a href="vba-excel-macros-clase-2.html" class="nav-btn next">Clase Siguiente (Clase 2) <span>→</span></a>
+                    </div>
+                </div>
+
+                <aside class="toc">
+                    <h3 class="toc-title">Contenido de la Clase 1</h3>
+                    <ul class="toc-list">
+                        <li class="toc-item"><a href="#vba-intro" class="toc-link">1. Introducción a VBA</a></li>
+                        <li class="toc-item"><a href="#vba-entorno" class="toc-link">2. Preparando el Entorno</a></li>
+                        <li class="toc-item"><a href="#vba-conociendo-entorno" class="toc-link">3. Conociendo el Entorno VBA</a></li>
+                        <li class="toc-item"><a href="#vba-primer-codigo" class="toc-link">4. Creando un Módulo</a></li>
+                        <li class="toc-item"><a href="#vba-guardar-macro" class="toc-link">5. Guardando para Macros</a></li>
+                        <li class="toc-item"><a href="#vba-primera-macro" class="toc-link">6. Tu Primera Macro</a></li>
+                        <li class="toc-item"><a href="#vba-ejecutar-macro" class="toc-link">7. Botón para Ejecutar</a></li>
+                        <li class="toc-item"><a href="#vba-practica" class="toc-link">8. Práctica</a></li>
+                    </ul>
+                </aside>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-container" style="justify-content: space-between;">
+                <a href="../index.html" class="footer-logo">Programación para Mortales</a>
+                <div class="footer-links">
+                    <a href="../index.html" class="footer-link">Inicio</a>
+                    <a href="../indice.html" class="footer-link">Índice completo</a>
+                    <a href="../about.html" class="footer-link">Acerca de</a>
+                    <a href="../terminos-y-condiciones.html" class="footer-link">Términos y condiciones</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Programación para Mortales. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Script general (el mismo que usas en tus otras páginas)
+        const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+        const nav = document.querySelector('.nav');
+        if (mobileMenuBtn && nav) {
+            mobileMenuBtn.addEventListener('click', () => {
+                nav.classList.toggle('active');
+            });
+        }
+
+        const header = document.querySelector('.header');
+        if (header) {
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    header.classList.add('scrolled');
+                } else {
+                    header.classList.remove('scrolled');
+                }
+            });
+        }
+
+        const progressBar = document.getElementById('progressBar');
+        if (progressBar) {
+            window.addEventListener('scroll', () => {
+                const windowHeight = window.innerHeight;
+                const documentHeight = document.documentElement.scrollHeight - windowHeight;
+                const scrollTop = window.scrollY;
+                const progress = (scrollTop / documentHeight) * 100;
+                progressBar.style.width = progress + '%';
+            });
+        }
+        
+        const tocLinks = document.querySelectorAll('.toc-link');
+        const sections = document.querySelectorAll('.content-wrapper h2, .content-wrapper h3'); 
+        if (tocLinks.length > 0 && sections.length > 0 && header) {
+            window.addEventListener('scroll', () => {
+                let current = '';
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop - (header.offsetHeight + 40); 
+                    if (window.scrollY >= sectionTop) {
+                        current = section.getAttribute('id');
+                    }
+                });
+
+                tocLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href').substring(1) === current) {
+                        link.classList.add('active');
+                    }
+                });
+            });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,2054 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>¿Qué hay dentro de una computadora? - Programación para Mortales</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+    :root {
+        /* Paleta de colores vibrante y moderna */
+        --primary: #6366f1;
+        --primary-dark: #4f46e5;
+        --primary-light: #a5b4fc;
+        --secondary: #ec4899;
+        --secondary-dark: #db2777;
+        --accent: #06b6d4;
+        --success: #10b981;
+        --warning: #f59e0b;
+        --danger: #ef4444;
+        --dark: #0f172a;
+        --dark-blue: #1e293b;
+        --light: #f8fafc;
+        --gray: #64748b;
+        --gray-light: #e2e8f0;
+        
+        /* Tipografía */
+        --font-heading: 'Space Grotesk', sans-serif;
+        --font-body: 'Outfit', sans-serif;
+        --font-code: 'Fira Code', monospace;
+        
+        /* Espaciado */
+        --spacing-xs: 0.25rem;
+        --spacing-sm: 0.5rem;
+        --spacing-md: 1rem;
+        --spacing-lg: 1.5rem;
+        --spacing-xl: 2rem;
+        --spacing-2xl: 3rem;
+        --spacing-3xl: 4rem;
+        
+        /* Bordes y sombras */
+        --radius-sm: 0.25rem;
+        --radius-md: 0.5rem;
+        --radius-lg: 1rem;
+        --radius-xl: 1.5rem;
+        --radius-full: 9999px;
+        
+        --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+        --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        
+        /* Transiciones */
+        --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+        --transition-normal: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+        --transition-slow: 500ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    
+    html {
+        font-size: 16px;
+        scroll-behavior: smooth;
+    }
+    
+    body {
+        font-family: var(--font-body);
+        color: var(--dark);
+        background-color: var(--light);
+        line-height: 1.6;
+        overflow-x: hidden;
+    }
+    
+    h1, h2, h3, h4, h5, h6 {
+        font-family: var(--font-heading);
+        font-weight: 700;
+        line-height: 1.2;
+        margin-bottom: var(--spacing-lg);
+        color: var(--dark);
+    }
+    
+    h1 {
+        font-size: 3rem;
+    }
+    
+    h2 {
+        font-size: 2.25rem;
+        margin-top: var(--spacing-2xl);
+        position: relative;
+        padding-bottom: var(--spacing-sm);
+    }
+    
+    h2::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 80px;
+        height: 4px;
+        background: var(--primary);
+        border-radius: 2px;
+    }
+    
+    h3 {
+        font-size: 1.75rem;
+        margin-top: var(--spacing-xl);
+        color: var(--primary-dark);
+    }
+    
+    p {
+        margin-bottom: var(--spacing-lg);
+        font-size: 1.125rem;
+    }
+    
+    a {
+        text-decoration: none;
+        color: var(--primary);
+        transition: var(--transition-normal);
+    }
+    
+    a:hover {
+        color: var(--primary-dark);
+    }
+    
+    img {
+        max-width: 100%;
+        height: auto;
+        border-radius: var(--radius-md);
+    }
+    
+    /* Layout */
+    .container {
+        width: 100%;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 var(--spacing-lg);
+    }
+    
+    /* Header */
+    .header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        z-index: 100;
+        background-color: rgba(255, 255, 255, 0.9);
+        backdrop-filter: blur(10px);
+        box-shadow: var(--shadow-sm);
+        transition: var(--transition-normal);
+    }
+    
+    .header.scrolled {
+        box-shadow: var(--shadow-md);
+    }
+    
+    .header-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: 70px;
+    }
+    
+    .logo {
+        font-family: var(--font-heading);
+        font-weight: 800;
+        font-size: 1.5rem;
+        color: var(--primary);
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-sm);
+    }
+    
+    .logo-icon {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 36px;
+        height: 36px;
+        background-color: var(--primary);
+        color: white;
+        border-radius: var(--radius-md);
+        font-weight: 700;
+    }
+    
+    .nav {
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-xl);
+    }
+    
+    .nav-link {
+        font-weight: 500;
+        color: var(--dark);
+        position: relative;
+    }
+    
+    .nav-link:hover {
+        color: var(--primary);
+    }
+    
+    .nav-link::after {
+        content: '';
+        position: absolute;
+        bottom: -4px;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background-color: var(--primary);
+        transition: var(--transition-normal);
+    }
+    
+    .nav-link:hover::after {
+        width: 100%;
+    }
+    
+    .nav-link.active {
+        color: var(--primary);
+    }
+    
+    .nav-link.active::after {
+        width: 100%;
+    }
+    
+    .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0.75rem 1.5rem;
+        font-weight: 600;
+        border-radius: var(--radius-full);
+        transition: var(--transition-normal);
+        gap: var(--spacing-sm);
+    }
+    
+    .btn-primary {
+        background-color: var(--primary);
+        color: white;
+        box-shadow: var(--shadow-md);
+    }
+    
+    .btn-primary:hover {
+        background-color: var(--primary-dark);
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-lg);
+    }
+    
+    .mobile-menu-btn {
+        display: none;
+        font-size: 1.5rem;
+        color: var(--dark);
+        cursor: pointer;
+        border: none;
+        background: none;
+    }
+    
+    /* Chapter Header */
+    .chapter-header {
+        padding-top: 120px;
+        padding-bottom: var(--spacing-2xl);
+        background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+        color: white;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .chapter-header::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        opacity: 0.5;
+    }
+    
+    .chapter-header-content {
+        position: relative;
+        z-index: 1;
+    }
+    
+    .chapter-number {
+        font-size: 1.25rem;
+        font-weight: 600;
+        margin-bottom: var(--spacing-sm);
+        opacity: 0.9;
+    }
+    
+    .chapter-title {
+        font-size: 3.5rem;
+        margin-bottom: var(--spacing-lg);
+        color: white;
+    }
+    
+    .chapter-meta {
+        display: flex;
+        gap: var(--spacing-lg);
+        font-size: 1.125rem;
+        opacity: 0.9;
+    }
+    
+    .chapter-meta-item {
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-sm);
+    }
+    
+    /* Chapter Content */
+    .chapter-content {
+        padding: var(--spacing-3xl) 0;
+    }
+    
+    .content-wrapper {
+        max-width: 800px;
+        margin: 0 auto;
+    }
+    
+    /* Highlighted Boxes */
+    .highlight-box {
+        background-color: rgba(99, 102, 241, 0.1);
+        border-left: 4px solid var(--primary);
+        padding: var(--spacing-lg);
+        border-radius: 0 var(--radius-md) var(--radius-md) 0;
+        margin: var(--spacing-xl) 0;
+    }
+    
+    .note-box {
+        background-color: rgba(236, 72, 153, 0.1);
+        border-left: 4px solid var(--secondary);
+        padding: var(--spacing-lg);
+        border-radius: 0 var(--radius-md) var(--radius-md) 0;
+        margin: var(--spacing-xl) 0;
+    }
+    
+    /* Lists */
+    ul, ol {
+        margin: 0 0 var(--spacing-lg) var(--spacing-xl);
+    }
+    
+    li {
+        margin-bottom: var(--spacing-sm);
+    }
+    
+    .feature-list {
+        list-style: none;
+        margin-left: 0;
+    }
+    
+    .feature-list li {
+        position: relative;
+        padding-left: var(--spacing-xl);
+        margin-bottom: var(--spacing-md);
+    }
+    
+    .feature-list li::before {
+        content: "✓";
+        position: absolute;
+        left: 0;
+        color: var(--success);
+        font-weight: bold;
+    }
+    
+    /* Code Blocks */
+    pre {
+        background-color: var(--dark-blue);
+        color: white;
+        padding: var(--spacing-lg);
+        border-radius: var(--radius-md);
+        overflow-x: auto;
+        margin: var(--spacing-lg) 0;
+        font-family: var(--font-code);
+        font-size: 0.9rem;
+        line-height: 1.5;
+    }
+    
+    code {
+        font-family: var(--font-code);
+        background-color: var(--gray-light);
+        padding: 0.2rem 0.4rem;
+        border-radius: var(--radius-sm);
+        font-size: 0.9em;
+    }
+    
+    pre code {
+        background-color: transparent;
+        padding: 0;
+        border-radius: 0;
+        font-size: 1em;
+    }
+    
+    /* Tables */
+    .table-container {
+        overflow-x: auto;
+        margin: var(--spacing-xl) 0;
+        border-radius: var(--radius-md);
+        box-shadow: var(--shadow-md);
+    }
+    
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        background-color: white;
+    }
+    
+    th, td {
+        padding: var(--spacing-md);
+        text-align: left;
+        border: 1px solid var(--gray-light);
+    }
+    
+    th {
+        background-color: var(--primary);
+        color: white;
+        font-weight: 600;
+    }
+    
+    tr:nth-child(even) {
+        background-color: var(--gray-light);
+    }
+    
+    /* Images and Illustrations */
+    .image-container {
+        margin: var(--spacing-xl) 0;
+        text-align: center;
+    }
+    
+    .image-container img {
+        max-width: 100%;
+        border-radius: var(--radius-md);
+        box-shadow: var(--shadow-md);
+    }
+    
+    .image-caption {
+        margin-top: var(--spacing-sm);
+        font-size: 0.9rem;
+        color: var(--gray);
+        text-align: center;
+    }
+    
+    /* Interactive Elements */
+    .interactive-section {
+        background-color: white;
+        border-radius: var(--radius-lg);
+        box-shadow: var(--shadow-lg);
+        padding: var(--spacing-xl);
+        margin: var(--spacing-2xl) 0;
+    }
+    
+    .interactive-title {
+        display: flex;
+        align-items: center;
+        font-size: 1.5rem;
+        margin-bottom: var(--spacing-lg);
+        color: var(--primary-dark);
+    }
+    
+    .interactive-title::before {
+        content: "🎮";
+        margin-right: var(--spacing-sm);
+        font-size: 1.8rem;
+    }
+    
+    /* Computer Components Visualizer */
+    .computer-parts {
+        position: relative;
+        width: 100%;
+        height: 400px;
+        background-color: #f8f9fa;
+        border-radius: var(--radius-lg);
+        margin: var(--spacing-xl) 0;
+        overflow: hidden;
+    }
+    
+    .computer-case {
+        position: absolute;
+        width: 70%;
+        height: 80%;
+        top: 10%;
+        left: 15%;
+        background-color: #343a40;
+        border-radius: 10px;
+        box-shadow: var(--shadow-lg);
+    }
+    
+    .computer-part {
+        position: absolute;
+        background-color: #495057;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
+    
+    .computer-part:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    }
+    
+    .cpu {
+        width: 15%;
+        height: 15%;
+        top: 30%;
+        left: 40%;
+        background-color: var(--secondary);
+    }
+    
+    .ram {
+        width: 30%;
+        height: 8%;
+        top: 20%;
+        left: 25%;
+        background-color: var(--primary);
+    }
+    
+    .hdd {
+        width: 25%;
+        height: 12%;
+        top: 50%;
+        left: 30%;
+        background-color: var(--accent);
+    }
+    
+    .psu {
+        width: 20%;
+        height: 15%;
+        top: 65%;
+        left: 20%;
+        background-color: var(--warning);
+    }
+    
+    .motherboard {
+        width: 50%;
+        height: 60%;
+        top: 20%;
+        left: 25%;
+        background-color: var(--success);
+        z-index: -1;
+    }
+    
+    .part-info {
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 30%;
+        height: 100%;
+        background-color: white;
+        border-left: 3px solid var(--primary);
+        padding: var(--spacing-md);
+        transform: translateX(100%);
+        transition: transform 0.3s ease;
+        z-index: 10;
+        overflow-y: auto;
+    }
+    
+    .part-info.active {
+        transform: translateX(0);
+    }
+    
+    .part-info-title {
+        font-size: 1.5rem;
+        margin-bottom: var(--spacing-md);
+        color: var(--primary-dark);
+    }
+    
+    .part-info-description {
+        font-size: 1rem;
+        margin-bottom: var(--spacing-md);
+    }
+    
+    .part-info-close {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background: none;
+        border: none;
+        font-size: 1.5rem;
+        cursor: pointer;
+        color: var(--gray);
+    }
+    
+    .part-info-close:hover {
+        color: var(--danger);
+    }
+    
+    /* Terminal Simulator */
+    .terminal-container {
+        background-color: var(--dark-blue);
+        border-radius: var(--radius-md);
+        padding: var(--spacing-lg);
+        margin: var(--spacing-xl) 0;
+        font-family: var(--font-code);
+        color: white;
+    }
+    
+    .terminal-header {
+        display: flex;
+        align-items: center;
+        margin-bottom: var(--spacing-md);
+    }
+    
+    .terminal-title {
+        font-size: 1rem;
+        margin-left: var(--spacing-md);
+        color: rgba(255, 255, 255, 0.7);
+    }
+    
+    .terminal-dots {
+        display: flex;
+        gap: 6px;
+    }
+    
+    .terminal-dot {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+    }
+    
+    .terminal-dot-red {
+        background-color: #ff5f56;
+    }
+    
+    .terminal-dot-yellow {
+        background-color: #ffbd2e;
+    }
+    
+    .terminal-dot-green {
+        background-color: #27c93f;
+    }
+    
+    .terminal-body {
+        height: 300px;
+        overflow-y: auto;
+        padding: var(--spacing-md);
+        background-color: rgba(0, 0, 0, 0.3);
+        border-radius: var(--radius-sm);
+        line-height: 1.5;
+    }
+    
+    .terminal-output {
+        margin-bottom: var(--spacing-sm);
+        white-space: pre-wrap;
+    }
+    
+    .terminal-prompt {
+        display: flex;
+        align-items: center;
+        margin-bottom: var(--spacing-sm);
+    }
+    
+    .terminal-prompt-symbol {
+        color: var(--success);
+        margin-right: var(--spacing-sm);
+        font-weight: bold;
+    }
+    
+    .terminal-input {
+        background: none;
+        border: none;
+        color: white;
+        font-family: var(--font-code);
+        font-size: 0.9rem;
+        width: 100%;
+        outline: none;
+    }
+    
+    /* File Extension Game */
+    .extension-game {
+        margin: var(--spacing-xl) 0;
+    }
+    
+    .file-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--spacing-md);
+        margin-bottom: var(--spacing-lg);
+    }
+    
+    .file-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100px;
+        height: 120px;
+        padding: var(--spacing-sm);
+        background-color: white;
+        border-radius: var(--radius-md);
+        box-shadow: var(--shadow-md);
+        cursor: grab;
+        transition: all 0.2s ease;
+    }
+    
+    .file-item:hover {
+        transform: translateY(-5px);
+        box-shadow: var(--shadow-lg);
+    }
+    
+    .file-icon {
+        font-size: 2.5rem;
+        margin-bottom: var(--spacing-sm);
+    }
+    
+    .file-name {
+        font-size: 0.8rem;
+        text-align: center;
+        word-break: break-word;
+    }
+    
+    .file-categories {
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--spacing-md);
+        margin-top: var(--spacing-lg);
+    }
+    
+    .file-category {
+        flex: 1 1 calc(33.333% - var(--spacing-md));
+        min-width: 150px;
+        height: 150px;
+        padding: var(--spacing-md);
+        background-color: rgba(99, 102, 241, 0.1);
+        border: 2px dashed var(--primary);
+        border-radius: var(--radius-md);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .category-title {
+        font-weight: 600;
+        margin-bottom: var(--spacing-sm);
+        color: var(--primary-dark);
+    }
+    
+    .category-items {
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--spacing-sm);
+        width: 100%;
+        min-height: 80px;
+        align-items: flex-start;
+        justify-content: center;
+    }
+    
+    .file-item.dragging {
+        opacity: 0.5;
+    }
+    
+    .file-category.drag-over {
+        background-color: rgba(99, 102, 241, 0.2);
+        border-color: var(--primary-dark);
+    }
+    
+    /* Computer Evolution Timeline */
+    .timeline {
+        position: relative;
+        margin: var(--spacing-2xl) 0;
+        padding-left: 30px;
+    }
+    
+    .timeline::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 4px;
+        height: 100%;
+        background-color: var(--primary-light);
+        border-radius: 2px;
+    }
+    
+    .timeline-item {
+        position: relative;
+        margin-bottom: var(--spacing-xl);
+        padding-bottom: var(--spacing-lg);
+    }
+    
+    .timeline-item::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -30px;
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        background-color: var(--primary);
+        border: 3px solid white;
+        box-shadow: var(--shadow-md);
+    }
+    
+    .timeline-date {
+        font-weight: 600;
+        color: var(--primary-dark);
+        margin-bottom: var(--spacing-sm);
+    }
+    
+    .timeline-title {
+        font-size: 1.25rem;
+        margin-bottom: var(--spacing-sm);
+    }
+    
+    /* Chapter Navigation */
+    .chapter-navigation {
+        display: flex;
+        justify-content: space-between;
+        margin-top: var(--spacing-3xl);
+        padding-top: var(--spacing-xl);
+        border-top: 1px solid var(--gray-light);
+    }
+    
+    .nav-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: var(--spacing-sm);
+        background-color: white;
+        color: var(--primary);
+        padding: var(--spacing-sm) var(--spacing-lg);
+        border-radius: var(--radius-full);
+        text-decoration: none;
+        font-weight: 600;
+        transition: var(--transition-normal);
+        border: 2px solid var(--primary);
+        cursor: pointer;
+    }
+    
+    .nav-btn:hover {
+        background-color: var(--primary);
+        color: white;
+    }
+    
+    .nav-btn.next {
+        background-color: var(--primary);
+        color: white;
+    }
+    
+    .nav-btn.next:hover {
+        background-color: var(--primary-dark);
+        border-color: var(--primary-dark);
+    }
+    
+    /* Progress Bar */
+    .progress-container {
+        position: fixed;
+        top: 70px;
+        left: 0;
+        width: 100%;
+        height: 4px;
+        background-color: var(--gray-light);
+        z-index: 99;
+    }
+    
+    .progress-bar {
+        height: 100%;
+        background-color: var(--secondary);
+        width: 0%;
+        transition: width 0.3s ease;
+    }
+    
+    /* Table of Contents */
+    .toc {
+        position: sticky;
+        top: 90px;
+        max-height: calc(100vh - 100px);
+        overflow-y: auto;
+        padding-right: var(--spacing-md);
+    }
+    
+    .toc-title {
+        font-size: 1.25rem;
+        margin-bottom: var(--spacing-md);
+        padding-bottom: var(--spacing-sm);
+        border-bottom: 2px solid var(--primary);
+    }
+    
+    .toc-list {
+        list-style: none;
+        margin-left: 0;
+    }
+    
+    .toc-item {
+        margin-bottom: var(--spacing-sm);
+    }
+    
+    .toc-link {
+        display: block;
+        padding: var(--spacing-xs) 0;
+        color: var(--gray);
+        transition: var(--transition-normal);
+        border-left: 2px solid transparent;
+        padding-left: var(--spacing-sm);
+    }
+    
+    .toc-link:hover, .toc-link.active {
+        color: var(--primary);
+        border-left-color: var(--primary);
+        padding-left: var(--spacing-md);
+    }
+    
+    .toc-sublist {
+        list-style: none;
+        margin-left: var(--spacing-lg);
+        margin-bottom: 0;
+    }
+    
+    /* Footer */
+    .footer {
+        background-color: var(--dark);
+        color: white;
+        padding: var(--spacing-2xl) 0;
+        margin-top: var(--spacing-3xl);
+    }
+    
+    .footer-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    
+    .footer-logo {
+        font-family: var(--font-heading);
+        font-weight: 800;
+        font-size: 1.5rem;
+        color: white;
+    }
+    
+    .footer-links {
+        display: flex;
+        gap: var(--spacing-lg);
+    }
+    
+    .footer-link {
+        color: rgba(255, 255, 255, 0.7);
+        transition: var(--transition-normal);
+    }
+    
+    .footer-link:hover {
+        color: white;255,255,0.7);
+        transition: var(--transition-normal);
+    }
+    
+    .footer-link:hover {
+        color: white;
+    }
+    
+    .footer-bottom {
+        margin-top: var(--spacing-lg);
+        padding-top: var(--spacing-lg);
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        text-align: center;
+        color: rgba(255, 255, 255, 0.7);
+        font-size: 0.875rem;
+    }
+    
+    /* Responsive Styles */
+    @media (max-width: 992px) {
+        .chapter-title {
+            font-size: 2.5rem;
+        }
+        
+        .chapter-layout {
+            grid-template-columns: 1fr;
+        }
+        
+        .toc {
+            display: none;
+        }
+    }
+    
+    @media (max-width: 768px) {
+        .header-container {
+            height: 60px;
+        }
+        
+        .nav {
+            position: fixed;
+            top: 60px;
+            left: 0;
+            width: 100%;
+            height: 0;
+            background-color: white;
+            flex-direction: column;
+            align-items: flex-start;
+            padding: 0 var(--spacing-lg);
+            overflow: hidden;
+            transition: var(--transition-normal);
+            box-shadow: var(--shadow-md);
+            opacity: 0;
+            visibility: hidden;
+        }
+        
+        .nav.active {
+            height: auto;
+            padding: var(--spacing-lg);
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .mobile-menu-btn {
+            display: block;
+        }
+        
+        .chapter-title {
+            font-size: 2rem;
+        }
+        
+        .chapter-meta {
+            flex-direction: column;
+            gap: var(--spacing-sm);
+        }
+        
+        .computer-parts {
+            height: 300px;
+        }
+        
+        .part-info {
+            width: 100%;
+            height: 50%;
+            top: auto;
+            bottom: 0;
+            right: 0;
+            transform: translateY(100%);
+            border-left: none;
+            border-top: 3px solid var(--primary);
+        }
+        
+        .part-info.active {
+            transform: translateY(0);
+        }
+        
+        .chapter-navigation {
+            flex-direction: column;
+            gap: var(--spacing-md);
+        }
+        
+        .nav-btn {
+            width: 100%;
+            justify-content: center;
+        }
+        
+        .footer-container {
+            flex-direction: column;
+            gap: var(--spacing-lg);
+            text-align: center;
+        }
+        
+        .file-categories {
+            flex-direction: column;
+        }
+    }
+    
+    @media (max-width: 480px) {
+        .terminal-body {
+            height: 250px;
+        }
+    }
+    
+    /* Animations */
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .animate-fade-in {
+        animation: fadeIn 0.5s ease-out forwards;
+    }
+    
+    .delay-100 { animation-delay: 100ms; }
+    .delay-200 { animation-delay: 200ms; }
+    .delay-300 { animation-delay: 300ms; }
+    .delay-400 { animation-delay: 400ms; }
+    .delay-500 { animation-delay: 500ms; }
+    
+    /* Layout for chapter content */
+    .chapter-layout {
+        display: grid;
+        grid-template-columns: 3fr 1fr;
+        gap: var(--spacing-2xl);
+    }
+</style>
+
+<style>
+    /* ========== ESTILOS DEL REPRODUCTOR DE PODCAST ========== */
+    .podcast-player-container .interactive-title::before {
+        content: '🎧'; /* O el emoji que prefieras */
+    }
+
+    .podcast-controls {
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-md);
+        margin-top: var(--spacing-lg);
+    }
+
+    #podcast-play-pause-btn {
+        padding: 0.5rem;
+        width: 50px;
+        height: 50px;
+    }
+
+    #podcast-play-pause-btn svg {
+        width: 100%;
+        height: 100%;
+    }
+
+    .podcast-progress-bar-container {
+        flex-grow: 1;
+    }
+
+    #podcast-progress-bar {
+        width: 100%;
+        -webkit-appearance: none;
+        appearance: none;
+        height: 8px;
+        background: var(--gray-light);
+        border-radius: var(--radius-full);
+        outline: none;
+        cursor: pointer;
+    }
+
+    /* Estilo para Chrome, Safari, Opera, Edge */
+    #podcast-progress-bar::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 20px;
+        height: 20px;
+        background: var(--primary);
+        border-radius: 50%;
+        cursor: pointer;
+        box-shadow: var(--shadow-sm);
+    }
+
+    /* Estilo para Firefox */
+    #podcast-progress-bar::-moz-range-thumb {
+        width: 20px;
+        height: 20px;
+        background: var(--primary);
+        border-radius: 50%;
+        cursor: pointer;
+        border: none;
+    }
+
+    .podcast-time-display {
+        font-family: var(--font-code);
+        font-weight: 500;
+        color: var(--gray);
+        min-width: 100px;
+        text-align: center;
+    }
+</style>
+
+</head>
+<body>
+<!-- Header -->
+<header class="header">
+    <div class="container header-container">
+        <a href="../../index.html" class="logo">
+            <span class="logo-icon">P</span>
+            <span>Programación para Mortales</span>
+        </a>
+        
+        <nav class="nav">
+            <a href="../../index.html" class="nav-link">Inicio</a>
+            <a href="../../index.html#chapters" class="nav-link">Capítulos</a>
+            <a href="../../index.html#features" class="nav-link">Características</a>
+            <a href="../../about.html" class="nav-link">Acerca de</a>
+            <a href="capitulo-3.html" class="btn btn-primary">Siguiente Capítulo</a>
+        </nav>
+        
+        <button class="mobile-menu-btn">☰</button>
+    </div>
+</header>
+
+<!-- Progress Bar -->
+<div class="progress-container">
+    <div class="progress-bar" id="progressBar"></div>
+</div>
+
+<!-- Chapter Header -->
+<section class="chapter-header">
+    <div class="container chapter-header-content">
+        <div class="chapter-number animate-fade-in">Capítulo 2</div>
+        <h1 class="chapter-title animate-fade-in delay-100">¿Qué hay dentro de una computadora?</h1>
+        <div class="chapter-meta animate-fade-in delay-200">
+            <div class="chapter-meta-item">
+                <span>⏱️ Tiempo de lectura: 20 minutos</span>
+            </div>
+            <div class="chapter-meta-item">
+                <span>🧩 Actividades: 3</span>
+            </div>
+            <div class="chapter-meta-item">
+                <span>📚 Nivel: Principiante</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Chapter Content -->
+<section class="chapter-content">
+    <div class="container">
+        <div class="podcast-player-container interactive-section">
+            <h3 class="interactive-title" style="--interactive-icon: '🎧';">Escuchá el resumen en audio</h3>
+            <audio id="podcast-audio" preload="metadata">
+                <source src="../../assets/audio/ppm/E1/capitulo_2.mp3" type="audio/mpeg">
+                Tu navegador no soporta el elemento de audio.
+            </audio>
+            <div class="podcast-controls">
+                <button id="podcast-play-pause-btn" class="btn btn-primary">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                </button>
+                <div class="podcast-progress-bar-container">
+                    <input type="range" id="podcast-progress-bar" value="0" step="1">
+                </div>
+                <div id="podcast-time" class="podcast-time-display">00:00 / 00:00</div>
+            </div>
+            <div class="podcast-external-link" style="margin-top: 1rem;">
+                <a href="https://www.youtube.com/playlist?list=PL2q5bMDgOj6Zg9DWlwBIEWgpXATKYS-YN" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">
+                    ▶️ Ver lista de reproducción en YouTube
+                </a>
+            </div> <!-- .podcast-player-container -->
+        </div>
+        <div class="chapter-layout">
+            <div class="content-wrapper">
+                <h2 id="que-es-computadora">💻 ¿Qué es una computadora?</h2>
+                
+                <p>Vamos a sacarnos de la cabeza la imagen típica de "pantalla, teclado y mouse". Eso es lo que ves. Pero la computadora en sí es algo más profundo: es como un pequeño equipo de trabajo que vive adentro de esa caja (o del celular, o de la notebook, o lo que sea).</p>
+                
+                <p>Ese equipo está formado por varias partes, y cada una cumple un rol específico, como si fueran órganos del cuerpo. Vamos a conocer las más importantes:</p>
+                
+                <!-- Interactive Computer Parts Visualizer -->
+                <!-- <div class="interactive-section">
+                    <h3 class="interactive-title">Explora los componentes de una computadora</h3>
+                    
+                    <p>Haz clic en cada componente para aprender más sobre su función:</p>
+                    
+                    <iframe src="componentes-interactivos.html" width="100%" height="700px" style="border: none; border-radius: var(--radius-lg); box-shadow: var(--shadow-lg);"></iframe>
+                </div> -->
+                
+                <h2 id="microprocesador">🧠 El microprocesador (o "cerebro" de la compu)</h2>
+                
+                <p>El microprocesador es como nuestro cerebro: es quien procesa toda la información, envía órdenes, recibe datos, interpreta cosas. Cuando sentimos frío, en realidad pasa algo en nuestra piel, y esa señal llega al cerebro, que la interpreta como "frío".</p>
+                
+                <p>Bueno, la compu hace algo parecido. Cuando hacés clic en un botón, el microprocesador recibe esa señal y decide qué hacer.</p>
+                
+                <p>Y a diferencia de nuestro cerebro (que no se puede cambiar, al menos todavía 😅), en una computadora sí se puede reemplazar el procesador por uno más potente, y listo: ¡tenés una máquina más rápida e inteligente!</p>
+                
+                <h2 id="disco">💽 El disco (o "memoria a largo plazo")</h2>
+                
+                <p>Me gusta usar esta analogía: Nosotros tenemos distintos tipos de memoria.</p>
+                
+                <p>No es lo mismo recordar dónde dejaste el teléfono hoy que acordarte de un cumpleaños de hace 10 años. Hay cosas que se van, y otras que quedan bien guardadas.</p>
+                
+                <p>La computadora también tiene esa diferencia. Su "memoria a largo plazo" es el disco, donde se guarda todo lo que querés que no se borre: fotos, archivos, canciones, programas, documentos...</p>
+                
+                <p>Aunque apagues y desconectes la computadora, todo eso queda guardado ahí.</p>
+                
+                <div class="note-box">
+                    <p>Hoy en día hay varios tipos de discos:</p>
+                    <ul>
+                        <li>los HDD (más lentos pero más baratos),</li>
+                        <li>y los SSD (más rápidos y modernos).</li>
+                    </ul>
+                    <p>Pero el concepto es el mismo desde siempre: Ahí vive toda la información que no queremos perder.</p>
+                </div>
+                
+                <h2 id="memoria-ram">🧠+🖊️ La memoria RAM (como la memoria a corto plazo)</h2>
+                
+                <p>¿Te acordás lo que almorzaste hace tres días? ¿O cómo te sentías el miércoles pasado? Probablemente no. Pero seguro te acordás de algo que estás haciendo ahora o que hiciste hace unos minutos.</p>
+                
+                <p>Eso es la memoria de corto plazo, y en la computadora se llama memoria RAM.</p>
+                
+                <p>La RAM guarda lo que se está usando en este momento. Por ejemplo, si estás leyendo este libro en PDF, la computadora tiene parte de ese archivo en la RAM.</p>
+                
+                <p>Pero cuando apagues la compu, todo lo que estaba ahí se borra.</p>
+                
+                <p>Es como cuando te dicen un número por teléfono y lo retenés unos segundos. Si no lo anotás, se te va. Así funciona la RAM.</p>
+                
+                <h2 id="fuente">⚡ La fuente</h2>
+                
+                <p>Sin electricidad, no hay computadora que funcione. La fuente es la parte que toma la energía del enchufe y la reparte por todas las demás partes.</p>
+                
+                <p>Podés pensar en la fuente como el corazón, y en los cables que salen de ella como las venas que llevan la sangre (o mejor dicho, la corriente) a todo el cuerpo de la máquina.</p>
+                
+                <h2 id="placa-madre">🧩 La placa madre (o el "base" de todo)</h2>
+                
+                <p>La placa madre es como el esqueleto y la red de caminos de la computadora.</p>
+                
+                <p>Ahí se conectan todas las demás partes: el procesador, la memoria, el disco, la fuente, la placa de video, el sonido… todo.</p>
+                
+                <p>Es como una gran autopista donde circula la información y se interconectan los componentes.</p>
+                
+                <p>Si alguna pieza es el cerebro, y otra es la memoria, la placa madre es la columna vertebral que mantiene todo unido y funcionando en armonía.</p>
+                
+                <h2 id="historia-computadoras">📚 Un poco de historia: ¿para qué se usaron las primeras computadoras?</h2>
+                
+                <p>Las primeras computadoras no eran como las que tenemos hoy. Nada que ver con una notebook, ni con un celu, ni siquiera con una PC de los años 90.</p>
+                
+                <p>Eran máquinas gigantes, del tamaño de una habitación, llenas de cables, luces y válvulas que se calentaban como un horno.</p>
+                
+                <p>¿Y para qué servían? Bueno, no eran para mirar TikTok ni para escribir en Word.</p>
+                
+                <p>Las primeras computadoras se usaron para hacer cuentas. Cuentas grandes. Rápidas. Y precisas.</p>
+                
+                <div class="highlight-box">
+                    <p>Por ejemplo:</p>
+                    <ul>
+                        <li>En la Segunda Guerra Mundial, se usaban para calcular trayectorias de misiles.</li>
+                        <li>Más adelante, para hacer cálculos científicos, predicciones meteorológicas, estadísticas, etc.</li>
+                    </ul>
+                    <p>Eran tan caras y complicadas que solo existían en laboratorios, gobiernos y universidades.</p>
+                </div>
+                
+                <p>No tenían pantalla, ni teclado, ni mouse. A veces se usaban tarjetas perforadas (eran como tarjetas de papel con agujeros) o palancas, y todo se programaba con mucho esfuerzo. Todo lo que hacían estaba "escrito a mano" en instrucciones muy, muy básicas.</p>
+                
+                <!-- Computer Evolution Timeline -->
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-date">1940s</div>
+                        <h3 class="timeline-title">Las primeras computadoras electrónicas</h3>
+                        <p>Máquinas gigantes que ocupaban habitaciones enteras. Usaban válvulas de vacío, consumían mucha energía y generaban mucho calor. Ejemplos: ENIAC, EDVAC.</p>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-date">1950s - 1960s</div>
+                        <h3 class="timeline-title">La era de los transistores</h3>
+                        <p>Los transistores reemplazaron a las válvulas, haciendo las computadoras más pequeñas, rápidas y confiables. Aparecen los primeros lenguajes de programación de alto nivel.</p>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-date">1970s</div>
+                        <h3 class="timeline-title">Circuitos integrados y microprocesadores</h3>
+                        <p>La invención del microprocesador permitió reducir el tamaño de las computadoras. Aparecen las primeras computadoras personales.</p>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-date">1980s - 1990s</div>
+                        <h3 class="timeline-title">La revolución de las PCs</h3>
+                        <p>Las computadoras personales se vuelven comunes en hogares y oficinas. Windows y Macintosh popularizan las interfaces gráficas.</p>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-date">2000s - Presente</div>
+                        <h3 class="timeline-title">Era móvil y en la nube</h3>
+                        <p>Smartphones, tablets y computación en la nube. Las computadoras se vuelven más pequeñas, potentes y están conectadas permanentemente.</p>
+                    </div>
+                </div>
+                
+                <h2 id="evolucion-computadoras">🔄 ¿Cómo pasamos de eso... a tener una computadora en el bolsillo?</h2>
+                
+                <p>Con el tiempo, la tecnología fue mejorando. Los componentes se achicaron, se volvieron más baratos, más rápidos, más confiables. Así empezaron a aparecer las computadoras personales (las famosas "PCs") en los hogares y oficinas.</p>
+                
+                <p>Pero había un problema: la computadora entendía lenguaje máquina, pero las personas no.</p>
+                
+                <p>¿Cómo le hablabas? ¿Cómo le decías qué querías hacer? Ahí entra un protagonista que sigue siendo clave hasta hoy: el sistema operativo.</p>
+                
+                <h2 id="sistema-operativo">💼 ¿Qué es un sistema operativo?</h2>
+                
+                <p>Podemos decir que un sistema operativo es como un intendente digital: organiza todo lo que pasa en la computadora, sin que vos tengas que pensar cómo se hace.</p>
+                
+                <p>Te doy una idea de todo lo que hace:</p>
+                <ul>
+                    <li>Le dice a la computadora cómo mostrarse en la pantalla.</li>
+                    <li>Decide cómo abrir archivos, cómo cargar fotos, cómo guardar cosas.</li>
+                    <li>Organiza la memoria, el tiempo del procesador, y qué programa se ejecuta primero.</li>
+                    <li>Y además, te da una forma para que vos te comuniques con la computadora.</li>
+                </ul>
+                
+                <p>Sin un sistema operativo, no podrías hacer nada. La computadora estaría prendida, pero no sabría cómo responderte. Sería como un auto sin volante: tiene motor, tiene ruedas… pero no lo podés manejar.</p>
+                
+                <h2 id="sistemas-operativos-comunes">🪟 Algunos sistemas operativos que quizás conocés</h2>
+                
+                <div class="table-container">
+                    <table>
+                        <tr>
+                            <th>Sistema Operativo</th>
+                            <th>Características</th>
+                            <th>Donde se usa</th>
+                        </tr>
+                        <tr>
+                            <td>Windows</td>
+                            <td>El más usado durante décadas en computadoras personales. Muy gráfico, con ventanas, íconos y menús.</td>
+                            <td>PCs, laptops</td>
+                        </tr>
+                        <tr>
+                            <td>MacOS</td>
+                            <td>El sistema operativo de las Mac, creado por Apple. Muy visual, minimalista y "cerrado".</td>
+                            <td>Computadoras Apple</td>
+                        </tr>
+                        <tr>
+                            <td>Linux</td>
+                            <td>Más técnico, libre y usado por mucha gente que ama la informática o trabaja con servidores.</td>
+                            <td>Servidores, algunas PCs</td>
+                        </tr>
+                        <tr>
+                            <td>Android</td>
+                            <td>Lo tenés en el celular (si no usás iPhone). Es una versión de Linux adaptada para móviles.</td>
+                            <td>Smartphones, tablets</td>
+                        </tr>
+                        <tr>
+                            <td>iOS</td>
+                            <td>El sistema de los iPhones y iPads.</td>
+                            <td>iPhone, iPad</td>
+                        </tr>
+                    </table>
+                </div>
+                
+                <p>Cada uno tiene su estilo y su forma de mostrarse, pero todos hacen lo mismo: permiten que vos interactúes con la computadora sin tener que escribir ceros y unos.</p>
+                
+                <h2 id="interaccion-sistema-operativo">🧑‍💻 ¿Y cómo interactuamos con un sistema operativo?</h2>
+                
+                <p>Hoy en día, estamos acostumbrados a hacer clic en íconos, abrir ventanas, arrastrar archivos. Eso es una interfaz gráfica. Pero atrás de todo eso, el sistema sigue funcionando con texto, instrucciones, y comandos.</p>
+                
+                <p>Por eso, cada sistema operativo incluye una herramienta muy poderosa (y bastante antigua) llamada terminal o línea de comandos.</p>
+                
+                <h2 id="terminal">🖥️ ¿Qué es la terminal?</h2>
+                
+                <p>La terminal es una ventanita donde podés escribir texto y darle instrucciones directas a la computadora. Nada de íconos, ni carpetas con colores, ni dibujitos. Solo texto.</p>
+                
+                <p>Puede parecer fría, oscura, o difícil… pero no lo es. Es simplemente una forma distinta de comunicarse.</p>
+                
+                <p>Desde la terminal podés:</p>
+                <ul>
+                    <li>Crear carpetas.</li>
+                    <li>Borrar archivos.</li>
+                    <li>Navegar por tus documentos.</li>
+                    <li>Ejecutar tus programas.</li>
+                    <li>¡Y mucho más!</li>
+                </ul>
+                
+                <p>¿Y sabés qué es lo mejor? Cuando aprendamos a programar, vamos a usar mucho la terminal, porque ahí es donde vamos a ejecutar nuestros códigos, paso a paso, como verdaderos mortales. 😎</p>
+                
+                <h2 id="actividades">🧩 Actividades interactivas</h2>
+                
+                <p>Ahora que conocemos los componentes básicos de una computadora y cómo ha evolucionado, vamos a poner en práctica algunos conceptos con actividades interactivas.</p>
+                
+                <!-- Actividad 1: Terminal Simulator -->
+                <div class="interactive-section">
+                    <h3 class="interactive-title">Actividad 1: "Explorador de archivos en texto"</h3>
+                    
+                    <p>Imagina que estás parado en el living de tu casa (la carpeta principal). Vamos a aprender a movernos entre las habitaciones (carpetas) usando comandos simples.</p>
+                    
+                    <div class="terminal-container">
+                        <div class="terminal-header">
+                            <div class="terminal-dots">
+                                <div class="terminal-dot terminal-dot-red"></div>
+                                <div class="terminal-dot terminal-dot-yellow"></div>
+                                <div class="terminal-dot terminal-dot-green"></div>
+                            </div>
+                            <div class="terminal-title">Terminal</div>
+                        </div>
+                        
+                        <div class="terminal-body" id="terminalBody">
+                            <div class="terminal-output">¡Bienvenido a la Terminal Simulada! Estás en la carpeta /Casa</div>
+                            <div class="terminal-output">Prueba estos comandos:</div>
+                            <div class="terminal-output">- ls (para ver qué hay en la carpeta actual)</div>
+                            <div class="terminal-output">- cd NombreCarpeta (para entrar a una carpeta)</div>
+                            <div class="terminal-output">- cd .. (para volver a la carpeta anterior)</div>
+                            <div class="terminal-output">- mkdir NombreCarpeta (para crear una nueva carpeta)</div>
+                            
+                            <div class="terminal-prompt">
+                                <span class="terminal-prompt-symbol">$</span>
+                                <input type="text" class="terminal-input" id="terminalInput" placeholder="Escribe un comando...">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Actividad 2: File Extension Game -->
+                <div class="interactive-section">
+                    <h3 class="interactive-title">Actividad 2: "Detective de extensiones"</h3>
+                    
+                    <p>¿Puedes identificar qué tipo de archivo es cada uno? Arrastra los archivos a la categoría correcta.</p>
+                    
+                    <div class="extension-game">
+                        <div class="file-container" id="fileContainer">
+                            <div class="file-item" draggable="true" data-type="document">
+                                <div class="file-icon">📄</div>
+                                <div class="file-name">factura.pdf</div>
+                            </div>
+                            <div class="file-item" draggable="true" data-type="document">
+                                <div class="file-icon">📝</div>
+                                <div class="file-name">receta.txt</div>
+                            </div>
+                            <div class="file-item" draggable="true" data-type="image">
+                                <div class="file-icon">🖼️</div>
+                                <div class="file-name">selfie.png</div>
+                            </div>
+                            <div class="file-item" draggable="true" data-type="audio">
+                                <div class="file-icon">🎵</div>
+                                <div class="file-name">cancion.mp3</div>
+                            </div>
+                            <div class="file-item" draggable="true" data-type="program">
+                                <div class="file-icon">🎮</div>
+                                <div class="file-name">juego.exe</div>
+                            </div>
+                            <div class="file-item" draggable="true" data-type="code">
+                                <div class="file-icon">👨‍💻</div>
+                                <div class="file-name">ejercicio.py</div>
+                            </div>
+                        </div>
+                        
+                        <div class="file-categories">
+                            <div class="file-category" data-category="document">
+                                <div class="category-title">Documentos</div>
+                                <div class="category-items" id="documentCategory"></div>
+                            </div>
+                            <div class="file-category" data-category="image">
+                                <div class="category-title">Imágenes</div>
+                                <div class="category-items" id="imageCategory"></div>
+                            </div>
+                            <div class="file-category" data-category="audio">
+                                <div class="category-title">Audio</div>
+                                <div class="category-items" id="audioCategory"></div>
+                            </div>
+                            <div class="file-category" data-category="program">
+                                <div class="category-title">Programas</div>
+                                <div class="category-items" id="programCategory"></div>
+                            </div>
+                            <div class="file-category" data-category="code">
+                                <div class="category-title">Código</div>
+                                <div class="category-items" id="codeCategory"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Actividad 3: Real Terminal Command -->
+                <div class="interactive-section">
+                    <h3 class="interactive-title">Actividad 3: "Tu primer comando real"</h3>
+                    
+                    <p>¡Hora de meter mano! Vamos a crear una carpeta usando la terminal real de tu computadora.</p>
+                    
+                    <div class="highlight-box">
+                        <p>Sigue estos pasos:</p>
+                        <ol>
+                            <li>Abre la terminal de tu sistema operativo:
+                                <ul>
+                                    <li>En Windows: Busca "cmd" o "PowerShell" en el menú de inicio</li>
+                                    <li>En Mac: Abre la aplicación "Terminal" desde Aplicaciones > Utilidades</li>
+                                    <li>En Linux: Usa Ctrl+Alt+T o busca "Terminal" en el menú</li>
+                                </ul>
+                            </li>
+                            <li>Escribe el siguiente comando y presiona Enter: <code>mkdir hola_mundo</code></li>
+                            <li>Ahora escribe <code>ls</code> (o <code>dir</code> en Windows) y presiona Enter</li>
+                            <li>¡Deberías ver tu nueva carpeta "hola_mundo" en la lista!</li>
+                            <li>Para entrar a esa carpeta, escribe: <code>cd hola_mundo</code></li>
+                        </ol>
+                    </div>
+                    
+                    <p>¡Felicidades! Acabas de crear tu primera carpeta usando puro texto. No hiciste clic. No usaste íconos. Le hablaste directamente a tu computadora... y te entendió.</p>
+                    
+                    <div class="note-box">
+                        <p>Si prefieres practicar en un entorno seguro antes de usar tu terminal real, puedes usar el simulador de la Actividad 1.</p>
+                    </div>
+                </div>
+                
+                <h2 id="resumen">Resumen del capítulo</h2>
+                
+                <div class="highlight-box">
+                    <p>En este capítulo, hemos explorado:</p>
+                    
+                    <ul>
+                        <li>Los componentes principales de una computadora: procesador, memoria RAM, disco duro, fuente y placa madre.</li>
+                        <li>La evolución de las computadoras a lo largo del tiempo, desde máquinas gigantes hasta dispositivos de bolsillo.</li>
+                        <li>Qué es un sistema operativo y cómo nos permite interactuar con la computadora.</li>
+                        <li>La terminal como una forma poderosa de comunicarnos con la computadora mediante texto.</li>
+                    </ul>
+                    
+                    <p>Hasta acá llegamos con la base. Ya sabés qué hay dentro de una computadora, qué rol cumple cada parte, cómo evolucionó desde sus inicios, y qué es un sistema operativo.</p>
+                    
+                    <p>También conociste a la terminal, esa pequeña puerta que conecta tu mundo con el de la máquina.</p>
+                    
+                    <p>En el próximo capítulo, vas a empezar a pensar como programador: qué es un programa, cómo se construye una instrucción, y cómo vamos a empezar a hablarle a la compu con nuestros propios comandos.</p>
+                    
+                    <p>Tranqui, no vamos a tirar líneas mágicas. Vamos a entenderlas. Y eso cambia todo.</p>
+                </div>
+                
+                <!-- Navegación entre capítulos -->
+                <div class="chapter-navigation">
+                    <a href="capitulo-1.html" class="nav-btn">
+                        <span>←</span> Capítulo anterior
+                    </a>
+                    <a href="capitulo-3.html" class="nav-btn next">
+                        Siguiente capítulo <span>→</span>
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Tabla de contenidos -->
+            <aside class="toc">
+                <h3 class="toc-title">Contenido del capítulo</h3>
+                <ul class="toc-list">
+                    <li class="toc-item">
+                        <a href="#que-es-computadora" class="toc-link">¿Qué es una computadora?</a>
+                    </li>
+                    <li class="toc-item">
+                        <a href="#microprocesador" class="toc-link">El microprocesador</a>
+                    </li>
+                    <li class="toc-item">
+                        <a href="#disco" class="toc-link">El disco</a>
+                    </li>
+                    <li class="toc-item">
+                        <a href="#memoria-ram" class="toc-link">La memoria RAM</a>
+                    </li>
+                    <li class="toc-item">
+                        <a href="#fuente" class="toc-link">La fuente</a>
+                    </li>
+                    <li class="toc-item">
+                        <a href="#placa-madre" class="toc-link">La placa madre</a>
+                    </li>
+                    <li class="toc-item">
+                        <a href="#historia-computadoras" class="toc-link">Un poco de historia</a>
+                    </li>
+                    <li class="toc-item">
+                        <a href="#evolucion-computadoras" class="toc-link">Evolución de las computadoras</a>
+                    </li>
+                    <li class="toc-item">
+                        <a href="#sistema-operativo" class="toc-link">¿Qué es un sistema operativo?</a>
+                    </li>
+                    <li class="toc-item">
+                        <a href="#sistemas-operativos-comunes" class="toc-link">Sistemas operativos comunes</a>
+                    </li>
+                    <li class="toc-item">
+                        <a href="#terminal" class="toc-link">¿Qué es la terminal?</a>
+                    </li>
+                    <li class="toc-item">
+                        <a href="#actividades" class="toc-link">Actividades interactivas</a>
+                    </li>
+                    <li class="toc-item">
+                        <a href="#resumen" class="toc-link">Resumen del capítulo</a>
+                    </li>
+                </ul>
+            </aside>
+        </div>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+    <div class="container">
+        <div class="footer-container">
+            <a href="../index.html" class="footer-logo">Programación para Mortales</a>
+            
+            <div class="footer-links">
+                <a href="../index.html" class="footer-link">Inicio</a>
+                <a href="../indice.html" class="footer-link">Índice completo</a>
+                <a href="../about.html" class="footer-link">Acerca de</a>
+                <a href="../terminos-y-condiciones.html" class="footer-link">Términos y condiciones</a>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2025 Programación para Mortales. Todos los derechos reservados.</p>
+        </div>
+    </div>
+</footer>
+
+<script>
+    // Mobile Menu Toggle
+    const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+    const nav = document.querySelector('.nav');
+    
+    mobileMenuBtn.addEventListener('click', () => {
+        nav.classList.toggle('active');
+    });
+    
+    // Header Scroll Effect
+    const header = document.querySelector('.header');
+    
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 50) {
+            header.classList.add('scrolled');
+        } else {
+            header.classList.remove('scrolled');
+        }
+    });
+    
+    // Reading Progress Bar
+    const progressBar = document.getElementById('progressBar');
+    
+    window.addEventListener('scroll', () => {
+        const windowHeight = window.innerHeight;
+        const documentHeight = document.documentElement.scrollHeight - windowHeight;
+        const scrollTop = window.scrollY;
+        const progress = (scrollTop / documentHeight) * 100;
+        progressBar.style.width = progress + '%';
+    });
+    
+    // Table of Contents Active Link
+    const tocLinks = document.querySelectorAll('.toc-link');
+    const sections = document.querySelectorAll('h2, h3');
+    
+    window.addEventListener('scroll', () => {
+        let current = '';
+        
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop - 100;
+            if (window.scrollY >= sectionTop) {
+                current = section.getAttribute('id');
+            }
+        });
+        
+        tocLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href').substring(1) === current) {
+                link.classList.add('active');
+            }
+        });
+    });
+    
+    // Computer Parts Visualizer
+    const computerParts = document.querySelectorAll('.computer-part');
+    const partInfo = document.getElementById('partInfo');
+    const partTitle = document.getElementById('partTitle');
+    const partDescription = document.getElementById('partDescription');
+    const closeButton = document.querySelector('.part-info-close');
+    
+    const partDetails = {
+        cpu: {
+            title: "Microprocesador (CPU)",
+            description: "El cerebro de la computadora. Procesa todas las instrucciones, realiza cálculos y coordina las actividades de todos los demás componentes. Cuanto más potente sea el procesador, más rápida será la computadora para realizar tareas complejas."
+        },
+        ram: {
+            title: "Memoria RAM",
+            description: "La memoria de trabajo a corto plazo. Almacena temporalmente los datos que la CPU necesita para funcionar. Cuando apagas la computadora, todo lo que estaba en la RAM se borra. Más RAM permite ejecutar más programas simultáneamente sin ralentizar el sistema."
+        },
+        hdd: {
+            title: "Disco Duro",
+            description: "El almacenamiento a largo plazo. Guarda todos tus archivos, programas y el sistema operativo, incluso cuando la computadora está apagada. Existen dos tipos principales: HDD (mecánicos, más baratos) y SSD (electrónicos, más rápidos)."
+        },
+        psu: {
+            title: "Fuente de Alimentación",
+            description: "El corazón energético de la computadora. Convierte la electricidad de la pared en voltajes utilizables por los componentes internos. Distribuye la energía a todas las partes de la computadora de manera segura y estable."
+        },
+        motherboard: {
+            title: "Placa Madre",
+            description: "La columna vertebral de la computadora. Es el circuito principal donde se conectan todos los demás componentes. Contiene rutas que permiten la comunicación entre el procesador, la memoria, los discos y todos los periféricos."
+        }
+    };
+    
+    computerParts.forEach(part => {
+        part.addEventListener('click', () => {
+            const partType = part.dataset.part;
+            const details = partDetails[partType];
+            
+            partTitle.textContent = details.title;
+            partDescription.textContent = details.description;
+            partInfo.classList.add('active');
+        });
+    });
+    
+    closeButton.addEventListener('click', () => {
+        partInfo.classList.remove('active');
+    });
+    
+    // Terminal Simulator
+    const terminalInput = document.getElementById('terminalInput');
+    const terminalBody = document.getElementById('terminalBody');
+    
+    // Estructura de carpetas simulada
+    const fileSystem = {
+        'Casa': {
+            'Escritorio': {
+                'tarea.txt': 'archivo',
+                'fotos': {
+                    'vacaciones.jpg': 'archivo',
+                    'familia.png': 'archivo'
+                }
+            },
+            'Musica': {
+                'rock.mp3': 'archivo',
+                'pop.mp3': 'archivo',
+                'Clasica': {
+                    'beethoven.mp3': 'archivo',
+                    'mozart.mp3': 'archivo'
+                }
+            },
+            'Documentos': {
+                'importante.pdf': 'archivo'
+            }
+        }
+    };
+    
+    let currentPath = ['Casa'];
+    
+    function getCurrentDirectory() {
+        let current = fileSystem;
+        for (const dir of currentPath) {
+            current = current[dir];
+        }
+        return current;
+    }
+    
+    function addTerminalOutput(text) {
+        const output = document.createElement('div');
+        output.className = 'terminal-output';
+        output.textContent = text;
+        
+        // Insertar antes del prompt
+        const prompt = terminalBody.querySelector('.terminal-prompt');
+        terminalBody.insertBefore(output, prompt);
+        
+        // Scroll al final
+        terminalBody.scrollTop = terminalBody.scrollHeight;
+    }
+    
+    terminalInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+            const command = terminalInput.value.trim();
+            
+            // Crear un nuevo prompt con el comando
+            const commandOutput = document.createElement('div');
+            commandOutput.className = 'terminal-output';
+            commandOutput.textContent = `$ ${command}`;
+            
+            // Insertar antes del prompt actual
+            const prompt = terminalBody.querySelector('.terminal-prompt');
+            terminalBody.insertBefore(commandOutput, prompt);
+            
+            // Procesar el comando
+            processCommand(command);
+            
+            // Limpiar el input
+            terminalInput.value = '';
+            
+            // Scroll al final
+            terminalBody.scrollTop = terminalBody.scrollHeight;
+        }
+    });
+    
+    function processCommand(command) {
+        const parts = command.split(' ');
+        const cmd = parts[0].toLowerCase();
+        
+        switch (cmd) {
+            case 'ls':
+                listDirectory();
+                break;
+            case 'cd':
+                changeDirectory(parts[1]);
+                break;
+            case 'mkdir':
+                if (parts[1]) {
+                    makeDirectory(parts[1]);
+                } else {
+                    addTerminalOutput('Error: Debes especificar un nombre para la carpeta');
+                }
+                break;
+            case 'pwd':
+                printWorkingDirectory();
+                break;
+            case 'help':
+                showHelp();
+                break;
+            case 'clear':
+                clearTerminal();
+                break;
+            default:
+                addTerminalOutput(`Comando no reconocido: ${cmd}. Escribe 'help' para ver los comandos disponibles.`);
+        }
+    }
+    
+    function listDirectory() {
+        const currentDir = getCurrentDirectory();
+        const items = Object.keys(currentDir);
+        
+        if (items.length === 0) {
+            addTerminalOutput('(La carpeta está vacía)');
+        } else {
+            let output = '';
+            items.forEach(item => {
+                if (typeof currentDir[item] === 'object') {
+                    output += `📁 ${item}    `;
+                } else {
+                    output += `📄 ${item}    `;
+                }
+            });
+            addTerminalOutput(output);
+        }
+    }
+    
+    function changeDirectory(dir) {
+        if (!dir) {
+            addTerminalOutput('Error: Debes especificar una carpeta');
+            return;
+        }
+        
+        if (dir === '..') {
+            if (currentPath.length > 1) {
+                currentPath.pop();
+                addTerminalOutput(`Cambiado a /${currentPath.join('/')}`);
+            } else {
+                addTerminalOutput('Ya estás en la carpeta raíz');
+            }
+            return;
+        }
+        
+        const currentDir = getCurrentDirectory();
+        
+        if (currentDir[dir] && typeof currentDir[dir] === 'object') {
+            currentPath.push(dir);
+            addTerminalOutput(`Cambiado a /${currentPath.join('/')}`);
+        } else {
+            addTerminalOutput(`Error: La carpeta '${dir}' no existe`);
+        }
+    }
+    
+    function makeDirectory(name) {
+        const currentDir = getCurrentDirectory();
+        
+        if (currentDir[name]) {
+            addTerminalOutput(`Error: Ya existe un archivo o carpeta llamado '${name}'`);
+        } else {
+            currentDir[name] = {};
+            addTerminalOutput(`Carpeta '${name}' creada`);
+        }
+    }
+    
+    function printWorkingDirectory() {
+        addTerminalOutput(`/${currentPath.join('/')}`);
+    }
+    
+    function showHelp() {
+        addTerminalOutput('Comandos disponibles:');
+        addTerminalOutput('ls - Listar archivos y carpetas');
+        addTerminalOutput('cd [carpeta] - Cambiar de carpeta');
+        addTerminalOutput('cd .. - Subir un nivel');
+        addTerminalOutput('mkdir [nombre] - Crear una carpeta');
+        addTerminalOutput('pwd - Mostrar ruta actual');
+        addTerminalOutput('clear - Limpiar la terminal');
+        addTerminalOutput('help - Mostrar esta ayuda');
+    }
+    
+    function clearTerminal() {
+        // Eliminar todos los outputs excepto el prompt
+        const prompt = terminalBody.querySelector('.terminal-prompt');
+        terminalBody.innerHTML = '';
+        terminalBody.appendChild(prompt);
+        
+        // Agregar mensaje de bienvenida
+        addTerminalOutput(`Terminal limpia. Estás en /${currentPath.join('/')}`);
+    }
+    
+    // File Extension Game
+    const fileItems = document.querySelectorAll('.file-item');
+    const fileCategories = document.querySelectorAll('.file-category');
+    
+    let draggedItem = null;
+    
+    fileItems.forEach(item => {
+        item.addEventListener('dragstart', function() {
+            draggedItem = this;
+            setTimeout(() => this.classList.add('dragging'), 0);
+        });
+        
+        item.addEventListener('dragend', function() {
+            this.classList.remove('dragging');
+            draggedItem = null;
+        });
+    });
+    
+    fileCategories.forEach(category => {
+        category.addEventListener('dragover', function(e) {
+            e.preventDefault();
+            this.classList.add('drag-over');
+        });
+        
+        category.addEventListener('dragleave', function() {
+            this.classList.remove('drag-over');
+        });
+        
+        category.addEventListener('drop', function(e) {
+            e.preventDefault();
+            this.classList.remove('drag-over');
+            
+            if (draggedItem) {
+                const itemType = draggedItem.dataset.type;
+                const categoryType = this.dataset.category;
+                
+                if (itemType === categoryType) {
+                    // Correcto
+                    this.querySelector('.category-items').appendChild(draggedItem);
+                    draggedItem.style.backgroundColor = '#d4edda';
+                    draggedItem.style.borderColor = '#c3e6cb';
+                } else {
+                    // Incorrecto
+                    draggedItem.style.backgroundColor = '#f8d7da';
+                    draggedItem.style.borderColor = '#f5c6cb';
+                    
+                    // Restaurar después de un momento
+                    setTimeout(() => {
+                        draggedItem.style.backgroundColor = '';
+                        draggedItem.style.borderColor = '';
+                    }, 1000);
+                }
+            }
+        });
+    });
+</script>
+
+<script>
+    // ========== SCRIPT DEL REPRODUCTOR DE PODCAST ==========
+    const audio = document.getElementById('podcast-audio');
+    const playPauseBtn = document.getElementById('podcast-play-pause-btn');
+    const playIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>';
+    const pauseIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>';
+    const podcastProgressBar = document.getElementById('podcast-progress-bar');
+    const timeDisplay = document.getElementById('podcast-time');
+
+    function togglePlayPause() {
+        if (audio.paused) {
+            audio.play();
+            playPauseBtn.innerHTML = pauseIcon;
+        } else {
+            audio.pause();
+            playPauseBtn.innerHTML = playIcon;
+        }
+    }
+
+    function formatTime(seconds) {
+        const minutes = Math.floor(seconds / 60);
+        
+        const secs = Math.floor(seconds % 60);
+        return `${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+    }
+
+    function updateProgress() {
+        podcastProgressBar.value = (audio.currentTime / audio.duration) * 100 || 0;
+        timeDisplay.textContent = `${formatTime(audio.currentTime)} / ${formatTime(audio.duration || 0)}`;
+    }
+
+    playPauseBtn.addEventListener('click', togglePlayPause);
+    audio.addEventListener('timeupdate', updateProgress);
+    audio.addEventListener('loadedmetadata', updateProgress);
+
+    podcastProgressBar.addEventListener('input', () => {
+        const seekTime = (podcastProgressBar.value / 100) * audio.duration;
+        audio.currentTime = seekTime;
+    });
+
+    // Cuando el audio termina
+    audio.addEventListener('ended', () => {
+        playPauseBtn.innerHTML = playIcon;
+        audio.currentTime = 0;
+        podcastProgressBar.value = 0;
+    });
+</script>
+
+</body>
+</html>

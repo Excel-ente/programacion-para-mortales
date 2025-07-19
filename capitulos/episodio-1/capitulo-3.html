@@ -1,0 +1,2081 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Explorando la compu desde adentro - Programación para Mortales</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+    /* Paleta de colores vibrante y moderna */
+    --primary: #6366f1;
+    --primary-dark: #4f46e5;
+    --primary-light: #a5b4fc;
+    --secondary: #ec4899;
+    --secondary-dark: #db2777;
+    --accent: #06b6d4;
+    --success: #10b981;
+    --warning: #f59e0b;
+    --danger: #ef4444;
+    --dark: #0f172a;
+    --dark-blue: #1e293b;
+    --light: #f8fafc;
+    --gray: #64748b;
+    --gray-light: #e2e8f0;
+    
+    /* Tipografía */
+    --font-heading: 'Space Grotesk', sans-serif;
+    --font-body: 'Outfit', sans-serif;
+    --font-code: 'Fira Code', monospace;
+    
+    /* Espaciado */
+    --spacing-xs: 0.25rem;
+    --spacing-sm: 0.5rem;
+    --spacing-md: 1rem;
+    --spacing-lg: 1.5rem;
+    --spacing-xl: 2rem;
+    --spacing-2xl: 3rem;
+    --spacing-3xl: 4rem;
+    
+    /* Bordes y sombras */
+    --radius-sm: 0.25rem;
+    --radius-md: 0.5rem;
+    --radius-lg: 1rem;
+    --radius-xl: 1.5rem;
+    --radius-full: 9999px;
+    
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    
+    /* Transiciones */
+    --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-normal: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-slow: 500ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 16px;
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: var(--font-body);
+    color: var(--dark);
+    background-color: var(--light);
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: var(--spacing-lg);
+    color: var(--dark);
+}
+
+h1 {
+    font-size: 3rem;
+}
+
+h2 {
+    font-size: 2.25rem;
+    margin-top: var(--spacing-2xl);
+    position: relative;
+    padding-bottom: var(--spacing-sm);
+}
+
+h2::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 80px;
+    height: 4px;
+    background: var(--primary);
+    border-radius: 2px;
+}
+
+h3 {
+    font-size: 1.75rem;
+    margin-top: var(--spacing-xl);
+    color: var(--primary-dark);
+}
+
+p {
+    margin-bottom: var(--spacing-lg);
+    font-size: 1.125rem;
+}
+
+a {
+    text-decoration: none;
+    color: var(--primary);
+    transition: var(--transition-normal);
+}
+
+a:hover {
+    color: var(--primary-dark);
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    border-radius: var(--radius-md);
+}
+
+/* Layout */
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 var(--spacing-lg);
+}
+
+/* Header */
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 100;
+    background-color: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(10px);
+    box-shadow: var(--shadow-sm);
+    transition: var(--transition-normal);
+}
+
+.header.scrolled {
+    box-shadow: var(--shadow-md);
+}
+
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 70px;
+}
+
+.logo {
+    font-family: var(--font-heading);
+    font-weight: 800;
+    font-size: 1.5rem;
+    color: var(--primary);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+.logo-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    background-color: var(--primary);
+    color: white;
+    border-radius: var(--radius-md);
+    font-weight: 700;
+}
+
+.nav {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xl);
+}
+
+.nav-link {
+    font-weight: 500;
+    color: var(--dark);
+    position: relative;
+}
+
+.nav-link:hover {
+    color: var(--primary);
+}
+
+.nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: var(--primary);
+    transition: var(--transition-normal);
+}
+
+.nav-link:hover::after {
+    width: 100%;
+}
+
+.nav-link.active {
+    color: var(--primary);
+}
+
+.nav-link.active::after {
+    width: 100%;
+}
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.75rem 1.5rem;
+    font-weight: 600;
+    border-radius: var(--radius-full);
+    transition: var(--transition-normal);
+    gap: var(--spacing-sm);
+}
+
+.btn-primary {
+    background-color: var(--primary);
+    color: white;
+    box-shadow: var(--shadow-md);
+}
+
+.btn-primary:hover {
+    background-color: var(--primary-dark);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+}
+
+.mobile-menu-btn {
+    display: none;
+    font-size: 1.5rem;
+    color: var(--dark);
+    cursor: pointer;
+    border: none;
+    background: none;
+}
+
+/* Chapter Header */
+.chapter-header {
+    padding-top: 120px;
+    padding-bottom: var(--spacing-2xl);
+    background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+    color: white;
+    position: relative;
+    overflow: hidden;
+}
+
+.chapter-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    opacity: 0.5;
+}
+
+.chapter-header-content {
+    position: relative;
+    z-index: 1;
+}
+
+.chapter-number {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: var(--spacing-sm);
+    opacity: 0.9;
+}
+
+.chapter-title {
+    font-size: 3.5rem;
+    margin-bottom: var(--spacing-lg);
+    color: white;
+}
+
+.chapter-meta {
+    display: flex;
+    gap: var(--spacing-lg);
+    font-size: 1.125rem;
+    opacity: 0.9;
+}
+
+.chapter-meta-item {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+/* Chapter Content */
+.chapter-content {
+    padding: var(--spacing-3xl) 0;
+}
+
+.content-wrapper {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+/* Highlighted Boxes */
+.highlight-box {
+    background-color: rgba(99, 102, 241, 0.1);
+    border-left: 4px solid var(--primary);
+    padding: var(--spacing-lg);
+    border-radius: 0 var(--radius-md) var(--radius-md) 0;
+    margin: var(--spacing-xl) 0;
+}
+
+.note-box {
+    background-color: rgba(236, 72, 153, 0.1);
+    border-left: 4px solid var(--secondary);
+    padding: var(--spacing-lg);
+    border-radius: 0 var(--radius-md) var(--radius-md) 0;
+    margin: var(--spacing-xl) 0;
+}
+
+/* Lists */
+ul, ol {
+    margin: 0 0 var(--spacing-lg) var(--spacing-xl);
+}
+
+li {
+    margin-bottom: var(--spacing-sm);
+}
+
+.feature-list {
+    list-style: none;
+    margin-left: 0;
+}
+
+.feature-list li {
+    position: relative;
+    padding-left: var(--spacing-xl);
+    margin-bottom: var(--spacing-md);
+}
+
+.feature-list li::before {
+    content: "✓";
+    position: absolute;
+    left: 0;
+    color: var(--success);
+    font-weight: bold;
+}
+
+/* Code Blocks */
+pre {
+    background-color: var(--dark-blue);
+    color: white;
+    padding: var(--spacing-lg);
+    border-radius: var(--radius-md);
+    overflow-x: auto;
+    margin: var(--spacing-lg) 0;
+    font-family: var(--font-code);
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+code {
+    font-family: var(--font-code);
+    background-color: var(--gray-light);
+    padding: 0.2rem 0.4rem;
+    border-radius: var(--radius-sm);
+    font-size: 0.9em;
+}
+
+pre code {
+    background-color: transparent;
+    padding: 0;
+    border-radius: 0;
+    font-size: 1em;
+}
+
+.code-block {
+    position: relative;
+    margin: var(--spacing-lg) 0;
+}
+
+.code-block-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: var(--dark);
+    color: white;
+    padding: var(--spacing-sm) var(--spacing-lg);
+    border-radius: var(--radius-md) var(--radius-md) 0 0;
+    font-family: var(--font-code);
+    font-size: 0.9rem;
+}
+
+.code-block-title {
+    font-weight: 600;
+}
+
+.code-block-actions {
+    display: flex;
+    gap: var(--spacing-sm);
+}
+
+.code-block-action {
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.7);
+    cursor: pointer;
+    transition: var(--transition-normal);
+    font-size: 0.9rem;
+    padding: 2px 8px;
+    border-radius: var(--radius-sm);
+}
+
+.code-block-action:hover {
+    color: white;
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.code-block pre {
+    margin: 0;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+
+/* Terminal Simulator */
+.terminal-container {
+    background-color: var(--dark-blue);
+    border-radius: var(--radius-md);
+    padding: var(--spacing-lg);
+    margin: var(--spacing-xl) 0;
+    font-family: var(--font-code);
+    color: white;
+}
+
+.terminal-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: var(--spacing-md);
+}
+
+.terminal-title {
+    font-size: 1rem;
+    margin-left: var(--spacing-md);
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.terminal-dots {
+    display: flex;
+    gap: 6px;
+}
+
+.terminal-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+}
+
+.terminal-dot-red {
+    background-color: #ff5f56;
+}
+
+.terminal-dot-yellow {
+    background-color: #ffbd2e;
+}
+
+.terminal-dot-green {
+    background-color: #27c93f;
+}
+
+.terminal-body {
+    height: 300px;
+    overflow-y: auto;
+    padding: var(--spacing-md);
+    background-color: rgba(0, 0, 0, 0.3);
+    border-radius: var(--radius-sm);
+    line-height: 1.5;
+}
+
+.terminal-output {
+    margin-bottom: var(--spacing-sm);
+    white-space: pre-wrap;
+}
+
+.terminal-prompt {
+    display: flex;
+    align-items: center;
+    margin-bottom: var(--spacing-sm);
+}
+
+.terminal-prompt-symbol {
+    color: var(--success);
+    margin-right: var(--spacing-sm);
+    font-weight: bold;
+}
+
+.terminal-input {
+    background: none;
+    border: none;
+    color: white;
+    font-family: var(--font-code);
+    font-size: 0.9rem;
+    width: 100%;
+    outline: none;
+}
+
+/* File Extension Game */
+.extension-game {
+    margin: var(--spacing-xl) 0;
+}
+
+.file-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-lg);
+}
+
+.file-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100px;
+    height: 120px;
+    padding: var(--spacing-sm);
+    background-color: white;
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-md);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.file-item:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-lg);
+}
+
+.file-icon {
+    font-size: 2.5rem;
+    margin-bottom: var(--spacing-sm);
+}
+
+.file-name {
+    font-size: 0.8rem;
+    text-align: center;
+    word-break: break-word;
+}
+
+.file-description {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(99, 102, 241, 0.9);
+    color: white;
+    border-radius: var(--radius-md);
+    padding: var(--spacing-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-size: 0.8rem;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+}
+
+.file-item.revealed .file-description {
+    opacity: 1;
+}
+
+/* Interactive Elements */
+.interactive-section {
+    background-color: white;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    padding: var(--spacing-xl);
+    margin: var(--spacing-2xl) 0;
+}
+
+.interactive-title {
+    display: flex;
+    align-items: center;
+    font-size: 1.5rem;
+    margin-bottom: var(--spacing-lg);
+    color: var(--primary-dark);
+}
+
+.interactive-title::before {
+    content: "🎮";
+    margin-right: var(--spacing-sm);
+    font-size: 1.8rem;
+}
+
+/* File System Visualizer */
+.file-system-visualizer {
+    position: relative;
+    width: 100%;
+    height: 400px;
+    background-color: #f8f9fa;
+    border-radius: var(--radius-lg);
+    margin: var(--spacing-xl) 0;
+    overflow: hidden;
+    padding: var(--spacing-lg);
+}
+
+.folder-structure {
+    display: flex;
+    height: 100%;
+}
+
+.folder-sidebar {
+    width: 250px;
+    height: 100%;
+    background-color: white;
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-md);
+    overflow-y: auto;
+    padding: var(--spacing-sm);
+}
+
+.folder-content {
+    flex: 1;
+    height: 100%;
+    background-color: white;
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-md);
+    margin-left: var(--spacing-md);
+    padding: var(--spacing-md);
+    overflow-y: auto;
+}
+
+.folder-item {
+    display: flex;
+    align-items: center;
+    padding: var(--spacing-sm);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.folder-item:hover {
+    background-color: #f1f5f9;
+}
+
+.folder-item.active {
+    background-color: rgba(99, 102, 241, 0.1);
+    font-weight: 600;
+}
+
+.folder-icon {
+    margin-right: var(--spacing-sm);
+    font-size: 1.2rem;
+}
+
+.folder-name {
+    font-size: 0.9rem;
+}
+
+.content-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: var(--spacing-sm);
+    margin-bottom: var(--spacing-md);
+    border-bottom: 1px solid var(--gray-light);
+}
+
+.content-title {
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+.content-path {
+    font-size: 0.8rem;
+    color: var(--gray);
+    background-color: #f1f5f9;
+    padding: 2px 8px;
+    border-radius: var(--radius-sm);
+}
+
+.content-items {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: var(--spacing-md);
+}
+
+.content-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: var(--spacing-sm);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.content-item:hover {
+    background-color: #f1f5f9;
+}
+
+.content-icon {
+    font-size: 2rem;
+    margin-bottom: var(--spacing-xs);
+}
+
+.content-name {
+    font-size: 0.8rem;
+    text-align: center;
+    word-break: break-word;
+}
+
+/* Path Visualizer */
+.path-visualizer {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+    margin: var(--spacing-xl) 0;
+}
+
+.path-container {
+    display: flex;
+    align-items: center;
+    background-color: white;
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-md);
+    padding: var(--spacing-md);
+    overflow-x: auto;
+}
+
+.path-segment {
+    display: flex;
+    align-items: center;
+}
+
+.path-separator {
+    margin: 0 var(--spacing-xs);
+    color: var(--gray);
+}
+
+.path-item {
+    padding: var(--spacing-xs) var(--spacing-sm);
+    background-color: #f1f5f9;
+    border-radius: var(--radius-sm);
+    font-family: var(--font-code);
+    font-size: 0.9rem;
+}
+
+.path-explanation {
+    background-color: #f8f9fa;
+    border-radius: var(--radius-md);
+    padding: var(--spacing-md);
+    font-size: 0.9rem;
+}
+
+/* Chapter Navigation */
+.chapter-navigation {
+    display: flex;
+    justify-content: space-between;
+    margin-top: var(--spacing-3xl);
+    padding-top: var(--spacing-xl);
+    border-top: 1px solid var(--gray-light);
+}
+
+.nav-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    background-color: white;
+    color: var(--primary);
+    padding: var(--spacing-sm) var(--spacing-lg);
+    border-radius: var(--radius-full);
+    text-decoration: none;
+    font-weight: 600;
+    transition: var(--transition-normal);
+    border: 2px solid var(--primary);
+    cursor: pointer;
+}
+
+.nav-btn:hover {
+    background-color: var(--primary);
+    color: white;
+}
+
+.nav-btn.next {
+    background-color: var(--primary);
+    color: white;
+}
+
+.nav-btn.next:hover {
+    background-color: var(--primary-dark);
+    border-color: var(--primary-dark);
+}
+
+/* Progress Bar */
+.progress-container {
+    position: fixed;
+    top: 70px;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background-color: var(--gray-light);
+    z-index: 99;
+}
+
+.progress-bar {
+    height: 100%;
+    background-color: var(--secondary);
+    width: 0%;
+    transition: width 0.3s ease;
+}
+
+/* Table of Contents */
+.toc {
+    position: sticky;
+    top: 90px;
+    max-height: calc(100vh - 100px);
+    overflow-y: auto;
+    padding-right: var(--spacing-md);
+}
+
+.toc-title {
+    font-size: 1.25rem;
+    margin-bottom: var(--spacing-md);
+    padding-bottom: var(--spacing-sm);
+    border-bottom: 2px solid var(--primary);
+}
+
+.toc-list {
+    list-style: none;
+    margin-left: 0;
+}
+
+.toc-item {
+    margin-bottom: var(--spacing-sm);
+}
+
+.toc-link {
+    display: block;
+    padding: var(--spacing-xs) 0;
+    color: var(--gray);
+    transition: var(--transition-normal);
+    border-left: 2px solid transparent;
+    padding-left: var(--spacing-sm);
+}
+
+.toc-link:hover, .toc-link.active {
+    color: var(--primary);
+    border-left-color: var(--primary);
+    padding-left: var(--spacing-md);
+}
+
+.toc-sublist {
+    list-style: none;
+    margin-left: var(--spacing-lg);
+    margin-bottom: 0;
+}
+
+/* Footer */
+.footer {
+    background-color: var(--dark);
+    color: white;
+    padding: var(--spacing-2xl) 0;
+    margin-top: var(--spacing-3xl);
+}
+
+.footer-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.footer-logo {
+    font-family: var(--font-heading);
+    font-weight: 800;
+    font-size: 1.5rem;
+    color: white;
+}
+
+.footer-links {
+    display: flex;
+    gap: var(--spacing-lg);
+}
+
+.footer-link {
+    color: rgba(255, 255, 255, 0.7);
+    transition: var(--transition-normal);
+}
+
+.footer-link:hover {
+    color: white;
+}
+
+.footer-bottom {
+    margin-top: var(--spacing-lg);
+    padding-top: var(--spacing-lg);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    text-align: center;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.875rem;
+}
+
+/* Responsive Styles */
+@media (max-width: 992px) {
+    .chapter-title {
+        font-size: 2.5rem;
+    }
+    
+    .chapter-layout {
+        grid-template-columns: 1fr;
+    }
+    
+    .toc {
+        display: none;
+    }
+}
+
+@media (max-width: 768px) {
+    .header-container {
+        height: 60px;
+    }
+    
+    .nav {
+        position: fixed;
+        top: 60px;
+        left: 0;
+        width: 100%;
+        height: 0;
+        background-color: white;
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 0 var(--spacing-lg);
+        overflow: hidden;
+        transition: var(--transition-normal);
+        box-shadow: var(--shadow-md);
+        opacity: 0;
+        visibility: hidden;
+    }
+    
+    .nav.active {
+        height: auto;
+        padding: var(--spacing-lg);
+        opacity: 1;
+        visibility: visible;
+    }
+    
+    .mobile-menu-btn {
+        display: block;
+    }
+    
+    .chapter-title {
+        font-size: 2rem;
+    }
+    
+    .chapter-meta {
+        flex-direction: column;
+        gap: var(--spacing-sm);
+    }
+    
+    .folder-structure {
+        flex-direction: column;
+    }
+    
+    .folder-sidebar {
+        width: 100%;
+        height: 150px;
+        margin-bottom: var(--spacing-md);
+    }
+    
+    .folder-content {
+        margin-left: 0;
+    }
+    
+    .chapter-navigation {
+        flex-direction: column;
+        gap: var(--spacing-md);
+    }
+    
+    .nav-btn {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .footer-container {
+        flex-direction: column;
+        gap: var(--spacing-lg);
+        text-align: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .terminal-body {
+        height: 250px;
+    }
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+    animation: fadeIn 0.5s ease-out forwards;
+}
+
+.delay-100 { animation-delay: 100ms; }
+.delay-200 { animation-delay: 200ms; }
+.delay-300 { animation-delay: 300ms; }
+.delay-400 { animation-delay: 400ms; }
+.delay-500 { animation-delay: 500ms; }
+
+/* Layout for chapter content */
+.chapter-layout {
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+    gap: var(--spacing-2xl);
+}
+</style>
+
+<style>
+    /* ========== ESTILOS DEL REPRODUCTOR DE PODCAST ========== */
+    .podcast-player-container .interactive-title::before {
+        content: '🎧'; /* O el emoji que prefieras */
+    }
+
+    .podcast-controls {
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-md);
+        margin-top: var(--spacing-lg);
+    }
+
+    #podcast-play-pause-btn {
+        padding: 0.5rem;
+        width: 50px;
+        height: 50px;
+    }
+
+    #podcast-play-pause-btn svg {
+        width: 100%;
+        height: 100%;
+    }
+
+    .podcast-progress-bar-container {
+        flex-grow: 1;
+    }
+
+    #podcast-progress-bar {
+        width: 100%;
+        -webkit-appearance: none;
+        appearance: none;
+        height: 8px;
+        background: var(--gray-light);
+        border-radius: var(--radius-full);
+        outline: none;
+        cursor: pointer;
+    }
+
+    /* Estilo para Chrome, Safari, Opera, Edge */
+    #podcast-progress-bar::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 20px;
+        height: 20px;
+        background: var(--primary);
+        border-radius: 50%;
+        cursor: pointer;
+        box-shadow: var(--shadow-sm);
+    }
+
+    /* Estilo para Firefox */
+    #podcast-progress-bar::-moz-range-thumb {
+        width: 20px;
+        height: 20px;
+        background: var(--primary);
+        border-radius: 50%;
+        cursor: pointer;
+        border: none;
+    }
+
+    .podcast-time-display {
+        font-family: var(--font-code);
+        font-weight: 500;
+        color: var(--gray);
+        min-width: 100px;
+        text-align: center;
+    }
+</style>
+
+</head>
+<body>
+<!-- Header -->
+<header class="header">
+<div class="container header-container">
+    <a href="../index.html" class="logo">
+        <span class="logo-icon">P</span>
+        <span>Programación para Mortales</span>
+    </a>
+    
+    <nav class="nav">
+        <a href="../index.html" class="nav-link">Inicio</a>
+        <a href="../index.html#chapters" class="nav-link">Capítulos</a>
+        <a href="../index.html#features" class="nav-link">Características</a>
+        <a href="../about.html" class="nav-link">Acerca de</a>
+        <a href="capitulo-4.html" class="btn btn-primary">Siguiente Capítulo</a>
+    </nav>
+    
+    <button class="mobile-menu-btn">☰</button>
+</div>
+</header>
+
+<!-- Progress Bar -->
+<div class="progress-container">
+<div class="progress-bar" id="progressBar"></div>
+</div>
+
+<!-- Chapter Header -->
+<section class="chapter-header">
+<div class="container chapter-header-content">
+    <div class="chapter-number animate-fade-in">Capítulo 3</div>
+    <h1 class="chapter-title animate-fade-in delay-100">Explorando la compu desde adentro</h1>
+    <div class="chapter-meta animate-fade-in delay-200">
+        <div class="chapter-meta-item">
+            <span>⏱️ Tiempo de lectura: 15 minutos</span>
+        </div>
+        <div class="chapter-meta-item">
+            <span>🧩 Actividades: 3</span>
+        </div>
+        <div class="chapter-meta-item">
+            <span>📚 Nivel: Principiante</span>
+        </div>
+    </div>
+</div>
+</section>
+
+<!-- Chapter Content -->
+<section class="chapter-content">
+<div class="container">
+        <div class="podcast-player-container interactive-section">
+            <h3 class="interactive-title" style="--interactive-icon: '🎧';">Escuchá el resumen en audio</h3>
+            <audio id="podcast-audio" preload="metadata">
+                <source src="../../assets/audio/ppm/E1/capitulo_3.mp3" type="audio/mpeg">
+                Tu navegador no soporta el elemento de audio.
+            </audio>
+            <div class="podcast-controls">
+                <button id="podcast-play-pause-btn" class="btn btn-primary">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                </button>
+                <div class="podcast-progress-bar-container">
+                    <input type="range" id="podcast-progress-bar" value="0" step="1">
+                </div>
+                <div id="podcast-time" class="podcast-time-display">00:00 / 00:00</div>
+            </div>
+            <div class="podcast-external-link" style="margin-top: 1rem;">
+                <a href="https://www.youtube.com/playlist?list=PL2q5bMDgOj6Zg9DWlwBIEWgpXATKYS-YN" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">
+                    ▶️ Ver lista de reproducción en YouTube
+                </a>
+            </div> <!-- .podcast-player-container -->
+        </div>
+
+    <div class="chapter-layout">
+        <div class="content-wrapper">
+            <p>Hasta ahora conocimos cómo está armada una computadora por dentro, para qué se usaron las primeras máquinas, y qué es eso del sistema operativo.</p>
+            
+            <p>También aprendimos que existe una herramienta un poco intimidante pero muy poderosa: la terminal.</p>
+            
+            <p>Bueno… llegó el momento de perderle el miedo.</p>
+            
+            <p>En este capítulo, vamos a aprender:</p>
+            
+            <ul>
+                <li>A usar algunos comandos simples en la terminal.</li>
+                <li>A movernos entre carpetas y archivos.</li>
+                <li>Qué son las extensiones de archivo y por qué son importantes.</li>
+            </ul>
+            
+            <div class="note-box">
+                <p>No hace falta que memorices nada. Solo que te animes a probar.</p>
+            </div>
+            
+            <h2 id="bienvenido-terminal">🖥️ Bienvenido a la terminal</h2>
+            
+            <p>La terminal es como una ventanita al corazón de la computadora. Escribís una línea de texto… y pasan cosas.</p>
+            
+            <p>No hay botones, ni íconos, ni sonidos. Es como entrar a la cocina de un restaurante: ves las ollas, el fuego, los ingredientes… y si sabés moverte, podés hacer magia.</p>
+            
+            <p>Abrila (si estás en Windows, podés buscar "CMD" o "Terminal"; si estás en Mac, también "Terminal"; en Linux, suele estar instalada por defecto). Cuando veas una pantalla negra con un cursor titilando, no te asustes: estás dentro de la compu. Literal.</p>
+            
+            <div class="image-container">
+                <img src="https://images.unsplash.com/photo-1629654297299-c8506221ca97?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Terminal de comandos">
+                <div class="image-caption">Una terminal de comandos: simple, pero poderosa.</div>
+            </div>
+            
+            <h2 id="primeros-pasos">🚶 Primeros pasos: moverse entre carpetas</h2>
+            
+            <p>Una computadora organiza la información como si fuera una casa llena de habitaciones. Cada carpeta es una habitación. Y vos, desde la terminal, podés caminar por esa casa con comandos simples.</p>
+            
+            <p>Por ejemplo:</p>
+            
+            <div class="code-block">
+                <div class="code-block-header">
+                    <div class="code-block-title">Comando para listar archivos</div>
+                    <div class="code-block-actions">
+                        <button class="code-block-action copy-btn" data-code="ls">Copiar</button>
+                    </div>
+                </div>
+                <pre><code>ls</code></pre>
+            </div>
+            
+            <p>Este comando lista lo que hay en la habitación donde estás parado. Es como mirar alrededor y decir: "¿qué hay acá?".</p>
+            
+            <div class="code-block">
+                <div class="code-block-header">
+                    <div class="code-block-title">Comando para cambiar de directorio</div>
+                    <div class="code-block-actions">
+                        <button class="code-block-action copy-btn" data-code="cd Escritorio">Copiar</button>
+                    </div>
+                </div>
+                <pre><code>cd Escritorio</code></pre>
+            </div>
+            
+            <p>Esto te dice: "andá al cuarto llamado Escritorio". cd significa change directory, o sea: cambiar de carpeta.</p>
+            
+            <div class="code-block">
+                <div class="code-block-header">
+                    <div class="code-block-title">Comando para volver atrás</div>
+                    <div class="code-block-actions">
+                        <button class="code-block-action copy-btn" data-code="cd ..">Copiar</button>
+                    </div>
+                </div>
+                <pre><code>cd ..</code></pre>
+            </div>
+            
+            <p>Esto te lleva una carpeta atrás. Como salir de una habitación para volver al pasillo.</p>
+            
+            <!-- Actividad 1: Terminal Simulator -->
+            <div class="interactive-section">
+                <h3 class="interactive-title">Actividad 1: Explorador de archivos</h3>
+                
+                <p>🔍 <strong>Objetivo:</strong> Moverte por carpetas como si recorrieras tu casa.</p>
+                <p>🧠 <strong>Lo que necesitás saber:</strong></p>
+                <ul>
+                    <li><code>ls</code> = mirar alrededor.</li>
+                    <li><code>cd nombre_de_carpeta</code> = entrar.</li>
+                    <li><code>cd ..</code> = salir.</li>
+                </ul>
+                
+                <p>Probá esto en tu terminal real (¡no pasa nada raro!):</p>
+                
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <div class="code-block-title">Comandos para practicar</div>
+                        <div class="code-block-actions">
+                            <button class="code-block-action copy-btn" data-code="ls
+cd Documentos
+ls
+cd ..">Copiar</button>
+                        </div>
+                    </div>
+                    <pre><code>ls
+cd Documentos
+ls
+cd ..</code></pre>
+                </div>
+                
+                <p>Fijate cómo vas entrando y saliendo de carpetas. ¿Viste que no era tan complicado?</p>
+                
+                <div class="terminal-container">
+                    <div class="terminal-header">
+                        <div class="terminal-dots">
+                            <div class="terminal-dot terminal-dot-red"></div>
+                            <div class="terminal-dot terminal-dot-yellow"></div>
+                            <div class="terminal-dot terminal-dot-green"></div>
+                        </div>
+                        <div class="terminal-title">Terminal Simulada</div>
+                    </div>
+                    
+                    <div class="terminal-body" id="terminalBody">
+                        <div class="terminal-output">¡Bienvenido a la Terminal Simulada! Estás en la carpeta /Casa</div>
+                        <div class="terminal-output">Prueba estos comandos:</div>
+                        <div class="terminal-output">- ls (para ver qué hay en la carpeta actual)</div>
+                        <div class="terminal-output">- cd NombreCarpeta (para entrar a una carpeta)</div>
+                        <div class="terminal-output">- cd .. (para volver a la carpeta anterior)</div>
+                        
+                        <div class="terminal-prompt">
+                            <span class="terminal-prompt-symbol">$</span>
+                            <input type="text" class="terminal-input" id="terminalInput" placeholder="Escribe un comando...">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <h2 id="crear-cosas">📁 Crear cosas: tu primera carpeta</h2>
+            
+            <p>Ahora vamos a crear una carpeta desde cero.</p>
+            
+            <div class="code-block">
+                <div class="code-block-header">
+                    <div class="code-block-title">Comando para crear carpeta</div>
+                    <div class="code-block-actions">
+                        <button class="code-block-action copy-btn" data-code="mkdir hola_mundo">Copiar</button>
+                    </div>
+                </div>
+                <pre><code>mkdir hola_mundo</code></pre>
+            </div>
+            
+            <p><code>mkdir</code> viene de make directory (hacer carpeta).</p>
+            
+            <p>Listo. Acabás de crear tu primera estructura digital con tus propias manos. Bueno, con tus propios dedos. Pero vos me entendés.</p>
+            
+            <!-- Actividad 2: Crear carpetas -->
+            <div class="interactive-section">
+                <h3 class="interactive-title">Actividad 2: ¡Creá tu mundo!</h3>
+                
+                <p>🌱 <strong>Objetivo:</strong> Practicar cómo crear y explorar carpetas nuevas.</p>
+                <p>🎯 <strong>Desafío:</strong></p>
+                <ol>
+                    <li>Creá una carpeta que se llame <code>mi_primer_programa</code></li>
+                    <li>Entrá a esa carpeta</li>
+                    <li>Volvé al inicio</li>
+                    <li>Listá todo lo que hay</li>
+                </ol>
+                
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <div class="code-block-title">Solución</div>
+                        <div class="code-block-actions">
+                            <button class="code-block-action copy-btn" data-code="mkdir mi_primer_programa
+cd mi_primer_programa
+cd ..
+ls">Copiar</button>
+                        </div>
+                    </div>
+                    <pre><code>mkdir mi_primer_programa
+cd mi_primer_programa
+cd ..
+ls</code></pre>
+                </div>
+                
+                <p>Fijate cómo vas tomando control de lo que hay en tu compu.</p>
+                
+                <!-- File System Visualizer -->
+                <div class="file-system-visualizer">
+                    <div class="folder-structure">
+                        <div class="folder-sidebar" id="folderSidebar">
+                            <!-- Populated by JavaScript -->
+                        </div>
+                        <div class="folder-content">
+                            <div class="content-header">
+                                <div class="content-title" id="contentTitle">Casa</div>
+                                <div class="content-path" id="contentPath">/Casa</div>
+                            </div>
+                            <div class="content-items" id="contentItems">
+                                <!-- Populated by JavaScript -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <h2 id="que-es-archivo">🧾 ¿Y qué es un archivo, al final?</h2>
+            
+            <p>Un archivo no es más que información guardada con un nombre y una etiqueta. Por ejemplo:</p>
+            
+            <pre><code>informe.txt
+foto.jpg
+cancion.mp3</code></pre>
+            
+            <p>Esas "etiquetas" que aparecen al final (.txt, .jpg, .mp3) se llaman extensiones de archivo.</p>
+            
+            <p>Son fundamentales. Porque gracias a ellas, la computadora sabe qué tipo de archivo es y qué programa usar para abrirlo.</p>
+            
+            <p>Sin extensión, es como tener una caja sin etiqueta. ¿Adentro hay medialunas o tornillos? Nadie lo sabe. Ni vos, ni la compu.</p>
+            
+            <!-- Actividad 3: Detective de extensiones -->
+            <div class="interactive-section">
+                <h3 class="interactive-title">Actividad 3: Detective de extensiones</h3>
+                
+                <p>🕵️ <strong>Objetivo:</strong> Aprender a reconocer qué tipo de archivo es cada uno por su extensión.</p>
+                
+                <p>Acá tenés una lista de archivos. Hacé clic en cada uno para descubrir qué tipo de contenido tienen:</p>
+                
+                <div class="file-container" id="fileContainer">
+                    <div class="file-item" data-type="texto">
+                        <div class="file-icon">📄</div>
+                        <div class="file-name">receta.txt</div>
+                        <div class="file-description">Archivo de texto plano. Contiene solo texto sin formato.</div>
+                    </div>
+                    <div class="file-item" data-type="imagen">
+                        <div class="file-icon">🖼️</div>
+                        <div class="file-name">vacaciones.jpg</div>
+                        <div class="file-description">Archivo de imagen. Guarda fotos o gráficos.</div>
+                    </div>
+                    <div class="file-item" data-type="audio">
+                        <div class="file-icon">🎵</div>
+                        <div class="file-name">musica.mp3</div>
+                        <div class="file-description">Archivo de audio. Contiene sonidos o música.</div>
+                    </div>
+                    <div class="file-item" data-type="documento">
+                        <div class="file-icon">📑</div>
+                        <div class="file-name">boleta.pdf</div>
+                        <div class="file-description">Documento portable. Mantiene el formato en cualquier dispositivo.</div>
+                    </div>
+                    <div class="file-item" data-type="programa">
+                        <div class="file-icon">🎮</div>
+                        <div class="file-name">juego.exe</div>
+                        <div class="file-description">Archivo ejecutable. Un programa que se puede abrir directamente.</div>
+                    </div>
+                    <div class="file-item" data-type="datos">
+                        <div class="file-icon">📊</div>
+                        <div class="file-name">notas.csv</div>
+                        <div class="file-description">Archivo de datos separados por comas. Como una tabla.</div>
+                    </div>
+                    <div class="file-item" data-type="codigo">
+                        <div class="file-icon">👨‍💻</div>
+                        <div class="file-name">programa.py</div>
+                        <div class="file-description">Archivo de código Python. Contiene instrucciones para la computadora.</div>
+                    </div>
+                </div>
+            </div>
+            
+            <h2 id="como-se-organiza">📂 ¿Y cómo se organiza todo esto?</h2>
+            
+            <p>Ya sabés moverte entre carpetas, crear archivos y reconocer extensiones. Pero la compu no guarda las cosas en cualquier lado. Usa rutas.</p>
+            
+            <p>Una ruta es como una dirección completa. Por ejemplo:</p>
+            
+            <div class="code-block">
+                <div class="code-block-header">
+                    <div class="code-block-title">Ejemplo de ruta</div>
+                </div>
+                <pre><code>/home/juan/Documentos/libro.txt</code></pre>
+            </div>
+            
+            <p>Esto significa:</p>
+            <ul>
+                <li>Entrá al disco principal <code>/</code></li>
+                <li>Buscá la carpeta <code>home</code></li>
+                <li>Dentro está la carpeta <code>juan</code></li>
+                <li>Luego <code>Documentos</code></li>
+                <li>Y ahí está el archivo <code>libro.txt</code></li>
+            </ul>
+            
+            <p>Es como decirle a alguien:</p>
+            
+            <p>"Andá por esta calle, doblá en esta esquina, subí al segundo piso, y en el cajón de la derecha está lo que buscás."</p>
+            
+            <!-- Path Visualizer -->
+            <div class="path-visualizer">
+                <div class="path-container">
+                    <div class="path-segment">
+                        <div class="path-item">/</div>
+                    </div>
+                    <div class="path-separator">→</div>
+                    <div class="path-segment">
+                        <div class="path-item">home</div>
+                    </div>
+                    <div class="path-separator">→</div>
+                    <div class="path-segment">
+                        <div class="path-item">juan</div>
+                    </div>
+                    <div class="path-separator">→</div>
+                    <div class="path-segment">
+                        <div class="path-item">Documentos</div>
+                    </div>
+                    <div class="path-separator">→</div>
+                    <div class="path-segment">
+                        <div class="path-item">libro.txt</div>
+                    </div>
+                </div>
+                <div class="path-explanation">
+                    <p>Esta ruta muestra el camino completo desde la raíz del sistema hasta el archivo. Cada segmento representa una carpeta (excepto el último, que es el archivo). La barra inclinada (/) al principio indica que estamos empezando desde la raíz.</p>
+                </div>
+            </div>
+            
+            <h2 id="cierre-capitulo">🧭 Cierre del capítulo</h2>
+            
+            <div class="highlight-box">
+                <p>Ya no sos el mismo que hace dos capítulos. Ahora sabés:</p>
+                
+                <ul>
+                    <li>Qué es la terminal.</li>
+                    <li>Cómo moverte por carpetas y archivos.</li>
+                    <li>Qué son las extensiones y por qué importan.</li>
+                    <li>Y cómo darle tus primeras instrucciones a una computadora usando solo texto.</li>
+                </ul>
+                
+                <p>Esto ya es programar, aunque sea chiquito. Porque programar es darle órdenes a una máquina usando lenguaje, y eso es lo que acabás de hacer.</p>
+                
+                <p>En el próximo capítulo, vamos a crear nuestro primer archivo con código real. Y vas a ver que escribirle instrucciones a una computadora... puede ser más fácil de lo que parece.</p>
+            </div>
+            
+            <!-- Navegación entre capítulos -->
+            <div class="chapter-navigation">
+                <a href="capitulo-2.html" class="nav-btn">
+                    <span>←</span> Capítulo anterior
+                </a>
+                <a href="capitulo-4.html" class="nav-btn next">
+                    Siguiente capítulo <span>→</span>
+                </a>
+            </div>
+        </div>
+        
+        <!-- Tabla de contenidos -->
+        <aside class="toc">
+            <h3 class="toc-title">Contenido del capítulo</h3>
+            <ul class="toc-list">
+                <li class="toc-item">
+                    <a href="#bienvenido-terminal" class="toc-link">Bienvenido a la terminal</a>
+                </li>
+                <li class="toc-item">
+                    <a href="#primeros-pasos" class="toc-link">Primeros pasos: moverse entre carpetas</a>
+                </li>
+                <li class="toc-item">
+                    <a href="#crear-cosas" class="toc-link">Crear cosas: tu primera carpeta</a>
+                </li>
+                <li class="toc-item">
+                    <a href="#que-es-archivo" class="toc-link">¿Y qué es un archivo, al final?</a>
+                </li>
+                <li class="toc-item">
+                    <a href="#como-se-organiza" class="toc-link">¿Y cómo se organiza todo esto?</a>
+                </li>
+                <li class="toc-item">
+                    <a href="#cierre-capitulo" class="toc-link">Cierre del capítulo</a>
+                </li>
+            </ul>
+        </aside>
+    </div>
+</div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+<div class="container">
+    <div class="footer-container">
+        <a href="../index.html" class="footer-logo">Programación para Mortales</a>
+        
+        <div class="footer-links">
+            <a href="../index.html" class="footer-link">Inicio</a>
+            <a href="../indice.html" class="footer-link">Índice completo</a>
+            <a href="../about.html" class="footer-link">Acerca de</a>
+            <a href="../terminos-y-condiciones.html" class="footer-link">Términos y condiciones</a>
+        </div>
+    </div>
+    
+    <div class="footer-bottom">
+        <p>&copy; 2025 Programación para Mortales. Todos los derechos reservados.</p>
+    </div>
+</div>
+</footer>
+
+<script>
+// Mobile Menu Toggle
+const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+const nav = document.querySelector('.nav');
+
+mobileMenuBtn.addEventListener('click', () => {
+    nav.classList.toggle('active');
+});
+
+// Header Scroll Effect
+const header = document.querySelector('.header');
+
+window.addEventListener('scroll', () => {
+    if (window.scrollY > 50) {
+        header.classList.add('scrolled');
+    } else {
+        header.classList.remove('scrolled');
+    }
+});
+
+// Reading Progress Bar
+const progressBar = document.getElementById('progressBar');
+
+window.addEventListener('scroll', () => {
+    const windowHeight = window.innerHeight;
+    const documentHeight = document.documentElement.scrollHeight - windowHeight;
+    const scrollTop = window.scrollY;
+    const progress = (scrollTop / documentHeight) * 100;
+    progressBar.style.width = progress + '%';
+});
+
+// Table of Contents Active Link
+const tocLinks = document.querySelectorAll('.toc-link');
+const sections = document.querySelectorAll('h2, h3');
+
+window.addEventListener('scroll', () => {
+    let current = '';
+    
+    sections.forEach(section => {
+        const sectionTop = section.offsetTop - 100;
+        if (window.scrollY >= sectionTop) {
+            current = section.getAttribute('id');
+        }
+    });
+    
+    tocLinks.forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('href').substring(1) === current) {
+            link.classList.add('active');
+        }
+    });
+});
+
+// Copy Code Button
+const copyButtons = document.querySelectorAll('.copy-btn');
+
+copyButtons.forEach(button => {
+    button.addEventListener('click', () => {
+        const code = button.dataset.code;
+        navigator.clipboard.writeText(code);
+        
+        // Change button text temporarily
+        const originalText = button.textContent;
+        button.textContent = '¡Copiado!';
+        button.style.backgroundColor = 'var(--success)';
+        button.style.color = 'white';
+        
+        setTimeout(() => {
+            button.textContent = originalText;
+            button.style.backgroundColor = '';
+            button.style.color = '';
+        }, 2000);
+    });
+});
+
+// Terminal Simulator
+const terminalInput = document.getElementById('terminalInput');
+const terminalBody = document.getElementById('terminalBody');
+
+// Estructura de carpetas simulada
+const fileSystem = {
+    'Casa': {
+        'Documentos': {
+            'tarea.txt': 'archivo',
+            'fotos': {
+                'vacaciones.jpg': 'archivo',
+                'familia.png': 'archivo'
+            }
+        },
+        'Musica': {
+            'rock.mp3': 'archivo',
+            'pop.mp3': 'archivo'
+        },
+        'Descargas': {
+            'programa.exe': 'archivo'
+        }
+    }
+};
+
+let currentPath = ['Casa'];
+
+function getCurrentDirectory() {
+    let current = fileSystem;
+    for (const dir of currentPath) {
+        current = current[dir];
+    }
+    return current;
+}
+
+function addTerminalOutput(text) {
+    const output = document.createElement('div');
+    output.className = 'terminal-output';
+    output.textContent = text;
+    
+    // Insertar antes del prompt
+    const prompt = terminalBody.querySelector('.terminal-prompt');
+    terminalBody.insertBefore(output, prompt);
+    
+    // Scroll al final
+    terminalBody.scrollTop = terminalBody.scrollHeight;
+}
+
+terminalInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+        const command = terminalInput.value.trim();
+        
+        // Crear un nuevo prompt con el comando
+        const commandOutput = document.createElement('div');
+        commandOutput.className = 'terminal-output';
+        commandOutput.textContent = `$ ${command}`;
+        
+        // Insertar antes del prompt actual
+        const prompt = terminalBody.querySelector('.terminal-prompt');
+        terminalBody.insertBefore(commandOutput, prompt);
+        
+        // Procesar el comando
+        processCommand(command);
+        
+        // Limpiar el input
+        terminalInput.value = '';
+        
+        // Scroll al final
+        terminalBody.scrollTop = terminalBody.scrollHeight;
+    }
+});
+
+function processCommand(command) {
+    const parts = command.split(' ');
+    const cmd = parts[0].toLowerCase();
+    
+    switch (cmd) {
+        case 'ls':
+            listDirectory();
+            break;
+        case 'cd':
+            changeDirectory(parts[1]);
+            break;
+        case 'mkdir':
+            if (parts[1]) {
+                makeDirectory(parts[1]);
+            } else {
+                addTerminalOutput('Error: Debes especificar un nombre para la carpeta');
+            }
+            break;
+        case 'pwd':
+            printWorkingDirectory();
+            break;
+        case 'help':
+            showHelp();
+            break;
+        case 'clear':
+            clearTerminal();
+            break;
+        default:
+            addTerminalOutput(`Comando no reconocido: ${cmd}. Escribe 'help' para ver los comandos disponibles.`);
+    }
+}
+
+function listDirectory() {
+    const currentDir = getCurrentDirectory();
+    const items = Object.keys(currentDir);
+    
+    if (items.length === 0) {
+        addTerminalOutput('(La carpeta está vacía)');
+    } else {
+        let output = '';
+        items.forEach(item => {
+            if (typeof currentDir[item] === 'object') {
+                output += `📁 ${item}    `;
+            } else {
+                output += `📄 ${item}    `;
+            }
+        });
+        addTerminalOutput(output);
+    }
+}
+
+function changeDirectory(dir) {
+    if (!dir) {
+        addTerminalOutput('Error: Debes especificar una carpeta');
+        return;
+    }
+    
+    if (dir === '..') {
+        if (currentPath.length > 1) {
+            currentPath.pop();
+            addTerminalOutput(`Cambiado a /${currentPath.join('/')}`);
+        } else {
+            addTerminalOutput('Ya estás en la carpeta raíz');
+        }
+        return;
+    }
+    
+    const currentDir = getCurrentDirectory();
+    
+    if (currentDir[dir] && typeof currentDir[dir] === 'object') {
+        currentPath.push(dir);
+        addTerminalOutput(`Cambiado a /${currentPath.join('/')}`);
+    } else {
+        addTerminalOutput(`Error: La carpeta '${dir}' no existe`);
+    }
+}
+
+function makeDirectory(name) {
+    const currentDir = getCurrentDirectory();
+    
+    if (currentDir[name]) {
+        addTerminalOutput(`Error: Ya existe un archivo o carpeta llamado '${name}'`);
+    } else {
+        currentDir[name] = {};
+        addTerminalOutput(`Carpeta '${name}' creada`);
+    }
+}
+
+function printWorkingDirectory() {
+    addTerminalOutput(`/${currentPath.join('/')}`);
+}
+
+function showHelp() {
+    addTerminalOutput('Comandos disponibles:');
+    addTerminalOutput('ls - Listar archivos y carpetas');
+    addTerminalOutput('cd [carpeta] - Cambiar de carpeta');
+    addTerminalOutput('cd .. - Subir un nivel');
+    addTerminalOutput('mkdir [nombre] - Crear una carpeta');
+    addTerminalOutput('pwd - Mostrar ruta actual');
+    addTerminalOutput('clear - Limpiar la terminal');
+    addTerminalOutput('help - Mostrar esta ayuda');
+}
+
+function clearTerminal() {
+    // Eliminar todos los outputs excepto el prompt
+    const prompt = terminalBody.querySelector('.terminal-prompt');
+    terminalBody.innerHTML = '';
+    terminalBody.appendChild(prompt);
+    
+    // Agregar mensaje de bienvenida
+    addTerminalOutput(`Terminal limpia. Estás en /${currentPath.join('/')}`);
+}
+
+// File Extension Game
+const fileItems = document.querySelectorAll('.file-item');
+
+fileItems.forEach(item => {
+    item.addEventListener('click', function() {
+        this.classList.toggle('revealed');
+        
+        // Ocultar después de 3 segundos
+        setTimeout(() => {
+            this.classList.remove('revealed');
+        }, 3000);
+    });
+});
+
+// File System Visualizer
+const folderSidebar = document.getElementById('folderSidebar');
+const contentItems = document.getElementById('contentItems');
+const contentTitle = document.getElementById('contentTitle');
+const contentPath = document.getElementById('contentPath');
+
+// Estructura de carpetas para el visualizador
+const visualizerFileSystem = {
+    'Casa': {
+        'Documentos': {
+            'tarea.txt': 'archivo',
+            'informe.pdf': 'archivo',
+            'Proyectos': {
+                'proyecto1.docx': 'archivo',
+                'proyecto2.docx': 'archivo'
+            }
+        },
+        'Imágenes': {
+            'vacaciones.jpg': 'archivo',
+            'familia.png': 'archivo',
+            'perfil.jpg': 'archivo'
+        },
+        'Música': {
+            'rock.mp3': 'archivo',
+            'pop.mp3': 'archivo',
+            'jazz.mp3': 'archivo'
+        },
+        'mi_primer_programa': {}
+    }
+};
+
+let visualizerCurrentPath = ['Casa'];
+
+// Inicializar el visualizador
+function initializeVisualizer() {
+    updateSidebar();
+    updateContent();
+}
+
+// Actualizar la barra lateral
+function updateSidebar() {
+    folderSidebar.innerHTML = '';
+    
+    // Crear elemento para la carpeta raíz
+    const rootItem = document.createElement('div');
+    rootItem.className = 'folder-item' + (visualizerCurrentPath.length === 1 ? ' active' : '');
+    rootItem.innerHTML = `
+        <div class="folder-icon">🏠</div>
+        <div class="folder-name">Casa</div>
+    `;
+    rootItem.addEventListener('click', () => {
+        visualizerCurrentPath = ['Casa'];
+        updateSidebar();
+        updateContent();
+    });
+    folderSidebar.appendChild(rootItem);
+    
+    // Crear elementos para todas las carpetas
+    function addFolders(obj, path = ['Casa'], level = 0) {
+        for (const key in obj) {
+            if (typeof obj[key] === 'object' && key !== 'mi_primer_programa') {
+                const folderItem = document.createElement('div');
+                folderItem.className = 'folder-item';
+                folderItem.style.paddingLeft = `${level * 20 + 8}px`;
+                
+                // Verificar si esta carpeta está en la ruta actual
+                const currentPathStr = visualizerCurrentPath.join('/');
+                const itemPathStr = [...path, key].join('/');
+                if (currentPathStr === itemPathStr) {
+                    folderItem.classList.add('active');
+                }
+                
+                folderItem.innerHTML = `
+                    <div class="folder-icon">📁</div>
+                    <div class="folder-name">${key}</div>
+                `;
+                
+                folderItem.addEventListener('click', () => {
+                    visualizerCurrentPath = [...path, key];
+                    updateSidebar();
+                    updateContent();
+                });
+                
+                folderSidebar.appendChild(folderItem);
+                
+                // Recursivamente agregar subcarpetas
+                addFolders(obj[key], [...path, key], level + 1);
+            }
+        }
+    }
+    
+    addFolders(visualizerFileSystem);
+    
+    // Agregar mi_primer_programa al final
+    const newFolderItem = document.createElement('div');
+    newFolderItem.className = 'folder-item' + (visualizerCurrentPath.join('/') === 'Casa/mi_primer_programa' ? ' active' : '');
+    newFolderItem.innerHTML = `
+        <div class="folder-icon">📁</div>
+        <div class="folder-name">mi_primer_programa</div>
+    `;
+    newFolderItem.addEventListener('click', () => {
+        visualizerCurrentPath = ['Casa', 'mi_primer_programa'];
+        updateSidebar();
+        updateContent();
+    });
+    folderSidebar.appendChild(newFolderItem);
+}
+
+// Actualizar el contenido
+function updateContent() {
+    // Actualizar título y ruta
+    contentTitle.textContent = visualizerCurrentPath[visualizerCurrentPath.length - 1];
+    contentPath.textContent = '/' + visualizerCurrentPath.join('/');
+    
+    // Obtener el directorio actual
+    let currentDir = visualizerFileSystem;
+    for (const dir of visualizerCurrentPath) {
+        currentDir = currentDir[dir];
+    }
+    
+    // Limpiar y actualizar los elementos
+    contentItems.innerHTML = '';
+    
+    // Agregar botón para subir un nivel
+    if (visualizerCurrentPath.length > 1) {
+        const upItem = document.createElement('div');
+        upItem.className = 'content-item';
+        upItem.innerHTML = `
+            <div class="content-icon">⬆️</div>
+            <div class="content-name">Subir</div>
+        `;
+        upItem.addEventListener('click', () => {
+            visualizerCurrentPath.pop();
+            updateSidebar();
+            updateContent();
+        });
+        contentItems.appendChild(upItem);
+    }
+    
+    // Agregar carpetas y archivos
+    for (const key in currentDir) {
+        const item = document.createElement('div');
+        item.className = 'content-item';
+        
+        if (typeof currentDir[key] === 'object') {
+            // Es una carpeta
+            item.innerHTML = `
+                <div class="content-icon">📁</div>
+                <div class="content-name">${key}</div>
+            `;
+            item.addEventListener('click', () => {
+                visualizerCurrentPath.push(key);
+                updateSidebar();
+                updateContent();
+            });
+        } else {
+            // Es un archivo
+            let icon = '📄';
+            if (key.endsWith('.jpg') || key.endsWith('.png')) icon = '🖼️';
+            if (key.endsWith('.mp3')) icon = '🎵';
+            if (key.endsWith('.pdf')) icon = '📑';
+            if (key.endsWith('.docx')) icon = '📝';
+            
+            item.innerHTML = `
+                <div class="content-icon">${icon}</div>
+                <div class="content-name">${key}</div>
+            `;
+        }
+        
+        contentItems.appendChild(item);
+    }
+    
+    // Si estamos en mi_primer_programa y está vacío, mostrar mensaje
+    if (visualizerCurrentPath.join('/') === 'Casa/mi_primer_programa' && Object.keys(currentDir).length === 0) {
+        const emptyMessage = document.createElement('div');
+        emptyMessage.style.gridColumn = '1 / -1';
+        emptyMessage.style.textAlign = 'center';
+        emptyMessage.style.color = 'var(--gray)';
+        emptyMessage.style.padding = 'var(--spacing-xl)';
+        emptyMessage.innerHTML = '¡Carpeta vacía! <br>Has creado tu primera carpeta con éxito.';
+        contentItems.appendChild(emptyMessage);
+    }
+}
+
+// Inicializar el visualizador al cargar la página
+initializeVisualizer();
+</script>
+
+<script>
+    // ========== SCRIPT DEL REPRODUCTOR DE PODCAST ==========
+    const audio = document.getElementById('podcast-audio');
+    const playPauseBtn = document.getElementById('podcast-play-pause-btn');
+    const playIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>';
+    const pauseIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>';
+    const podcastProgressBar = document.getElementById('podcast-progress-bar');
+    const timeDisplay = document.getElementById('podcast-time');
+
+    function togglePlayPause() {
+        if (audio.paused) {
+            audio.play();
+            playPauseBtn.innerHTML = pauseIcon;
+        } else {
+            audio.pause();
+            playPauseBtn.innerHTML = playIcon;
+        }
+    }
+
+    function formatTime(seconds) {
+        const minutes = Math.floor(seconds / 60);
+        
+        const secs = Math.floor(seconds % 60);
+        return `${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+    }
+
+    function updateProgress() {
+        podcastProgressBar.value = (audio.currentTime / audio.duration) * 100 || 0;
+        timeDisplay.textContent = `${formatTime(audio.currentTime)} / ${formatTime(audio.duration || 0)}`;
+    }
+
+    playPauseBtn.addEventListener('click', togglePlayPause);
+    audio.addEventListener('timeupdate', updateProgress);
+    audio.addEventListener('loadedmetadata', updateProgress);
+
+    podcastProgressBar.addEventListener('input', () => {
+        const seekTime = (podcastProgressBar.value / 100) * audio.duration;
+        audio.currentTime = seekTime;
+    });
+
+    // Cuando el audio termina
+    audio.addEventListener('ended', () => {
+        playPauseBtn.innerHTML = playIcon;
+        audio.currentTime = 0;
+        podcastProgressBar.value = 0;
+    });
+</script>
+</body>
+</html>

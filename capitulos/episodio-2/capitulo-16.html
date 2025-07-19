@@ -1,0 +1,875 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Episodio 2, Cap. 16: Creando Modelo de Proveedores - Programación para Mortales</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@300;400;500;600;700&family=Fira+Code:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Paleta de colores vibrante y moderna */
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --primary-light: #a5b4fc;
+            --secondary: #ec4899;
+            --secondary-dark: #db2777;
+            --accent: #06b6d4;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --dark: #0f172a;
+            --dark-blue: #1e293b;
+            --light: #f8fafc;
+            --gray: #64748b;
+            --gray-light: #e2e8f0;
+
+            /* Tipografía */
+            --font-heading: 'Space Grotesk', sans-serif;
+            --font-body: 'Outfit', sans-serif;
+            --font-code: 'Fira Code', monospace;
+
+            /* Espaciado */
+            --spacing-xs: 0.25rem;
+            --spacing-sm: 0.5rem;
+            --spacing-md: 1rem;
+            --spacing-lg: 1.5rem;
+            --spacing-xl: 2rem;
+            --spacing-2xl: 3rem;
+            --spacing-3xl: 4rem;
+
+            /* Bordes y sombras */
+            --radius-sm: 0.25rem;
+            --radius-md: 0.5rem;
+            --radius-lg: 1rem;
+            --radius-xl: 1.5rem;
+            --radius-full: 9999px;
+
+            --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+
+            /* Transiciones */
+            --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-normal: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-slow: 500ms cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            font-size: 16px;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-body);
+            color: var(--dark);
+            background-color: var(--light);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: var(--font-heading);
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: var(--spacing-lg);
+            color: var(--dark);
+        }
+
+        h1 { font-size: 3rem; }
+        h2 {
+            font-size: 2.25rem;
+            margin-top: var(--spacing-2xl);
+            position: relative;
+            padding-bottom: var(--spacing-sm);
+        }
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 80px;
+            height: 4px;
+            background: var(--primary);
+            border-radius: 2px;
+        }
+        h3 {
+            font-size: 1.75rem;
+            margin-top: var(--spacing-xl);
+            color: var(--primary-dark);
+        }
+
+        p {
+            margin-bottom: var(--spacing-lg);
+            font-size: 1.125rem;
+        }
+
+        a {
+            text-decoration: none;
+            color: var(--primary);
+            transition: var(--transition-normal);
+        }
+        a:hover { color: var(--primary-dark); }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            border-radius: var(--radius-md);
+            display: block; 
+        }
+        
+        .img-analogy {
+            border: 2px solid var(--gray-light);
+            box-shadow: var(--shadow-md);
+            margin-top: var(--spacing-sm);
+            margin-bottom: var(--spacing-lg);
+        }
+        
+        .img-centered {
+            margin-left: auto;
+            margin-right: auto;
+            max-width: 600px; 
+        }
+        
+        .img-screenshot {
+            border: 1px solid var(--gray-light);
+            box-shadow: var(--shadow-lg);
+            border-radius: var(--radius-sm);
+        }
+
+        .table-container {
+            overflow-x: auto;
+            margin: var(--spacing-xl) 0;
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-md);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: white;
+        }
+        th, td {
+            padding: var(--spacing-md);
+            text-align: left;
+            border: 1px solid var(--gray-light);
+        }
+        th {
+            background-color: var(--primary);
+            color: white;
+            font-weight: 600;
+        }
+        tr:nth-child(even) {
+            background-color: var(--gray-light);
+        }
+
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 var(--spacing-lg);
+        }
+
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 100;
+            background-color: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition-normal);
+        }
+        .header.scrolled { box-shadow: var(--shadow-md); }
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+        }
+        .logo {
+            font-family: var(--font-heading);
+            font-weight: 800;
+            font-size: 1.5rem;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+        }
+        .logo-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            background-color: var(--primary);
+            color: white;
+            border-radius: var(--radius-md);
+            font-weight: 700;
+        }
+        .nav {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-xl);
+        }
+        .nav-link {
+            font-weight: 500;
+            color: var(--dark);
+            position: relative;
+        }
+        .nav-link:hover { color: var(--primary); }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--primary);
+            transition: var(--transition-normal);
+        }
+        .nav-link:hover::after { width: 100%; }
+        .nav-link.active { color: var(--primary); }
+        .nav-link.active::after { width: 100%; }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.75rem 1.5rem;
+            font-weight: 600;
+            border-radius: var(--radius-full);
+            transition: var(--transition-normal);
+            gap: var(--spacing-sm);
+        }
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+            box-shadow: var(--shadow-md);
+        }
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+        .mobile-menu-btn {
+            display: none;
+            font-size: 1.5rem;
+            color: var(--dark);
+            cursor: pointer;
+            border: none;
+            background: none;
+        }
+
+        .chapter-header {
+            padding-top: 120px;
+            padding-bottom: var(--spacing-2xl);
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+        .chapter-header::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            opacity: 0.5;
+        }
+        .chapter-header-content { position: relative; z-index: 1; }
+        .chapter-number {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: var(--spacing-sm);
+            opacity: 0.9;
+        }
+        .chapter-title {
+            font-size: 3.5rem;
+            margin-bottom: var(--spacing-lg);
+            color: white;
+        }
+        .chapter-meta {
+            display: flex;
+            gap: var(--spacing-lg);
+            font-size: 1.125rem;
+            opacity: 0.9;
+        }
+        .chapter-meta-item {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+        }
+
+        .chapter-content { padding: var(--spacing-3xl) 0; }
+        .content-wrapper { max-width: 800px; margin: 0 auto; }
+
+        .highlight-box {
+            background-color: rgba(99, 102, 241, 0.1);
+            border-left: 4px solid var(--primary);
+            padding: var(--spacing-lg);
+            border-radius: 0 var(--radius-md) var(--radius-md) 0;
+            margin: var(--spacing-xl) 0;
+        }
+        .note-box {
+            background-color: rgba(236, 72, 153, 0.1);
+            border-left: 4px solid var(--secondary);
+            padding: var(--spacing-lg);
+            border-radius: 0 var(--radius-md) var(--radius-md) 0;
+            margin: var(--spacing-xl) 0;
+        }
+        .youtube-embed-container {
+            position: relative;
+            overflow: hidden;
+            width: 100%;
+            padding-top: 56.25%; 
+            margin: var(--spacing-xl) 0;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg);
+        }
+        .youtube-embed-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+        .image-container {
+            margin: var(--spacing-xl) 0;
+            text-align: center;
+        }
+        .image-caption {
+            margin-top: var(--spacing-sm);
+            font-size: 0.9rem;
+            color: var(--gray);
+            text-align: center;
+        }
+
+        ul, ol { margin: 0 0 var(--spacing-lg) var(--spacing-xl); }
+        li { margin-bottom: var(--spacing-sm); }
+        
+        .code-block {
+            position: relative;
+            margin: var(--spacing-lg) 0;
+        }
+        .code-block-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: var(--dark);
+            color: white;
+            padding: var(--spacing-sm) var(--spacing-lg);
+            border-radius: var(--radius-md) var(--radius-md) 0 0;
+            font-family: var(--font-code);
+            font-size: 0.9rem;
+        }
+        .code-block-title { font-weight: 600; }
+        .code-block-actions { display: flex; gap: var(--spacing-sm); }
+        .code-block-action {
+            background: none;
+            border: none;
+            color: rgba(255, 255, 255, 0.7);
+            cursor: pointer;
+            transition: var(--transition-normal);
+            font-size: 0.9rem;
+            padding: 2px 8px;
+            border-radius: var(--radius-sm);
+        }
+        .code-block-action:hover {
+            color: white;
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        .code-block pre {
+            margin: 0;
+            border-top-left-radius: 0;
+            border-top-right-radius: 0;
+        }
+        pre {
+            background-color: var(--dark-blue);
+            color: white;
+            padding: var(--spacing-lg);
+            border-radius: var(--radius-md);
+            overflow-x: auto;
+            margin: var(--spacing-lg) 0;
+            font-family: var(--font-code);
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+        code {
+            font-family: var(--font-code);
+            background-color: var(--gray-light);
+            padding: 0.2rem 0.4rem;
+            border-radius: var(--radius-sm);
+            font-size: 0.9em;
+        }
+        pre code {
+            background-color: transparent;
+            padding: 0;
+            border-radius: 0;
+            font-size: 1em;
+        }
+
+        .chapter-navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: var(--spacing-3xl);
+            padding-top: var(--spacing-xl);
+            border-top: 1px solid var(--gray-light);
+        }
+        .nav-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            background-color: white;
+            color: var(--primary);
+            padding: var(--spacing-sm) var(--spacing-lg);
+            border-radius: var(--radius-full);
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition-normal);
+            border: 2px solid var(--primary);
+            cursor: pointer;
+        }
+        .nav-btn:hover {
+            background-color: var(--primary);
+            color: white;
+        }
+        .nav-btn.next {
+            background-color: var(--primary);
+            color: white;
+        }
+        .nav-btn.next:hover {
+            background-color: var(--primary-dark);
+            border-color: var(--primary-dark);
+        }
+
+        .progress-container {
+            position: fixed;
+            top: 70px;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background-color: var(--gray-light);
+            z-index: 99;
+        }
+        .progress-bar {
+            height: 100%;
+            background-color: var(--secondary);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .toc {
+            position: sticky;
+            top: 90px; 
+            max-height: calc(100vh - 100px); 
+            overflow-y: auto;
+            padding-right: var(--spacing-md);
+        }
+        .toc-title {
+            font-size: 1.25rem;
+            margin-bottom: var(--spacing-md);
+            padding-bottom: var(--spacing-sm);
+            border-bottom: 2px solid var(--primary);
+        }
+        .toc-list { list-style: none; margin-left: 0; }
+        .toc-item { margin-bottom: var(--spacing-sm); }
+        .toc-link {
+            display: block;
+            padding: var(--spacing-xs) 0;
+            color: var(--gray);
+            transition: var(--transition-normal);
+            border-left: 2px solid transparent;
+            padding-left: var(--spacing-sm);
+        }
+        .toc-link:hover, .toc-link.active {
+            color: var(--primary);
+            border-left-color: var(--primary);
+            padding-left: var(--spacing-md);
+        }
+        .toc-sublist { list-style: none; margin-left: var(--spacing-lg); margin-bottom: 0; }
+
+        .footer {
+            background-color: var(--dark);
+            color: white;
+            padding: var(--spacing-2xl) 0;
+            margin-top: var(--spacing-3xl);
+        }
+        .footer-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .footer-logo {
+            font-family: var(--font-heading);
+            font-weight: 800;
+            font-size: 1.5rem;
+            color: white;
+        }
+        .footer-links {
+            display: flex;
+            gap: var(--spacing-lg);
+        }
+        .footer-link {
+            color: rgba(255, 255, 255, 0.7);
+            transition: var(--transition-normal);
+        }
+        .footer-link:hover { color: white; }
+        .footer-bottom {
+            margin-top: var(--spacing-lg);
+            padding-top: var(--spacing-lg);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.875rem;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in { animation: fadeIn 0.5s ease-out forwards; }
+        .delay-100 { animation-delay: 100ms; }
+        .delay-200 { animation-delay: 200ms; }
+        .delay-300 { animation-delay: 300ms; }
+
+        .chapter-layout {
+            display: grid;
+            grid-template-columns: 3fr 1fr; 
+            gap: var(--spacing-2xl);
+        }
+
+        @media (max-width: 992px) {
+            .chapter-title { font-size: 2.5rem; }
+            .chapter-layout { grid-template-columns: 1fr; }
+            .toc { display: none; } 
+        }
+        @media (max-width: 768px) {
+            .header-container { height: 60px; }
+            .nav {
+                position: fixed;
+                top: 60px; 
+                left: 0;
+                width: 100%;
+                height: 0; 
+                background-color: white;
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 0 var(--spacing-lg);
+                overflow: hidden;
+                transition: var(--transition-normal);
+                box-shadow: var(--shadow-md);
+                opacity: 0;
+                visibility: hidden;
+            }
+            .nav.active {
+                height: auto; 
+                padding: var(--spacing-lg);
+                opacity: 1;
+                visibility: visible;
+            }
+            .mobile-menu-btn { display: block; }
+            .chapter-title { font-size: 2rem; }
+            .chapter-meta { flex-direction: column; gap: var(--spacing-sm); }
+            .chapter-navigation { flex-direction: column; gap: var(--spacing-md); }
+            .nav-btn { width: 100%; justify-content: center; }
+            .footer-container { flex-direction: column; gap: var(--spacing-lg); text-align: center; }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container header-container">
+            <a href="../../index.html" class="logo">
+                <span class="logo-icon">P</span>
+                <span>Programación para Mortales</span>
+            </a>
+            <nav class="nav">
+                <a href="../../index.html" class="nav-link">Inicio</a>
+                <a href="../../index.html#episodes" class="nav-link">Episodios</a>
+                <a href="../../index.html#future-courses" class="nav-link">Próximos cursos</a>
+                <a href="../../about.html" class="nav-link">Acerca de</a>
+                <a href="../../indice.html" class="nav-link">Índice completo</a>
+                <a href="capitulo-17.html" class="btn btn-primary">Siguiente Capítulo</a>
+            </nav>
+            <button class="mobile-menu-btn">☰</button>
+        </div>
+    </header>
+
+    <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+    <section class="chapter-header">
+        <div class="container chapter-header-content">
+            <div class="chapter-number animate-fade-in">Episodio 2, Capítulo 16</div>
+            <h1 class="chapter-title animate-fade-in delay-100">Definición de un Modelo (Tabla) de Proveedores</h1>
+            <div class="chapter-meta animate-fade-in delay-200">
+                <div class="chapter-meta-item">
+                    <span>⏱️ Tiempo de lectura: 10 minutos</span>
+                </div>
+                <div class="chapter-meta-item">
+                    <span>🧩 Actividades: 1 (Crear modelo)</span>
+                </div>
+                <div class="chapter-meta-item">
+                    <span>📚 Nivel: Principiante</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="chapter-content">
+        <div class="container">
+            <div class="chapter-layout">
+                <div class="content-wrapper">
+                    <h2 id="donde-viven-los-modelos">🏡 ¿Dónde Viven Nuestros Modelos? El Archivo <code>models.py</code></h2>
+                    <p>¡Llegó la hora de la verdad! Vamos a definir la estructura de nuestra primera tabla en la base de datos: la tabla de Proveedores. En Django, estas "tablas" se definen como "modelos" (<code>models</code>), y viven en un archivo específico dentro de cada aplicación que creamos.</p>
+                    <p>Recuerda que en el capítulo anterior creamos nuestra app llamada <code>libreta</code>. Si abres esa carpeta en VS Code, encontrarás un archivo llamado <strong><code>models.py</code></strong>. ¡Este es el lugar mágico donde definiremos cómo serán nuestros proveedores!</p>
+
+                    <div class="image-container">
+                        <img src="https://i.imgur.com/tP2OaQQ.png" alt="Archivo models.py en la estructura de la app" class="img-screenshot img-centered">
+                        <p class="image-caption">El archivo <code>models.py</code> dentro de nuestra app <code>libreta</code> es donde definiremos nuestras tablas.</p>
+                    </div>
+
+                    <h3 id="creando-clase-proveedor">📝 Creando la Clase "Proveedor"</h3>
+                    <p>Para crear nuestra tabla de proveedores, vamos a definir una <strong>clase</strong> en Python. Si no estás muy familiarizado con las clases, no te preocupes demasiado por ahora. Piensa en una clase como una "plantilla" o un "molde" que describe cómo es algo. En este caso, describirá cómo es un "Proveedor".</p>
+                    <p>Así es como se empieza a definir nuestro modelo <code>Proveedor</code> en el archivo <code>libreta/models.py</code>:</p>
+                    
+                    <div class="code-block">
+                        <div class="code-block-header">
+                            <div class="code-block-title">libreta/models.py</div>
+                            <div class="code-block-actions">
+                                <button class="code-block-action copy-btn">Copiar</button>
+                            </div>
+                        </div>
+                        <pre><code class="language-python">
+from django.db import models
+
+# Create your models here.
+
+class Proveedor(models.Model):
+    # Aquí dentro definiremos los campos (columnas) de nuestra tabla
+    pass # Esta palabra 'pass' es para que Python no dé error por ahora
+                        </code></pre>
+                    </div>
+                    <p>Desglosemos esto un poquito:</p>
+                    <ul>
+                        <li><code>from django.db import models</code>: Esta línea es importante. Le dice a Python que queremos usar algunas herramientas que Django nos da para trabajar con bases de datos (<code>db</code>) y definir modelos (<code>models</code>).</li>
+                        <li><code>class Proveedor(models.Model):</code>:
+                            <ul>
+                                <li><code>class</code>: Es la palabra clave en Python para empezar a definir una clase (nuestra plantilla).</li>
+                                <li><code>Proveedor</code>: ¡Este es el nombre que le damos a nuestro modelo! Django, por convención, lo usará para nombrar la tabla en la base de datos (generalmente algo como <code>libreta_proveedor</code>). Es una buena práctica que los nombres de los modelos empiecen con mayúscula y sean en singular.</li>
+                                <li><code>(models.Model)</code>: Esto es muy importante. Le dice a nuestra clase <code>Proveedor</code> que "herede" un montón de funcionalidades súper útiles de una clase base que Django ya tiene preparada, llamada <code>models.Model</code>. Gracias a esto, nuestro modelo sabrá cómo hablar con la base de datos, cómo guardarse, cómo buscarse, etc., ¡sin que tengamos que programar todo eso nosotros! Es parte de la magia del ORM de Django.</li>
+                            </ul>
+                        </li>
+                        <li>La línea <code># Aquí dentro definiremos los campos...</code> es un comentario. Python lo ignora, pero nos sirve a nosotros para dejar notas.</li>
+                        <li><code>pass</code>: Es una palabra clave de Python que simplemente significa "no hacer nada aquí por ahora". La ponemos para que la definición de la clase esté completa sintácticamente mientras aún no hemos añadido los campos. La borraremos enseguida.</li>
+                    </ul>
+
+                    <h3 id="definiendo-los-campos">📋 Definiendo los Campos (Columnas) de Nuestra Tabla</h3>
+                    <p>Ahora vamos a decirle a nuestro modelo <code>Proveedor</code> qué información queremos guardar para cada proveedor. Cada pieza de información será un "campo" (o columna en la tabla de la base de datos). Recuerda que en el capítulo anterior hablamos de los <a href="capitulo-14.html">tipos de datos en Django models</a>.</p>
+                    <p>Vamos a definir los siguientes campos para nuestro proveedor:</p>
+                    <ul>
+                        <li><strong>nombre:</strong> El nombre del proveedor (texto, obligatorio).</li>
+                        <li><strong>direccion:</strong> La dirección (texto, opcional).</li>
+                        <li><strong>email:</strong> Su correo electrónico (texto con formato de email, opcional).</li>
+                        <li><strong>telefono:</strong> Su número de teléfono (número entero, opcional).</li>
+                    </ul>
+                    <p>Así se traduce esto a código dentro de nuestra clase <code>Proveedor</code> en <code>models.py</code>. Reemplaza el <code>pass</code> con lo siguiente (¡la indentación es muy importante en Python! Asegúrate de que estas líneas estén "dentro" de la clase):</p>
+
+                    <div class="code-block">
+                        <div class="code-block-header">
+                            <div class="code-block-title">libreta/models.py</div>
+                            <div class="code-block-actions">
+                                <button class="code-block-action copy-btn">Copiar</button>
+                            </div>
+                        </div>
+                        <pre><code class="language-python">
+from django.db import models
+
+class Proveedor(models.Model):
+    nombre = models.CharField(max_length=255, blank=False, null=False)
+    direccion = models.CharField(max_length=255, blank=True, null=True)
+    email = models.EmailField(blank=True, null=True)
+    telefono = models.IntegerField(blank=True, null=True)
+
+    def __str__(self):
+        return self.nombre
+                        </code></pre>
+                    </div>
+                    <p>Analicemos cada campo:</p>
+                    <ul>
+                        <li><code>nombre = models.CharField(max_length=255, blank=False, null=False)</code>
+                            <ul>
+                                <li><code>nombre</code>: Es el nombre que le damos a este campo en nuestro código Python.</li>
+                                <li><code>models.CharField</code>: Le decimos a Django que este campo guardará texto (caracteres).</li>
+                                <li><code>max_length=255</code>: Argumento obligatorio para <code>CharField</code>. Indica que el nombre puede tener como máximo 255 caracteres.</li>
+                                <li><code>blank=False, null=False</code>: Estos son los valores por defecto, pero los ponemos para ser explícitos. Significan que este campo es <strong>requerido</strong> tanto en los formularios como en la base de datos. ¡Un proveedor tiene que tener un nombre!</li>
+                            </ul>
+                        </li>
+                        <li><code>direccion = models.CharField(max_length=255, blank=True, null=True)</code>
+                            <ul>
+                                <li><code>models.CharField</code>: También texto.</li>
+                                <li><code>max_length=255</code>: Límite de caracteres.</li>
+                                <li><code>blank=True, null=True</code>: Hacemos que la dirección sea <strong>opcional</strong>. El usuario puede dejarla en blanco en un formulario, y la base de datos puede guardar un valor "nulo" si no se provee.</li>
+                            </ul>
+                        </li>
+                        <li><code>email = models.EmailField(blank=True, null=True)</code>
+                            <ul>
+                                <li><code>models.EmailField</code>: Un tipo especial de campo de texto que, además, valida que lo ingresado tenga un formato de email (con "@" y ".").</li>
+                                <li><code>blank=True, null=True</code>: También opcional.</li>
+                            </ul>
+                        </li>
+                        <li><code>telefono = models.IntegerField(blank=True, null=True)</code>
+                            <ul>
+                                <li><code>models.IntegerField</code>: Para guardar números enteros.</li>
+                                <li><code>blank=True, null=True</code>: Opcional. Si el teléfono siempre fuera un número y nunca tuviera guiones o espacios, podríamos usar este. Si pudiera tener caracteres no numéricos, sería mejor un <code>CharField</code>.</li>
+                            </ul>
+                        </li>
+                        <li>
+                            <code>def __str__(self): return self.nombre</code>: Esta es una función especial en Python. No te preocupes demasiado por entenderla a fondo ahora. Lo que hace es decirle a Django cómo "mostrar" un objeto Proveedor si alguna vez necesita convertirlo a texto. En este caso, le decimos que cuando muestre un proveedor, muestre su <code>nombre</code>. Esto será útil en el panel de administración.
+                        </li>
+                    </ul>
+                    <div class="note-box">
+                        <h4>¿Y el ID del Proveedor?</h4>
+                        <p>Te estarás preguntando, ¿no necesitamos un número único para identificar a cada proveedor, como un DNI o un código? ¡Sí! Pero la buena noticia es que Django es tan servicial que, por defecto, <strong>automáticamente agrega un campo llamado <code>id</code> a cada modelo</strong>. Este campo es un número entero que se incrementa solo y es único para cada proveedor que guardemos. ¡Una cosa menos de la que preocuparnos!</p>
+                    </div>
+
+                    <p>¡Y eso es todo para definir nuestro primer modelo! Hemos descrito la estructura de nuestra tabla de proveedores. Aún no existe en la base de datos, pero ya le dimos a Django el "plano" de cómo debe ser.</p>
+
+                    <div class="youtube-embed-container">
+                        <iframe src="https://www.youtube.com/embed/f7El7CkWHVY" title="Video de YouTube sobre Creación de Modelos en Django" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                    <p class="image-caption">El video de este capítulo te guiará paso a paso en la creación de este modelo <code>Proveedor</code>.</p>
+
+                    <div class="highlight-box">
+                        <h4>Pequeño Resumen del Capítulo 16 (Episodio 2)</h4>
+                        <p>Para definir una tabla en Django, creamos una clase dentro del archivo <code>models.py</code> de nuestra aplicación (ej: <code>libreta/models.py</code>). Esta clase debe heredar de <code>models.Model</code>. Dentro de la clase, definimos cada campo (columna) de la tabla, especificando su nombre, el tipo de dato de Django (como <code>models.CharField</code>, <code>models.IntegerField</code>, <code>models.EmailField</code>) y los argumentos necesarios (como <code>max_length</code>) u opcionales (como <code>blank=True</code>, <code>null=True</code>) para controlar su comportamiento. También es útil definir el método <code>__str__(self)</code> para una mejor representación textual de los objetos.</p>
+                    </div>
+
+                    <p>Con nuestro modelo <code>Proveedor</code> definido, el siguiente paso es decirle a Django que queremos usar esta nueva app <code>libreta</code> en nuestro proyecto general. ¡Vamos a ello!</p>
+
+                </div>
+
+                <aside class="toc">
+                    <h3 class="toc-title">En este capítulo</h3>
+                    <ul class="toc-list">
+                        <li class="toc-item"><a href="#donde-viven-los-modelos" class="toc-link">¿Dónde Viven los Modelos?</a></li>
+                        <li class="toc-item"><a href="#creando-clase-proveedor" class="toc-link">Creando la Clase "Proveedor"</a></li>
+                        <li class="toc-item"><a href="#definiendo-los-campos" class="toc-link">Definiendo los Campos</a></li>
+                        <li class="toc-item"><a href="#id-proveedor" class="toc-link">¿Y el ID?</a></li>
+                    </ul>
+                </aside>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <div class="container">
+            <div class="content-wrapper">
+                <div class="chapter-navigation">
+                    <a href="capitulo-15.html" class="nav-btn">
+                        <span>←</span> Capítulo anterior
+                    </a>
+                    <a href="capitulo-17.html" class="nav-btn next">
+                        Siguiente Capítulo <span>→</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container footer-container">
+            <a href="../../index.html" class="footer-logo">Programación para Mortales</a>
+            <div class="footer-links">
+                <a href="../../index.html" class="footer-link">Inicio</a>
+                <a href="../../indice.html" class="footer-link">Índice completo</a>
+                <a href="../../about.html" class="footer-link">Acerca de</a>
+                <a href="../../terminos-y-condiciones.html" class="footer-link">Términos y condiciones</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2025 Programación para Mortales. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile Menu Toggle
+        const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+        const nav = document.querySelector('.nav');
+        mobileMenuBtn.addEventListener('click', () => {
+            nav.classList.toggle('active');
+        });
+
+        // Header Scroll Effect
+        const header = document.querySelector('.header');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // Reading Progress Bar
+        const progressBar = document.getElementById('progressBar');
+        window.addEventListener('scroll', () => {
+            const windowHeight = window.innerHeight;
+            const documentHeight = document.documentElement.scrollHeight - windowHeight;
+            const scrollTop = window.scrollY;
+            const progress = (scrollTop / documentHeight) * 100;
+            progressBar.style.width = progress + '%';
+        });
+
+        // Table of Contents Active Link
+        const tocLinks = document.querySelectorAll('.toc-link');
+        const sections = document.querySelectorAll('.content-wrapper h2, .content-wrapper h3');
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop - (header.offsetHeight + 20);
+                if (window.scrollY >= sectionTop) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            tocLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href').substring(1) === current) {
+                    link.classList.add('active');
+                }
+            });
+        });
+        
+        // Copy Code Button
+        const copyButtons = document.querySelectorAll('.copy-btn');
+        copyButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const codeToCopy = button.closest('.code-block').querySelector('pre code').innerText;
+                navigator.clipboard.writeText(codeToCopy).then(() => {
+                    const originalText = button.textContent;
+                    button.textContent = '¡Copiado!';
+                    button.style.backgroundColor = 'var(--success)';
+                    setTimeout(() => {
+                        button.textContent = originalText;
+                        button.style.backgroundColor = '';
+                    }, 2000);
+                }).catch(err => {
+                    console.error('Error al copiar:', err);
+                    alert('Error al copiar el código.');
+                });
+            });
+        });
+    </script>
+</body>
+</html>

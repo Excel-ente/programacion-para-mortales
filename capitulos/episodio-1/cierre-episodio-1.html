@@ -1,0 +1,3411 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cierre del Episodio 1: Ya hablás el idioma de la compu - Programación para Mortales</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@300;400;500;600;700&family=Fira+Code:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+    /* Paleta de colores vibrante y moderna */
+    --primary: #6366f1;
+    --primary-dark: #4f46e5;
+    --primary-light: #a5b4fc;
+    --secondary: #ec4899;
+    --secondary-dark: #db2777;
+    --accent: #06b6d4;
+    --success: #10b981;
+    --warning: #f59e0b;
+    --danger: #ef4444;
+    --dark: #0f172a;
+    --dark-blue: #1e293b;
+    --light: #f8fafc;
+    --gray: #64748b;
+    --gray-light: #e2e8f0;
+    
+    /* Tipografía */
+    --font-heading: 'Space Grotesk', sans-serif;
+    --font-body: 'Outfit', sans-serif;
+    --font-code: 'Fira Code', monospace;
+    
+    /* Espaciado */
+    --spacing-xs: 0.25rem;
+    --spacing-sm: 0.5rem;
+    --spacing-md: 1rem;
+    --spacing-lg: 1.5rem;
+    --spacing-xl: 2rem;
+    --spacing-2xl: 3rem;
+    --spacing-3xl: 4rem;
+    
+    /* Bordes y sombras */
+    --radius-sm: 0.25rem;
+    --radius-md: 0.5rem;
+    --radius-lg: 1rem;
+    --radius-xl: 1.5rem;
+    --radius-full: 9999px;
+    
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    
+    /* Transiciones */
+    --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-normal: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-slow: 500ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 16px;
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: var(--font-body);
+    color: var(--dark);
+    background-color: var(--light);
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: var(--spacing-lg);
+    color: var(--dark);
+}
+
+h1 {
+    font-size: 3rem;
+}
+
+h2 {
+    font-size: 2.25rem;
+    margin-top: var(--spacing-2xl);
+    position: relative;
+    padding-bottom: var(--spacing-sm);
+}
+
+h2::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 80px;
+    height: 4px;
+    background: var(--primary);
+    border-radius: 2px;
+}
+
+h3 {
+    font-size: 1.75rem;
+    margin-top: var(--spacing-xl);
+    color: var(--primary-dark);
+}
+
+p {
+    margin-bottom: var(--spacing-lg);
+    font-size: 1.125rem;
+}
+
+a {
+    text-decoration: none;
+    color: var(--primary);
+    transition: var(--transition-normal);
+}
+
+a:hover {
+    color: var(--primary-dark);
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    border-radius: var(--radius-md);
+}
+
+/* Layout */
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 var(--spacing-lg);
+}
+
+/* Header */
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 100;
+    background-color: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(10px);
+    box-shadow: var(--shadow-sm);
+    transition: var(--transition-normal);
+}
+
+.header.scrolled {
+    box-shadow: var(--shadow-md);
+}
+
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 70px;
+}
+
+.logo {
+    font-family: var(--font-heading);
+    font-weight: 800;
+    font-size: 1.5rem;
+    color: var(--primary);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+.logo-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    background-color: var(--primary);
+    color: white;
+    border-radius: var(--radius-md);
+    font-weight: 700;
+}
+
+.nav {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xl);
+}
+
+.nav-link {
+    font-weight: 500;
+    color: var(--dark);
+    position: relative;
+}
+
+.nav-link:hover {
+    color: var(--primary);
+}
+
+.nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: var(--primary);
+    transition: var(--transition-normal);
+}
+
+.nav-link:hover::after {
+    width: 100%;
+}
+
+.nav-link.active {
+    color: var(--primary);
+}
+
+.nav-link.active::after {
+    width: 100%;
+}
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.75rem 1.5rem;
+    font-weight: 600;
+    border-radius: var(--radius-full);
+    transition: var(--transition-normal);
+    gap: var(--spacing-sm);
+}
+
+.btn-primary {
+    background-color: var(--primary);
+    color: white;
+    box-shadow: var(--shadow-md);
+}
+
+.btn-primary:hover {
+    background-color: var(--primary-dark);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+}
+
+.mobile-menu-btn {
+    display: none;
+    font-size: 1.5rem;
+    color: var(--dark);
+    cursor: pointer;
+    border: none;
+    background: none;
+}
+
+/* Chapter Header */
+.chapter-header {
+    padding-top: 120px;
+    padding-bottom: var(--spacing-2xl);
+    background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+    color: white;
+    position: relative;
+    overflow: hidden;
+}
+
+.chapter-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    opacity: 0.5;
+}
+
+.chapter-header-content {
+    position: relative;
+    z-index: 1;
+}
+
+.chapter-number {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: var(--spacing-sm);
+    opacity: 0.9;
+}
+
+.chapter-title {
+    font-size: 3.5rem;
+    margin-bottom: var(--spacing-lg);
+    color: white;
+}
+
+.chapter-meta {
+    display: flex;
+    gap: var(--spacing-lg);
+    font-size: 1.125rem;
+    opacity: 0.9;
+}
+
+.chapter-meta-item {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+/* Chapter Content */
+.chapter-content {
+    padding: var(--spacing-3xl) 0;
+}
+
+.content-wrapper {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+/* Highlighted Boxes */
+.highlight-box {
+    background-color: rgba(99, 102, 241, 0.1);
+    border-left: 4px solid var(--primary);
+    padding: var(--spacing-lg);
+    border-radius: 0 var(--radius-md) var(--radius-md) 0;
+    margin: var(--spacing-xl) 0;
+}
+
+.note-box {
+    background-color: rgba(236, 72, 153, 0.1);
+    border-left: 4px solid var(--secondary);
+    padding: var(--spacing-lg);
+    border-radius: 0 var(--radius-md) var(--radius-md) 0;
+    margin: var(--spacing-xl) 0;
+}
+
+.celebration-box {
+    background-color: rgba(16, 185, 129, 0.1);
+    border-left: 4px solid var(--success);
+    padding: var(--spacing-lg);
+    border-radius: 0 var(--radius-md) var(--radius-md) 0;
+    margin: var(--spacing-xl) 0;
+}
+
+/* Lists */
+ul, ol {
+    margin: 0 0 var(--spacing-lg) var(--spacing-xl);
+}
+
+li {
+    margin-bottom: var(--spacing-sm);
+}
+
+.feature-list {
+    list-style: none;
+    margin-left: 0;
+}
+
+.feature-list li {
+    position: relative;
+    padding-left: var(--spacing-xl);
+    margin-bottom: var(--spacing-md);
+}
+
+.feature-list li::before {
+    content: "✓";
+    position: absolute;
+    left: 0;
+    color: var(--success);
+    font-weight: bold;
+}
+
+/* Code Blocks */
+pre {
+    background-color: var(--dark-blue);
+    color: white;
+    padding: var(--spacing-lg);
+    border-radius: var(--radius-md);
+    overflow-x: auto;
+    margin: var(--spacing-lg) 0;
+    font-family: var(--font-code);
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+code {
+    font-family: var(--font-code);
+    background-color: var(--gray-light);
+    padding: 0.2rem 0.4rem;
+    border-radius: var(--radius-sm);
+    font-size: 0.9em;
+}
+
+pre code {
+    background-color: transparent;
+    padding: 0;
+    border-radius: 0;
+    font-size: 1em;
+}
+
+.code-block {
+    position: relative;
+    margin: var(--spacing-lg) 0;
+}
+
+.code-block-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: var(--dark);
+    color: white;
+    padding: var(--spacing-sm) var(--spacing-lg);
+    border-radius: var(--radius-md) var(--radius-md) 0 0;
+    font-family: var(--font-code);
+    font-size: 0.9rem;
+}
+
+.code-block-title {
+    font-weight: 600;
+}
+
+.code-block-actions {
+    display: flex;
+    gap: var(--spacing-sm);
+}
+
+.code-block-action {
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.7);
+    cursor: pointer;
+    transition: var(--transition-normal);
+    font-size: 0.9rem;
+    padding: 2px 8px;
+    border-radius: var(--radius-sm);
+}
+
+.code-block-action:hover {
+    color: white;
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.code-block pre {
+    margin: 0;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+
+/* Python Terminal Simulator */
+.python-terminal-container {
+    background-color: var(--dark-blue);
+    border-radius: var(--radius-md);
+    padding: var(--spacing-lg);
+    margin: var(--spacing-xl) 0;
+    font-family: var(--font-code);
+    color: white;
+}
+
+.python-terminal-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: var(--spacing-md);
+}
+
+.python-terminal-title {
+    font-size: 1rem;
+    margin-left: var(--spacing-md);
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.python-terminal-body {
+    height: 350px;
+    overflow-y: auto;
+    padding: var(--spacing-md);
+    background-color: rgba(0, 0, 0, 0.3);
+    border-radius: var(--radius-sm);
+    line-height: 1.5;
+}
+
+.python-terminal-output {
+    margin-bottom: var(--spacing-sm);
+    white-space: pre-wrap;
+}
+
+.python-terminal-prompt {
+    display: flex;
+    align-items: center;
+    margin-bottom: var(--spacing-sm);
+}
+
+.python-terminal-prompt-symbol {
+    color: var(--success);
+    margin-right: var(--spacing-sm);
+    font-weight: bold;
+}
+
+.python-terminal-input {
+    background: none;
+    border: none;
+    color: white;
+    font-family: var(--font-code);
+    font-size: 0.9rem;
+    width: 100%;
+    outline: none;
+}
+
+.python-prompt {
+    color: var(--primary-light);
+    margin-right: var(--spacing-sm);
+}
+
+/* Guessing Game Simulator */
+.guessing-game {
+    margin: var(--spacing-xl) 0;
+    background-color: white;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    padding: var(--spacing-xl);
+}
+
+.guessing-game-header {
+    text-align: center;
+    margin-bottom: var(--spacing-xl);
+}
+
+.guessing-game-title {
+    font-size: 1.75rem;
+    margin-bottom: var(--spacing-md);
+    color: var(--primary-dark);
+}
+
+.guessing-game-description {
+    font-size: 1.1rem;
+    color: var(--gray);
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.guessing-game-container {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.guessing-game-messages {
+    background-color: var(--gray-light);
+    border-radius: var(--radius-md);
+    padding: var(--spacing-lg);
+    margin-bottom: var(--spacing-lg);
+    min-height: 200px;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.game-message {
+    margin-bottom: var(--spacing-md);
+    padding: var(--spacing-sm) var(--spacing-md);
+    border-radius: var(--radius-md);
+}
+
+.game-message.system {
+    background-color: rgba(99, 102, 241, 0.1);
+}
+
+.game-message.user {
+    background-color: rgba(16, 185, 129, 0.1);
+    text-align: right;
+}
+
+.game-message.hint {
+    background-color: rgba(245, 158, 11, 0.1);
+}
+
+.game-message.success {
+    background-color: rgba(16, 185, 129, 0.1);
+    font-weight: 600;
+}
+
+.guessing-game-input {
+    display: flex;
+    gap: var(--spacing-md);
+}
+
+.game-input {
+    flex: 1;
+    padding: var(--spacing-md);
+    border: 2px solid var(--gray-light);
+    border-radius: var(--radius-md);
+    font-family: var(--font-body);
+    font-size: 1rem;
+    outline: none;
+}
+
+.game-input:focus {
+    border-color: var(--primary);
+}
+
+.game-submit {
+    padding: var(--spacing-sm) var(--spacing-lg);
+    background-color: var(--primary);
+    color: white;
+    border: none;
+    border-radius: var(--radius-md);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.game-submit:hover {
+    background-color: var(--primary-dark);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+}
+
+.game-reset {
+    margin-top: var(--spacing-md);
+    padding: var(--spacing-sm) var(--spacing-lg);
+    background-color: var(--gray);
+    color: white;
+    border: none;
+    border-radius: var(--radius-md);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    width: 100%;
+}
+
+.game-reset:hover {
+    background-color: var(--dark);
+}
+
+.game-stats {
+    margin-top: var(--spacing-lg);
+    padding: var(--spacing-md);
+    background-color: rgba(99, 102, 241, 0.05);
+    border-radius: var(--radius-md);
+    display: flex;
+    justify-content: space-between;
+}
+
+.game-stat {
+    text-align: center;
+}
+
+.game-stat-value {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--primary-dark);
+}
+
+.game-stat-label {
+    font-size: 0.875rem;
+    color: var(--gray);
+}
+
+/* Chapter Summary Table */
+.chapter-summary {
+    width: 100%;
+    border-collapse: collapse;
+    margin: var(--spacing-xl) 0;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
+}
+
+.chapter-summary th {
+    background-color: var(--primary);
+    color: white;
+    padding: var(--spacing-md);
+    text-align: left;
+}
+
+.chapter-summary td {
+    padding: var(--spacing-md);
+    border-bottom: 1px solid var(--gray-light);
+}
+
+.chapter-summary tr:nth-child(even) {
+    background-color: rgba(99, 102, 241, 0.05);
+}
+
+.chapter-summary tr:hover {
+    background-color: rgba(99, 102, 241, 0.1);
+}
+
+/* Interactive Elements */
+.interactive-section {
+    background-color: white;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    padding: var(--spacing-xl);
+    margin: var(--spacing-2xl) 0;
+}
+
+.interactive-title {
+    display: flex;
+    align-items: center;
+    font-size: 1.5rem;
+    margin-bottom: var(--spacing-lg);
+    color: var(--primary-dark);
+}
+
+.interactive-title::before {
+    content: "🎮";
+    margin-right: var(--spacing-sm);
+    font-size: 1.8rem;
+}
+
+/* Challenge Cards */
+.challenge-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: var(--spacing-lg);
+    margin: var(--spacing-xl) 0;
+}
+
+.challenge-card {
+    background-color: white;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+    padding: var(--spacing-lg);
+    transition: all 0.3s ease;
+}
+
+.challenge-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-lg);
+}
+
+.challenge-card-header {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    margin-bottom: var(--spacing-md);
+}
+
+.challenge-card-icon {
+    font-size: 1.5rem;
+}
+
+.challenge-card-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--primary-dark);
+}
+
+.challenge-card-description {
+    color: var(--gray);
+    margin-bottom: var(--spacing-md);
+}
+
+.challenge-card-difficulty {
+    display: inline-block;
+    padding: var(--spacing-xs) var(--spacing-sm);
+    background-color: rgba(99, 102, 241, 0.1);
+    color: var(--primary-dark);
+    border-radius: var(--radius-full);
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+/* Chapter Navigation */
+.chapter-navigation {
+    display: flex;
+    justify-content: space-between;
+    margin-top: var(--spacing-3xl);
+    padding-top: var(--spacing-xl);
+    border-top: 1px solid var(--gray-light);
+}
+
+.nav-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    background-color: white;
+    color: var(--primary);
+    padding: var(--spacing-sm) var(--spacing-lg);
+    border-radius: var(--radius-full);
+    text-decoration: none;
+    font-weight: 600;
+    transition: var(--transition-normal);
+    border: 2px solid var(--primary);
+    cursor: pointer;
+}
+
+.nav-btn:hover {
+    background-color: var(--primary);
+    color: white;
+}
+
+.nav-btn.next {
+    background-color: var(--primary);
+    color: white;
+}
+
+.nav-btn.next:hover {
+    background-color: var(--primary-dark);
+    border-color: var(--primary-dark);
+}
+
+/* Progress Bar */
+.progress-container {
+    position: fixed;
+    top: 70px;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background-color: var(--gray-light);
+    z-index: 99;
+}
+
+.progress-bar {
+    height: 100%;
+    background-color: var(--secondary);
+    width: 0%;
+    transition: width 0.3s ease;
+}
+
+/* Table of Contents */
+.toc {
+    position: sticky;
+    top: 90px;
+    max-height: calc(100vh - 100px);
+    overflow-y: auto;
+    padding-right: var(--spacing-md);
+}
+
+.toc-title {
+    font-size: 1.25rem;
+    margin-bottom: var(--spacing-md);
+    padding-bottom: var(--spacing-sm);
+    border-bottom: 2px solid var(--primary);
+}
+
+.toc-list {
+    list-style: none;
+    margin-left: 0;
+}
+
+.toc-item {
+    margin-bottom: var(--spacing-sm);
+}
+
+.toc-link {
+    display: block;
+    padding: var(--spacing-xs) 0;
+    color: var(--gray);
+    transition: var(--transition-normal);
+    border-left: 2px solid transparent;
+    padding-left: var(--spacing-sm);
+}
+
+.toc-link:hover, .toc-link.active {
+    color: var(--primary);
+    border-left-color: var(--primary);
+    padding-left: var(--spacing-md);
+}
+
+.toc-sublist {
+    list-style: none;
+    margin-left: var(--spacing-lg);
+    margin-bottom: 0;
+}
+
+/* Footer */
+.footer {
+    background-color: var(--dark);
+    color: white;
+    padding: var(--spacing-2xl) 0;
+    margin-top: var(--spacing-3xl);
+}
+
+.footer-container {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: var(--spacing-xl);
+}
+
+.footer-column {
+    flex: 1;
+    min-width: 250px;
+}
+
+.footer-title {
+    font-size: 1.25rem;
+    margin-bottom: var(--spacing-lg);
+    color: white;
+    font-weight: 600;
+}
+
+.footer-logo {
+    font-family: var(--font-heading);
+    font-weight: 800;
+    font-size: 1.5rem;
+    color: white;
+    margin-bottom: var(--spacing-md);
+    display: inline-block;
+}
+
+.footer-description {
+    color: rgba(255, 255, 255, 0.7);
+    margin-bottom: var(--spacing-lg);
+}
+
+.footer-links {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.footer-link-item {
+    margin-bottom: var(--spacing-sm);
+}
+
+.footer-link {
+    color: rgba(255, 255, 255, 0.7);
+    transition: var(--transition-normal);
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+.footer-link:hover {
+    color: white;
+}
+
+.footer-social {
+    display: flex;
+    gap: var(--spacing-md);
+    margin-top: var(--spacing-lg);
+}
+
+.footer-social-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background-color: rgba(255, 255, 255, 0.1);
+    color: white;
+    border-radius: var(--radius-full);
+    transition: var(--transition-normal);
+}
+
+.footer-social-link:hover {
+    background-color: var(--primary);
+    transform: translateY(-3px);
+}
+
+.footer-bottom {
+    margin-top: var(--spacing-xl);
+    padding-top: var(--spacing-lg);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    text-align: center;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.875rem;
+    width: 100%;
+}
+
+/* Confetti Animation */
+.confetti-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 9999;
+}
+
+.confetti {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background-color: var(--primary);
+    opacity: 0;
+}
+
+@keyframes confetti-fall {
+    0% {
+        transform: translateY(-100vh) rotate(0deg);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(100vh) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+/* Responsive Styles */
+@media (max-width: 992px) {
+    .chapter-title {
+        font-size: 2.5rem;
+    }
+    
+    .chapter-layout {
+        grid-template-columns: 1fr;
+    }
+    
+    .toc {
+        display: none;
+    }
+}
+
+@media (max-width: 768px) {
+    .header-container {
+        height: 60px;
+    }
+    
+    .nav {
+        position: fixed;
+        top: 60px;
+        left: 0;
+        width: 100%;
+        height: 0;
+        background-color: white;
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 0 var(--spacing-lg);
+        overflow: hidden;
+        transition: var(--transition-normal);
+        box-shadow: var(--shadow-md);
+        opacity: 0;
+        visibility: hidden;
+        z-index: 99;
+    }
+    
+    .nav.active {
+        height: auto;
+        padding: var(--spacing-lg);
+        opacity: 1;
+        visibility: visible;
+    }
+    
+    .mobile-menu-btn {
+        display: block;
+    }
+    
+    .chapter-title {
+        font-size: 2rem;
+    }
+    
+    .chapter-meta {
+        flex-direction: column;
+        gap: var(--spacing-sm);
+    }
+    
+    .chapter-navigation {
+        flex-direction: column;
+        gap: var(--spacing-md);
+    }
+    
+    .nav-btn {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .footer-container {
+        flex-direction: column;
+        gap: var(--spacing-lg);
+    }
+    
+    .challenge-cards {
+        grid-template-columns: 1fr;
+    }
+    
+    .game-stats {
+        flex-direction: column;
+        gap: var(--spacing-md);
+    }
+    
+    .quiz-options {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+    .python-terminal-body {
+        height: 250px;
+    }
+    
+    .guessing-game-input {
+        flex-direction: column;
+    }
+    
+    .game-submit {
+        width: 100%;
+    }
+    
+    .certificate-footer {
+        flex-direction: column;
+        gap: var(--spacing-lg);
+    }
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+    animation: fadeIn 0.5s ease-out forwards;
+}
+
+.delay-100 { animation-delay: 100ms; }
+.delay-200 { animation-delay: 200ms; }
+.delay-300 { animation-delay: 300ms; }
+.delay-400 { animation-delay: 400ms; }
+.delay-500 { animation-delay: 500ms; }
+
+/* Layout for chapter content */
+.chapter-layout {
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+    gap: var(--spacing-2xl);
+}
+
+/* Certificate */
+.certificate {
+    background-color: white;
+    border: 10px solid var(--primary);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-2xl);
+    margin: var(--spacing-3xl) 0;
+    text-align: center;
+    position: relative;
+    box-shadow: var(--shadow-xl);
+    page-break-inside: avoid;
+}
+
+.certificate::before {
+    content: '';
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    right: 10px;
+    bottom: 10px;
+    border: 2px solid var(--primary-light);
+    border-radius: var(--radius-md);
+    pointer-events: none;
+}
+
+.certificate-header {
+    margin-bottom: var(--spacing-xl);
+}
+
+.certificate-title {
+    font-size: 2.5rem;
+    color: var(--primary-dark);
+    margin-bottom: var(--spacing-sm);
+}
+
+.certificate-subtitle {
+    font-size: 1.25rem;
+    color: var(--gray);
+}
+
+.certificate-content {
+    margin-bottom: var(--spacing-xl);
+}
+
+.certificate-name {
+    font-size: 2rem;
+    font-family: var(--font-heading);
+    color: var(--dark);
+    margin-bottom: var(--spacing-md);
+    font-style: italic;
+}
+
+.certificate-description {
+    font-size: 1.1rem;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.certificate-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-top: var(--spacing-2xl);
+}
+
+.certificate-date {
+    text-align: center;
+}
+
+.certificate-signature {
+    text-align: center;
+}
+
+.certificate-signature-line {
+    width: 200px;
+    height: 2px;
+    background-color: var(--dark);
+    margin: 0 auto var(--spacing-sm);
+}
+
+.certificate-signature-name {
+    font-weight: 600;
+}
+
+.certificate-signature-title {
+    font-size: 0.875rem;
+    color: var(--gray);
+}
+
+.certificate-seal {
+    width: 100px;
+    height: 100px;
+    background-color: var(--primary);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 2rem;
+    font-weight: 700;
+    margin: 0 auto var(--spacing-lg);
+}
+
+.certificate-logo {
+    max-width: 150px;
+    margin: 0 auto var(--spacing-lg);
+}
+
+/* Quiz Styles */
+.quiz-section {
+    background-color: white;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    padding: var(--spacing-xl);
+    margin: var(--spacing-2xl) 0;
+}
+
+.quiz-header {
+    text-align: center;
+    margin-bottom: var(--spacing-xl);
+}
+
+.quiz-title {
+    font-size: 2rem;
+    margin-bottom: var(--spacing-md);
+    color: var(--primary-dark);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-sm);
+}
+
+.quiz-title::before {
+    content: "🧠";
+    font-size: 2.2rem;
+}
+
+.quiz-description {
+    font-size: 1.1rem;
+    color: var(--gray);
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.quiz-progress {
+    margin: var(--spacing-lg) 0;
+    background-color: var(--gray-light);
+    height: 8px;
+    border-radius: var(--radius-full);
+    overflow: hidden;
+}
+
+.quiz-progress-bar {
+    height: 100%;
+    background-color: var(--primary);
+    width: 0%;
+    transition: width 0.5s ease;
+}
+
+.quiz-container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.quiz-question {
+    margin-bottom: var(--spacing-xl);
+}
+
+.quiz-question-number {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--primary);
+    margin-bottom: var(--spacing-sm);
+}
+
+.quiz-question-text {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: var(--spacing-lg);
+}
+
+.quiz-options {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-lg);
+}
+
+.quiz-option {
+    background-color: white;
+    border: 2px solid var(--gray-light);
+    border-radius: var(--radius-md);
+    padding: var(--spacing-lg);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+}
+
+.quiz-option:hover {
+    border-color: var(--primary-light);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.quiz-option.selected {
+    border-color: var(--primary);
+    background-color: rgba(99, 102, 241, 0.05);
+}
+
+.quiz-option.correct {
+    border-color: var(--success);
+    background-color: rgba(16, 185, 129, 0.05);
+}
+
+.quiz-option.incorrect {
+    border-color: var(--danger);
+    background-color: rgba(239, 68, 68, 0.05);
+}
+
+.quiz-option-marker {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    border: 2px solid var(--gray);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 0.875rem;
+    flex-shrink: 0;
+}
+
+.quiz-option.selected .quiz-option-marker {
+    border-color: var(--primary);
+    background-color: var(--primary);
+    color: white;
+}
+
+.quiz-option.correct .quiz-option-marker {
+    border-color: var(--success);
+    background-color: var(--success);
+    color: white;
+}
+
+.quiz-option.incorrect .quiz-option-marker {
+    border-color: var(--danger);
+    background-color: var(--danger);
+    color: white;
+}
+
+.quiz-option-text {
+    flex: 1;
+}
+
+.quiz-feedback {
+    padding: var(--spacing-lg);
+    border-radius: var(--radius-md);
+    margin-bottom: var(--spacing-lg);
+    display: none;
+}
+
+.quiz-feedback.correct {
+    background-color: rgba(16, 185, 129, 0.1);
+    border-left: 4px solid var(--success);
+}
+
+.quiz-feedback.incorrect {
+    background-color: rgba(239, 68, 68, 0.1);
+    border-left: 4px solid var(--danger);
+}
+
+.quiz-feedback-title {
+    font-weight: 600;
+    margin-bottom: var(--spacing-sm);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+.quiz-feedback.correct .quiz-feedback-title::before {
+    content: "✓";
+    color: var(--success);
+}
+
+.quiz-feedback.incorrect .quiz-feedback-title::before {
+    content: "✗";
+    color: var(--danger);
+}
+
+.quiz-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: var(--spacing-xl);
+}
+
+.quiz-btn {
+    padding: var(--spacing-sm) var(--spacing-xl);
+    border-radius: var(--radius-full);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.quiz-btn-prev {
+    background-color: white;
+    color: var(--primary);
+    border: 2px solid var(--primary);
+}
+
+.quiz-btn-prev:hover {
+    background-color: rgba(99, 102, 241, 0.05);
+}
+
+.quiz-btn-next {
+    background-color: var(--primary);
+    color: white;
+    border: 2px solid var(--primary);
+}
+
+.quiz-btn-next:hover {
+    background-color: var(--primary-dark);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.quiz-btn-submit {
+    background-color: var(--success);
+    color: white;
+    border: 2px solid var(--success);
+}
+
+.quiz-btn-submit:hover {
+    background-color: var(--success);
+    opacity: 0.9;
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.quiz-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none !important;
+    box-shadow: none !important;
+}
+
+.quiz-results {
+    text-align: center;
+    display: none;
+}
+
+.quiz-results-title {
+    font-size: 2rem;
+    margin-bottom: var(--spacing-lg);
+    color: var(--primary-dark);
+}
+
+.quiz-score {
+    font-size: 4rem;
+    font-weight: 700;
+    color: var(--primary);
+    margin-bottom: var(--spacing-lg);
+}
+
+.quiz-message {
+    font-size: 1.25rem;
+    margin-bottom: var(--spacing-xl);
+}
+
+.quiz-certificate-btn {
+    background-color: var(--success);
+    color: white;
+    padding: var(--spacing-md) var(--spacing-xl);
+    border-radius: var(--radius-full);
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    margin-top: var(--spacing-lg);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: none;
+}
+
+.quiz-certificate-btn:hover {
+    background-color: var(--success);
+    opacity: 0.9;
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.quiz-certificate-btn::before {
+    content: "🏆";
+    font-size: 1.5rem;
+}
+
+/* Modal Styles */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+
+.modal-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.modal {
+    background-color: white;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-xl);
+    width: 90%;
+    max-width: 500px;
+    max-height: 90vh;
+    overflow-y: auto;
+    padding: var(--spacing-xl);
+    position: relative;
+    transform: translateY(-20px);
+    transition: all 0.3s ease;
+}
+
+.modal-overlay.active .modal {
+    transform: translateY(0);
+}
+
+.modal-close {
+    position: absolute;
+    top: var(--spacing-md);
+    right: var(--spacing-md);
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: var(--gray);
+    transition: all 0.2s ease;
+}
+
+.modal-close:hover {
+    color: var(--danger);
+}
+
+.modal-title {
+    font-size: 1.5rem;
+    margin-bottom: var(--spacing-lg);
+    color: var(--primary-dark);
+    text-align: center;
+}
+
+.modal-content {
+    margin-bottom: var(--spacing-lg);
+}
+
+.modal-form-group {
+    margin-bottom: var(--spacing-lg);
+}
+
+.modal-label {
+    display: block;
+    margin-bottom: var(--spacing-sm);
+    font-weight: 600;
+}
+
+.modal-input {
+    width: 100%;
+    padding: var(--spacing-md);
+    border: 2px solid var(--gray-light);
+    border-radius: var(--radius-md);
+    font-family: var(--font-body);
+    font-size: 1rem;
+    outline: none;
+    transition: all 0.2s ease;
+}
+
+.modal-input:focus {
+    border-color: var(--primary);
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: center;
+}
+
+.modal-btn {
+    padding: var(--spacing-md) var(--spacing-xl);
+    border-radius: var(--radius-full);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: none;
+}
+
+.modal-btn-primary {
+    background-color: var(--primary);
+    color: white;
+}
+
+.modal-btn-primary:hover {
+    background-color: var(--primary-dark);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+/* Print Styles */
+@media print {
+    body * {
+        visibility: hidden;
+    }
+    
+    .certificate-print-container, .certificate-print-container * {
+        visibility: visible;
+    }
+    
+    .certificate-print-container {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        padding: 0;
+        margin: 0;
+    }
+    
+    .certificate {
+        border: 10px solid var(--primary);
+        box-shadow: none;
+        margin: 0;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+    
+    .certificate::before {
+        border: 2px solid var(--primary-light);
+    }
+    
+    @page {
+        size: landscape;
+        margin: 0;
+    }
+}
+
+/* Estilos para el modal del certificado */
+.certificate-modal {
+    max-width: 900px;
+    width: 90%;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    padding: var(--spacing-lg);
+}
+
+.certificate-container {
+    overflow-y: auto;
+    margin-bottom: var(--spacing-lg);
+    background-color: white;
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-md);
+}
+
+.certificate-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--spacing-md);
+    margin-top: var(--spacing-lg);
+}
+
+.certificate-action-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-sm) var(--spacing-lg);
+    border-radius: var(--radius-full);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: none;
+}
+
+.download-btn {
+    background-color: var(--success);
+    color: white;
+}
+
+.download-btn:hover {
+    background-color: var(--success);
+    opacity: 0.9;
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.share-buttons {
+    display: flex;
+    gap: var(--spacing-sm);
+    flex-wrap: wrap;
+}
+
+.share-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-sm) var(--spacing-lg);
+    border-radius: var(--radius-full);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: none;
+    color: white;
+}
+
+.linkedin-btn {
+    background-color: #0077B5;
+}
+
+.twitter-btn {
+    background-color: #1DA1F2;
+}
+
+.facebook-btn {
+    background-color: #4267B2;
+}
+
+.share-btn:hover {
+    opacity: 0.9;
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+/* Toast notification */
+.toast-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 9999;
+}
+
+.toast {
+    background-color: var(--dark);
+    color: white;
+    padding: var(--spacing-md) var(--spacing-lg);
+    border-radius: var(--radius-md);
+    margin-top: var(--spacing-sm);
+    box-shadow: var(--shadow-lg);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.3s ease;
+}
+
+.toast.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.toast-success {
+    background-color: var(--success);
+}
+
+.toast-error {
+    background-color: var(--danger);
+}
+
+.toast-info {
+    background-color: var(--primary);
+}
+
+@media (max-width: 768px) {
+    .certificate-actions {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .share-buttons {
+        flex-direction: column;
+    }
+}
+
+/* Modificar el certificado para que se vea mejor en el modal */
+.certificate {
+    border-width: 8px;
+    margin: 0;
+}
+</style>
+
+<style>
+    /* ========== ESTILOS DEL REPRODUCTOR DE PODCAST ========== */
+    .podcast-player-container .interactive-title::before {
+        content: '🎧'; /* O el emoji que prefieras */
+    }
+
+    .podcast-controls {
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-md);
+        margin-top: var(--spacing-lg);
+    }
+
+    #podcast-play-pause-btn {
+        padding: 0.5rem;
+        width: 50px;
+        height: 50px;
+    }
+
+    #podcast-play-pause-btn svg {
+        width: 100%;
+        height: 100%;
+    }
+
+    .podcast-progress-bar-container {
+        flex-grow: 1;
+    }
+
+    #podcast-progress-bar {
+        width: 100%;
+        -webkit-appearance: none;
+        appearance: none;
+        height: 8px;
+        background: var(--gray-light);
+        border-radius: var(--radius-full);
+        outline: none;
+        cursor: pointer;
+    }
+
+    /* Estilo para Chrome, Safari, Opera, Edge */
+    #podcast-progress-bar::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 20px;
+        height: 20px;
+        background: var(--primary);
+        border-radius: 50%;
+        cursor: pointer;
+        box-shadow: var(--shadow-sm);
+    }
+
+    /* Estilo para Firefox */
+    #podcast-progress-bar::-moz-range-thumb {
+        width: 20px;
+        height: 20px;
+        background: var(--primary);
+        border-radius: 50%;
+        cursor: pointer;
+        border: none;
+    }
+
+    .podcast-time-display {
+        font-family: var(--font-code);
+        font-weight: 500;
+        color: var(--gray);
+        min-width: 100px;
+        text-align: center;
+    }
+</style>
+
+</head>
+<body>
+<!-- Header -->
+<header class="header">
+<div class="container header-container">
+    <a href="../../index.html" class="logo">
+        <span class="logo-icon">P</span>
+        <span>Programación para Mortales</span>
+    </a>
+    
+    <nav class="nav">
+        <a href="../../index.html" class="nav-link">Inicio</a>
+        <a href="../../index.html#chapters" class="nav-link">Capítulos</a>
+        <a href="../../index.html#features" class="nav-link">Características</a>
+        <a href="../../about.html" class="nav-link">Acerca de</a>
+        <a href="../../capitulos/episodio-2/capitulo-1.html" class="btn btn-primary">Episodio 2</a>
+    </nav>
+    
+    <button class="mobile-menu-btn">☰</button>
+</div>
+</header>
+
+<!-- Progress Bar -->
+<div class="progress-container">
+<div class="progress-bar" id="progressBar"></div>
+</div>
+
+<!-- Chapter Header -->
+<section class="chapter-header">
+<div class="container chapter-header-content">
+    <div class="chapter-number animate-fade-in">Cierre del Episodio 1</div>
+    <h1 class="chapter-title animate-fade-in delay-100">Ya hablás el idioma de la compu</h1>
+    <div class="chapter-meta animate-fade-in delay-200">
+        <div class="chapter-meta-item">
+            <span>⏱️ Tiempo de lectura: 15 minutos</span>
+        </div>
+        <div class="chapter-meta-item">
+            <span>🧩 Actividades: 1</span>
+        </div>
+        <div class="chapter-meta-item">
+            <span>🏆 Proyecto final</span>
+        </div>
+    </div>
+</div>
+</section>
+
+<!-- Chapter Content -->
+<section class="chapter-content">
+<div class="container">
+
+    
+    <div class="podcast-player-container interactive-section">
+        <h3 class="interactive-title" style="--interactive-icon: '🎧';">Escuchá el resumen en audio</h3>
+        <audio id="podcast-audio" preload="metadata">
+            <source src="../../assets/audio/ppm/E1/capitulo_final.mp3" type="audio/mpeg">
+            Tu navegador no soporta el elemento de audio.
+        </audio>
+        <div class="podcast-controls">
+            <button id="podcast-play-pause-btn" class="btn btn-primary">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+            </button>
+            <div class="podcast-progress-bar-container">
+                <input type="range" id="podcast-progress-bar" value="0" step="1">
+            </div>
+            <div id="podcast-time" class="podcast-time-display">00:00 / 00:00</div>
+        </div>
+        <div class="podcast-external-link" style="margin-top: 1rem;">
+            <a href="https://www.youtube.com/playlist?list=PL2q5bMDgOj6Zg9DWlwBIEWgpXATKYS-YN" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">
+                ▶️ Ver lista de reproducción en YouTube
+            </a>
+        </div> <!-- .podcast-player-container -->
+    </div>
+
+    <div class="chapter-layout">
+        <div class="content-wrapper">
+            <div class="celebration-box">
+                <h2 id="felicitaciones" style="margin-top: 0;">🎉 ¡Felicitaciones!</h2>
+                <p>Si llegaste hasta acá, quiero que sepas algo importante:</p>
+                <p><strong>¡Ya no sos la misma persona que empezó este libro!</strong></p>
+            </div>
+            
+            <p>Capítulo a capítulo, fuiste abriendo puertas:</p>
+            
+            <ul class="feature-list">
+                <li>Entendiste cómo piensan (o no piensan) las computadoras.</li>
+                <li>Aprendiste que todo se reduce a 1s y 0s.</li>
+                <li>Descubriste qué hay dentro de una PC, cómo funciona, cómo se organiza.</li>
+                <li>Usaste por primera vez la terminal, y entendiste cómo navegar el sistema como un usuario avanzado.</li>
+                <li>Empezaste a escribir tus primeras líneas en Python.</li>
+                <li>Aprendiste sobre variables, tipos de datos, funciones, condicionales, lógica, y bucles.</li>
+            </ul>
+            
+            <p>Sí, todo eso en solo unos capítulos.</p>
+            
+            <p>🤯 Es mucho más de lo que sabías antes. ¡Y es solo el comienzo!</p>
+            
+            <p>Hasta ahora, estuviste sumando piezas del rompecabezas. Pero hoy... hoy vamos a armar una pequeña obra con todas esas piezas. Un proyecto simple pero poderoso, como los que hacen los grandes programadores: una app real, interactiva y con lógica.</p>
+            
+            <h2 id="maquina-adivinanzas">🤖 Aplicación de cierre: ¡La Máquina de las Adivinanzas!</h2>
+            
+            <h3 id="de-que-trata">💡 ¿De qué se trata?</h3>
+            
+            <p>Vamos a crear un programa que simula una "máquina" que te hace adivinanzas. Va a tomar decisiones, va a interactuar con vos, va a repetir cosas si es necesario, y va a mostrarte cómo todo lo que aprendiste hasta ahora se puede usar para construir una mini aplicación inteligente.</p>
+            
+            <h3 id="que-vas-usar">🎯 ¿Qué vas a usar?</h3>
+            
+            <ul>
+                <li><code>input()</code> para interactuar con el usuario.</li>
+                <li><code>if</code>, <code>elif</code>, <code>else</code> para tomar decisiones.</li>
+                <li><code>while</code> para repetir hasta que adivines.</li>
+                <li><code>print()</code> para mostrar mensajes, pistas y resultados.</li>
+                <li>Variables para guardar datos.</li>
+            </ul>
+            
+            <h3 id="codigo-maquina">🧪 El código de la máquina de las adivinanzas</h3>
+            
+            <div class="code-block">
+                <div class="code-block-header">
+                    <div class="code-block-title">Python</div>
+                    <div class="code-block-actions">
+                        <button class="code-block-action copy-btn" data-code='print("🔍 Bienvenido a la Máquina de las Adivinanzas")
+print("Tenés que adivinar una palabra secreta. Pista: es algo que usamos todos los días para buscar en internet.")
+
+respuesta_correcta = "navegador"
+intentos = 0
+respuesta = ""
+
+while respuesta != respuesta_correcta:
+    respuesta = input("❓ ¿Cuál creés que es la palabra secreta? ").lower()
+    intentos += 1
+
+    if respuesta == "computadora":
+        print("💻 Cerca... pero no es eso. Es algo que usás dentro de la computadora.")
+    elif respuesta == "google":
+        print("🌐 Mmm... estás en la zona correcta. ¡Pero pensá más general!")
+    elif respuesta != respuesta_correcta:
+        print("❌ Nope. ¡Intentá de nuevo!")
+
+print("🎉 ¡Acertaste! La palabra era:", respuesta_correcta)
+print("✨ Lo lograste en", intentos, "intento(s). ¡Sos un crack de la lógica!")'>Copiar</button>
+                    </div>
+                </div>
+                <pre><code>print("🔍 Bienvenido a la Máquina de las Adivinanzas")
+print("Tenés que adivinar una palabra secreta. Pista: es algo que usamos todos los días para buscar en internet.")
+
+respuesta_correcta = "navegador"
+intentos = 0
+respuesta = ""
+
+while respuesta != respuesta_correcta:
+    respuesta = input("❓ ¿Cuál creés que es la palabra secreta? ").lower()
+    intentos += 1
+
+    if respuesta == "computadora":
+        print("💻 Cerca... pero no es eso. Es algo que usás dentro de la computadora.")
+    elif respuesta == "google":
+        print("🌐 Mmm... estás en la zona correcta. ¡Pero pensá más general!")
+    elif respuesta != respuesta_correcta:
+        print("❌ Nope. ¡Intentá de nuevo!")
+
+print("🎉 ¡Acertaste! La palabra era:", respuesta_correcta)
+print("✨ Lo lograste en", intentos, "intento(s). ¡Sos un crack de la lógica!")</code></pre>
+            </div>
+            
+            <!-- Actividad: Máquina de Adivinanzas Interactiva -->
+            <div class="interactive-section">
+                <h3 class="interactive-title">¡Probá la Máquina de Adivinanzas!</h3>
+                
+                <p>🎯 <strong>Objetivo:</strong> Experimentar con el programa de adivinanzas y ver cómo funciona en tiempo real.</p>
+                
+                <div class="guessing-game">
+                    <div class="guessing-game-header">
+                        <h3 class="guessing-game-title">🔍 Máquina de las Adivinanzas</h3>
+                        <p class="guessing-game-description">Tenés que adivinar una palabra secreta. Pista: es algo que usamos todos los días para buscar en internet.</p>
+                    </div>
+                    
+                    <div class="guessing-game-container">
+                        <div class="guessing-game-messages" id="gameMessages">
+                            <div class="game-message system">🔍 Bienvenido a la Máquina de las Adivinanzas</div>
+                            <div class="game-message system">Tenés que adivinar una palabra secreta. Pista: es algo que usamos todos los días para buscar en internet.</div>
+                            <div class="game-message system">❓ ¿Cuál creés que es la palabra secreta?</div>
+                        </div>
+                        
+                        <div class="guessing-game-input">
+                            <input type="text" class="game-input" id="gameInput" placeholder="Escribí tu respuesta...">
+                            <button class="game-submit" id="gameSubmit">Enviar</button>
+                        </div>
+                        
+                        <button class="game-reset" id="gameReset">Reiniciar juego</button>
+                        
+                        <div class="game-stats">
+                            <div class="game-stat">
+                                <div class="game-stat-value" id="attemptCount">0</div>
+                                <div class="game-stat-label">Intentos</div>
+                            </div>
+                            <div class="game-stat">
+                                <div class="game-stat-value" id="gameStatus">En progreso</div>
+                                <div class="game-stat-label">Estado</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <h3 id="que-aprendiste">🧠 ¿Qué aprendiste con esto?</h3>
+            
+            <ul class="feature-list">
+                <li>Que con solo un puñado de herramientas básicas, ya podés construir algo útil, divertido e interactivo.</li>
+                <li>Que programar no es repetir fórmulas mágicas. Es pensar, probar, errar y resolver.</li>
+                <li>Que los bucles, las condiciones y las funciones se combinan como piezas de Lego para armar ideas.</li>
+            </ul>
+            
+            <h2 id="y-ahora-que">🔓 ¿Y ahora qué?</h2>
+            
+            <p>Ahora que tenés las herramientas básicas, se abre un mundo nuevo:</p>
+            
+            <ul>
+                <li>Vas a poder crear juegos.</li>
+                <li>Vas a automatizar tareas de la compu.</li>
+                <li>Vas a construir programas que resuelvan problemas reales.</li>
+            </ul>
+            
+            <p>Y lo más importante:</p>
+            <p>🌱 Ya estás pensando como un programador. Uno que entiende, que se pregunta el por qué, que se equivoca, que aprende... y que avanza.</p>
+            
+            <h2 id="desafio-creativo">🎯 Desafío para vos (nivel creativo)</h2>
+            
+            <p>📌 Modificá el programa:</p>
+            
+            <div class="challenge-cards">
+                <div class="challenge-card">
+                    <div class="challenge-card-header">
+                        <div class="challenge-card-icon">🎭</div>
+                        <div class="challenge-card-title">Cambiá la temática</div>
+                    </div>
+                    <div class="challenge-card-description">
+                        Cambiá la palabra secreta por algo de tu interés (una banda, un color, una película).
+                    </div>
+                    <div class="challenge-card-difficulty">Fácil</div>
+                </div>
+                
+                <div class="challenge-card">
+                    <div class="challenge-card-header">
+                        
+                        <div class="challenge-card-icon">💡</div>
+                        <div class="challenge-card-title">Más pistas</div>
+                    </div>
+                    <div class="challenge-card-description">
+                        Agregale más pistas o más condiciones para diferentes respuestas incorrectas.
+                    </div>
+                    <div class="challenge-card-difficulty">Intermedio</div>
+                </div>
+                
+                <div class="challenge-card">
+                    <div class="challenge-card-header">
+                        <div class="challenge-card-icon">⏱️</div>
+                        <div class="challenge-card-title">Límite de intentos</div>
+                    </div>
+                    <div class="challenge-card-description">
+                        Hacelo más desafiante: agregá un límite de intentos antes de perder el juego.
+                    </div>
+                    <div class="challenge-card-difficulty">Intermedio</div>
+                </div>
+                
+                <div class="challenge-card">
+                    <div class="challenge-card-header">
+                        <div class="challenge-card-icon">🏆</div>
+                        <div class="challenge-card-title">Sistema de puntos</div>
+                    </div>
+                    <div class="challenge-card-description">
+                        Agregale un contador que diga cuántos puntos ganás o perdés por intento.
+                    </div>
+                    <div class="challenge-card-difficulty">Avanzado</div>
+                </div>
+            </div>
+            
+            <h2 id="camino-recorrido">🛤️ Camino recorrido en el Episodio 1</h2>
+            
+            <table class="chapter-summary">
+                <thead>
+                    <tr>
+                        <th>Capítulo</th>
+                        <th>Qué aprendiste</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>Qué es programar y cómo se comunica una computadora</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>Qué hay dentro de una computadora y cómo está organizada</td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>Cómo moverse dentro de la compu usando la terminal</td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td>Primeros pasos en Python y cómo usar funciones básicas</td>
+                    </tr>
+                    <tr>
+                        <td>5</td>
+                        <td>Variables, tipos de datos y operaciones simples</td>
+                    </tr>
+                    <tr>
+                        <td>6</td>
+                        <td>Condicionales y lógica para tomar decisiones</td>
+                    </tr>
+                    <tr>
+                        <td>7</td>
+                        <td>Bucles y automatización con for y while</td>
+                    </tr>
+                    <tr>
+                        <td>Cierre</td>
+                        <td>Aplicación completa: adivinanza interactiva 🎮</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <h2 id="que-sigue">📘 ¿Qué sigue?</h2>
+            
+            <p>En el Episodio 2, vamos a empezar a construir programas más complejos, aprenderemos a guardar datos, leer archivos, y hasta a crear nuestras propias funciones y mini herramientas.</p>
+            
+            <p>Pero eso será otra aventura.</p>
+            
+            <p>Por ahora, tomate un momento y decite a vos mismo:</p>
+            
+            <div class="highlight-box">
+                <p style="font-size: 1.25rem; text-align: center; font-weight: 600;">"Ya no soy un espectador de la tecnología... ahora la entiendo, la uso, y puedo construir cosas con ella."</p>
+            </div>
+            
+            <p>Y eso, mi querido lector, cambia todo. 💻🚀</p>
+            
+            <!-- Quiz Section -->
+            <div class="quiz-section" id="quizSection">
+                <div class="quiz-header">
+                    <h2 class="quiz-title">Evaluación Final del Episodio 1</h2>
+                    <p class="quiz-description">Demostrá lo que aprendiste respondiendo estas 10 preguntas. ¡Necesitás al menos 7 respuestas correctas para obtener tu certificado!</p>
+                </div>
+                
+                <div class="quiz-progress">
+                    <div class="quiz-progress-bar" id="quizProgressBar"></div>
+                </div>
+                
+                <div class="quiz-container" id="quizContainer">
+                    <!-- Quiz questions will be inserted here by JavaScript -->
+                </div>
+                
+                <div class="quiz-results" id="quizResults">
+                    <h3 class="quiz-results-title">¡Evaluación completada!</h3>
+                    <div class="quiz-score">
+                        <span id="quizScoreValue">0</span>/10
+                    </div>
+                    <p class="quiz-message" id="quizMessage"></p>
+                    <button class="quiz-certificate-btn" id="certificateBtn" style="display: none;">Obtener mi certificado</button>
+                </div>
+            </div>
+            
+            <!-- Navegación entre capítulos -->
+            <div class="chapter-navigation">
+                <a href="capitulo-7.html" class="nav-btn">
+                    <span>←</span> Capítulo anterior
+                </a>
+                <a href="../../capitulos/episodio-2/capitulo-1.html" class="nav-btn next">
+                    Comenzar Episodio 2 <span>→</span>
+                </a>
+            </div>
+        </div>
+        
+        <!-- Tabla de contenidos -->
+        <aside class="toc">
+            <h3 class="toc-title">Contenido del capítulo</h3>
+            <ul class="toc-list">
+                <li class="toc-item">
+                    <a href="#felicitaciones" class="toc-link">¡Felicitaciones!</a>
+                </li>
+                <li class="toc-item">
+                    <a href="#maquina-adivinanzas" class="toc-link">Aplicación de cierre: ¡La Máquina de las Adivinanzas!</a>
+                    <ul class="toc-sublist">
+                        <li><a href="#de-que-trata" class="toc-link">¿De qué se trata?</a></li>
+                        <li><a href="#que-vas-usar" class="toc-link">¿Qué vas a usar?</a></li>
+                        <li><a href="#codigo-maquina" class="toc-link">El código de la máquina</a></li>
+                        <li><a href="#que-aprendiste" class="toc-link">¿Qué aprendiste con esto?</a></li>
+                    </ul>
+                </li>
+                <li class="toc-item">
+                    <a href="#y-ahora-que" class="toc-link">¿Y ahora qué?</a>
+                </li>
+                <li class="toc-item">
+                    <a href="#desafio-creativo" class="toc-link">Desafío para vos</a>
+                </li>
+                <li class="toc-item">
+                    <a href="#camino-recorrido" class="toc-link">Camino recorrido en el Episodio 1</a>
+                </li>
+                <li class="toc-item">
+                    <a href="#que-sigue" class="toc-link">¿Qué sigue?</a>
+                </li>
+            </ul>
+        </aside>
+    </div>
+</div>
+</section>
+
+<!-- Modal para ingresar nombre -->
+<div class="modal-overlay" id="nameModal">
+    <div class="modal">
+        <button class="modal-close" id="modalClose">&times;</button>
+        <h3 class="modal-title">¡Felicitaciones! 🎉</h3>
+        <div class="modal-content">
+            <p>Has completado exitosamente la evaluación del Episodio 1. Ahora podés obtener tu certificado personalizado.</p>
+        </div>
+        <form id="certificateForm">
+            <div class="modal-form-group">
+                <label for="fullName" class="modal-label">Ingresá tu nombre completo:</label>
+                <input type="text" id="fullName" class="modal-input" placeholder="Ej: Juan Pérez" required>
+            </div>
+            <div class="modal-actions">
+                <button type="submit" class="modal-btn modal-btn-primary">Generar certificado</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Modal para mostrar el certificado -->
+<div class="modal-overlay" id="certificateModal">
+    <div class="modal certificate-modal">
+        <button class="modal-close" id="certificateModalClose">&times;</button>
+        <div class="certificate-container">
+            <div class="certificate" id="certificateTemplate">
+                <div class="certificate-header">
+                    <img src="../assets/img/logo.svg" alt="Logo Programación para Mortales" class="certificate-logo" id="certificateLogo">
+                    <h2 class="certificate-title">Certificado de Finalización</h2>
+                    <div class="certificate-subtitle">Episodio 1: Fundamentos de Programación</div>
+                </div>
+                
+                <div class="certificate-content">
+                    <div class="certificate-name" id="certificateName">Tu Nombre Aquí</div>
+                    <div class="certificate-description">
+                        Ha completado exitosamente el Episodio 1 de "Programación para Mortales", 
+                        demostrando comprensión de los conceptos fundamentales de programación, 
+                        incluyendo variables, condicionales, bucles y la creación de programas interactivos.
+                    </div>
+                </div>
+                
+                <div class="certificate-footer">
+                    <div class="certificate-date">
+                        <div class="certificate-signature-line"></div>
+                        <div id="certificateDate">Fecha</div>
+                    </div>
+                    
+                    <div class="certificate-signature">
+                        <div class="certificate-signature-line"></div>
+                        <div class="certificate-signature-name">Kevin Turkienich</div>
+                        <div class="certificate-signature-title">Autor de Programación para Mortales</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="certificate-actions">
+            <button class="certificate-action-btn download-btn" id="downloadCertificateBtn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                Descargar PDF
+            </button>
+            <div class="share-buttons">
+                <button class="share-btn linkedin-btn" id="shareLinkedIn">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+                    LinkedIn
+                </button>
+                <button class="share-btn twitter-btn" id="shareTwitter">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"></path></svg>
+                    Twitter
+                </button>
+                <button class="share-btn facebook-btn" id="shareFacebook">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
+                    Facebook
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Contenedor oculto para generar el PDF -->
+<div class="certificate-print-container" id="certificatePrintContainer" style="display: none;">
+    <div class="certificate" id="certificatePrintTemplate">
+        <div class="certificate-header">
+            <img src="../assets/img/logo.svg" alt="Logo Programación para Mortales" class="certificate-logo">
+            <h2 class="certificate-title">Certificado de Finalización</h2>
+            <div class="certificate-subtitle">Episodio 1: Fundamentos de Programación</div>
+        </div>
+        
+        <div class="certificate-content">
+            <div class="certificate-name" id="certificatePrintName">Tu Nombre Aquí</div>
+            <div class="certificate-description">
+                Ha completado exitosamente el Episodio 1 de "Programación para Mortales", 
+                demostrando comprensión de los conceptos fundamentales de programación, 
+                incluyendo variables, condicionales, bucles y la creación de programas interactivos.
+            </div>
+        </div>
+        
+        <div class="certificate-footer">
+            <div class="certificate-date">
+                <div class="certificate-signature-line"></div>
+                <div id="certificatePrintDate">Fecha</div>
+            </div>
+            
+            <div class="certificate-signature">
+                <div class="certificate-signature-line"></div>
+                <div class="certificate-signature-name">Kevin Turkienich</div>
+                <div class="certificate-signature-title">Autor de Programación para Mortales</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Confetti Container -->
+<div class="confetti-container" id="confettiContainer"></div>
+
+<!-- Footer -->
+<footer class="footer">
+<div class="container">
+    <div class="footer-container">
+        <div class="footer-column">
+            <a href="../index.html" class="footer-logo">Programación para Mortales</a>
+            <p class="footer-description">
+                Aprendé a programar de manera simple, divertida y efectiva. 
+                Un libro diseñado para que cualquiera pueda entender el mundo de la programación.
+            </p>
+            <div class="footer-social">
+                <a href="#" class="footer-social-link">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
+                </a>
+                <a href="#" class="footer-social-link">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+                </a>
+                <a href="#" class="footer-social-link">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"></path></svg>
+                </a>
+                <a href="#" class="footer-social-link">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+                </a>
+            </div>
+        </div>
+        
+        <div class="footer-column">
+            <h3 class="footer-title">Enlaces rápidos</h3>
+            <ul class="footer-links">
+                <li class="footer-link-item">
+                    <a href="../index.html" class="footer-link">Inicio</a>
+                </li>
+                <li class="footer-link-item">
+                    <a href="../indice.html" class="footer-link">Índice completo</a>
+                </li>
+                <li class="footer-link-item">
+                    <a href="../about.html" class="footer-link">Acerca de</a>
+                </li>
+                <li class="footer-link-item">
+                    <a href="../terminos.html" class="footer-link">Términos y condiciones</a>
+                </li>
+                <li class="footer-link-item">
+                    <a href="../privacidad.html" class="footer-link">Política de privacidad</a>
+                </li>
+            </ul>
+        </div>
+        
+        <div class="footer-column">
+            <h3 class="footer-title">Contacto</h3>
+            <ul class="footer-links">
+                <li class="footer-link-item">
+                    <a href="mailto:info@programacionparamortales.com" class="footer-link">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 8px;"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                        info@programacionparamortales.com
+                    </a>
+                </li>
+                <li class="footer-link-item">
+                    <a href="#" class="footer-link">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 8px;"><path d="M15.05 5A5 5 0 0 1 19 8.95M15.05 1A9 9 0 0 1 23 8.94m-1 7.98v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+                        +54 11 1234-5678
+                    </a>
+                </li>
+                <li class="footer-link-item">
+                    <a href="#" class="footer-link">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 8px;"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                        Buenos Aires, Argentina
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    
+    <div class="footer-bottom">
+        <p>&copy; 2025 Programación para Mortales. Todos los derechos reservados.</p>
+    </div>
+</div>
+</footer>
+
+<!-- Incluir jsPDF y html2canvas para generar el certificado -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+<script>
+// Mobile Menu Toggle
+const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+const nav = document.querySelector('.nav');
+
+mobileMenuBtn.addEventListener('click', () => {
+    nav.classList.toggle('active');
+});
+
+// Header Scroll Effect
+const header = document.querySelector('.header');
+
+window.addEventListener('scroll', () => {
+    if (window.scrollY > 50) {
+        header.classList.add('scrolled');
+    } else {
+        header.classList.remove('scrolled');
+    }
+});
+
+// Reading Progress Bar
+const progressBar = document.getElementById('progressBar');
+
+window.addEventListener('scroll', () => {
+    const windowHeight = window.innerHeight;
+    const documentHeight = document.documentElement.scrollHeight - windowHeight;
+    const scrollTop = window.scrollY;
+    const progress = (scrollTop / documentHeight) * 100;
+    progressBar.style.width = progress + '%';
+});
+
+// Table of Contents Active Link
+const tocLinks = document.querySelectorAll('.toc-link');
+const sections = document.querySelectorAll('h2, h3');
+
+window.addEventListener('scroll', () => {
+    let current = '';
+    
+    sections.forEach(section => {
+        const sectionTop = section.offsetTop - 100;
+        if (window.scrollY >= sectionTop) {
+            current = section.getAttribute('id');
+        }
+    });
+    
+    tocLinks.forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('href').substring(1) === current) {
+            link.classList.add('active');
+        }
+    });
+});
+
+// Copy Code Button
+const copyButtons = document.querySelectorAll('.copy-btn');
+
+copyButtons.forEach(button => {
+    button.addEventListener('click', () => {
+        const code = button.dataset.code;
+        navigator.clipboard.writeText(code);
+        
+        // Change button text temporarily
+        const originalText = button.textContent;
+        button.textContent = '¡Copiado!';
+        button.style.backgroundColor = 'var(--success)';
+        button.style.color = 'white';
+        
+        setTimeout(() => {
+            button.textContent = originalText;
+            button.style.backgroundColor = '';
+            button.style.color = '';
+        }, 2000);
+    });
+});
+
+// Guessing Game
+const gameMessages = document.getElementById('gameMessages');
+const gameInput = document.getElementById('gameInput');
+const gameSubmit = document.getElementById('gameSubmit');
+const gameReset = document.getElementById('gameReset');
+const attemptCount = document.getElementById('attemptCount');
+const gameStatus = document.getElementById('gameStatus');
+
+let correctAnswer = "navegador";
+let attempts = 0;
+let gameCompleted = false;
+
+gameSubmit.addEventListener('click', () => {
+    if (gameCompleted) return;
+    
+    const userAnswer = gameInput.value.trim().toLowerCase();
+    
+    if (!userAnswer) return;
+    
+    // Add user message
+    const userMessage = document.createElement('div');
+    userMessage.className = 'game-message user';
+    userMessage.textContent = userAnswer;
+    gameMessages.appendChild(userMessage);
+    
+    // Increment attempts
+    attempts++;
+    attemptCount.textContent = attempts;
+    
+    // Check answer
+    let responseMessage;
+    let messageClass = 'game-message system';
+    
+    if (userAnswer === correctAnswer) {
+        responseMessage = `🎉 ¡Acertaste! La palabra era: ${correctAnswer}`;
+        messageClass = 'game-message success';
+        gameCompleted = true;
+        gameStatus.textContent = "¡Completado!";
+        gameStatus.style.color = "var(--success)";
+        
+        // Add final message
+        setTimeout(() => {
+            const finalMessage = document.createElement('div');
+            finalMessage.className = 'game-message success';
+            finalMessage.textContent = `✨ Lo lograste en ${attempts} intento(s). ¡Sos un crack de la lógica!`;
+            gameMessages.appendChild(finalMessage);
+            gameMessages.scrollTop = gameMessages.scrollHeight;
+        }, 1000);
+    } else if (userAnswer === "computadora") {
+        responseMessage = "💻 Cerca... pero no es eso. Es algo que usás dentro de la computadora.";
+        messageClass = 'game-message hint';
+    } else if (userAnswer === "google") {
+        responseMessage = "🌐 Mmm... estás en la zona correcta. ¡Pero pensá más general!";
+        messageClass = 'game-message hint';
+    } else {
+        responseMessage = "❌ Nope. ¡Intentá de nuevo!";
+    }
+    
+    // Add response message
+    const responseElement = document.createElement('div');
+    responseElement.className = messageClass;
+    responseElement.textContent = responseMessage;
+    gameMessages.appendChild(responseElement);
+    
+    // Add new prompt if game not completed
+    if (!gameCompleted) {
+        const newPrompt = document.createElement('div');
+        newPrompt.className = 'game-message system';
+        newPrompt.textContent = "❓ ¿Cuál creés que es la palabra secreta?";
+        gameMessages.appendChild(newPrompt);
+    }
+    
+    // Clear input
+    gameInput.value = '';
+    
+    // Scroll to bottom
+    gameMessages.scrollTop = gameMessages.scrollHeight;
+});
+
+gameReset.addEventListener('click', () => {
+    // Reset game state
+    attempts = 0;
+    gameCompleted = false;
+    attemptCount.textContent = attempts;
+    gameStatus.textContent = "En progreso";
+    gameStatus.style.color = "";
+    gameInput.value = '';
+    
+    // Clear messages
+    gameMessages.innerHTML = '';
+    
+    // Add initial messages
+    const initialMessages = [
+        '<div class="game-message system">🔍 Bienvenido a la Máquina de las Adivinanzas</div>',
+        '<div class="game-message system">Tenés que adivinar una palabra secreta. Pista: es algo que usamos todos los días para buscar en internet.</div>',
+        '<div class="game-message system">❓ ¿Cuál creés que es la palabra secreta?</div>'
+    ];
+    
+    gameMessages.innerHTML = initialMessages.join('');
+});
+
+// Allow Enter key to submit
+gameInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+        gameSubmit.click();
+    }
+});
+
+// Confetti Animation
+function createConfetti() {
+    const confettiContainer = document.getElementById('confettiContainer');
+    const colors = ['#6366f1', '#ec4899', '#06b6d4', '#10b981', '#f59e0b'];
+    
+    for (let i = 0; i < 100; i++) {
+        const confetti = document.createElement('div');
+        confetti.className = 'confetti';
+        
+        // Random position
+        const left = Math.random() * 100;
+        
+        // Random color
+        const color = colors[Math.floor(Math.random() * colors.length)];
+        
+        // Random size
+        const size = Math.random() * 10 + 5;
+        
+        // Random animation duration
+        const duration = Math.random() * 3 + 2;
+        
+        // Random delay
+        const delay = Math.random() * 2;
+        
+        // Set styles
+        confetti.style.left = `${left}%`;
+        confetti.style.backgroundColor = color;
+        confetti.style.width = `${size}px`;
+        confetti.style.height = `${size}px`;
+        confetti.style.opacity = '1';
+        confetti.style.animation = `confetti-fall ${duration}s ease-in-out ${delay}s forwards`;
+        
+        confettiContainer.appendChild(confetti);
+        
+        // Remove after animation
+        setTimeout(() => {
+            confetti.remove();
+        }, (duration + delay) * 1000);
+    }
+}
+
+// Quiz System
+const quizContainer = document.getElementById('quizContainer');
+const quizProgressBar = document.getElementById('quizProgressBar');
+const quizResults = document.getElementById('quizResults');
+const quizScoreValue = document.getElementById('quizScoreValue');
+const quizMessage = document.getElementById('quizMessage');
+const certificateBtn = document.getElementById('certificateBtn');
+
+// Quiz questions
+const quizQuestions = [
+    {
+        question: "¿Qué representan los bits en una computadora?",
+        options: [
+            "Imágenes y sonido",
+            "Letras del abecedario",
+            "Encendido o apagado (1 o 0)",
+            "Circuitos eléctricos complejos"
+        ],
+        correctAnswer: 2,
+        explanation: "Los bits son la unidad más básica de información en una computadora y representan dos estados: encendido (1) o apagado (0)."
+    },
+    {
+        question: "¿Cuál fue la primera herramienta usada para contar?",
+        options: [
+            "Calculadora de bolsillo",
+            "Ábaco",
+            "Máquina de escribir",
+            "Impresora matricial"
+        ],
+        correctAnswer: 1,
+        explanation: "El ábaco fue una de las primeras herramientas de cálculo, ¡y no necesitaba baterías ni actualizaciones de software!"
+    },
+    {
+        question: "¿Qué significa programar?",
+        options: [
+            "Usar Excel para hacer cálculos",
+            "Hablar con humanos usando código",
+            "Hablar con una computadora usando un lenguaje que entienda",
+            "Conectar cables para que funcione un programa"
+        ],
+        correctAnswer: 2,
+        explanation: "Programar es comunicarse con una computadora usando un lenguaje que ella pueda entender y ejecutar. Es como darle instrucciones a alguien muy literal."
+    },
+    {
+        question: "¿Quién fue Ada Lovelace?",
+        options: [
+            "La primera en escribir un software con bucles",
+            "Inventora del mouse",
+            "Diseñadora de videojuegos",
+            "Madre de Python"
+        ],
+        correctAnswer: 0,
+        explanation: "Ada Lovelace fue una matemática del siglo XIX que escribió el primer algoritmo destinado a ser procesado por una máquina, ¡la primera programadora de la historia!"
+    },
+    {
+        question: "¿Qué lenguaje usamos en el libro?",
+        options: [
+            "Java",
+            "Python",
+            "HTML",
+            "Scratch"
+        ],
+        correctAnswer: 1,
+        explanation: "Usamos Python, un lenguaje amigable para principiantes que no muerde (a menos que le pongas demasiadas indentaciones)."
+    },
+    {
+        question: "¿Qué tipo de dato es \"Hola mundo\"?",
+        options: [
+            "int",
+            "float",
+            "bool",
+            "str"
+        ],
+        correctAnswer: 3,
+        explanation: "\"Hola mundo\" es un string (str), que es como llamamos a las cadenas de texto en programación."
+    },
+    {
+        question: "¿Qué tipo de dato representa True o False?",
+        options: [
+            "int",
+            "float",
+            "bool",
+            "string"
+        ],
+        correctAnswer: 2,
+        explanation: "True o False son valores booleanos (bool), perfectos para cuando la computadora necesita tomar decisiones binarias."
+    },
+    {
+        question: "¿Qué hace la función print() en Python?",
+        options: [
+            "Guarda un archivo",
+            "Muestra un mensaje por pantalla",
+            "Cambia el color del texto",
+            "Apaga el programa"
+        ],
+        correctAnswer: 1,
+        explanation: "print() muestra mensajes en la pantalla. Es como el megáfono de tu programa para comunicarse con el mundo exterior."
+    },
+    {
+        question: "¿Qué herramienta usamos para escribir comandos directamente?",
+        options: [
+            "WhatsApp",
+            "La terminal",
+            "Paint",
+            "Calculadora de Windows"
+        ],
+        correctAnswer: 1,
+        explanation: "La terminal es donde los programadores escriben comandos directamente. Es como hablar directamente al oído de la computadora."
+    },
+    {
+        question: "¿Qué símbolo representa la raíz de un sistema de archivos en Linux?",
+        options: [
+            "C:",
+            "~/",
+            ":",
+            "/"
+        ],
+        correctAnswer: 3,
+        explanation: "En Linux, la raíz del sistema de archivos se representa con una barra inclinada (/). Es como el 'tronco' del árbol de directorios."
+    },
+    {
+        question: "¿Qué significa if en programación?",
+        options: [
+            "También",
+            "Repetir",
+            "Si",
+            "Cuando no"
+        ],
+        correctAnswer: 2,
+        explanation: "if significa 'si' y se usa para tomar decisiones basadas en condiciones. Es como las bifurcaciones en el camino de tu programa."
+    },
+    {
+        question: "¿Qué hace un bucle while?",
+        options: [
+            "Repite solo 2 veces",
+            "Repite mientras se cumpla una condición",
+            "Muestra errores",
+            "Se ejecuta una sola vez"
+        ],
+        correctAnswer: 1,
+        explanation: "Un bucle while repite un bloque de código mientras una condición sea verdadera. Es como decir 'seguí haciendo esto hasta que te diga que pares'."
+    },
+    {
+        question: "¿Qué hace range(5) en un bucle for?",
+        options: [
+            "Repite del 1 al 5",
+            "Repite 6 veces",
+            "Repite 5 veces, empezando en 0",
+            "No hace nada"
+        ],
+        correctAnswer: 2,
+        explanation: "range(5) genera una secuencia de números del 0 al 4, por lo que el bucle se repite 5 veces. Los programadores empiezan a contar desde 0, ¡somos especiales!"
+    },
+    {
+        question: "¿Qué palabra se usa para dar otra opción a un if?",
+        options: [
+            "elif",
+            "loop",
+            "break",
+            "int"
+        ],
+        correctAnswer: 0,
+        explanation: "elif (else if) se usa para dar opciones adicionales después de un if. Es como decir 'si no es esto, entonces quizás es esto otro'."
+    },
+    {
+        question: "¿Qué nombre recibe el conjunto de 8 bits?",
+        options: [
+            "kilobyte",
+            "octeto",
+            "byte",
+            "giga"
+        ],
+        correctAnswer: 2,
+        explanation: "Un conjunto de 8 bits se llama byte. También se conoce como octeto, pero byte suena más cool."
+    },
+    {
+        question: "¿Qué es un sistema operativo?",
+        options: [
+            "Un virus común",
+            "Un programa para editar videos",
+            "El software que organiza todo lo que hace la computadora",
+            "El teclado"
+        ],
+        correctAnswer: 2,
+        explanation: "El sistema operativo es el software que gestiona todos los recursos de la computadora. Es como el director de orquesta de tu PC."
+    },
+    {
+        question: "¿Qué estructura permite tomar decisiones según condiciones?",
+        options: [
+            "for",
+            "if",
+            "while",
+            "def"
+        ],
+        correctAnswer: 1,
+        explanation: "La estructura if permite que tu programa tome decisiones basadas en condiciones. Es la forma en que tu código puede elegir diferentes caminos."
+    },
+    {
+        question: "¿Cuál de estas es una función válida?",
+        options: [
+            "print[\"hola\"]",
+            "print(\"hola\")",
+            "hola(print)",
+            "mostrar.hola()"
+        ],
+        correctAnswer: 1,
+        explanation: "print(\"hola\") es la sintaxis correcta para llamar a la función print con el argumento \"hola\". Los paréntesis son importantes, ¡no los olvides!"
+    },
+    {
+        question: "¿Qué lenguaje de programación usaba tarjetas perforadas?",
+        options: [
+            "Python",
+            "HTML",
+            "Ninguno, eso era previo a los lenguajes modernos",
+            "JavaScript"
+        ],
+        correctAnswer: 2,
+        explanation: "Las tarjetas perforadas se usaban antes de los lenguajes de programación modernos. Programar era literalmente hacer agujeros en cartón, ¡imaginate los errores de tipeo!"
+    },
+    {
+        question: "¿Por qué usamos funciones en programación?",
+        options: [
+            "Para hacer dibujos",
+            "Para repetir instrucciones sin escribirlas de nuevo",
+            "Para escribir más líneas",
+            "Para evitar errores"
+        ],
+        correctAnswer: 1,
+        explanation: "Las funciones nos permiten reutilizar código sin tener que escribirlo varias veces. Es el principio de 'escribí una vez, usá muchas veces'."
+    }
+];
+
+let currentQuestion = 0;
+let score = 0;
+let userAnswers = [];
+
+// Initialize quiz
+function initQuiz() {
+    showQuestion(currentQuestion);
+    updateProgressBar();
+}
+
+// Show current question
+function showQuestion(questionIndex) {
+    const question = quizQuestions[questionIndex];
+    
+    let questionHTML = `
+        <div class="quiz-question">
+            <div class="quiz-question-number">Pregunta ${questionIndex + 1} de ${quizQuestions.length}</div>
+            <div class="quiz-question-text">${question.question}</div>
+            <div class="quiz-options">
+    `;
+    
+    question.options.forEach((option, index) => {
+        const isSelected = userAnswers[questionIndex] === index;
+        const optionClass = isSelected ? 'quiz-option selected' : 'quiz-option';
+        
+        questionHTML += `
+            <div class="${optionClass}" data-index="${index}">
+                <div class="quiz-option-marker">${String.fromCharCode(65 + index)}</div>
+                <div class="quiz-option-text">${option}</div>
+            </div>
+        `;
+    });
+    
+    questionHTML += `
+            </div>
+            <div class="quiz-feedback" id="questionFeedback"></div>
+        </div>
+        <div class="quiz-actions">
+            <button class="quiz-btn quiz-btn-prev" id="prevBtn" ${questionIndex === 0 ? 'disabled' : ''}>Anterior</button>
+            <button class="quiz-btn quiz-btn-next" id="nextBtn">Siguiente</button>
+        </div>
+    `;
+    
+    quizContainer.innerHTML = questionHTML;
+    
+    // Add event listeners to options
+    document.querySelectorAll('.quiz-option').forEach(option => {
+        option.addEventListener('click', () => {
+            selectOption(option.dataset.index);
+        });
+    });
+    
+    // Add event listeners to navigation buttons
+    document.getElementById('prevBtn').addEventListener('click', prevQuestion);
+    document.getElementById('nextBtn').addEventListener('click', nextQuestion);
+    
+    // Update next button text on last question
+    if (questionIndex === quizQuestions.length - 1) {
+        document.getElementById('nextBtn').textContent = 'Finalizar';
+        document.getElementById('nextBtn').classList.add('quiz-btn-submit');
+    }
+}
+
+// Select an option
+function selectOption(optionIndex) {
+    userAnswers[currentQuestion] = parseInt(optionIndex);
+    
+    // Update UI to show selected option
+    document.querySelectorAll('.quiz-option').forEach(option => {
+        option.classList.remove('selected');
+    });
+    
+    document.querySelector(`.quiz-option[data-index="${optionIndex}"]`).classList.add('selected');
+}
+
+// Go to previous question
+function prevQuestion() {
+    if (currentQuestion > 0) {
+        currentQuestion--;
+        showQuestion(currentQuestion);
+        updateProgressBar();
+    }
+}
+
+// Go to next question or finish quiz
+function nextQuestion() {
+    // Check if user has selected an answer
+    if (userAnswers[currentQuestion] === undefined) {
+        alert('Por favor, seleccioná una respuesta antes de continuar.');
+        return;
+    }
+    
+    if (currentQuestion < quizQuestions.length - 1) {
+        currentQuestion++;
+        showQuestion(currentQuestion);
+        updateProgressBar();
+    } else {
+        finishQuiz();
+    }
+}
+
+// Update progress bar
+function updateProgressBar() {
+    const progress = ((currentQuestion + 1) / quizQuestions.length) * 100;
+    quizProgressBar.style.width = `${progress}%`;
+}
+
+// Finish quiz and show results
+function finishQuiz() {
+    // Calculate score
+    score = 0;
+    userAnswers.forEach((answer, index) => {
+        if (answer === quizQuestions[index].correctAnswer) {
+            score++;
+        }
+    });
+    
+    // Update UI
+    quizScoreValue.textContent = score;
+    
+    // Show appropriate message based on score
+    if (score >= 17) { // Permitir hasta 3 errores (17 de 20 correctas)
+        quizMessage.innerHTML = '¡Excelente trabajo! Has demostrado un gran entendimiento de los conceptos básicos de programación. ¡Estás listo para el Episodio 2!';
+        certificateBtn.style.display = 'inline-flex';
+        
+        // Mensaje personalizado según la puntuación
+        if (score === 20) {
+            quizMessage.innerHTML += '<br><br>¡PERFECTO! 20 de 20. ¿Sos vos, Ada Lovelace? 🤯';
+        } else if (score === 19) {
+            quizMessage.innerHTML += '<br><br>¡Casi perfecto! Solo un pequeño detalle se te escapó. ¡Impresionante!';
+        } else if (score === 18) {
+            quizMessage.innerHTML += '<br><br>¡Muy buen trabajo! Dominás casi todos los conceptos.';
+        } else {
+            quizMessage.innerHTML += '<br><br>¡Bien hecho! Has superado la prueba con éxito.';
+        }
+    } else {
+        quizMessage.innerHTML = `Has completado la evaluación, pero parece que hay algunos conceptos que podrías repasar. Necesitás al menos 17 respuestas correctas para obtener tu certificado.<br><br>¡No te desanimes! Obtuviste ${score} de 20. Repasá un poco y volvé a intentarlo. ¡Cada error es una oportunidad para aprender!`;
+        certificateBtn.style.display = 'none';
+        
+        // Botón para reintentar
+        const retryButton = document.createElement('button');
+        retryButton.className = 'quiz-btn quiz-btn-submit';
+        retryButton.style.marginTop = '20px';
+        retryButton.textContent = 'Intentar de nuevo';
+        retryButton.addEventListener('click', () => {
+            // Reiniciar el quiz
+            currentQuestion = 0;
+            userAnswers = [];
+            quizResults.style.display = 'none';
+            quizContainer.style.display = 'block';
+            showQuestion(currentQuestion);
+            updateProgressBar();
+        });
+        quizMessage.appendChild(retryButton);
+    }
+    
+    // Hide questions and show results
+    quizContainer.style.display = 'none';
+    quizResults.style.display = 'block';
+    
+    // Create confetti if passed
+    if (score >= 17) {
+        createConfetti();
+    }
+}
+
+// Certificate functionality
+const nameModal = document.getElementById('nameModal');
+const modalClose = document.getElementById('modalClose');
+const certificateForm = document.getElementById('certificateForm');
+const fullNameInput = document.getElementById('fullName');
+const certificateName = document.getElementById('certificateName');
+const certificateDate = document.getElementById('certificateDate');
+const certificatePrintContainer = document.getElementById('certificatePrintContainer');
+const certificatePrintName = document.getElementById('certificatePrintName');
+const certificatePrintDate = document.getElementById('certificatePrintDate');
+const certificateModal = document.getElementById('certificateModal');
+const certificateModalClose = document.getElementById('certificateModalClose');
+const downloadCertificateBtn = document.getElementById('downloadCertificateBtn');
+const shareLinkedInBtn = document.getElementById('shareLinkedIn');
+const shareTwitterBtn = document.getElementById('shareTwitter');
+const shareFacebookBtn = document.getElementById('shareFacebook');
+
+let userName = '';
+let certificateImageUrl = '';
+
+// Show modal when certificate button is clicked
+certificateBtn.addEventListener('click', () => {
+    nameModal.classList.add('active');
+});
+
+// Close modal
+modalClose.addEventListener('click', () => {
+    nameModal.classList.remove('active');
+});
+
+// Close certificate modal
+certificateModalClose.addEventListener('click', () => {
+    certificateModal.classList.remove('active');
+});
+
+// Close modals when clicking outside
+nameModal.addEventListener('click', (e) => {
+    if (e.target === nameModal) {
+        nameModal.classList.remove('active');
+    }
+});
+
+certificateModal.addEventListener('click', (e) => {
+    if (e.target === certificateModal) {
+        certificateModal.classList.remove('active');
+    }
+});
+
+// Generate certificate
+certificateForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    
+    userName = fullNameInput.value.trim();
+    
+    if (!userName) {
+        showToast('Por favor, ingresá tu nombre completo.', 'error');
+        return;
+    }
+    
+    // Set certificate name
+    certificateName.textContent = userName;
+    certificatePrintName.textContent = userName;
+    
+    // Set certificate date
+    const today = new Date();
+    const formattedDate = today.toLocaleDateString('es-AR', {
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric'
+    });
+    certificateDate.textContent = formattedDate;
+    certificatePrintDate.textContent = formattedDate;
+    
+    // Close name modal
+    nameModal.classList.remove('active');
+    
+    // Show certificate modal
+    certificateModal.classList.add('active');
+    
+    // Create a temporary canvas of the certificate for sharing
+    createCertificateImage();
+});
+
+// Generate PDF
+function generatePDF(fullName) {
+    // Mostrar un mensaje de carga
+    showToast('Generando certificado...', 'info');
+    
+    // Show certificate container
+    certificatePrintContainer.style.display = 'block';
+    
+    // Use html2canvas to capture the certificate
+    html2canvas(document.getElementById('certificatePrintTemplate'), {
+        scale: 2,
+        useCORS: true,
+        allowTaint: true,
+        logging: false,
+        backgroundColor: 'white'
+    }).then(canvas => {
+        const imgData = canvas.toDataURL('image/png');
+        
+        try {
+            // Initialize jsPDF
+            const { jsPDF } = window.jspdf;
+            const pdf = new jsPDF('landscape', 'mm', 'a4');
+            
+            // Add image to PDF
+            const imgWidth = 277; // A4 landscape width (210mm) with margins
+            const imgHeight = canvas.height * imgWidth / canvas.width;
+            pdf.addImage(imgData, 'PNG', 10, 10, imgWidth, imgHeight);
+            
+            // Save PDF
+            pdf.save(`Certificado_Episodio1_${fullName.replace(/\s+/g, '_')}.pdf`);
+            
+            // Hide certificate container
+            certificatePrintContainer.style.display = 'none';
+            
+            showToast('¡Certificado descargado exitosamente!', 'success');
+        } catch (error) {
+            console.error('Error al generar PDF:', error);
+            showToast('Hubo un error al generar el PDF. Por favor, intenta de nuevo.', 'error');
+            certificatePrintContainer.style.display = 'none';
+        }
+    }).catch(error => {
+        console.error('Error al capturar el certificado:', error);
+        showToast('Hubo un error al generar el certificado. Por favor, intenta de nuevo.', 'error');
+        certificatePrintContainer.style.display = 'none';
+    });
+}
+
+// Create certificate image for sharing
+function createCertificateImage(callback) {
+    showToast('Preparando imagen para compartir...', 'info');
+    
+    html2canvas(document.getElementById('certificateTemplate'), {
+        scale: 2,
+        useCORS: true,
+        allowTaint: true,
+        logging: false,
+        backgroundColor: 'white'
+    }).then(canvas => {
+        certificateImageUrl = canvas.toDataURL('image/png');
+        if (callback) callback();
+    }).catch(error => {
+        console.error('Error al crear imagen del certificado:', error);
+        showToast('Hubo un error al crear la imagen. Por favor, intenta de nuevo.', 'error');
+    });
+}
+
+// Share on LinkedIn
+function shareOnLinkedIn() {
+    try {
+        // LinkedIn no permite compartir imágenes directamente a través de su API,
+        // así que descargamos la imagen para que el usuario pueda subirla manualmente
+        const link = document.createElement('a');
+        link.download = `Certificado_Episodio1_${userName.replace(/\s+/g, '_')}.png`;
+        link.href = certificateImageUrl;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        
+        // Luego abrimos LinkedIn
+        setTimeout(() => {
+            showToast('Imagen descargada. Ahora puedes subirla a LinkedIn junto con tu publicación.', 'info');
+            const url = window.location.href;
+            window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`, '_blank');
+        }, 500);
+    } catch (error) {
+        console.error('Error al compartir en LinkedIn:', error);
+        showToast('Hubo un error al compartir en LinkedIn. Por favor, intenta de nuevo.', 'error');
+    }
+}
+
+// Share on Twitter
+shareTwitterBtn.addEventListener('click', () => {
+    const text = `¡He completado el Episodio 1: Fundamentos de Programación del curso "Programación para Mortales"! #ProgramaciónParaMortales #AprendiendoAProgramar`;
+    const url = window.location.href;
+    window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`, '_blank');
+});
+
+// Share on Facebook
+shareFacebookBtn.addEventListener('click', () => {
+    const url = window.location.href;
+    window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`, '_blank');
+});
+
+// Modificar los event listeners de los botones de compartir
+shareLinkedInBtn.addEventListener('click', () => {
+    if (!certificateImageUrl) {
+        createCertificateImage(() => {
+            shareOnLinkedIn();
+        });
+    } else {
+        shareOnLinkedIn();
+    }
+});
+
+// Download PDF certificate
+downloadCertificateBtn.addEventListener('click', () => {
+    if (typeof window.jspdf === 'undefined' || typeof window.jspdf.jsPDF === 'undefined') {
+        showToast('Cargando herramientas de PDF... Por favor, intenta de nuevo en unos segundos.', 'info');
+        setTimeout(() => {
+            generatePDF(userName);
+        }, 2000);
+    } else {
+        generatePDF(userName);
+    }
+});
+
+// Toast notification system
+function showToast(message, type = 'info') {
+    // Create toast container if it doesn't exist
+    let toastContainer = document.querySelector('.toast-container');
+    if (!toastContainer) {
+        toastContainer = document.createElement('div');
+        toastContainer.className = 'toast-container';
+        document.body.appendChild(toastContainer);
+    }
+    
+    // Create toast
+    const toast = document.createElement('div');
+    toast.className = `toast toast-${type}`;
+    toast.textContent = message;
+    
+    // Add toast to container
+    toastContainer.appendChild(toast);
+    
+    // Show toast
+    setTimeout(() => {
+        toast.classList.add('show');
+    }, 10);
+    
+    // Remove toast after 3 seconds
+    setTimeout(() => {
+        toast.classList.remove('show');
+        setTimeout(() => {
+            toast.remove();
+        }, 300);
+    }, 3000);
+}
+// Initialize quiz when page loads
+window.addEventListener('load', initQuiz);
+</script>
+
+<script>
+    // ========== SCRIPT DEL REPRODUCTOR DE PODCAST ==========
+    const audio = document.getElementById('podcast-audio');
+    const playPauseBtn = document.getElementById('podcast-play-pause-btn');
+    const playIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>';
+    const pauseIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>';
+    const podcastProgressBar = document.getElementById('podcast-progress-bar');
+    const timeDisplay = document.getElementById('podcast-time');
+
+    function togglePlayPause() {
+        if (audio.paused) {
+            audio.play();
+            playPauseBtn.innerHTML = pauseIcon;
+        } else {
+            audio.pause();
+            playPauseBtn.innerHTML = playIcon;
+        }
+    }
+
+    function formatTime(seconds) {
+        const minutes = Math.floor(seconds / 60);
+        
+        const secs = Math.floor(seconds % 60);
+        return `${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+    }
+
+    function updateProgress() {
+        podcastProgressBar.value = (audio.currentTime / audio.duration) * 100 || 0;
+        timeDisplay.textContent = `${formatTime(audio.currentTime)} / ${formatTime(audio.duration || 0)}`;
+    }
+
+    playPauseBtn.addEventListener('click', togglePlayPause);
+    audio.addEventListener('timeupdate', updateProgress);
+    audio.addEventListener('loadedmetadata', updateProgress);
+
+    podcastProgressBar.addEventListener('input', () => {
+        const seekTime = (podcastProgressBar.value / 100) * audio.duration;
+        audio.currentTime = seekTime;
+    });
+
+    // Cuando el audio termina
+    audio.addEventListener('ended', () => {
+        playPauseBtn.innerHTML = playIcon;
+        audio.currentTime = 0;
+        podcastProgressBar.value = 0;
+    });
+</script>
+
+
+</body>
+</html>

@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Curso VBA: Clase 3 - Variables y Referenciar Celdas - Programación para Mortales</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@300;400;500;600;700&family=Fira+Code:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" href="icon.ico" type="image/x-icon">
+    <style>
+        /* ==========================================================================
+           1. Variables Globales (:root)
+           ========================================================================== */
+        :root {
+            /* Paleta de colores principal (basada en index.html y about.html) */
+            --primary: #4f46e5;        /* Morado moderno y accesible */
+            --primary-dark: #3730a3;
+            --primary-light: #818cf8;
+            --secondary: #10b981;      /* Verde esmeralda para acentos y éxito */
+            --secondary-dark: #059669;
+            --accent: #f59e0b;          /* Naranja/ámbar para llamadas a la acción */
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --dark: #1e293b;            /* Azul oscuro casi negro para texto principal */
+            --dark-blue: #0f172a;       /* Para fondos oscuros o elementos contrastantes */
+            --light: #f8fafc;           /* Un blanco ligeramente cálido para fondos de página */
+            --gray: #64748b;            /* Gris azulado para texto secundario */
+            --gray-light: #e2e8f0;      /* Para bordes o fondos muy sutiles */
+            --paper: #ffffff;           /* Color papel más cálido y amigable (usado en index) */
+            --cream: #fffbeb;           /* Crema para secciones destacadas */
+
+            /* Tipografía (consistente) */
+            --font-heading: 'Space Grotesk', 'Merriweather', serif;
+            --font-body: 'Outfit', 'Montserrat', sans-serif;
+            --font-code: 'Fira Code', monospace;
+
+            /* Espaciado (consistente) */
+            --spacing-xs: 0.25rem;
+            --spacing-sm: 0.5rem;
+            --spacing-md: 1rem;
+            --spacing-lg: 1.5rem;
+            --spacing-xl: 2rem;
+            --spacing-2xl: 3rem;
+            --spacing-3xl: 4rem;
+            
+            /* Bordes y sombras (consistente) */
+            --radius-sm: 0.375rem;
+            --radius-md: 0.5rem;
+            --radius-lg: 0.75rem;
+            --radius-xl: 1rem;
+            --radius-full: 9999px;
+            
+            --shadow-sm: 0 1px 2px rgba(0,0,0,0.04), 0 1px 1px rgba(0,0,0,0.02);
+            --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.08), 0 2px 4px -1px rgba(0,0,0,0.04);
+            --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.08), 0 4px 6px -2px rgba(0,0,0,0.04);
+            --shadow-xl: 0 20px 25px -5px rgba(0,0,0,0.08), 0 10px 10px -5px rgba(0,0,0,0.03);
+            --shadow-book: 0 15px 25px -12px rgba(0,0,0,0.3), 5px 5px 10px 0 rgba(0,0,0,0.1);
+
+            /* Transiciones (consistente) */
+            --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-normal: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-slow: 500ms cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* ==========================================================================
+           2. Resets y Estilos Base
+           ========================================================================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            font-size: 16px;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-body);
+            color: var(--dark);
+            background-color: var(--paper); 
+            line-height: 1.7;
+            overflow-x: hidden;
+            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23e0e0e0' fill-opacity='0.1' fill-rule='evenodd'/%3E%3C/svg%3E");
+            background-attachment: fixed;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: var(--font-heading);
+            font-weight: 700;
+            line-height: 1.3;
+            color: var(--dark-blue); 
+            margin-bottom: var(--spacing-md);
+        }
+        h1 { font-size: clamp(2.5rem, 5vw, 3.5rem); }
+        h2 { 
+            font-size: clamp(2rem, 4vw, 2.8rem); 
+            margin-top: var(--spacing-2xl);
+            padding-bottom: var(--spacing-sm);
+            position: relative;
+        }
+        h2::after {
+            content: ''; position: absolute; bottom: -5px; left: 0;
+            width: 70px; height: 4px; background-color: var(--primary);
+            border-radius: var(--radius-sm);
+        }
+        h3 { font-size: clamp(1.5rem, 3vw, 2.2rem); margin-top: var(--spacing-xl); color: var(--primary-dark); }
+        p  { font-size: clamp(1rem, 2.5vw, 1.125rem); margin-bottom: var(--spacing-lg); }
+        a  { text-decoration: none; color: var(--primary); transition: color var(--transition-normal); }
+        a:hover { color: var(--primary-dark); text-decoration: underline; }
+        img { max-width: 100%; height: auto; display: block; border-radius: var(--radius-md); }
+        button { cursor: pointer; font-family: var(--font-body); border: none; background: none; }
+
+        /* ==========================================================================
+           3. Layout General y Contenedores
+           ========================================================================== */
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 var(--spacing-lg);
+        }
+        .section { padding: var(--spacing-3xl) 0; }
+
+        /* ==========================================================================
+           4. Header y Navegación
+           ========================================================================== */
+        .header {
+            position: fixed; top: 0; left: 0; width: 100%; z-index: 1000;
+            background-color: rgba(253, 246, 227, 0.9); 
+            backdrop-filter: blur(8px); box-shadow: var(--shadow-sm);
+            transition: box-shadow var(--transition-normal);
+        }
+        .header.scrolled { box-shadow: var(--shadow-md); }
+        .header-container { display: flex; justify-content: space-between; align-items: center; height: 70px; }
+        .logo { font-family: var(--font-heading); font-weight: 800; font-size: 1.5rem; color: var(--primary); display: flex; align-items: center; gap: var(--spacing-sm); }
+        .logo-icon { display: inline-flex; align-items: center; justify-content: center; width: 36px; height: 36px; background-color: var(--primary); color: white; border-radius: var(--radius-md); font-weight: 700; }
+        .nav { display: flex; align-items: center; gap: var(--spacing-xl); }
+        .nav-link { font-weight: 500; color: var(--dark); position: relative; padding: var(--spacing-sm) 0; }
+        .nav-link:hover { color: var(--primary); }
+        .nav-link::after { content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 2px; background-color: var(--primary); transition: width var(--transition-normal); }
+        .nav-link:hover::after, .nav-link.active::after { width: 100%; }
+        .nav-link.active { color: var(--primary); }
+        .mobile-menu-btn { display: none; font-size: 1.8rem; color: var(--dark); background: transparent; border: none; padding: var(--spacing-sm); cursor: pointer; }
+
+        /* ==========================================================================
+           5. Botones
+           ========================================================================== */
+        .btn { display: inline-flex; align-items: center; justify-content: center; padding: 0.75rem 1.5rem; font-weight: 600; border-radius: var(--radius-full); transition: all var(--transition-normal); gap: var(--spacing-sm); text-align: center; text-decoration: none; }
+        .btn-primary { background-color: var(--primary); color: white; box-shadow: var(--shadow-sm); }
+        .btn-primary:hover { background-color: var(--primary-dark); transform: translateY(-2px); box-shadow: var(--shadow-md); }
+        .btn-secondary { background-color: var(--secondary); color: white; box-shadow: var(--shadow-sm); }
+        .btn-secondary:hover { background-color: var(--secondary-dark); transform: translateY(-2px); box-shadow: var(--shadow-md); }
+        .btn-outline { border: 2px solid var(--primary); color: var(--primary); background-color: transparent; }
+        .btn-outline:hover { background-color: var(--primary); color: white; }
+
+        /* ==========================================================================
+           6. Footer
+           ========================================================================== */
+        .footer { background-color: var(--dark-blue); color: white; padding: var(--spacing-2xl) 0; margin-top: var(--spacing-3xl); }
+        .footer-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: var(--spacing-xl); align-items: start; }
+        .footer-column .footer-logo { font-family: var(--font-heading); font-weight: 800; font-size: 1.5rem; margin-bottom: var(--spacing-md); display: inline-block; color: white; }
+        .footer-description { color: rgba(255, 255, 255, 0.7); margin-bottom: var(--spacing-lg); font-size: 0.9rem; }
+        .footer-social { display: flex; gap: var(--spacing-md); }
+        .footer-social-link { width: 36px; height: 36px; border-radius: var(--radius-full); background-color: rgba(255, 255, 255, 0.1); display: flex; align-items: center; justify-content: center; color: white; font-size: 1.2rem; transition: var(--transition-normal); }
+        .footer-social-link:hover { background-color: var(--primary); transform: translateY(-3px); }
+        .footer-heading { font-size: 1.25rem; margin-bottom: var(--spacing-lg); color: white; font-weight: 600; }
+        .footer-links { list-style: none; padding: 0; margin: 0; }
+        .footer-link-item { margin-bottom: var(--spacing-sm); }
+        .footer-link { color: rgba(255, 255, 255, 0.7); transition: var(--transition-normal); font-size: 0.9rem; text-decoration: none;}
+        .footer-link a:hover { color: white; padding-left: var(--spacing-sm); }
+        .footer-bottom { margin-top: var(--spacing-2xl); padding-top: var(--spacing-lg); border-top: 1px solid rgba(255, 255, 255, 0.1); display: flex; justify-content: space-between; align-items: center; color: rgba(255, 255, 255, 0.7); font-size: 0.875rem; flex-wrap: wrap; }
+        .footer-bottom-links { display: flex; gap: var(--spacing-lg); }
+        .footer-bottom-link { color: rgba(255, 255, 255, 0.7); transition: var(--transition-normal); text-decoration: none;}
+        .footer-bottom-link:hover { color: white; }
+
+        /* ==========================================================================
+           7. Estilos de Contenido de Capítulos (Común)
+           ========================================================================== */
+        .chapter-header { padding-top: 120px; padding-bottom: var(--spacing-2xl); background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%); color: white; position: relative; overflow: hidden; text-align: center; }
+        .chapter-header::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E"); opacity: 0.3; }
+        .chapter-header-content { position: relative; z-index: 1; }
+        .chapter-number { font-size: 1.25rem; font-weight: 600; margin-bottom: var(--spacing-sm); opacity: 0.9; }
+        .chapter-title { font-size: clamp(2.5rem, 6vw, 3.5rem); margin-bottom: var(--spacing-lg); color: white; }
+        .chapter-meta { display: flex; flex-wrap: wrap; justify-content: center; gap: var(--spacing-md) var(--spacing-lg); font-size: 1rem; opacity: 0.9; }
+        .chapter-meta-item { display: flex; align-items: center; gap: var(--spacing-sm); }
+        .chapter-content { padding: var(--spacing-2xl) 0 var(--spacing-3xl); }
+        .chapter-layout { display: grid; grid-template-columns: 3fr 1fr; gap: var(--spacing-2xl); }
+        .content-wrapper { max-width: 800px; margin: 0 auto; }
+        .chapter-layout .content-wrapper { margin: 0; }
+        .toc { position: sticky; top: 90px; max-height: calc(100vh - 120px); overflow-y: auto; padding-right: var(--spacing-md); font-size: 0.9rem; }
+        .toc-title { font-size: 1.25rem; margin-bottom: var(--spacing-md); padding-bottom: var(--spacing-sm); border-bottom: 2px solid var(--primary); color: var(--primary-dark); }
+        .toc-list { list-style: none; margin-left: 0; padding-left: 0; }
+        .toc-item { margin-bottom: var(--spacing-sm); }
+        .toc-link { display: block; padding: var(--spacing-xs) 0; color: var(--gray); border-left: 3px solid transparent; padding-left: var(--spacing-md); text-decoration: none; transition: all var(--transition-fast); }
+        .toc-link:hover { color: var(--primary); padding-left: calc(var(--spacing-md) + 3px); }
+        .toc-link.active { color: var(--primary); font-weight: 600; border-left-color: var(--primary); padding-left: calc(var(--spacing-md) + 3px); }
+        .toc-sublist { list-style: none; margin-left: var(--spacing-lg); padding-left: var(--spacing-sm); margin-bottom: var(--spacing-sm); border-left: 1px dashed var(--gray-light); }
+        .code-block { position: relative; margin: var(--spacing-xl) 0; }
+        .code-block-header { display: flex; align-items: center; justify-content: space-between; background-color: var(--dark); color: rgba(255,255,255,0.8); padding: var(--spacing-sm) var(--spacing-lg); border-radius: var(--radius-md) var(--radius-md) 0 0; font-family: var(--font-code); font-size: 0.85rem; }
+        .code-block-title { font-weight: 500; }
+        .code-block-actions { display: flex; gap: var(--spacing-sm); }
+        .code-block-action { background-color: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: rgba(255,255,255,0.7); cursor: pointer; transition: var(--transition-normal); font-size: 0.8rem; padding: var(--spacing-xs) var(--spacing-sm); border-radius: var(--radius-sm); }
+        .code-block-action:hover { background-color: rgba(255,255,255,0.2); color: white; }
+        pre { background-color: var(--dark-blue); color: #f8f8f2; padding: var(--spacing-lg); border-radius: var(--radius-md); overflow-x: auto; margin: var(--spacing-lg) 0; font-family: var(--font-code); font-size: 0.9rem; line-height: 1.6; }
+        .code-block pre { margin: 0; border-top-left-radius: 0; border-top-right-radius: 0; }
+        code { font-family: var(--font-code); background-color: var(--gray-light); color: var(--primary-dark); padding: 0.2em 0.4em; border-radius: var(--radius-sm); font-size: 0.9em; }
+        pre code { background-color: transparent; padding: 0; border-radius: 0; font-size: 1em; color: inherit; }
+        .highlight-box, .note-box, .warning-box { padding: var(--spacing-lg); border-radius: var(--radius-md); margin: var(--spacing-xl) 0; border-left-width: 5px; border-left-style: solid; }
+        .highlight-box { background-color: rgba(79,70,229,0.05); border-left-color: var(--primary); color: var(--dark); } /* Usando RGB de --primary para opacidad */
+        .note-box { background-color: rgba(236,72,153,0.05); border-left-color: var(--secondary); color: var(--dark); } /* Usando RGB de --secondary para opacidad */
+        .warning-box { background-color: rgba(245,158,11,0.08); border-left-color: var(--warning); color: #855000; }
+        .warning-box strong { color: #c27803; }
+        .chapter-navigation { display: flex; justify-content: space-between; margin-top: var(--spacing-3xl); padding-top: var(--spacing-xl); border-top: 1px solid var(--gray-light); }
+        .progress-container { position: fixed; top: 70px; left: 0; width: 100%; height: 5px; background-color: transparent; z-index: 999; }
+        .progress-bar { height: 100%; background-color: var(--secondary); width: 0%; transition: width 0.1s ease-out; }
+        .image-container { margin: var(--spacing-xl) 0; text-align: center; }
+        .image-caption { margin-top: var(--spacing-sm); font-size: 0.9rem; color: var(--gray); text-align: center; }
+        .img-screenshot { border: 1px solid var(--gray-light); box-shadow: var(--shadow-lg); border-radius: var(--radius-sm); }
+
+
+        /* ==========================================================================
+           8. Clases de Utilidad y Animaciones (ya definidas en el general)
+           ========================================================================== */
+        .text-center { text-align: center; }
+        .animate-fade-in { animation: fadeIn 0.5s ease-out forwards; }
+        .delay-100 { animation-delay: 100ms; } .delay-200 { animation-delay: 200ms; } .delay-300 { animation-delay: 300ms; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ==========================================================================
+           9. Estilos Responsivos (ya definidos en el general)
+           ========================================================================== */
+        @media (max-width: 992px) {
+            .chapter-layout { grid-template-columns: 1fr; }
+            .toc { display: none; }
+            .chapter-title { font-size: 2.5rem; }
+        }
+        @media (max-width: 768px) {
+            .header-container { height: 60px; }
+            .progress-container { top: 60px; }
+            .nav { position: fixed; top: 60px; left: 0; width: 100%; height: 0; background-color: var(--paper); flex-direction: column; align-items: flex-start; padding: 0 var(--spacing-lg); overflow: hidden; transition: height var(--transition-normal), opacity var(--transition-normal), visibility var(--transition-normal); box-shadow: var(--shadow-md); opacity: 0; visibility: hidden; z-index: 999; }
+            .nav.active { height: auto; min-height: calc(100vh - 60px); padding: var(--spacing-lg); opacity: 1; visibility: visible; }
+            .nav-link { width: 100%; padding: var(--spacing-md) 0; border-bottom: 1px solid var(--gray-light); }
+            .nav-link:last-child { border-bottom: none; }
+            .nav .btn { width: 100%; margin-top: var(--spacing-md); }
+            .mobile-menu-btn { display: block; }
+            .chapter-title { font-size: 2rem; }
+            .chapter-meta { flex-direction: column; align-items: center; gap: var(--spacing-sm); }
+            .chapter-navigation { flex-direction: column; gap: var(--spacing-md); }
+            .nav-btn { width: 100%; justify-content: center; }
+            .footer-container { grid-template-columns: 1fr; text-align: center; }
+            .footer-social { justify-content: center; }
+            .footer-bottom { flex-direction: column; gap: var(--spacing-md); }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container header-container">
+            <a href="../index.html" class="logo">
+                <span class="logo-icon">P</span>
+                <span>Programación para Mortales</span>
+            </a>
+            <nav class="nav">
+                <a href="../index.html" class="nav-link">Inicio</a>
+                <a href="../index.html#episodes" class="nav-link">Python/Django</a>
+                <a href="../index.html#future-courses" class="nav-link active">Cursos VBA</a>
+                <a href="../about.html" class="nav-link">Acerca de</a>
+                <a href="../indice.html" class="nav-link">Índice Completo</a>
+                </nav>
+            <button class="mobile-menu-btn">☰</button>
+        </div>
+    </header>
+
+    <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+    <section class="chapter-header">
+        <div class="container chapter-header-content">
+            <div class="chapter-number animate-fade-in">Curso de Programación en Excel (VBA)</div>
+            <h1 class="chapter-title animate-fade-in delay-100">Clase 3: Llenar Variables y Referenciar Celdas</h1>
+            <div class="chapter-meta animate-fade-in delay-200">
+                <div class="chapter-meta-item">
+                    <span>⏱️ Duración Video: [Indicar duración]</span>
+                </div>
+                <div class="chapter-meta-item">
+                    <span>📚 Nivel: Básico</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="chapter-content">
+        <div class="container">
+            <div class="chapter-layout"> 
+                <div class="content-wrapper">
+                    <p class="page-description" style="text-align: left; max-width: none; font-size: 1.2rem; margin-bottom: var(--spacing-xl);">¡Hola a todos! En esta tercera clase de nuestro curso de programación en Excel con VBA (Macros), exploraremos diferentes formas de llenar una variable y mostrar su contenido en pantalla. Para lograr esto, utilizaremos la pantalla de nuestro IDE (Entorno de Desarrollo Integrado) para crear una Macro. Crearemos una variable que usaremos para llenarla desde alguna celda específica en Excel. Además de llenar variables, esta clase nos ayudará a comprender cómo referenciar y obtener datos de celdas y rangos, entendiendo la estructura de un libro de Excel.</p>
+
+                    <div class="youtube-embed-container" style="margin-bottom: var(--spacing-2xl);">
+                        <iframe 
+                            width="560" height="315" 
+                            src="https://www.youtube.com/embed/IssW4Lx9SV4" 
+                            … 
+                        ></iframe>
+                        <p class="image-caption" style="margin-top:var(--spacing-sm);">Video explicativo de la Clase 1.</p>
+                    </div>
+
+                    <h2 id="vba-llenar-variable-celda">1. Llenando una Variable desde una Celda Básica</h2>
+                    <p>Para empezar, crearemos una variable llamada <code>ejemplo</code>. Luego, le indicaremos a nuestra variable que su contenido será el contenido de una celda específica, por ejemplo, la celda C3. En nuestro código VBA, esto se logra utilizando <code>Range</code>. Colocaremos <code>Range</code> y, para indicar el rango, abrimos paréntesis y entre comillas colocamos el nombre de la celda, que en este caso sería <code>"C3"</code>. Cerramos el paréntesis, y listo, tenemos nuestro dato asociado a la variable.</p>
+                    <p>Para verificar si esto funciona, podemos crear un <code>MsgBox</code> e imprimir la variable en pantalla.</p>
+                    <div class="code-block">
+                        <div class="code-block-header"><div class="code-block-title">VBA</div></div>
+                        <pre><code>Sub ObtenerValorCelda()
+    Dim ejemplo As String ' Declaramos la variable
+    
+    ejemplo = Range("C3").Value ' Asignamos el valor de la celda C3 a la variable
+    
+    MsgBox ejemplo ' Mostramos el valor de la variable
+End Sub</code></pre>
+                    </div>
+                    <p>Al ejecutar la Macro (por ejemplo, poniendo un valor en la celda C3 de tu hoja activa y luego corriendo la macro desde el editor VBA con F5), podemos confirmar que obtuvimos el dato de la celda C3.</p>
+
+                    <h2 id="vba-estructura-excel">2. Entendiendo la Estructura de Excel y las Referencias por Defecto</h2>
+                    <p>Algo importante a aclarar es que Excel es un libro (<code>Workbook</code>) que está compuesto de hojas (<code>Sheets</code>), y estas hojas contienen celdas (<code>Cells</code> o <code>Range</code>).</p>
+                    <p>Si queremos hacer uso de algún objeto en Excel, idealmente deberíamos indicar la ruta completa del ítem. Es decir, si queríamos usar la celda C3, deberíamos haber indicado primero el libro en el cual estamos trabajando, luego la hoja que contiene la celda, y por último la celda.</p>
+                    <p>Sin embargo, en el ejemplo anterior funcionó sin indicar la ruta completa. Esto se debe a que, por defecto, VBA entiende que estamos trabajando en el libro activo (<code>ActiveWorkbook</code>) y en la hoja activa (<code>ActiveSheet</code>) en ese momento.</p>
+                    <div class="note-box">
+                        <p><strong>Referencia por defecto:</strong> Si no especificas la hoja, VBA asume que te refieres a la hoja activa. Si no especificas el libro (y tienes varios abiertos), puede ser ambiguo, aunque usualmente se refiere al libro activo.</p>
+                    </div>
+
+                    <h2 id="vba-demostracion-hojas">3. Demostración del Comportamiento por Defecto con Múltiples Hojas</h2>
+                    <p>Para dar un ejemplo más claro, podemos utilizar la misma Macro de la Sección 1. Crearemos dos hojas en nuestro libro de Excel (por ejemplo, "Hoja1" y "Hoja2").</p>
+                    <ol>
+                        <li>En la celda C3 de "Hoja1", escribe "Dato de Hoja1".</li>
+                        <li>En la celda C3 de "Hoja2", escribe "Dato de Hoja2".</li>
+                        <li>Crea un botón en "Hoja1" y asígnale la macro <code>ObtenerValorCelda</code>.</li>
+                        <li>Copia ese botón y pégalo en "Hoja2" (la macro asignada se mantendrá).</li>
+                    </ol>
+                    <p>Al ejecutar la Macro desde el botón en la "Hoja1", el <code>MsgBox</code> mostrará "Dato de Hoja1". Si vas a "Hoja2" y ejecutas la Macro desde el botón allí, el <code>MsgBox</code> mostrará "Dato de Hoja2".</p>
+                    <p>Esto confirma que, si no indicamos una hoja específica, VBA entiende que estamos trabajando en la hoja que tenemos activa en ese momento.</p>
+                    <div class="image-container">
+                        <!-- <img src="https://i.imgur.com/placeholder-excel-sheets.png" alt="Ejemplo de Excel con múltiples hojas" class="img-screenshot">
+                        <p class="image-caption">Demostración con dos hojas y datos diferentes en la celda C3. (Reemplaza esta imagen)</p> -->
+                    </div>
+
+                    <h2 id="vba-obtener-value">4. Obteniendo el Valor Específico con <code>.Value</code></h2>
+                    <p>Cuando nos referimos a un rango como <code>Range("C3")</code>, estamos obteniendo un objeto <code>Range</code>. Si deseamos hacer uso únicamente del <strong>valor</strong> que tiene esa celda, al final de la sentencia de referencia de la celda, debemos colocar <code>.Value</code>.</p>
+                    <div class="code-block">
+                        <div class="code-block-header"><div class="code-block-title">VBA</div></div>
+                        <pre><code>Sub ObtenerValorEspecifico()
+    Dim miValor As String
+    
+    ' Accedemos explícitamente al valor de la celda
+    miValor = Range("C3").Value 
+    
+    MsgBox "El valor es: " & miValor
+End Sub</code></pre>
+                    </div>
+                    <p>Aunque en muchos casos VBA es lo suficientemente inteligente para inferir que quieres el valor (como en el primer ejemplo con <code>MsgBox ejemplo</code>), es una buena práctica ser explícito usando <code>.Value</code> cuando sabes que necesitas el contenido y no el objeto celda en sí.</p>
+
+                    <h2 id="vba-especificar-hoja-libro">5. Especificando la Hoja y el Libro</h2>
+                    <p>Para evitar depender de la hoja activa y asegurarnos de obtener el dato de una hoja específica, podemos indicarle el nombre de la hoja en la cual queremos obtener el dato. Por ejemplo, si queremos el dato de la "Hoja1", iremos a nuestro código y, antes del <code>Range</code>, colocaremos la palabra <code>Sheets</code>. Abrimos paréntesis y entre comillas le colocamos el nombre de la hoja (por ejemplo, <code>"Hoja1"</code>). Al finalizar <code>Sheets(...)</code>, le ponemos un punto antes de <code>Range(...)</code>.</p>
+                    <div class="code-block">
+                        <div class="code-block-header"><div class="code-block-title">VBA</div></div>
+                        <pre><code>Sub ValorDeHojaEspecifica()
+    Dim datoHoja1 As String
+    
+    ' Importante: El nombre de la hoja debe ser exacto, incluyendo espacios si los tiene.
+    datoHoja1 = Sheets("Hoja1").Range("C3").Value
+    
+    MsgBox "El valor de C3 en Hoja1 es: " & datoHoja1
+End Sub</code></pre>
+                    </div>
+                    <p>Es importante no dejar espacios donde no deben ir. Ahora, si ejecutas la Macro <code>ValorDeHojaEspecifica</code> desde cualquier hoja (Hoja1 o Hoja2), verás que siempre trae el dato correctamente de la celda C3 ubicada en la "Hoja1". Esto se debe a que indicamos explícitamente la hoja.</p>
+                    <p>Además de especificar la hoja, también podemos especificar el libro, aunque en muchos casos no es estrictamente necesario si solo tenemos un libro abierto. Para referenciar el libro donde se está ejecutando la Macro, usamos <code>ThisWorkbook</code>.</p>
+                    <div class="code-block">
+                        <div class="code-block-header"><div class="code-block-title">VBA</div></div>
+                        <pre><code>Sub ValorDeLibroHojaEspecifica()
+    Dim datoCompleto As String
+    
+    datoCompleto = ThisWorkbook.Sheets("Hoja1").Range("C3").Value
+    
+    MsgBox "Ruta completa: " & datoCompleto
+End Sub</code></pre>
+                    </div>
+                    <p>Ahora sabemos cómo ubicar una celda de manera específica y completa. No siempre es necesario colocar toda la ruta completa. Si estamos seguros de que la Macro se ejecutará en una hoja específica o si queremos que opere sobre la hoja activa, podemos omitir la especificación del libro o la hoja respectivamente. Indicar la ruta completa nos permite escribir la Macro una sola vez y poder ejecutarla desde diferentes hojas, sabiendo que tomará los valores de la ubicación exacta que especificamos.</p>
+                    <div class="highlight-box">
+                        <p><strong>Jerarquía de Objetos en Excel VBA:</strong><br>
+                        <code>Application</code> (Excel mismo)<br>
+                        └── <code>Workbooks</code> (Colección de libros abiertos)<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;└── <code>Workbook</code> (Un libro específico, ej: <code>ThisWorkbook</code>)<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└── <code>Worksheets</code> o <code>Sheets</code> (Colección de hojas en ese libro)<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└── <code>Worksheet</code> o <code>Sheet</code> (Una hoja específica, ej: <code>Sheets("Hoja1")</code>)<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└── <code>Range</code> o <code>Cells</code> (Una celda o rango de celdas)</p>
+                    </div>
+
+                    <h2 id="vba-ejemplo-suma">6. Ejemplo Práctico - Suma de Valores y Mensaje Personalizado</h2>
+                    <p>Para consolidar lo aprendido, hagamos una Macro que obtenga datos de celdas específicas en una hoja y realice una suma. El resultado lo mostraremos en pantalla.</p>
+                    <p>Supongamos que en "HojaDatos", celda A1 tenemos un número y en B1 tenemos otro.</p>
+                    <div class="code-block">
+                        <div class="code-block-header"><div class="code-block-title">VBA</div></div>
+                        <pre><code>Sub SumarValoresDeCeldas()
+    Dim num1 As Integer
+    Dim num2 As Integer
+    Dim resultadoSuma As Integer
+    Dim nombreHoja As String
+    
+    ' Es buena práctica asignar el nombre de la hoja a una variable si se usa mucho
+    nombreHoja = "HojaDatos" ' Asegúrate que esta hoja exista en tu libro
+    
+    ' Obtener los valores de las celdas
+    ' Usamos Val() para asegurarnos que VBA trate el contenido de la celda como número
+    num1 = Val(ThisWorkbook.Sheets(nombreHoja).Range("A1").Value)
+    num2 = Val(ThisWorkbook.Sheets(nombreHoja).Range("B1").Value)
+    
+    ' Realizar la suma
+    resultadoSuma = num1 + num2
+    
+    ' Mostrar el resultado con un mensaje personalizado
+    MsgBox "El resultado de sumar " & num1 & " y " & num2 & " es: " & resultadoSuma
+End Sub</code></pre>
+                    </div>
+                    <p><strong>Para probar esto:</strong></p>
+                    <ol>
+                        <li>Crea una hoja llamada "HojaDatos".</li>
+                        <li>En la celda A1 de "HojaDatos", escribe un número (ej: 10).</li>
+                        <li>En la celda B1 de "HojaDatos", escribe otro número (ej: 25).</li>
+                        <li>Ejecuta la macro <code>SumarValoresDeCeldas</code>. Deberías ver un mensaje como: "El resultado de sumar 10 y 25 es: 35".</li>
+                    </ol>
+                    <div class="note-box">
+                        <p><strong>Función <code>Val()</code>:</strong> En el ejemplo anterior, usamos <code>Val(Range("A1").Value)</code>. La función <code>Val()</code> intenta convertir el contenido de la celda a un número. Es útil porque a veces Excel puede interpretar un número en una celda como texto, y <code>Val()</code> ayuda a asegurar que VBA lo trate como un valor numérico para las operaciones matemáticas.</p>
+                    </div>
+
+                    <div class="highlight-box">
+                        <p><strong>¡Has aprendido a darle vida a tus variables con datos de Excel!</strong> Ahora puedes leer información directamente de tus hojas de cálculo y usarla en tus macros. Esto abre un mundo de posibilidades para la automatización.</p>
+                    </div>
+
+                    <div class="chapter-navigation">
+                        <a href="../capitulos/vba-excel-macros-clase-2.html" class="nav-btn"> <span>←</span> Clase Anterior (Clase 2)
+                        </a>
+                        </div>
+                </div>
+
+                <aside class="toc">
+                    <h3 class="toc-title">Contenido de la Clase 3</h3>
+                    <ul class="toc-list">
+                        <li class="toc-item"><a href="#vba-llenar-variable-celda" class="toc-link">1. Llenar Variable desde Celda</a></li>
+                        <li class="toc-item"><a href="#vba-estructura-excel" class="toc-link">2. Estructura de Excel</a></li>
+                        <li class="toc-item"><a href="#vba-demostracion-hojas" class="toc-link">3. Demo Múltiples Hojas</a></li>
+                        <li class="toc-item"><a href="#vba-obtener-value" class="toc-link">4. Obteniendo <code>.Value</code></a></li>
+                        <li class="toc-item"><a href="#vba-especificar-hoja-libro" class="toc-link">5. Especificar Hoja y Libro</a></li>
+                        <li class="toc-item"><a href="#vba-ejemplo-suma" class="toc-link">6. Ejemplo Práctico: Suma</a></li>
+                    </ul>
+                </aside>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-container" style="justify-content: space-between;">
+                <a href="../index.html" class="footer-logo">Programación para Mortales</a>
+                <div class="footer-links">
+                    <a href="../index.html" class="footer-link">Inicio</a>
+                    <a href="../indice.html" class="footer-link">Índice completo</a>
+                    <a href="../about.html" class="footer-link">Acerca de</a>
+                    <a href="../terminos-y-condiciones.html" class="footer-link">Términos y condiciones</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2025 Programación para Mortales. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Script general (el mismo que usas en tus otras páginas)
+        const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+        const nav = document.querySelector('.nav');
+        if (mobileMenuBtn && nav) {
+            mobileMenuBtn.addEventListener('click', () => {
+                nav.classList.toggle('active');
+            });
+        }
+
+        const header = document.querySelector('.header');
+        if (header) {
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    header.classList.add('scrolled');
+                } else {
+                    header.classList.remove('scrolled');
+                }
+            });
+        }
+
+        const progressBar = document.getElementById('progressBar');
+        if (progressBar) {
+            window.addEventListener('scroll', () => {
+                const windowHeight = window.innerHeight;
+                const documentHeight = document.documentElement.scrollHeight - windowHeight;
+                const scrollTop = window.scrollY;
+                const progress = (scrollTop / documentHeight) * 100;
+                progressBar.style.width = progress + '%';
+            });
+        }
+        
+        const tocLinks = document.querySelectorAll('.toc-link');
+        const sections = document.querySelectorAll('.content-wrapper h2, .content-wrapper h3'); 
+        if (tocLinks.length > 0 && sections.length > 0 && header) {
+            window.addEventListener('scroll', () => {
+                let current = '';
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop - (header.offsetHeight + 40); 
+                    if (window.scrollY >= sectionTop) {
+                        current = section.getAttribute('id');
+                    }
+                });
+
+                tocLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href').substring(1) === current) {
+                        link.classList.add('active');
+                    }
+                });
+            });
+        }
+    </script>
+</body>
+</html>

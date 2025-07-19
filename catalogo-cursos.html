@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catálogo de Cursos - Programación para Mortales</title>
+    <meta name="description" content="Explora todos los cursos disponibles en Programación para Mortales. Aprende Python, Django, VBA, Linux, IA Conversacional y más, desde cero y a tu ritmo.">
+    <meta name="keywords" content="catálogo cursos, cursos de programación, aprender python, aprender django, curso vba, curso linux, curso ia, programación para principiantes, Programación para Mortales">
+    <link rel="icon" href="icon.ico" type="image/x-icon">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@300;400;500;600;700&family=Fira+Code:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css"> 
+    <style>
+        .page-header {
+            padding-top: 120px;
+            padding-bottom: var(--spacing-2xl);
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            position: relative;
+            overflow: hidden;
+            text-align: center;
+        }
+        .page-header::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            opacity: 0.3;
+        }
+        .page-header-content { position: relative; z-index: 1; }
+        .page-title { font-size: clamp(2.8rem, 6vw, 4rem); margin-bottom: var(--spacing-md); color: white; text-shadow: 1px 1px 3px rgba(0,0,0,0.2); }
+        .page-description { font-size: clamp(1.1rem, 2.8vw, 1.3rem); max-width: 700px; margin: 0 auto var(--spacing-xl); opacity: 0.9; line-height: 1.8; }
+
+        .courses-section {
+            padding: var(--spacing-3xl) 0;
+        }
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+            gap: var(--spacing-xl);
+            margin-top: var(--spacing-2xl);
+        }
+
+        .filter-bar {
+            margin-bottom: var(--spacing-2xl);
+            display: flex;
+            gap: var(--spacing-md);
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+        }
+        .filter-bar label {
+            font-weight: 600;
+            color: var(--dark-blue);
+        }
+        .filter-select, .search-input-catalogue {
+            padding: var(--spacing-sm) var(--spacing-md);
+            border-radius: var(--radius-md);
+            border: 1px solid var(--gray-light);
+            font-family: var(--font-body);
+            font-size: 1rem;
+            background-color: white;
+            box-shadow: var(--shadow-sm);
+        }
+        .search-input-catalogue {
+            min-width: 250px;
+        }
+         .filter-select:focus, .search-input-catalogue:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(79,70,229, 0.25);
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container header-container">
+            <a href="index.html" class="logo">
+                <span class="logo-icon">P</span>
+                <span>Programación para Mortales</span>
+            </a>
+            <nav class="nav">
+                <a href="index.html" class="nav-link">Inicio</a>
+                <a href="catalogo-cursos.html" class="nav-link active">Cursos</a>
+                <a href="indice.html" class="nav-link">Índice Completo</a>
+                <a href="about.html" class="nav-link">Acerca de</a>
+                <a href="capitulos/introduccion.html" class="btn btn-primary">Comenzar a Aprender</a>
+            </nav>
+            <button class="mobile-menu-btn">☰</button>
+        </div>
+    </header>
+
+    <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+    <section class="page-header">
+        <div class="page-header-content container">
+            <h1 class="page-title animate-fade-in">Catálogo de Cursos</h1>
+            <p class="page-description animate-fade-in delay-100">Encuentra el curso perfecto para iniciar o avanzar en tu camino por el mundo de la programación y la tecnología. ¡Aprende a tu propio ritmo!</p>
+        </div>
+    </section>
+
+    <main class="courses-section">
+        <div class="container">
+            <div class="filter-bar">
+                <label for="searchCourse">Buscar curso:</label>
+                <input type="text" id="searchCourse" class="search-input-catalogue" placeholder="Ej: Python, Django, IA...">
+                
+                <label for="filterCategory">Categoría:</label>
+                <select id="filterCategory" class="filter-select">
+                    <option value="todos">Todos</option>
+                    <option value="python-django">Python y Django</option>
+                    <option value="vba">Excel VBA</option>
+                    <option value="ia">Inteligencia Artificial</option>
+                    <option value="linux">Linux y Servidores</option>
+                    <option value="web-dev">Desarrollo Web</option> 
+                    <option value="otros">Otros</option>
+                </select>
+                
+                <label for="filterLevel">Nivel:</label>
+                <select id="filterLevel" class="filter-select">
+                    <option value="todos">Todos</option>
+                    <option value="principiante">Principiante</option>
+                    <option value="intermedio">Intermedio</option>
+                    <option value="avanzado">Avanzado</option>
+                </select>
+            </div>
+
+            <div class="courses-grid" id="coursesGrid">
+
+                <div class="course-card" data-category="vba" data-level="principiante">
+                    <div class="course-image" style="background-image: url('https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80');">
+                        <span class="course-badge">VBA</span>
+                    </div>
+                    <div class="course-content">
+                        <h3 class="course-title">Excel VBA: Nivel 1</h3>
+                        <p class="course-description">Iníciate en la automatización de Excel. Aprende los fundamentos de VBA y crea tu primera macro paso a paso.</p>
+                        <div class="course-footer">
+                            <div class="course-meta">
+                                <span><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 4px;"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>Clase 1 Disp.</span>
+                            </div>
+                            <a href="capitulos/vba/vba-excel-macros-clase-1.html" class="course-link">Ver Nivel 1 →</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="course-card" data-category="vba" data-level="intermedio">
+                    <div class="course-image" style="background-image: url('https://images.unsplash.com/photo-1600427141580-1a2f19a6097e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80');">
+                        <span class="course-badge">VBA</span>
+                    </div>
+                    <div class="course-content">
+                        <h3 class="course-title">Excel VBA: Nivel 2</h3>
+                        <p class="course-description">Avanza en VBA con variables, condicionales y bucles para crear macros más potentes y dinámicas en Excel.</p>
+                        <div class="course-footer">
+                            <div class="course-meta">
+                                <span><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 4px;"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>Clase 2 Disp.</span>
+                            </div>
+                            <a href="capitulos/vba/vba-excel-macros-clase-2.html" class="course-link">Ver Nivel 2 →</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="course-card" data-category="vba" data-level="intermedio">
+                    <div class="course-image" style="background-image: url('https://images.unsplash.com/photo-1598515478277-f68049804a0d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80');">
+                        <span class="course-badge">VBA</span>
+                    </div>
+                    <div class="course-content">
+                        <h3 class="course-title">Excel VBA: Nivel 3</h3>
+                        <p class="course-description">Domina la interacción con celdas, rangos y objetos de Excel. Aprende a manejar errores y a optimizar tus macros.</p>
+                        <div class="course-footer">
+                            <div class="course-meta">
+                                <span><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 4px;"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>Clase 3 Disp.</span>
+                            </div>
+                            <a href="capitulos/vba/vba-excel-macros-clase-3.html" class="course-link">Ver Nivel 3 →</a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-container">
+                <div>
+                    <a href="/" class="footer-logo">Programación para Mortales</a>
+                    <p class="footer-description">Un libro digital interactivo para aprender a programar desde cero, sin importar tu formación o experiencia previa.</p>
+                    <div class="footer-social">
+                        <a href="https://www.youtube.com/@excel-ente" target="_blank" class="footer-social-link" title="YouTube">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2A29 29 0 0 0 23 11.75a29 29 0 0 0-.46-5.33z"></path><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"></polygon></svg>
+                        </a>
+                        <a href="https://www.linkedin.com/in/kevinturkienich" target="_blank" class="footer-social-link" title="LinkedIn">
+                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+                        </a>
+                        <a href="mailto:info@programacionparamortales.com" class="footer-social-link" title="Email">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                        </a>
+                        <a href="https://github.com/Excel-ente" target="_blank" class="footer-social-link" title="GitHub">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="footer-column">
+                    <h3 class="footer-heading">Navegación</h3>
+                    <ul class="footer-links">
+                        <li class="footer-link-item"><a href="index.html" class="footer-link">Inicio</a></li>
+                        <li class="footer-link-item"><a href="catalogo-cursos.html" class="footer-link active">Cursos</a></li>
+                        <li class="footer-link-item"><a href="indice.html" class="footer-link">Índice completo</a></li>
+                        <li class="footer-link-item"><a href="about.html" class="footer-link">Acerca de</a></li>
+                        <li class="footer-link-item"><a href="terminos-y-condiciones.html" class="footer-link">Términos</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3 class="footer-heading">Cursos Destacados</h3>
+                    <ul class="footer-links">
+                        <li class="footer-link-item"><a href="catalogo-cursos.html" class="footer-link" onclick="filterAndShow('python-django', 'todos'); return false;">Python y Django</a></li>
+                        <li class="footer-link-item"><a href="capitulos/vba/vba-excel-macros-clase-1.html" class="footer-link">Excel VBA Nivel 1</a></li>
+                        <li class="footer-link-item"><a href="capitulos/ia-conversacional-posgresql.html" class="footer-link">IA Conversacional + PostgreSQL</a></li>
+                        <li class="footer-link-item"><a href="capitulos/linux-basico.html" class="footer-link">Linux para Despliegue</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>© 2025 Programación para Mortales. Todos los derechos reservados.</p>
+                <div class="footer-bottom-links">
+                    <a href="terminos-y-condiciones.html" class="footer-bottom-link">Términos y condiciones</a>
+                    <a href="privacidad.html" class="footer-bottom-link">Política de privacidad</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+        const nav = document.querySelector('.nav');
+        if (mobileMenuBtn && nav) {
+            mobileMenuBtn.addEventListener('click', () => {
+                nav.classList.toggle('active');
+            });
+        }
+
+        const header = document.querySelector('.header');
+        if (header) {
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    header.classList.add('scrolled');
+                } else {
+                    header.classList.remove('scrolled');
+                }
+            });
+        }
+
+        const progressBar = document.getElementById('progressBar');
+        if (progressBar) {
+            window.addEventListener('scroll', () => {
+                const windowHeight = window.innerHeight;
+                const documentHeight = document.documentElement.scrollHeight - windowHeight;
+                const scrollTop = window.scrollY;
+                const progress = (scrollTop / documentHeight) * 100;
+                progressBar.style.width = progress + '%';
+            });
+        }
+
+        const bookCardsForModal = document.querySelectorAll('.book-card[data-modal]');
+        const modalOverlays = document.querySelectorAll('.modal-overlay');
+        const modalCloses = document.querySelectorAll('.modal-close');
+        
+        bookCardsForModal.forEach(card => {
+            card.addEventListener('click', (event) => {
+                event.preventDefault();
+                const modalId = card.dataset.modal;
+                if(modalId){
+                    const modal = document.getElementById(`modal-${modalId}`);
+                    if (modal) {
+                        modal.classList.add('active');
+                        document.body.style.overflow = 'hidden';
+                    }
+                }
+            });
+        });
+        
+        modalCloses.forEach(close => {
+            close.addEventListener('click', () => {
+                const modalIdToClose = close.dataset.dismiss; 
+                const modal = document.getElementById(modalIdToClose);
+                if (modal) {
+                    modal.classList.remove('active');
+                }
+                let anyModalActive = false;
+                modalOverlays.forEach(ov => {
+                    if (ov.classList.contains('active')) anyModalActive = true;
+                });
+                if (!anyModalActive) {
+                    document.body.style.overflow = 'auto';
+                }
+            });
+        });
+        
+        modalOverlays.forEach(overlay => {
+            overlay.addEventListener('click', (e) => {
+                if (e.target === overlay) {
+                    overlay.classList.remove('active');
+                     let anyModalActive = false;
+                    modalOverlays.forEach(ov => {
+                        if (ov.classList.contains('active')) anyModalActive = true;
+                    });
+                    if (!anyModalActive) {
+                        document.body.style.overflow = 'auto';
+                    }
+                }
+            });
+        });
+
+        const searchInput = document.getElementById('searchCourse');
+        const categoryFilter = document.getElementById('filterCategory');
+        const levelFilter = document.getElementById('filterLevel');
+        const coursesGrid = document.getElementById('coursesGrid');
+        const allCards = Array.from(coursesGrid.getElementsByClassName('course-card'));
+
+        function filterCourses() {
+            const searchTerm = searchInput.value.toLowerCase();
+            const selectedCategory = categoryFilter.value;
+            const selectedLevel = levelFilter.value;
+
+            allCards.forEach(card => {
+                const titleElement = card.querySelector('.book-card-title, .course-title');
+                const descriptionElement = card.querySelector('.book-card-subtitle, .course-description');
+                
+                const title = titleElement ? titleElement.textContent.toLowerCase() : "";
+                const description = descriptionElement ? descriptionElement.textContent.toLowerCase() : "";
+                
+                const cardCategory = card.dataset.category;
+                const cardLevel = card.dataset.level;
+
+                const matchesSearch = title.includes(searchTerm) || description.includes(searchTerm);
+                const matchesCategory = selectedCategory === 'todos' || cardCategory === selectedCategory;
+                const matchesLevel = selectedLevel === 'todos' || cardLevel === selectedLevel;
+
+                if (matchesSearch && matchesCategory && matchesLevel) {
+                    card.style.display = 'flex'; 
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+        
+        window.filterAndShow = function(category, level) { // Make it globally accessible
+            if (categoryFilter) categoryFilter.value = category;
+            if (levelFilter) levelFilter.value = level;
+            filterCourses();
+            const coursesSection = document.getElementById('coursesGrid');
+            if (coursesSection && header) { // Check if header exists
+                 window.scrollTo({
+                    top: coursesSection.offsetTop - header.offsetHeight - 20,
+                    behavior: 'smooth'
+                });
+            } else if (coursesSection) {
+                 window.scrollTo({
+                    top: coursesSection.offsetTop - 20,
+                    behavior: 'smooth'
+                });
+            }
+        }
+
+        if (searchInput) searchInput.addEventListener('input', filterCourses);
+        if (categoryFilter) categoryFilter.addEventListener('change', filterCourses);
+        if (levelFilter) levelFilter.addEventListener('change', filterCourses);
+
+        filterCourses();
+    </script>
+</body>
+</html>

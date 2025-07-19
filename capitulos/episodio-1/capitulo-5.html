@@ -1,0 +1,2272 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jugando con datos — Variables, tipos de datos y primeras instrucciones reales - Programación para Mortales</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@300;400;500;600;700&family=Fira+Code:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+    /* Paleta de colores vibrante y moderna */
+    --primary: #6366f1;
+    --primary-dark: #4f46e5;
+    --primary-light: #a5b4fc;
+    --secondary: #ec4899;
+    --secondary-dark: #db2777;
+    --accent: #06b6d4;
+    --success: #10b981;
+    --warning: #f59e0b;
+    --danger: #ef4444;
+    --dark: #0f172a;
+    --dark-blue: #1e293b;
+    --light: #f8fafc;
+    --gray: #64748b;
+    --gray-light: #e2e8f0;
+    
+    /* Tipografía */
+    --font-heading: 'Space Grotesk', sans-serif;
+    --font-body: 'Outfit', sans-serif;
+    --font-code: 'Fira Code', monospace;
+    
+    /* Espaciado */
+    --spacing-xs: 0.25rem;
+    --spacing-sm: 0.5rem;
+    --spacing-md: 1rem;
+    --spacing-lg: 1.5rem;
+    --spacing-xl: 2rem;
+    --spacing-2xl: 3rem;
+    --spacing-3xl: 4rem;
+    
+    /* Bordes y sombras */
+    --radius-sm: 0.25rem;
+    --radius-md: 0.5rem;
+    --radius-lg: 1rem;
+    --radius-xl: 1.5rem;
+    --radius-full: 9999px;
+    
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    
+    /* Transiciones */
+    --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-normal: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-slow: 500ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 16px;
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: var(--font-body);
+    color: var(--dark);
+    background-color: var(--light);
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: var(--spacing-lg);
+    color: var(--dark);
+}
+
+h1 {
+    font-size: 3rem;
+}
+
+h2 {
+    font-size: 2.25rem;
+    margin-top: var(--spacing-2xl);
+    position: relative;
+    padding-bottom: var(--spacing-sm);
+}
+
+h2::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 80px;
+    height: 4px;
+    background: var(--primary);
+    border-radius: 2px;
+}
+
+h3 {
+    font-size: 1.75rem;
+    margin-top: var(--spacing-xl);
+    color: var(--primary-dark);
+}
+
+p {
+    margin-bottom: var(--spacing-lg);
+    font-size: 1.125rem;
+}
+
+a {
+    text-decoration: none;
+    color: var(--primary);
+    transition: var(--transition-normal);
+}
+
+a:hover {
+    color: var(--primary-dark);
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    border-radius: var(--radius-md);
+}
+
+/* Layout */
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 var(--spacing-lg);
+}
+
+/* Header */
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 100;
+    background-color: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(10px);
+    box-shadow: var(--shadow-sm);
+    transition: var(--transition-normal);
+}
+
+.header.scrolled {
+    box-shadow: var(--shadow-md);
+}
+
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 70px;
+}
+
+.logo {
+    font-family: var(--font-heading);
+    font-weight: 800;
+    font-size: 1.5rem;
+    color: var(--primary);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+.logo-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    background-color: var(--primary);
+    color: white;
+    border-radius: var(--radius-md);
+    font-weight: 700;
+}
+
+.nav {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xl);
+}
+
+.nav-link {
+    font-weight: 500;
+    color: var(--dark);
+    position: relative;
+}
+
+.nav-link:hover {
+    color: var(--primary);
+}
+
+.nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: var(--primary);
+    transition: var(--transition-normal);
+}
+
+.nav-link:hover::after {
+    width: 100%;
+}
+
+.nav-link.active {
+    color: var(--primary);
+}
+
+.nav-link.active::after {
+    width: 100%;
+}
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.75rem 1.5rem;
+    font-weight: 600;
+    border-radius: var(--radius-full);
+    transition: var(--transition-normal);
+    gap: var(--spacing-sm);
+}
+
+.btn-primary {
+    background-color: var(--primary);
+    color: white;
+    box-shadow: var(--shadow-md);
+}
+
+.btn-primary:hover {
+    background-color: var(--primary-dark);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+}
+
+.mobile-menu-btn {
+    display: none;
+    font-size: 1.5rem;
+    color: var(--dark);
+    cursor: pointer;
+    border: none;
+    background: none;
+}
+
+/* Chapter Header */
+.chapter-header {
+    padding-top: 120px;
+    padding-bottom: var(--spacing-2xl);
+    background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+    color: white;
+    position: relative;
+    overflow: hidden;
+}
+
+.chapter-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    opacity: 0.5;
+}
+
+.chapter-header-content {
+    position: relative;
+    z-index: 1;
+}
+
+.chapter-number {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: var(--spacing-sm);
+    opacity: 0.9;
+}
+
+.chapter-title {
+    font-size: 3.5rem;
+    margin-bottom: var(--spacing-lg);
+    color: white;
+}
+
+.chapter-meta {
+    display: flex;
+    gap: var(--spacing-lg);
+    font-size: 1.125rem;
+    opacity: 0.9;
+}
+
+.chapter-meta-item {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+/* Chapter Content */
+.chapter-content {
+    padding: var(--spacing-3xl) 0;
+}
+
+.content-wrapper {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+/* Highlighted Boxes */
+.highlight-box {
+    background-color: rgba(99, 102, 241, 0.1);
+    border-left: 4px solid var(--primary);
+    padding: var(--spacing-lg);
+    border-radius: 0 var(--radius-md) var(--radius-md) 0;
+    margin: var(--spacing-xl) 0;
+}
+
+.note-box {
+    background-color: rgba(236, 72, 153, 0.1);
+    border-left: 4px solid var(--secondary);
+    padding: var(--spacing-lg);
+    border-radius: 0 var(--radius-md) var(--radius-md) 0;
+    margin: var(--spacing-xl) 0;
+}
+
+/* Lists */
+ul, ol {
+    margin: 0 0 var(--spacing-lg) var(--spacing-xl);
+}
+
+li {
+    margin-bottom: var(--spacing-sm);
+}
+
+.feature-list {
+    list-style: none;
+    margin-left: 0;
+}
+
+.feature-list li {
+    position: relative;
+    padding-left: var(--spacing-xl);
+    margin-bottom: var(--spacing-md);
+}
+
+.feature-list li::before {
+    content: "✓";
+    position: absolute;
+    left: 0;
+    color: var(--success);
+    font-weight: bold;
+}
+
+/* Code Blocks */
+pre {
+    background-color: var(--dark-blue);
+    color: white;
+    padding: var(--spacing-lg);
+    border-radius: var(--radius-md);
+    overflow-x: auto;
+    margin: var(--spacing-lg) 0;
+    font-family: var(--font-code);
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+code {
+    font-family: var(--font-code);
+    background-color: var(--gray-light);
+    padding: 0.2rem 0.4rem;
+    border-radius: var(--radius-sm);
+    font-size: 0.9em;
+}
+
+pre code {
+    background-color: transparent;
+    padding: 0;
+    border-radius: 0;
+    font-size: 1em;
+}
+
+.code-block {
+    position: relative;
+    margin: var(--spacing-lg) 0;
+}
+
+.code-block-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: var(--dark);
+    color: white;
+    padding: var(--spacing-sm) var(--spacing-lg);
+    border-radius: var(--radius-md) var(--radius-md) 0 0;
+    font-family: var(--font-code);
+    font-size: 0.9rem;
+}
+
+.code-block-title {
+    font-weight: 600;
+}
+
+.code-block-actions {
+    display: flex;
+    gap: var(--spacing-sm);
+}
+
+.code-block-action {
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.7);
+    cursor: pointer;
+    transition: var(--transition-normal);
+    font-size: 0.9rem;
+    padding: 2px 8px;
+    border-radius: var(--radius-sm);
+}
+
+.code-block-action:hover {
+    color: white;
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.code-block pre {
+    margin: 0;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+
+/* Python Terminal Simulator */
+.python-terminal-container {
+    background-color: var(--dark-blue);
+    border-radius: var(--radius-md);
+    padding: var(--spacing-lg);
+    margin: var(--spacing-xl) 0;
+    font-family: var(--font-code);
+    color: white;
+}
+
+.python-terminal-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: var(--spacing-md);
+}
+
+.python-terminal-title {
+    font-size: 1rem;
+    margin-left: var(--spacing-md);
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.python-terminal-body {
+    height: 350px;
+    overflow-y: auto;
+    padding: var(--spacing-md);
+    background-color: rgba(0, 0, 0, 0.3);
+    border-radius: var(--radius-sm);
+    line-height: 1.5;
+}
+
+.python-terminal-output {
+    margin-bottom: var(--spacing-sm);
+    white-space: pre-wrap;
+}
+
+.python-terminal-prompt {
+    display: flex;
+    align-items: center;
+    margin-bottom: var(--spacing-sm);
+}
+
+.python-terminal-prompt-symbol {
+    color: var(--success);
+    margin-right: var(--spacing-sm);
+    font-weight: bold;
+}
+
+.python-terminal-input {
+    background: none;
+    border: none;
+    color: white;
+    font-family: var(--font-code);
+    font-size: 0.9rem;
+    width: 100%;
+    outline: none;
+}
+
+.python-prompt {
+    color: var(--primary-light);
+    margin-right: var(--spacing-sm);
+}
+
+/* Variable Visualizer */
+.variable-visualizer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-lg);
+    margin: var(--spacing-xl) 0;
+}
+
+.variable-box {
+    width: 150px;
+    height: 150px;
+    background-color: white;
+    border: 2px solid var(--primary-light);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-md);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.variable-box:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-lg);
+}
+
+.variable-name {
+    background-color: var(--primary);
+    color: white;
+    padding: var(--spacing-sm);
+    text-align: center;
+    font-weight: 600;
+    font-family: var(--font-code);
+}
+
+.variable-value {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--spacing-md);
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+.variable-type {
+    background-color: var(--gray-light);
+    color: var(--dark);
+    padding: var(--spacing-xs) var(--spacing-sm);
+    text-align: center;
+    font-size: 0.8rem;
+    font-family: var(--font-code);
+}
+
+/* Calculator Simulator */
+.calculator-container {
+    background-color: white;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    padding: var(--spacing-lg);
+    margin: var(--spacing-xl) 0;
+    max-width: 400px;
+}
+
+.calculator-display {
+    background-color: var(--dark-blue);
+    color: white;
+    padding: var(--spacing-lg);
+    border-radius: var(--radius-md);
+    margin-bottom: var(--spacing-lg);
+    font-family: var(--font-code);
+    font-size: 1.5rem;
+    text-align: right;
+    min-height: 60px;
+}
+
+.calculator-buttons {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--spacing-sm);
+}
+
+.calculator-button {
+    background-color: var(--gray-light);
+    border: none;
+    border-radius: var(--radius-md);
+    padding: var(--spacing-md);
+    font-size: 1.25rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.calculator-button:hover {
+    background-color: var(--primary-light);
+    color: white;
+}
+
+.calculator-button.operator {
+    background-color: var(--primary);
+    color: white;
+}
+
+.calculator-button.equals {
+    background-color: var(--success);
+    color: white;
+    grid-column: span 2;
+}
+
+.calculator-button.clear {
+    background-color: var(--danger);
+    color: white;
+}
+
+/* Function Builder */
+.function-builder {
+    margin: var(--spacing-xl) 0;
+}
+
+.function-builder-header {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-lg);
+}
+
+.function-name-input {
+    padding: var(--spacing-sm) var(--spacing-md);
+    border: 2px solid var(--primary);
+    border-radius: var(--radius-md);
+    font-family: var(--font-code);
+    font-size: 1rem;
+    outline: none;
+}
+
+.function-params {
+    display: flex;
+    gap: var(--spacing-sm);
+}
+
+.function-param {
+    padding: var(--spacing-sm) var(--spacing-md);
+    background-color: var(--primary-light);
+    color: var(--primary-dark);
+    border-radius: var(--radius-full);
+    font-family: var(--font-code);
+    font-size: 0.9rem;
+}
+
+.function-body {
+    background-color: var(--gray-light);
+    border-radius: var(--radius-md);
+    padding: var(--spacing-lg);
+    margin-bottom: var(--spacing-lg);
+}
+
+.function-line {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-sm);
+}
+
+.function-line-input {
+    flex: 1;
+    padding: var(--spacing-sm) var(--spacing-md);
+    border: 2px solid var(--gray);
+    border-radius: var(--radius-md);
+    font-family: var(--font-code);
+    font-size: 1rem;
+    outline: none;
+}
+
+.function-line-input:focus {
+    border-color: var(--primary);
+}
+
+.function-test {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+}
+
+.function-test-inputs {
+    display: flex;
+    gap: var(--spacing-sm);
+}
+
+.function-test-input {
+    padding: var(--spacing-sm) var(--spacing-md);
+    border: 2px solid var(--gray);
+    border-radius: var(--radius-md);
+    font-family: var(--font-code);
+    font-size: 1rem;
+    outline: none;
+    width: 80px;
+}
+
+.function-test-input:focus {
+    border-color: var(--primary);
+}
+
+.function-test-button {
+    padding: var(--spacing-sm) var(--spacing-lg);
+    background-color: var(--primary);
+    color: white;
+    border: none;
+    border-radius: var(--radius-md);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.function-test-button:hover {
+    background-color: var(--primary-dark);
+}
+
+.function-test-result {
+    background-color: var(--dark-blue);
+    color: white;
+    padding: var(--spacing-md);
+    border-radius: var(--radius-md);
+    font-family: var(--font-code);
+    min-height: 60px;
+}
+
+/* Interactive Elements */
+.interactive-section {
+    background-color: white;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    padding: var(--spacing-xl);
+    margin: var(--spacing-2xl) 0;
+}
+
+.interactive-title {
+    display: flex;
+    align-items: center;
+    font-size: 1.5rem;
+    margin-bottom: var(--spacing-lg);
+    color: var(--primary-dark);
+}
+
+.interactive-title::before {
+    content: "🎮";
+    margin-right: var(--spacing-sm);
+    font-size: 1.8rem;
+}
+
+/* Table Styles */
+.table-container {
+    overflow-x: auto;
+    margin: var(--spacing-xl) 0;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
+}
+
+thead {
+    background-color: var(--primary);
+    color: white;
+}
+
+th, td {
+    padding: var(--spacing-md);
+    text-align: left;
+    border-bottom: 1px solid var(--gray-light);
+}
+
+tbody tr:nth-child(even) {
+    background-color: rgba(99, 102, 241, 0.05);
+}
+
+tbody tr:hover {
+    background-color: rgba(99, 102, 241, 0.1);
+}
+
+/* Chapter Navigation */
+.chapter-navigation {
+    display: flex;
+    justify-content: space-between;
+    margin-top: var(--spacing-3xl);
+    padding-top: var(--spacing-xl);
+    border-top: 1px solid var(--gray-light);
+}
+
+.nav-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    background-color: white;
+    color: var(--primary);
+    padding: var(--spacing-sm) var(--spacing-lg);
+    border-radius: var(--radius-full);
+    text-decoration: none;
+    font-weight: 600;
+    transition: var(--transition-normal);
+    border: 2px solid var(--primary);
+    cursor: pointer;
+}
+
+.nav-btn:hover {
+    background-color: var(--primary);
+    color: white;
+}
+
+.nav-btn.next {
+    background-color: var(--primary);
+    color: white;
+}
+
+.nav-btn.next:hover {
+    background-color: var(--primary-dark);
+    border-color: var(--primary-dark);
+}
+
+/* Progress Bar */
+.progress-container {
+    position: fixed;
+    top: 70px;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background-color: var(--gray-light);
+    z-index: 99;
+}
+
+.progress-bar {
+    height: 100%;
+    background-color: var(--secondary);
+    width: 0%;
+    transition: width 0.3s ease;
+}
+
+/* Table of Contents */
+.toc {
+    position: sticky;
+    top: 90px;
+    max-height: calc(100vh - 100px);
+    overflow-y: auto;
+    padding-right: var(--spacing-md);
+}
+
+.toc-title {
+    font-size: 1.25rem;
+    margin-bottom: var(--spacing-md);
+    padding-bottom: var(--spacing-sm);
+    border-bottom: 2px solid var(--primary);
+}
+
+.toc-list {
+    list-style: none;
+    margin-left: 0;
+}
+
+.toc-item {
+    margin-bottom: var(--spacing-sm);
+}
+
+.toc-link {
+    display: block;
+    padding: var(--spacing-xs) 0;
+    color: var(--gray);
+    transition: var(--transition-normal);
+    border-left: 2px solid transparent;
+    padding-left: var(--spacing-sm);
+}
+
+.toc-link:hover, .toc-link.active {
+    color: var(--primary);
+    border-left-color: var(--primary);
+    padding-left: var(--spacing-md);
+}
+
+.toc-sublist {
+    list-style: none;
+    margin-left: var(--spacing-lg);
+    margin-bottom: 0;
+}
+
+/* Footer */
+.footer {
+    background-color: var(--dark);
+    color: white;
+    padding: var(--spacing-2xl) 0;
+    margin-top: var(--spacing-3xl);
+}
+
+.footer-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.footer-logo {
+    font-family: var(--font-heading);
+    font-weight: 800;
+    font-size: 1.5rem;
+    color: white;
+}
+
+.footer-links {
+    display: flex;
+    gap: var(--spacing-lg);
+}
+
+.footer-link {
+    color: rgba(255, 255, 255, 0.7);
+    transition: var(--transition-normal);
+}
+
+.footer-link:hover {
+    color: white;
+}
+
+.footer-bottom {
+    margin-top: var(--spacing-lg);
+    padding-top: var(--spacing-lg);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    text-align: center;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.875rem;
+}
+
+/* Responsive Styles */
+@media (max-width: 992px) {
+    .chapter-title {
+        font-size: 2.5rem;
+    }
+    
+    .chapter-layout {
+        grid-template-columns: 1fr;
+    }
+    
+    .toc {
+        display: none;
+    }
+}
+
+@media (max-width: 768px) {
+    .header-container {
+        height: 60px;
+    }
+    
+    .nav {
+        position: fixed;
+        top: 60px;
+        left: 0;
+        width: 100%;
+        height: 0;
+        background-color: white;
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 0 var(--spacing-lg);
+        overflow: hidden;
+        transition: var(--transition-normal);
+        box-shadow: var(--shadow-md);
+        opacity: 0;
+        visibility: hidden;
+    }
+    
+    .nav.active {
+        height: auto;
+        padding: var(--spacing-lg);
+        opacity: 1;
+        visibility: visible;
+    }
+    
+    .mobile-menu-btn {
+        display: block;
+    }
+    
+    .chapter-title {
+        font-size: 2rem;
+    }
+    
+    .chapter-meta {
+        flex-direction: column;
+        gap: var(--spacing-sm);
+    }
+    
+    .chapter-navigation {
+        flex-direction: column;
+        gap: var(--spacing-md);
+    }
+    
+    .nav-btn {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .footer-container {
+        flex-direction: column;
+        gap: var(--spacing-lg);
+        text-align: center;
+    }
+    
+    .variable-visualizer {
+        justify-content: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .python-terminal-body {
+        height: 250px;
+    }
+    
+    .calculator-buttons {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    
+    .calculator-button.equals {
+        grid-column: span 3;
+    }
+    
+    .function-builder-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .function-test-inputs {
+        flex-direction: column;
+    }
+    
+    .function-test-input {
+        width: 100%;
+    }
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+    animation: fadeIn 0.5s ease-out forwards;
+}
+
+.delay-100 { animation-delay: 100ms; }
+.delay-200 { animation-delay: 200ms; }
+.delay-300 { animation-delay: 300ms; }
+.delay-400 { animation-delay: 400ms; }
+.delay-500 { animation-delay: 500ms; }
+
+/* Layout for chapter content */
+.chapter-layout {
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+    gap: var(--spacing-2xl);
+}
+</style>
+
+<style>
+    /* ========== ESTILOS DEL REPRODUCTOR DE PODCAST ========== */
+    .podcast-player-container .interactive-title::before {
+        content: '🎧'; /* O el emoji que prefieras */
+    }
+
+    .podcast-controls {
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-md);
+        margin-top: var(--spacing-lg);
+    }
+
+    #podcast-play-pause-btn {
+        padding: 0.5rem;
+        width: 50px;
+        height: 50px;
+    }
+
+    #podcast-play-pause-btn svg {
+        width: 100%;
+        height: 100%;
+    }
+
+    .podcast-progress-bar-container {
+        flex-grow: 1;
+    }
+
+    #podcast-progress-bar {
+        width: 100%;
+        -webkit-appearance: none;
+        appearance: none;
+        height: 8px;
+        background: var(--gray-light);
+        border-radius: var(--radius-full);
+        outline: none;
+        cursor: pointer;
+    }
+
+    /* Estilo para Chrome, Safari, Opera, Edge */
+    #podcast-progress-bar::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 20px;
+        height: 20px;
+        background: var(--primary);
+        border-radius: 50%;
+        cursor: pointer;
+        box-shadow: var(--shadow-sm);
+    }
+
+    /* Estilo para Firefox */
+    #podcast-progress-bar::-moz-range-thumb {
+        width: 20px;
+        height: 20px;
+        background: var(--primary);
+        border-radius: 50%;
+        cursor: pointer;
+        border: none;
+    }
+
+    .podcast-time-display {
+        font-family: var(--font-code);
+        font-weight: 500;
+        color: var(--gray);
+        min-width: 100px;
+        text-align: center;
+    }
+</style>
+
+</head>
+<body>
+<!-- Header -->
+<header class="header">
+<div class="container header-container">
+    <a href="../index.html" class="logo">
+        <span class="logo-icon">P</span>
+        <span>Programación para Mortales</span>
+    </a>
+    
+    <nav class="nav">
+        <a href="../index.html" class="nav-link">Inicio</a>
+        <a href="../index.html#chapters" class="nav-link">Capítulos</a>
+        <a href="../index.html#features" class="nav-link">Características</a>
+        <a href="../about.html" class="nav-link">Acerca de</a>
+        <a href="capitulo-6.html" class="btn btn-primary">Siguiente Capítulo</a>
+    </nav>
+    
+    <button class="mobile-menu-btn">☰</button>
+</div>
+</header>
+
+<!-- Progress Bar -->
+<div class="progress-container">
+<div class="progress-bar" id="progressBar"></div>
+</div>
+
+<!-- Chapter Header -->
+<section class="chapter-header">
+<div class="container chapter-header-content">
+    <div class="chapter-number animate-fade-in">Capítulo 5</div>
+    <h1 class="chapter-title animate-fade-in delay-100">Jugando con datos — Variables, tipos de datos y primeras instrucciones reales</h1>
+    <div class="chapter-meta animate-fade-in delay-200">
+        <div class="chapter-meta-item">
+            <span>⏱️ Tiempo de lectura: 20 minutos</span>
+        </div>
+        <div class="chapter-meta-item">
+            <span>🧩 Actividades: 3</span>
+        </div>
+        <div class="chapter-meta-item">
+            <span>📚 Nivel: Principiante</span>
+        </div>
+    </div>
+</div>
+</section>
+
+<!-- Chapter Content -->
+<section class="chapter-content">
+<div class="container">
+
+    <div class="podcast-player-container interactive-section">
+        <h3 class="interactive-title" style="--interactive-icon: '🎧';">Escuchá el resumen en audio</h3>
+        <audio id="podcast-audio" preload="metadata">
+            <source src="../../assets/audio/ppm/E1/capitulo_5.mp3" type="audio/mpeg">
+            Tu navegador no soporta el elemento de audio.
+        </audio>
+        <div class="podcast-controls">
+            <button id="podcast-play-pause-btn" class="btn btn-primary">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+            </button>
+            <div class="podcast-progress-bar-container">
+                <input type="range" id="podcast-progress-bar" value="0" step="1">
+            </div>
+            <div id="podcast-time" class="podcast-time-display">00:00 / 00:00</div>
+        </div>
+        <div class="podcast-external-link" style="margin-top: 1rem;">
+            <a href="https://www.youtube.com/playlist?list=PL2q5bMDgOj6Zg9DWlwBIEWgpXATKYS-YN" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">
+                ▶️ Ver lista de reproducción en YouTube
+            </a>
+        </div> <!-- .podcast-player-container -->
+    </div>
+    
+    <div class="chapter-layout">
+        <div class="content-wrapper">
+            <h2 id="primer-paso">🧠 El primer paso para pensar como un programador</h2>
+            
+            <p>Hasta ahora estuvimos conociendo a la compu, su historia, su interior, su lenguaje secreto (el binario), aprendimos qué es el sistema operativo, y hasta dimos nuestros primeros pasos en la terminal.</p>
+            
+            <p>Hoy vamos a empezar a hablar de datos, de cómo guardar cosas, hacer cuentas, y usar pequeños bloques de instrucciones.</p>
+            
+            <p>Este capítulo es clave, porque vas a aprender a construir tu primer pedacito de programa real. Sí, real. Que hace cosas.</p>
+            
+            <h2 id="que-es-dato">💬 ¿Qué es un dato?</h2>
+            
+            <p>Un dato es cualquier cosa que podamos escribir o procesar:
+            Un número, una palabra, una fecha, una imagen, una temperatura, una dirección.</p>
+            
+            <p>Por ejemplo:</p>
+            
+            <ul>
+                <li><code>"Hola mundo"</code> → es un texto (en programación se llama string)</li>
+                <li><code>27</code> → es un número entero (integer)</li>
+                <li><code>3.14</code> → es un número decimal (float)</li>
+                <li><code>True</code> o <code>False</code> → son valores booleanos (booleanos), que indican verdadero o falso</li>
+            </ul>
+            
+            <h2 id="que-es-variable">📦 ¿Y qué es una variable?</h2>
+            
+            <p>Una variable es como una caja con nombre donde podés guardar un dato.</p>
+            
+            <p>Pensá en tu casa: tenés cajas con etiquetas. Una dice "fotos", otra "herramientas", otra "recuerdos".
+            Sabés que si querés buscar algo, mirás la etiqueta y listo.</p>
+            
+            <p>Bueno, en Python podés hacer algo así:</p>
+            
+            <div class="code-block">
+                <div class="code-block-header">
+                    <div class="code-block-title">Python</div>
+                    <div class="code-block-actions">
+                        <button class="code-block-action copy-btn" data-code="edad = 25
+nombre = &quot;Martina&quot;
+altura = 1.70">Copiar</button>
+                    </div>
+                </div>
+                <pre><code>edad = 25
+nombre = "Martina"
+altura = 1.70</code></pre>
+            </div>
+            
+            <p>Con eso le estamos diciendo a la compu:</p>
+            
+            <ul>
+                <li>"Guardá el número 25 en una caja llamada edad".</li>
+                <li>"Guardá el texto Martina en una caja llamada nombre".</li>
+            </ul>
+            
+            <p>Después, podemos usar esos nombres para hacer operaciones o mostrar datos:</p>
+            
+            <div class="code-block">
+                <div class="code-block-header">
+                    <div class="code-block-title">Python</div>
+                    <div class="code-block-actions">
+                        <button class="code-block-action copy-btn" data-code="print(nombre)
+print(&quot;El año que viene vas a tener&quot;, edad + 1)">Copiar</button>
+                    </div>
+                </div>
+                <pre><code>print(nombre)
+print("El año que viene vas a tener", edad + 1)</code></pre>
+            </div>
+            
+            <!-- Actividad 1: Visualizador de Variables -->
+            <div class="interactive-section">
+                <h3 class="interactive-title">Actividad 1: Visualizador de Variables</h3>
+                
+                <p>🎯 <strong>Objetivo:</strong> Entender cómo las variables almacenan diferentes tipos de datos.</p>
+                
+                <p>Probá cambiar los valores de estas variables y mirá cómo se actualizan las cajas:</p>
+                
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <div class="code-block-title">Python</div>
+                    </div>
+                    <pre><code>nombre = "Agus"
+edad = 30
+altura = 1.75
+es_estudiante = True</code></pre>
+                </div>
+                
+                <div class="variable-visualizer" id="variableVisualizer">
+                    <div class="variable-box">
+                        <div class="variable-name">nombre</div>
+                        <div class="variable-value" id="nombreValue">"Agus"</div>
+                        <div class="variable-type">str</div>
+                    </div>
+                    <div class="variable-box">
+                        <div class="variable-name">edad</div>
+                        <div class="variable-value" id="edadValue">30</div>
+                        <div class="variable-type">int</div>
+                    </div>
+                    <div class="variable-box">
+                        <div class="variable-name">altura</div>
+                        <div class="variable-value" id="alturaValue">1.75</div>
+                        <div class="variable-type">float</div>
+                    </div>
+                    <div class="variable-box">
+                        <div class="variable-name">es_estudiante</div>
+                        <div class="variable-value" id="estudianteValue">True</div>
+                        <div class="variable-type">bool</div>
+                    </div>
+                </div>
+                
+                <div class="function-builder">
+                    <div class="function-builder-header">
+                        <span>Modificá las variables:</span>
+                    </div>
+                    <div class="function-body">
+                        <div class="function-line">
+                            <span>nombre =</span>
+                            <input type="text" class="function-line-input" id="nombreInput" value="Agus">
+                        </div>
+                        <div class="function-line">
+                            <span>edad =</span>
+                            <input type="number" class="function-line-input" id="edadInput" value="30">
+                        </div>
+                        <div class="function-line">
+                            <span>altura =</span>
+                            <input type="number" step="0.01" class="function-line-input" id="alturaInput" value="1.75">
+                        </div>
+                        <div class="function-line">
+                            <span>es_estudiante =</span>
+                            <select class="function-line-input" id="estudianteInput">
+                                <option value="True">True</option>
+                                <option value="False">False</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button class="function-test-button" id="updateVariablesBtn">Actualizar Variables</button>
+                </div>
+            </div>
+            
+            <h3 id="proba-esto">🧪 Probalo</h3>
+            
+            <div class="code-block">
+                <div class="code-block-header">
+                    <div class="code-block-title">Python</div>
+                    <div class="code-block-actions">
+                        <button class="code-block-action copy-btn" data-code="nombre = &quot;Agus&quot;
+edad = 30
+print(&quot;Hola,&quot;, nombre)
+print(&quot;Edad actual:&quot;, edad)
+print(&quot;Edad el año que viene:&quot;, edad + 1)">Copiar</button>
+                    </div>
+                </div>
+                <pre><code>nombre = "Agus"
+edad = 30
+print("Hola,", nombre)
+print("Edad actual:", edad)
+print("Edad el año que viene:", edad + 1)</code></pre>
+            </div>
+            
+            <h2 id="tipos-de-datos">🧠 ¿Qué tipos de datos existen?</h2>
+            
+            <p>En Python (y en casi todos los lenguajes), los datos se clasifican en tipos.
+            Esto es importante porque cada tipo se comporta diferente, y no todos se pueden mezclar.</p>
+            
+            <p>Los más comunes son:</p>
+            
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Tipo de dato</th>
+                            <th>Nombre técnico</th>
+                            <th>Ejemplo</th>
+                            <th>¿Para qué sirve?</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Texto</td>
+                            <td><code>str</code></td>
+                            <td><code>"hola"</code></td>
+                            <td>Para mostrar frases, nombres, mensajes</td>
+                        </tr>
+                        <tr>
+                            <td>Entero</td>
+                            <td><code>int</code></td>
+                            <td><code>42</code></td>
+                            <td>Para contar cosas, edades, cantidades</td>
+                        </tr>
+                        <tr>
+                            <td>Decimal</td>
+                            <td><code>float</code></td>
+                            <td><code>3.14</code></td>
+                            <td>Para medidas, porcentajes, pesos</td>
+                        </tr>
+                        <tr>
+                            <td>Booleano</td>
+                            <td><code>bool</code></td>
+                            <td><code>True</code>, <code>False</code></td>
+                            <td>Para tomar decisiones</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <p>Podés usar la función <code>type()</code> para descubrir qué tipo de dato tenés:</p>
+            
+            <div class="code-block">
+                <div class="code-block-header">
+                    <div class="code-block-title">Python</div>
+                    <div class="code-block-actions">
+                        <button class="code-block-action copy-btn" data-code="type(&quot;hola&quot;)   # str
+type(5)        # int
+type(3.14)     # float
+type(True)     # bool">Copiar</button>
+                    </div>
+                </div>
+                <pre><code>type("hola")   # str
+type(5)        # int
+type(3.14)     # float
+type(True)     # bool</code></pre>
+            </div>
+            
+            <!-- Actividad 2: Operaciones con Variables -->
+            <div class="interactive-section">
+                <h3 class="interactive-title">Actividad 2: Operaciones con Variables</h3>
+                
+                <p>🎯 <strong>Objetivo:</strong> Practicar operaciones básicas con diferentes tipos de datos.</p>
+                
+                <p>Probá estas operaciones y mirá qué pasa:</p>
+                
+                <div class="python-terminal-container">
+                    <div class="terminal-header">
+                        <div class="terminal-dots">
+                            <div class="terminal-dot terminal-dot-red"></div>
+                            <div class="terminal-dot terminal-dot-yellow"></div>
+                            <div class="terminal-dot terminal-dot-green"></div>
+                        </div>
+                        <div class="terminal-title">Terminal Python Interactiva</div>
+                    </div>
+                    
+                    <div class="python-terminal-body" id="pythonTerminalBody">
+                        <div class="python-terminal-output">Python 3.10.0 (default, Oct 10 2023, 12:34:56)</div>
+                        <div class="python-terminal-output">[GCC 9.3.0] on linux</div>
+                        <div class="python-terminal-output">Type "help", "copyright", "credits" or "license" for more information.</div>
+                        
+                        <div class="python-terminal-prompt">
+                            <span class="python-prompt">>>></span>
+                            <input type="text" class="python-terminal-input" id="pythonTerminalInput" placeholder="Escribí un comando...">
+                        </div>
+                    </div>
+                </div>
+                
+                <p>Probá estos ejemplos:</p>
+                <ul>
+                    <li><code>5 + 3</code> (suma de números)</li>
+                    <li><code>10 - 4</code> (resta de números)</li>
+                    <li><code>6 * 7</code> (multiplicación de números)</li>
+                    <li><code>15 / 3</code> (división de números)</li>
+                    <li><code>"Hola " + "mundo"</code>(unión de textos)</li>
+                </ul>
+            </div>
+            
+            <h2 id="operaciones">➕ ¿Y qué operaciones puedo hacer?</h2>
+            
+            <p>Python es como una súper calculadora. Podés hacer todas las operaciones básicas que hacés en la vida real:</p>
+            
+            <div class="code-block">
+                <div class="code-block-header">
+                    <div class="code-block-title">Python</div>
+                    <div class="code-block-actions">
+                        <button class="code-block-action copy-btn" data-code="print(5 + 3)   # Suma → 8
+print(10 - 4)  # Resta → 6
+print(6 * 7)   # Multiplicación → 42
+print(15 / 3)  # División → 5.0">Copiar</button>
+                    </div>
+                </div>
+                <pre><code>print(5 + 3)   # Suma → 8
+print(10 - 4)  # Resta → 6
+print(6 * 7)   # Multiplicación → 42
+print(15 / 3)  # División → 5.0</code></pre>
+            </div>
+            
+            <p>También podés sumar textos (esto se llama concatenar):</p>
+            
+            <div class="code-block">
+                <div class="code-block-header">
+                    <div class="code-block-title">Python</div>
+                    <div class="code-block-actions">
+                        <button class="code-block-action copy-btn" data-code="print(&quot;Hola &quot; + &quot;mundo&quot;)  # Hola mundo">Copiar</button>
+                    </div>
+                </div>
+                <pre><code>print("Hola " + "mundo")  # Hola mundo</code></pre>
+            </div>
+            
+            <p>Y repetirlos:</p>
+            
+            <div class="code-block">
+                <div class="code-block-header">
+                    <div class="code-block-title">Python</div>
+                    <div class="code-block-actions">
+                        <button class="code-block-action copy-btn" data-code="print(&quot;ja&quot; * 3)  # jajaja">Copiar</button>
+                    </div>
+                </div>
+                <pre><code>print("ja" * 3)  # jajaja</code></pre>
+            </div>
+            
+            <h2 id="mas-sobre-variables">📦 Un poco más sobre variables</h2>
+            
+            <p>Las variables pueden cambiar su valor. Por eso se llaman "variables" y no "constantes".</p>
+            
+            <div class="code-block">
+                <div class="code-block-header">
+                    <div class="code-block-title">Python</div>
+                    <div class="code-block-actions">
+                        <button class="code-block-action copy-btn" data-code="edad = 10
+edad = 15
+print(edad)  # Te muestra 15">Copiar</button>
+                    </div>
+                </div>
+                <pre><code>edad = 10
+edad = 15
+print(edad)  # Te muestra 15</code></pre>
+            </div>
+            
+            <p>También podés hacer que se actualicen con una operación:</p>
+            
+            <div class="code-block">
+                <div class="code-block-header">
+                    <div class="code-block-title">Python</div>
+                    <div class="code-block-actions">
+                        <button class="code-block-action copy-btn" data-code="edad = 20
+edad = edad + 1
+print(edad)  # 21">Copiar</button>
+                    </div>
+                </div>
+                <pre><code>edad = 20
+edad = edad + 1
+print(edad)  # 21</code></pre>
+            </div>
+            
+            <p>Esa línea significa:
+            "guardá en edad el resultado de edad + 1".</p>
+            
+            <p>Es decir, usás el valor viejo para calcular el nuevo.</p>
+            
+            <h2 id="que-es-funcion">🛠️ ¿Y qué es una función?</h2>
+            
+            <p>Ya usamos algunas. ¿Te acordás de <code>print()</code>? Bueno, eso es una función.</p>
+            
+            <p>Una función es un bloque de código que hace una tarea específica.
+            Tiene un nombre, y recibe algo que necesita (eso se llama argumento), y hace algo con eso.</p>
+            
+            <h3 id="por-ejemplo">🧪 Por ejemplo:</h3>
+            
+            <div class="code-block">
+                <div class="code-block-header">
+                    <div class="code-block-title">Python</div>
+                    <div class="code-block-actions">
+                        <button class="code-block-action copy-btn" data-code="print(&quot;Hola&quot;)">Copiar</button>
+                    </div>
+                </div>
+                <pre><code>print("Hola")</code></pre>
+            </div>
+            
+            <p>Acá:</p>
+            
+            <ul>
+                <li><code>print</code> es el nombre de la función</li>
+                <li><code>"Hola"</code> es el argumento</li>
+                <li>El resultado: muestra el texto en pantalla</li>
+            </ul>
+            
+            <p>Hay funciones que ya vienen en Python (como <code>print()</code>, <code>type()</code>, <code>exit()</code>), y otras que podemos crear nosotros.</p>
+            
+            <h3 id="como-se-escribe">✍️ ¿Cómo se escribe una función?</h3>
+            
+            <p>Todas siguen esta estructura:</p>
+            
+            <div class="code-block">
+                <div class="code-block-header">
+                    <div class="code-block-title">SCSS</div>
+                    <div class="code-block-actions">
+                        <button class="code-block-action copy-btn" data-code="nombre(argumento)">Copiar</button>
+                    </div>
+                </div>
+                <pre><code>nombre(argumento)</code></pre>
+            </div>
+            
+            <p>Y siempre llevan paréntesis, aunque estén vacíos.</p>
+            
+            <p>❌ Esto está mal: <code>print "Hola"</code></p>
+            <p>✔️ Esto está bien: <code>print("Hola")</code></p>
+            
+            <h3 id="crear-funcion">🧠 ¡Podés crear tu propia función!</h3>
+            
+            <p>Mirá esto:</p>
+            
+            <div class="code-block">
+                <div class="code-block-header">
+                    <div class="code-block-title">Python</div>
+                    <div class="code-block-actions">
+                        <button class="code-block-action copy-btn" data-code="def saludar():
+    print(&quot;Hola desde mi función&quot;)">Copiar</button>
+                    </div>
+                </div>
+                <pre><code>def saludar():
+    print("Hola desde mi función")</code></pre>
+            </div>
+            
+            <p>Y la usás así:</p>
+            
+            <div class="code-block">
+                <div class="code-block-header">
+                    <div class="code-block-title">Python</div>
+                    <div class="code-block-actions">
+                        <button class="code-block-action copy-btn" data-code="saludar()">Copiar</button>
+                    </div>
+                </div>
+                <pre><code>saludar()</code></pre>
+            </div>
+            
+            <p>¿Querés que salude a alguien? Podés pasarle un nombre como argumento:</p>
+            
+            <div class="code-block">
+                <div class="code-block-header">
+                    <div class="code-block-title">Python</div>
+                    <div class="code-block-actions">
+                        <button class="code-block-action copy-btn" data-code="def saludar(nombre):
+    print(&quot;Hola&quot;, nombre)">Copiar</button>
+                    </div>
+                </div>
+                <pre><code>def saludar(nombre):
+    print("Hola", nombre)</code></pre>
+            </div>
+            
+            <p>Y llamás:</p>
+            
+            <div class="code-block">
+                <div class="code-block-header">
+                    <div class="code-block-title">Python</div>
+                    <div class="code-block-actions">
+                        <button class="code-block-action copy-btn" data-code="saludar(&quot;Pepito&quot;)">Copiar</button>
+                    </div>
+                </div>
+                <pre><code>saludar("Pepito")</code></pre>
+            </div>
+            
+            <p>⏩ Resultado: Hola Pepito</p>
+            
+            <!-- Actividad 3: Creador de Funciones -->
+            <div class="interactive-section">
+                <h3 class="interactive-title">Actividad 3: Creá tu mini calculadora</h3>
+                
+                <p>🎯 <strong>Objetivo:</strong> Crear funciones que realicen operaciones matemáticas básicas.</p>
+                
+                <p>Ya tenemos una función de suma. Ahora creá tus propias funciones para restar, multiplicar y dividir:</p>
+                
+                <div class="function-builder">
+                    <div class="function-builder-header">
+                        <span>Función de suma:</span>
+                    </div>
+                    <div class="function-body">
+                        <div class="function-line">
+                            <span>def suma(a, b):</span>
+                        </div>
+                        <div class="function-line" style="margin-left: 20px;">
+                            <span>resultado = a + b</span>
+                        </div>
+                        <div class="function-line" style="margin-left: 20px;">
+                            <span>print("El resultado es:", resultado)</span>
+                        </div>
+                    </div>
+                    
+                    <div class="function-test">
+                        <div class="function-test-inputs">
+                            <input type="number" class="function-test-input" id="sumaA" value="4">
+                            <span>+</span>
+                            <input type="number" class="function-test-input" id="sumaB" value="7">
+                            <button class="function-test-button" id="testSumaBtn">Probar</button>
+                        </div>
+                        <div class="function-test-result" id="sumaResult">
+                            <p>El resultado aparecerá aquí...</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="function-builder">
+                    <div class="function-builder-header">
+                        <span>Ahora creá tu función de resta:</span>
+                    </div>
+                    <div class="function-body">
+                        <div class="function-line">
+                            <span>def resta(a, b):</span>
+                        </div>
+                        <div class="function-line" style="margin-left: 20px;">
+                            <input type="text" class="function-line-input" id="restaLine1" placeholder="resultado = a - b">
+                        </div>
+                        <div class="function-line" style="margin-left: 20px;">
+                            <input type="text" class="function-line-input" id="restaLine2" placeholder='print("El resultado es:", resultado)'>
+                        </div>
+                    </div>
+                    
+                    <div class="function-test">
+                        <div class="function-test-inputs">
+                            <input type="number" class="function-test-input" id="restaA" value="10">
+                            <span>-</span>
+                            <input type="number" class="function-test-input" id="restaB" value="3">
+                            <button class="function-test-button" id="testRestaBtn">Probar</button>
+                        </div>
+                        <div class="function-test-result" id="restaResult">
+                            <p>El resultado aparecerá aquí...</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="calculator-container">
+                    <div class="calculator-display" id="calculatorDisplay">0</div>
+                    <div class="calculator-buttons">
+                        <button class="calculator-button" data-value="7">7</button>
+                        <button class="calculator-button" data-value="8">8</button>
+                        <button class="calculator-button" data-value="9">9</button>
+                        <button class="calculator-button operator" data-value="/">÷</button>
+                        <button class="calculator-button" data-value="4">4</button>
+                        <button class="calculator-button" data-value="5">5</button>
+                        <button class="calculator-button" data-value="6">6</button>
+                        <button class="calculator-button operator" data-value="*">×</button>
+                        <button class="calculator-button" data-value="1">1</button>
+                        <button class="calculator-button" data-value="2">2</button>
+                        <button class="calculator-button" data-value="3">3</button>
+                        <button class="calculator-button operator" data-value="-">-</button>
+                        <button class="calculator-button" data-value="0">0</button>
+                        <button class="calculator-button" data-value=".">.</button>
+                        <button class="calculator-button clear" data-value="C">C</button>
+                        <button class="calculator-button operator" data-value="+">+</button>
+                        <button class="calculator-button equals" data  data-value="+">+</button>
+                        <button class="calculator-button equals" data-value="=">=</button>
+                    </div>
+                </div>
+            </div>
+            
+            <h3 id="actividad-final">🧪 Actividad final: armá tu primera mini calculadora</h3>
+            
+            <div class="code-block">
+                <div class="code-block-header">
+                    <div class="code-block-title">Python</div>
+                    <div class="code-block-actions">
+                        <button class="code-block-action copy-btn" data-code="def suma(a, b):
+    resultado = a + b
+    print(&quot;El resultado es:&quot;, resultado)
+
+suma(4, 7)
+suma(10, 20)">Copiar</button>
+                    </div>
+                </div>
+                <pre><code>def suma(a, b):
+    resultado = a + b
+    print("El resultado es:", resultado)
+
+suma(4, 7)
+suma(10, 20)</code></pre>
+            </div>
+            
+            <p>🎯 ¿Podés hacer una función que reste? ¿Y que multiplique?</p>
+            
+            <h2 id="se-parece">💬 ¿Y todo esto no se parece a algo?</h2>
+            
+            <p>¡Sí!
+            Si alguna vez usaste Excel, sabés que también se pueden hacer cosas como:</p>
+            
+            <div class="code-block">
+                <div class="code-block-header">
+                    <div class="code-block-title">Excel</div>
+                    <div class="code-block-actions">
+                        <button class="code-block-action copy-btn" data-code="=SUMA(A1:A5)
+=SI(B1 > 5, &quot;OK&quot;, &quot;ERROR&quot;)">Copiar</button>
+                    </div>
+                </div>
+                <pre><code>=SUMA(A1:A5)
+=SI(B1 > 5, "OK", "ERROR")</code></pre>
+            </div>
+            
+            <p>Bueno, eso también son funciones.
+            La única diferencia es que en Excel siempre se escriben con un =, y en Python no hace falta.</p>
+            
+            <p>Así que si alguna vez hiciste algo en Excel...
+            ya tenés más experiencia en programación de lo que pensás 😉</p>
+            
+            <h2 id="cierre">✅ Cierre del capítulo</h2>
+            
+            <div class="highlight-box">
+                <p>En este capítulo aprendiste a:</p>
+                
+                <ul class="feature-list">
+                    <li>Guardar datos en variables</li>
+                    <li>Identificar los tipos de datos más comunes</li>
+                    <li>Usar operaciones básicas</li>
+                    <li>Usar y crear tus primeras funciones</li>
+                    <li>Entender cómo hablarle a Python con lógica</li>
+                </ul>
+                
+                <p>La próxima vez que veas una hoja de cálculo, un cajero automático o un videojuego, sabé que atrás hay variables, operaciones y funciones. Como las tuyas.</p>
+                
+                <p>En el siguiente capítulo, vamos a aprender algo que va a hacer tu código mucho más inteligente:
+                🧠 Toma de decisiones: cómo hacer que la computadora "piense" con condicionales (if, else), y más.</p>
+            </div>
+            
+            <!-- Navegación entre capítulos -->
+            <div class="chapter-navigation">
+                <a href="capitulo-4.html" class="nav-btn">
+                    <span>←</span> Capítulo anterior
+                </a>
+                <a href="capitulo-6.html" class="nav-btn next">
+                    Siguiente capítulo <span>→</span>
+                </a>
+            </div>
+        </div>
+        
+        <!-- Tabla de contenidos -->
+        <aside class="toc">
+            <h3 class="toc-title">Contenido del capítulo</h3>
+            <ul class="toc-list">
+                <li class="toc-item">
+                    <a href="#primer-paso" class="toc-link">El primer paso para pensar como un programador</a>
+                </li>
+                <li class="toc-item">
+                    <a href="#que-es-dato" class="toc-link">¿Qué es un dato?</a>
+                </li>
+                <li class="toc-item">
+                    <a href="#que-es-variable" class="toc-link">¿Y qué es una variable?</a>
+                </li>
+                <li class="toc-item">
+                    <a href="#tipos-de-datos" class="toc-link">¿Qué tipos de datos existen?</a>
+                </li>
+                <li class="toc-item">
+                    <a href="#operaciones" class="toc-link">¿Y qué operaciones puedo hacer?</a>
+                </li>
+                <li class="toc-item">
+                    <a href="#mas-sobre-variables" class="toc-link">Un poco más sobre variables</a>
+                </li>
+                <li class="toc-item">
+                    <a href="#que-es-funcion" class="toc-link">¿Y qué es una función?</a>
+                    <ul class="toc-sublist">
+                        <li><a href="#por-ejemplo" class="toc-link">Por ejemplo</a></li>
+                        <li><a href="#como-se-escribe" class="toc-link">¿Cómo se escribe una función?</a></li>
+                        <li><a href="#crear-funcion" class="toc-link">¡Podés crear tu propia función!</a></li>
+                        <li><a href="#actividad-final" class="toc-link">Actividad final</a></li>
+                    </ul>
+                </li>
+                <li class="toc-item">
+                    <a href="#se-parece" class="toc-link">¿Y todo esto no se parece a algo?</a>
+                </li>
+                <li class="toc-item">
+                    <a href="#cierre" class="toc-link">Cierre del capítulo</a>
+                </li>
+            </ul>
+        </aside>
+    </div>
+</div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+<div class="container">
+    <div class="footer-container">
+        <a href="../index.html" class="footer-logo">Programación para Mortales</a>
+        
+        <div class="footer-links">
+            <a href="../index.html" class="footer-link">Inicio</a>
+            <a href="../indice.html" class="footer-link">Índice completo</a>
+            <a href="../about.html" class="footer-link">Acerca de</a>
+            <a href="../terminos-y-condiciones.html" class="footer-link">Términos y condiciones</a>
+        </div>
+    </div>
+    
+    <div class="footer-bottom">
+        <p>&copy; 2025 Programación para Mortales. Todos los derechos reservados.</p>
+    </div>
+</div>
+</footer>
+
+<script>
+// Mobile Menu Toggle
+const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+const nav = document.querySelector('.nav');
+
+mobileMenuBtn.addEventListener('click', () => {
+    nav.classList.toggle('active');
+});
+
+// Header Scroll Effect
+const header = document.querySelector('.header');
+
+window.addEventListener('scroll', () => {
+    if (window.scrollY > 50) {
+        header.classList.add('scrolled');
+    } else {
+        header.classList.remove('scrolled');
+    }
+});
+
+// Reading Progress Bar
+const progressBar = document.getElementById('progressBar');
+
+window.addEventListener('scroll', () => {
+    const windowHeight = window.innerHeight;
+    const documentHeight = document.documentElement.scrollHeight - windowHeight;
+    const scrollTop = window.scrollY;
+    const progress = (scrollTop / documentHeight) * 100;
+    progressBar.style.width = progress + '%';
+});
+
+// Table of Contents Active Link
+const tocLinks = document.querySelectorAll('.toc-link');
+const sections = document.querySelectorAll('h2, h3');
+
+window.addEventListener('scroll', () => {
+    let current = '';
+    
+    sections.forEach(section => {
+        const sectionTop = section.offsetTop - 100;
+        if (window.scrollY >= sectionTop) {
+            current = section.getAttribute('id');
+        }
+    });
+    
+    tocLinks.forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('href').substring(1) === current) {
+            link.classList.add('active');
+        }
+    });
+});
+
+// Copy Code Button
+const copyButtons = document.querySelectorAll('.copy-btn');
+
+copyButtons.forEach(button => {
+    button.addEventListener('click', () => {
+        const code = button.dataset.code;
+        navigator.clipboard.writeText(code);
+        
+        // Change button text temporarily
+        const originalText = button.textContent;
+        button.textContent = '¡Copiado!';
+        button.style.backgroundColor = 'var(--success)';
+        button.style.color = 'white';
+        
+        setTimeout(() => {
+            button.textContent = originalText;
+            button.style.backgroundColor = '';
+            button.style.color = '';
+        }, 2000);
+    });
+});
+
+// Python Terminal Simulator
+const pythonTerminalInput = document.getElementById('pythonTerminalInput');
+const pythonTerminalBody = document.getElementById('pythonTerminalBody');
+
+pythonTerminalInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+        const command = pythonTerminalInput.value.trim();
+        
+        // Crear un nuevo prompt con el comando
+        const commandOutput = document.createElement('div');
+        commandOutput.className = 'python-terminal-output';
+        commandOutput.innerHTML = `<span class="python-prompt">>>></span> ${command}`;
+        
+        // Insertar antes del prompt actual
+        const prompt = pythonTerminalBody.querySelector('.python-terminal-prompt');
+        pythonTerminalBody.insertBefore(commandOutput, prompt);
+        
+        // Procesar el comando
+        processPythonCommand(command);
+        
+        // Limpiar el input
+        pythonTerminalInput.value = '';
+        
+        // Scroll al final
+        pythonTerminalBody.scrollTop = pythonTerminalBody.scrollHeight;
+    }
+});
+
+function processPythonCommand(command) {
+    let result = '';
+    
+    // Simular comandos básicos de Python
+    if (command.startsWith('print(') && command.endsWith(')')) {
+        // Extraer el contenido entre paréntesis
+        const content = command.substring(6, command.length - 1);
+        
+        // Manejar diferentes tipos de comillas
+        if ((content.startsWith('"') && content.endsWith('"')) || 
+            (content.startsWith("'") && content.endsWith("'"))) {
+            result = content.substring(1, content.length - 1);
+        } else {
+            try {
+                // Intentar evaluar expresiones simples
+                result = eval(content);
+            } catch (e) {
+                result = `Error: ${e.message}`;
+            }
+        }
+    } else if (command.startsWith('type(') && command.endsWith(')')) {
+        const content = command.substring(5, command.length - 1);
+        
+        if ((content.startsWith('"') && content.endsWith('"')) || 
+            (content.startsWith("'") && content.endsWith("'"))) {
+            result = "<class 'str'>";
+        } else if (!isNaN(content) && content.indexOf('.') === -1) {
+            result = "<class 'int'>";
+        } else if (!isNaN(content) && content.indexOf('.') !== -1) {
+            result = "<class 'float'>";
+        } else if (content === 'True' || content === 'False') {
+            result = "<class 'bool'>";
+        } else if (content.startsWith('[') && content.endsWith(']')) {
+            result = "<class 'list'>";
+        } else {
+            result = "Error: invalid syntax";
+        }
+    } else if (command === 'exit()' || command === 'quit()') {
+        result = "Saliendo del modo Python...";
+        
+        // Simular salida después de un breve retraso
+        setTimeout(() => {
+            const exitOutput = document.createElement('div');
+            exitOutput.className = 'python-terminal-output';
+            exitOutput.textContent = "$ ";
+            
+            // Insertar antes del prompt actual
+            const prompt = pythonTerminalBody.querySelector('.python-terminal-prompt');
+            pythonTerminalBody.insertBefore(exitOutput, prompt);
+            
+            // Scroll al final
+            pythonTerminalBody.scrollTop = pythonTerminalBody.scrollHeight;
+        }, 1000);
+    } else if (command.includes('+') || command.includes('-') || command.includes('*') || command.includes('/')) {
+        try {
+            result = eval(command);
+        } catch (e) {
+            result = `Error: ${e.message}`;
+        }
+    } else if (command.startsWith('def ')) {
+        result = "Función definida correctamente";
+    } else if (command === 'help()') {
+        result = "Ayuda de Python (simulada):\n\nComandos disponibles:\n- print(valor) - Muestra un valor en pantalla\n- type(valor) - Muestra el tipo de un valor\n- exit() - Sale del modo Python\n\nPrueba también operaciones matemáticas como 2 + 2";
+    } else if (command === '') {
+        // No hacer nada si el comando está vacío
+        return;
+    } else {
+        // Intentar evaluar como una variable o expresión
+        try {
+            result = eval(command);
+        } catch (e) {
+            result = `Error: nombre '${command}' no está definido`;
+        }
+    }
+    
+    // Mostrar el resultado
+    const resultOutput = document.createElement('div');
+    resultOutput.className = 'python-terminal-output';
+    resultOutput.textContent = result;
+    
+    // Insertar antes del prompt actual
+    const prompt = pythonTerminalBody.querySelector('.python-terminal-prompt');
+    pythonTerminalBody.insertBefore(resultOutput, prompt);
+}
+
+// Variable Visualizer
+const updateVariablesBtn = document.getElementById('updateVariablesBtn');
+const nombreInput = document.getElementById('nombreInput');
+const edadInput = document.getElementById('edadInput');
+const alturaInput = document.getElementById('alturaInput');
+const estudianteInput = document.getElementById('estudianteInput');
+
+const nombreValue = document.getElementById('nombreValue');
+const edadValue = document.getElementById('edadValue');
+const alturaValue = document.getElementById('alturaValue');
+const estudianteValue = document.getElementById('estudianteValue');
+
+updateVariablesBtn.addEventListener('click', () => {
+    // Actualizar los valores en las cajas
+    nombreValue.textContent = `"${nombreInput.value}"`;
+    edadValue.textContent = edadInput.value;
+    alturaValue.textContent = alturaInput.value;
+    estudianteValue.textContent = estudianteInput.value;
+    
+    // Efecto de actualización
+    const boxes = document.querySelectorAll('.variable-box');
+    boxes.forEach(box => {
+        box.style.transform = 'scale(1.05)';
+        setTimeout(() => {
+            box.style.transform = 'translateY(0)';
+        }, 300);
+    });
+});
+
+// Calculator Simulator
+const calculatorDisplay = document.getElementById('calculatorDisplay');
+const calculatorButtons = document.querySelectorAll('.calculator-button');
+
+let firstOperand = null;
+let operator = null;
+let waitingForSecondOperand = false;
+
+calculatorButtons.forEach(button => {
+    button.addEventListener('click', () => {
+        const value = button.dataset.value;
+        
+        if (value === 'C') {
+            // Clear
+            calculatorDisplay.textContent = '0';
+            firstOperand = null;
+            operator = null;
+            waitingForSecondOperand = false;
+        } else if (value === '+' || value === '-' || value === '*' || value === '/') {
+            // Operator
+            const displayValue = parseFloat(calculatorDisplay.textContent);
+            
+            if (firstOperand === null) {
+                firstOperand = displayValue;
+            } else if (operator) {
+                const result = calculate(firstOperand, displayValue, operator);
+                calculatorDisplay.textContent = result;
+                firstOperand = result;
+            }
+            
+            operator = value;
+            waitingForSecondOperand = true;
+        } else if (value === '=') {
+            // Equals
+            const displayValue = parseFloat(calculatorDisplay.textContent);
+            
+            if (operator && firstOperand !== null) {
+                const result = calculate(firstOperand, displayValue, operator);
+                calculatorDisplay.textContent = result;
+                firstOperand = result;
+                operator = null;
+                waitingForSecondOperand = true;
+            }
+        } else if (value === '.') {
+            // Decimal point
+            if (!calculatorDisplay.textContent.includes('.')) {
+                calculatorDisplay.textContent += '.';
+            }
+        } else {
+            // Number
+            if (calculatorDisplay.textContent === '0' || waitingForSecondOperand) {
+                calculatorDisplay.textContent = value;
+                waitingForSecondOperand = false;
+            } else {
+                calculatorDisplay.textContent += value;
+            }
+        }
+    });
+});
+
+function calculate(firstOperand, secondOperand, operator) {
+    switch (operator) {
+        case '+':
+            return firstOperand + secondOperand;
+        case '-':
+            return firstOperand - secondOperand;
+        case '*':
+            return firstOperand * secondOperand;
+        case '/':
+            return firstOperand / secondOperand;
+        default:
+            return secondOperand;
+    }
+}
+
+// Function Tester
+const testSumaBtn = document.getElementById('testSumaBtn');
+const sumaA = document.getElementById('sumaA');
+const sumaB = document.getElementById('sumaB');
+const sumaResult = document.getElementById('sumaResult');
+
+testSumaBtn.addEventListener('click', () => {
+    const a = parseFloat(sumaA.value);
+    const b = parseFloat(sumaB.value);
+    const resultado = a + b;
+    
+    sumaResult.innerHTML = `<p>El resultado es: ${resultado}</p>`;
+});
+
+const testRestaBtn = document.getElementById('testRestaBtn');
+const restaA = document.getElementById('restaA');
+const restaB = document.getElementById('restaB');
+const restaResult = document.getElementById('restaResult');
+const restaLine1 = document.getElementById('restaLine1');
+const restaLine2 = document.getElementById('restaLine2');
+
+testRestaBtn.addEventListener('click', () => {
+    const a = parseFloat(restaA.value);
+    const b = parseFloat(restaB.value);
+    
+    // Verificar si el usuario ha escrito el código correcto
+    const line1 = restaLine1.value.trim();
+    const line2 = restaLine2.value.trim();
+    
+    if (line1.includes('resultado = a - b') && line2.includes('print') && line2.includes('resultado')) {
+        const resultado = a - b;
+        restaResult.innerHTML = `<p>El resultado es: ${resultado}</p>`;
+        restaResult.style.color = 'white';
+    } else {
+        restaResult.innerHTML = `<p>¡Ups! Parece que hay un error en tu código. Asegúrate de escribir:</p>
+        <p>resultado = a - b</p>
+        <p>print("El resultado es:", resultado)</p>`;
+        restaResult.style.color = 'var(--danger)';
+    }
+});
+</script>
+
+
+<script>
+    // ========== SCRIPT DEL REPRODUCTOR DE PODCAST ==========
+    const audio = document.getElementById('podcast-audio');
+    const playPauseBtn = document.getElementById('podcast-play-pause-btn');
+    const playIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>';
+    const pauseIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>';
+    const podcastProgressBar = document.getElementById('podcast-progress-bar');
+    const timeDisplay = document.getElementById('podcast-time');
+
+    function togglePlayPause() {
+        if (audio.paused) {
+            audio.play();
+            playPauseBtn.innerHTML = pauseIcon;
+        } else {
+            audio.pause();
+            playPauseBtn.innerHTML = playIcon;
+        }
+    }
+
+    function formatTime(seconds) {
+        const minutes = Math.floor(seconds / 60);
+        
+        const secs = Math.floor(seconds % 60);
+        return `${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+    }
+
+    function updateProgress() {
+        podcastProgressBar.value = (audio.currentTime / audio.duration) * 100 || 0;
+        timeDisplay.textContent = `${formatTime(audio.currentTime)} / ${formatTime(audio.duration || 0)}`;
+    }
+
+    playPauseBtn.addEventListener('click', togglePlayPause);
+    audio.addEventListener('timeupdate', updateProgress);
+    audio.addEventListener('loadedmetadata', updateProgress);
+
+    podcastProgressBar.addEventListener('input', () => {
+        const seekTime = (podcastProgressBar.value / 100) * audio.duration;
+        audio.currentTime = seekTime;
+    });
+
+    // Cuando el audio termina
+    audio.addEventListener('ended', () => {
+        playPauseBtn.innerHTML = playIcon;
+        audio.currentTime = 0;
+        podcastProgressBar.value = 0;
+    });
+</script>
+
+
+</body>
+</html>

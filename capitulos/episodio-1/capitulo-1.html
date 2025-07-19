@@ -1,0 +1,1990 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>¿Qué es programar? - Programación para Mortales</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Paleta de colores vibrante y moderna */
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --primary-light: #a5b4fc;
+            --secondary: #ec4899;
+            --secondary-dark: #db2777;
+            --accent: #06b6d4;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --dark: #0f172a;
+            --dark-blue: #1e293b;
+            --light: #f8fafc;
+            --gray: #64748b;
+            --gray-light: #e2e8f0;
+            
+            /* Tipografía */
+            --font-heading: 'Space Grotesk', sans-serif;
+            --font-body: 'Outfit', sans-serif;
+            --font-code: 'Fira Code', monospace;
+            
+            /* Espaciado */
+            --spacing-xs: 0.25rem;
+            --spacing-sm: 0.5rem;
+            --spacing-md: 1rem;
+            --spacing-lg: 1.5rem;
+            --spacing-xl: 2rem;
+            --spacing-2xl: 3rem;
+            --spacing-3xl: 4rem;
+            
+            /* Bordes y sombras */
+            --radius-sm: 0.25rem;
+            --radius-md: 0.5rem;
+            --radius-lg: 1rem;
+            --radius-xl: 1.5rem;
+            --radius-full: 9999px;
+            
+            --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            
+            /* Transiciones */
+            --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-normal: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-slow: 500ms cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html {
+            font-size: 16px;
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            font-family: var(--font-body);
+            color: var(--dark);
+            background-color: var(--light);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        h1, h2, h3, h4, h5, h6 {
+            font-family: var(--font-heading);
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: var(--spacing-lg);
+            color: var(--dark);
+        }
+        
+        h1 {
+            font-size: 3rem;
+        }
+        
+        h2 {
+            font-size: 2.25rem;
+            margin-top: var(--spacing-2xl);
+            position: relative;
+            padding-bottom: var(--spacing-sm);
+        }
+        
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 80px;
+            height: 4px;
+            background: var(--primary);
+            border-radius: 2px;
+        }
+        
+        h3 {
+            font-size: 1.75rem;
+            margin-top: var(--spacing-xl);
+            color: var(--primary-dark);
+        }
+        
+        p {
+            margin-bottom: var(--spacing-lg);
+            font-size: 1.125rem;
+        }
+        
+        a {
+            text-decoration: none;
+            color: var(--primary);
+            transition: var(--transition-normal);
+        }
+        
+        a:hover {
+            color: var(--primary-dark);
+        }
+        
+        img {
+            max-width: 100%;
+            height: auto;
+            border-radius: var(--radius-md);
+        }
+        
+        /* Layout */
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 var(--spacing-lg);
+        }
+        
+        /* Header */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 100;
+            background-color: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition-normal);
+        }
+        
+        .header.scrolled {
+            box-shadow: var(--shadow-md);
+        }
+        
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+        }
+        
+        .logo {
+            font-family: var(--font-heading);
+            font-weight: 800;
+            font-size: 1.5rem;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+        }
+        
+        .logo-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            background-color: var(--primary);
+            color: white;
+            border-radius: var(--radius-md);
+            font-weight: 700;
+        }
+        
+        .nav {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-xl);
+        }
+        
+        .nav-link {
+            font-weight: 500;
+            color: var(--dark);
+            position: relative;
+        }
+        
+        .nav-link:hover {
+            color: var(--primary);
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--primary);
+            transition: var(--transition-normal);
+        }
+        
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        
+        .nav-link.active {
+            color: var(--primary);
+        }
+        
+        .nav-link.active::after {
+            width: 100%;
+        }
+        
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.75rem 1.5rem;
+            font-weight: 600;
+            border-radius: var(--radius-full);
+            transition: var(--transition-normal);
+            gap: var(--spacing-sm);
+        }
+        
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+            box-shadow: var(--shadow-md);
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .mobile-menu-btn {
+            display: none;
+            font-size: 1.5rem;
+            color: var(--dark);
+            cursor: pointer;
+            border: none;
+            background: none;
+        }
+        
+        /* Chapter Header */
+        .chapter-header {
+            padding-top: 120px;
+            padding-bottom: var(--spacing-2xl);
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .chapter-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            opacity: 0.5;
+        }
+        
+        .chapter-header-content {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .chapter-number {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: var(--spacing-sm);
+            opacity: 0.9;
+        }
+        
+        .chapter-title {
+            font-size: 3.5rem;
+            margin-bottom: var(--spacing-lg);
+            color: white;
+        }
+        
+        .chapter-meta {
+            display: flex;
+            gap: var(--spacing-lg);
+            font-size: 1.125rem;
+            opacity: 0.9;
+        }
+        
+        .chapter-meta-item {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+        }
+        
+        /* Chapter Content */
+        .chapter-content {
+            padding: var(--spacing-3xl) 0;
+        }
+        
+        .content-wrapper {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        /* Highlighted Boxes */
+        .highlight-box {
+            background-color: rgba(99, 102, 241, 0.1);
+            border-left: 4px solid var(--primary);
+            padding: var(--spacing-lg);
+            border-radius: 0 var(--radius-md) var(--radius-md) 0;
+            margin: var(--spacing-xl) 0;
+        }
+        
+        .note-box {
+            background-color: rgba(236, 72, 153, 0.1);
+            border-left: 4px solid var(--secondary);
+            padding: var(--spacing-lg);
+            border-radius: 0 var(--radius-md) var(--radius-md) 0;
+            margin: var(--spacing-xl) 0;
+        }
+        
+        /* Lists */
+        ul, ol {
+            margin: 0 0 var(--spacing-lg) var(--spacing-xl);
+        }
+        
+        li {
+            margin-bottom: var(--spacing-sm);
+        }
+        
+        .feature-list {
+            list-style: none;
+            margin-left: 0;
+        }
+        
+        .feature-list li {
+            position: relative;
+            padding-left: var(--spacing-xl);
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .feature-list li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: var(--success);
+            font-weight: bold;
+        }
+        
+        /* Code Blocks */
+        pre {
+            background-color: var(--dark-blue);
+            color: white;
+            padding: var(--spacing-lg);
+            border-radius: var(--radius-md);
+            overflow-x: auto;
+            margin: var(--spacing-lg) 0;
+            font-family: var(--font-code);
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+        
+        code {
+            font-family: var(--font-code);
+            background-color: var(--gray-light);
+            padding: 0.2rem 0.4rem;
+            border-radius: var(--radius-sm);
+            font-size: 0.9em;
+        }
+        
+        pre code {
+            background-color: transparent;
+            padding: 0;
+            border-radius: 0;
+            font-size: 1em;
+        }
+        
+        /* Tables */
+        .table-container {
+            overflow-x: auto;
+            margin: var(--spacing-xl) 0;
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-md);
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: white;
+        }
+        
+        th, td {
+            padding: var(--spacing-md);
+            text-align: left;
+            border: 1px solid var(--gray-light);
+        }
+        
+        th {
+            background-color: var(--primary);
+            color: white;
+            font-weight: 600;
+        }
+        
+        tr:nth-child(even) {
+            background-color: var(--gray-light);
+        }
+        
+        /* Images and Illustrations */
+        .image-container {
+            margin: var(--spacing-xl) 0;
+            text-align: center;
+        }
+        
+        .image-container img {
+            max-width: 100%;
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .image-caption {
+            margin-top: var(--spacing-sm);
+            font-size: 0.9rem;
+            color: var(--gray);
+            text-align: center;
+        }
+        
+        /* Interactive Elements */
+        .interactive-section {
+            background-color: white;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg);
+            padding: var(--spacing-xl);
+            margin: var(--spacing-2xl) 0;
+        }
+        
+        .interactive-title {
+            display: flex;
+            align-items: center;
+            font-size: 1.5rem;
+            margin-bottom: var(--spacing-lg);
+            color: var(--primary-dark);
+        }
+        
+        .interactive-title::before {
+            content: "🎮";
+            margin-right: var(--spacing-sm);
+            font-size: 1.8rem;
+        }
+        
+        /* Bit Visualizer */
+        .bit-visualizer {
+            margin: var(--spacing-xl) 0;
+        }
+        
+        .bit-container {
+            display: flex;
+            flex-wrap: nowrap;
+            gap: var(--spacing-md);
+            margin: var(--spacing-lg) 0;
+            justify-content: center;
+            overflow-x: auto;
+            padding: var(--spacing-sm) 0;
+        }
+        
+        .bit {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: var(--transition-normal);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .bit-0 {
+            background-color: #f8d7da;
+            border: 2px solid var(--danger);
+            color: #721c24;
+        }
+        
+        .bit-1 {
+            background-color: #d4edda;
+            border: 2px solid var(--success);
+            color: #155724;
+        }
+        
+        .bit-value {
+            text-align: center;
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-top: var(--spacing-lg);
+        }
+        
+        /* Quiz */
+        .quiz-container {
+            margin: var(--spacing-xl) 0;
+        }
+        
+        .quiz-question {
+            margin-bottom: var(--spacing-xl);
+        }
+        
+        .quiz-options {
+            margin: var(--spacing-lg) 0;
+        }
+        
+        .quiz-option {
+            display: block;
+            padding: var(--spacing-md) var(--spacing-lg);
+            border: 2px solid var(--gray-light);
+            border-radius: var(--radius-md);
+            margin: var(--spacing-sm) 0;
+            cursor: pointer;
+            transition: var(--transition-normal);
+            font-weight: 500;
+        }
+        
+        .quiz-option:hover {
+            border-color: var(--primary);
+            background-color: rgba(99, 102, 241, 0.05);
+        }
+        
+        .quiz-option.selected {
+            background-color: rgba(99, 102, 241, 0.1);
+            border-color: var(--primary);
+        }
+        
+        .quiz-option.correct {
+            background-color: rgba(16, 185, 129, 0.1);
+            border-color: var(--success);
+        }
+        
+        .quiz-option.incorrect {
+            background-color: rgba(239, 68, 68, 0.1);
+            border-color: var(--danger);
+        }
+        
+        .quiz-feedback {
+            margin-top: var(--spacing-lg);
+            padding: var(--spacing-md) var(--spacing-lg);
+            border-radius: var(--radius-md);
+            display: none;
+            font-weight: 500;
+        }
+        
+        .quiz-feedback.correct {
+            background-color: rgba(16, 185, 129, 0.1);
+            border: 1px solid var(--success);
+            color: #155724;
+        }
+        
+        .quiz-feedback.incorrect {
+            background-color: rgba(239, 68, 68, 0.1);
+            border: 1px solid var(--danger);
+            color: #721c24;
+        }
+        
+        .timer-display {
+            font-size: 1.2rem;
+            margin: var(--spacing-md) 0;
+            text-align: center;
+            font-weight: 600;
+        }
+        
+        .explanation-box {
+            background-color: #e9f7fe;
+            border: 1px solid #b3e5fc;
+            border-radius: var(--radius-md);
+            padding: var(--spacing-lg);
+            margin-top: var(--spacing-lg);
+            display: none;
+        }
+        
+        .explanation-title {
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: var(--spacing-sm);
+        }
+        
+        /* Binary Converter */
+        .binary-converter {
+            margin: var(--spacing-lg) 0;
+        }
+        
+        .converter-controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--spacing-lg);
+            margin: var(--spacing-lg) 0;
+        }
+        
+        .input-group {
+            flex: 1 1 300px;
+        }
+        
+        .input-group label {
+            display: block;
+            margin-bottom: var(--spacing-sm);
+            font-weight: 600;
+        }
+        
+        input, textarea, select {
+            width: 100%;
+            padding: var(--spacing-sm) var(--spacing-md);
+            border: 1px solid var(--gray-light);
+            border-radius: var(--radius-md);
+            font-size: 1rem;
+            font-family: inherit;
+            transition: var(--transition-normal);
+        }
+        
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+        }
+        
+        .result-display {
+            background-color: var(--gray-light);
+            border: 1px solid var(--gray);
+            border-radius: var(--radius-md);
+            padding: var(--spacing-lg);
+            min-height: 100px;
+            margin-top: var(--spacing-md);
+            font-family: var(--font-code);
+            white-space: pre-wrap;
+        }
+        
+        /* Chapter Navigation */
+        .chapter-navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: var(--spacing-3xl);
+            padding-top: var(--spacing-xl);
+            border-top: 1px solid var(--gray-light);
+        }
+        
+        .nav-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            background-color: white;
+            color: var(--primary);
+            padding: var(--spacing-sm) var(--spacing-lg);
+            border-radius: var(--radius-full);
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition-normal);
+            border: 2px solid var(--primary);
+            cursor: pointer;
+        }
+        
+        .nav-btn:hover {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .nav-btn.next {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .nav-btn.next:hover {
+            background-color: var(--primary-dark);
+            border-color: var(--primary-dark);
+        }
+        
+        /* Progress Bar */
+        .progress-container {
+            position: fixed;
+            top: 70px;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background-color: var(--gray-light);
+            z-index: 99;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background-color: var(--secondary);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+        
+        /* Table of Contents */
+        .toc {
+            position: sticky;
+            top: 90px;
+            max-height: calc(100vh - 100px);
+            overflow-y: auto;
+            padding-right: var(--spacing-md);
+        }
+        
+        .toc-title {
+            font-size: 1.25rem;
+            margin-bottom: var(--spacing-md);
+            padding-bottom: var(--spacing-sm);
+            border-bottom: 2px solid var(--primary);
+        }
+        
+        .toc-list {
+            list-style: none;
+            margin-left: 0;
+        }
+        
+        .toc-item {
+            margin-bottom: var(--spacing-sm);
+        }
+        
+        .toc-link {
+            display: block;
+            padding: var(--spacing-xs) 0;
+            color: var(--gray);
+            transition: var(--transition-normal);
+            border-left: 2px solid transparent;
+            padding-left: var(--spacing-sm);
+        }
+        
+        .toc-link:hover, .toc-link.active {
+            color: var(--primary);
+            border-left-color: var(--primary);
+            padding-left: var(--spacing-md);
+        }
+        
+        .toc-sublist {
+            list-style: none;
+            margin-left: var(--spacing-lg);
+            margin-bottom: 0;
+        }
+        
+        /* Footer */
+        .footer {
+            background-color: var(--dark);
+            color: white;
+            padding: var(--spacing-2xl) 0;
+            margin-top: var(--spacing-3xl);
+        }
+        
+        .footer-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .footer-logo {
+            font-family: var(--font-heading);
+            font-weight: 800;
+            font-size: 1.5rem;
+            color: white;
+        }
+        
+        .footer-links {
+            display: flex;
+            gap: var(--spacing-lg);
+        }
+        
+        .footer-link {
+            color: rgba(255, 255, 255, 0.7);
+            transition: var(--transition-normal);
+        }
+        
+        .footer-link:hover {
+            color: white;
+        }
+        
+        .footer-bottom {
+            margin-top: var(--spacing-lg);
+            padding-top: var(--spacing-lg);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.875rem;
+        }
+        
+        /* Responsive Styles */
+        @media (max-width: 992px) {
+            .chapter-title {
+                font-size: 2.5rem;
+            }
+            
+            .chapter-layout {
+                grid-template-columns: 1fr;
+            }
+            
+            .toc {
+                display: none;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .header-container {
+                height: 60px;
+            }
+            
+            .nav {
+                position: fixed;
+                top: 60px;
+                left: 0;
+                width: 100%;
+                height: 0;
+                background-color: white;
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 0 var(--spacing-lg);
+                overflow: hidden;
+                transition: var(--transition-normal);
+                box-shadow: var(--shadow-md);
+                opacity: 0;
+                visibility: hidden;
+            }
+            
+            .nav.active {
+                height: auto;
+                padding: var(--spacing-lg);
+                opacity: 1;
+                visibility: visible;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .chapter-title {
+                font-size: 2rem;
+            }
+            
+            .chapter-meta {
+                flex-direction: column;
+                gap: var(--spacing-sm);
+            }
+            
+            .bit {
+                width: 40px;
+                height: 40px;
+                font-size: 1.2rem;
+            }
+            
+            .bit-container {
+                gap: var(--spacing-sm);
+            }
+            
+            .chapter-navigation {
+                flex-direction: column;
+                gap: var(--spacing-md);
+            }
+            
+            .nav-btn {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .footer-container {
+                flex-direction: column;
+                gap: var(--spacing-lg);
+                text-align: center;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .bit {
+                width: 35px;
+                height: 35px;
+                font-size: 1rem;
+            }
+            
+            .bit-container {
+                gap: var(--spacing-xs);
+            }
+        }
+        
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .animate-fade-in {
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+        
+        .delay-100 { animation-delay: 100ms; }
+        .delay-200 { animation-delay: 200ms; }
+        .delay-300 { animation-delay: 300ms; }
+        .delay-400 { animation-delay: 400ms; }
+        .delay-500 { animation-delay: 500ms; }
+        
+        /* Layout for chapter content */
+        .chapter-layout {
+            display: grid;
+            grid-template-columns: 3fr 1fr;
+            gap: var(--spacing-2xl);
+        }
+        
+        /* Estilos para la representación visual mejorada de bits */
+        .bits-container {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-xl);
+            margin: var(--spacing-xl) 0;
+        }
+        
+        .bit-boxes {
+            display: flex;
+            gap: 10px;
+            margin-bottom: var(--spacing-lg);
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .bit-box {
+            width: 70px;
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            font-weight: bold;
+            border-radius: var(--radius-md);
+            position: relative;
+            transition: transform 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .bit-box:hover {
+            transform: translateY(-5px);
+        }
+        
+        .bit-0 {
+            background-color: #f8d7da;
+            border: 3px solid var(--danger);
+            color: #721c24;
+        }
+        
+        .bit-1 {
+            background-color: #d4edda;
+            border: 3px solid var(--success);
+            color: #155724;
+        }
+        
+        .bit-position {
+            position: absolute;
+            top: -25px;
+            font-size: 0.9rem;
+            font-weight: normal;
+            color: var(--gray);
+        }
+        
+        .bit-value {
+            position: absolute;
+            bottom: -40px;
+            font-size: 1rem;
+            font-weight: bold;
+            color: var(--primary-dark);
+            width: 100%;
+            text-align: center;
+        }
+        
+        .bit-decimal {
+            position: absolute;
+            bottom: -65px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--secondary);
+            width: 100%;
+            text-align: center;
+        }
+        
+        .total-value {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 80px;
+            background-color: #f0f9ff;
+            padding: var(--spacing-lg);
+            border-radius: var(--radius-md);
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary-dark);
+            box-shadow: var(--shadow-md);
+        }
+        
+        /* Analogía visual */
+        .analogy {
+            margin-top: var(--spacing-xl);
+            padding: var(--spacing-lg);
+            background-color: #fff8e6;
+            border-radius: var(--radius-md);
+            border-left: 4px solid var(--warning);
+        }
+        
+        .analogy-title {
+            color: var(--warning);
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .money-boxes {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--spacing-md);
+            margin: var(--spacing-lg) 0;
+            justify-content: center;
+        }
+        
+        .money-box {
+            width: 100px;
+            height: 80px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-color: #f0fff4;
+            border: 2px solid var(--success);
+            border-radius: var(--radius-md);
+            padding: var(--spacing-sm);
+            font-weight: bold;
+        }
+        
+        .money-value {
+            font-size: 1.5rem;
+            color: var(--success);
+        }
+        
+        .money-label {
+            font-size: 0.8rem;
+            color: var(--gray);
+        }
+        
+        .interactive-note {
+            margin-top: var(--spacing-xl);
+            padding: var(--spacing-md);
+            background-color: #e6f7ff;
+            border-radius: var(--radius-md);
+            text-align: center;
+            font-style: italic;
+            color: var(--primary-dark);
+        }
+    </style>
+
+    <style>
+        /* ========== ESTILOS DEL REPRODUCTOR DE PODCAST ========== */
+        .podcast-player-container .interactive-title::before {
+            content: '🎧'; /* O el emoji que prefieras */
+        }
+
+        .podcast-controls {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-md);
+            margin-top: var(--spacing-lg);
+        }
+
+        #podcast-play-pause-btn {
+            padding: 0.5rem;
+            width: 50px;
+            height: 50px;
+        }
+
+        #podcast-play-pause-btn svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .podcast-progress-bar-container {
+            flex-grow: 1;
+        }
+
+        #podcast-progress-bar {
+            width: 100%;
+            -webkit-appearance: none;
+            appearance: none;
+            height: 8px;
+            background: var(--gray-light);
+            border-radius: var(--radius-full);
+            outline: none;
+            cursor: pointer;
+        }
+
+        /* Estilo para Chrome, Safari, Opera, Edge */
+        #podcast-progress-bar::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            background: var(--primary);
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: var(--shadow-sm);
+        }
+
+        /* Estilo para Firefox */
+        #podcast-progress-bar::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            background: var(--primary);
+            border-radius: 50%;
+            cursor: pointer;
+            border: none;
+        }
+
+        .podcast-time-display {
+            font-family: var(--font-code);
+            font-weight: 500;
+            color: var(--gray);
+            min-width: 100px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <div class="container header-container">
+            <a href="../../index.html" class="logo">
+                <span class="logo-icon">P</span>
+                <span>Programación para Mortales</span>
+            </a>
+            
+            <nav class="nav">
+                <a href="../../index.html" class="nav-link">Inicio</a>
+                <a href="../../index.html#chapters" class="nav-link">Capítulos</a>
+                <a href="../../index.html#features" class="nav-link">Características</a>
+                <a href="../../about.html" class="nav-link">Acerca de</a>
+                <a href="capitulo-2.html" class="btn btn-primary">Siguiente Capítulo</a>
+            </nav>
+            
+            <button class="mobile-menu-btn">☰</button>
+        </div>
+    </header>
+    
+    <!-- Progress Bar -->
+    <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+    
+    <!-- Chapter Header -->
+    <section class="chapter-header">
+        <div class="container chapter-header-content">
+            <div class="chapter-number animate-fade-in">Capítulo 1</div>
+            <h1 class="chapter-title animate-fade-in delay-100">¿Qué es programar?</h1>
+            <div class="chapter-meta animate-fade-in delay-200">
+                <div class="chapter-meta-item">
+                    <span>⏱️ Tiempo de lectura: 15 minutos</span>
+                </div>
+                <div class="chapter-meta-item">
+                    <span>🧩 Actividades: 3</span>
+                </div>
+                <div class="chapter-meta-item">
+                    <span>📚 Nivel: Principiante</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Chapter Content -->
+    <section controls class="chapter-content">
+        <div class="container">
+            <div class="podcast-player-container interactive-section">
+                <h3 class="interactive-title" style="--interactive-icon: '🎧';">Escuchá el resumen en audio</h3>
+                <audio id="podcast-audio" preload="metadata">
+                    <source src="../../assets/audio/ppm/E1/capitulo_1.mp3" type="audio/mpeg">
+                    Tu navegador no soporta el elemento de audio.
+                </audio>
+                <div class="podcast-controls">
+                    <button id="podcast-play-pause-btn" class="btn btn-primary">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                    </button>
+                    <div class="podcast-progress-bar-container">
+                        <input type="range" id="podcast-progress-bar" value="0" step="1">
+                    </div>
+                    <div id="podcast-time" class="podcast-time-display">00:00 / 00:00</div>
+                </div>
+                <div class="podcast-external-link" style="margin-top: 1rem;">
+                    <a href="https://www.youtube.com/playlist?list=PL2q5bMDgOj6Zg9DWlwBIEWgpXATKYS-YN" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">
+                        ▶️ Ver lista de reproducción en YouTube
+                    </a>
+                </div> <!-- .podcast-player-container -->
+            </div>
+            <div class="chapter-layout">
+                <div class="content-wrapper">
+                    <h2 id="que-es-programar">¿Qué es programar?</h2>
+                    
+                    <p>Antes de entender bien qué es programar, debemos entender el concepto de <strong>comunicarse</strong>, ya que es esencial comunicarse para transmitir un mensaje, ideas, o algo.</p>
+                    
+                    <div class="image-container">
+                        <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" alt="Personas comunicándose">
+                        <p class="image-caption">La comunicación es fundamental en la programación</p>
+                    </div>
+                    
+                    <div class="highlight-box">
+                        <p>Cuando hablamos con alguien, intentamos enviarle algún tipo de información o mensaje:</p>
+                        <ul>
+                            <li>Agitamos la mano o decimos "hola" para saludar</li>
+                            <li>Preguntamos la hora</li>
+                            <li>Realizamos acciones incluso inconscientemente</li>
+                        </ul>
+                        <p>En cualquiera de los casos necesitamos que la otra persona entienda y codifique nuestra intención. Básicamente a esto se lo llama <strong>comunicarse</strong>.</p>
+                    </div>
+                    
+                    <p>Lo sé, es básico, pero prometimos arrancar desde cero.</p>
+                    
+                    <h3 id="idiomas-comunicacion">Idiomas y comunicación</h3>
+                    
+                    <p>En mi país, Argentina (campeones del mundo), usamos el idioma español para comunicarnos entre nosotros. Nuestro idioma tiene un vocabulario y una gramática (es decir, podemos hablar y escribir en español), lo que nos permite formar oraciones y expresar ideas para comunicarnos entre nosotros (gente que habla español).</p>
+                    
+                    <div class="table-container">
+                        <table>
+                            <tr>
+                                <th>Elemento</th>
+                                <th>Comunicación humana</th>
+                                <th>Programación</th>
+                            </tr>
+                            <tr>
+                                <td>Idioma</td>
+                                <td>Español, Inglés, etc.</td>
+                                <td>JavaScript, Python, etc.</td>
+                            </tr>
+                            <tr>
+                                <td>Vocabulario</td>
+                                <td>Palabras del diccionario</td>
+                                <td>Palabras reservadas, funciones</td>
+                            </tr>
+                            <tr>
+                                <td>Gramática</td>
+                                <td>Reglas del idioma</td>
+                                <td>Sintaxis del lenguaje</td>
+                            </tr>
+                            <tr>
+                                <td>Receptor</td>
+                                <td>Otra persona</td>
+                                <td>La computadora</td>
+                            </tr>
+                        </table>
+                    </div>
+                    
+                    <h3 id="comunicacion-computadoras">Comunicándonos con las computadoras</h3>
+                    
+                    <p>Ahora, cuando intentamos hablar con una computadora, debemos usar un <strong>lenguaje de programación</strong> que la máquina entienda, con sus propias palabras y sintaxis para expresar instrucciones. Por ejemplo, podríamos decir que JavaScript o Python son idiomas que las computadoras entienden (cada uno con su acento y reglas).</p>
+                    
+                    <p>De este modo, podemos decir que aprender a programar implica aprender a escribir en un lenguaje formal para que la máquina ejecute nuestras órdenes tal cual se las solicitamos.</p>
+                    
+                    <div class="note-box">
+                        <p>Programar es como aprender un nuevo idioma, solo que en vez de hablar con personas, le "hablamos" a una computadora. Es una forma de comunicación donde le damos instrucciones precisas a la máquina para que realice tareas específicas.</p>
+                    </div>
+                    
+                    <h2 id="historia-computacion">Un poco de historia</h2>
+                    
+                    <p>Creo que ya hicimos bastante introducción a esto y podemos empezar a entender conceptos más abstractos. Hace mucho tiempo, cuando la computación no existía, la gente se fabricaba instrumentos de madera, piedra o cualquier elemento para poder hacer cuentas, ya sea para comprar o permutar cosas, como para medir y hacer operaciones básicas.</p>
+                    
+                    <p>Con el tiempo, esas herramientas se hicieron más complejas:</p>
+                    
+                    <ol>
+                        <li>Se inventó el ábaco (la primera "calculadora" que se conoce)</li>
+                        <li>Luego vinieron las calculadoras mecánicas</li>
+                        <li>Después las eléctricas</li>
+                        <li>Y hasta que... ¡pum! ¡Las computadoras!</li>
+                    </ol>
+                    
+                    <div class="image-container">
+                        <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" alt="Evolución de las computadoras">
+                        <p class="image-caption">La evolución de las herramientas de cálculo hasta las computadoras modernas</p>
+                    </div>
+                    
+                    <div class="note-box">
+                        <p>Pero claro, una computadora no entiende palabras como nosotros. Tampoco entiende emociones, ni chistes, ni sarcasmo. Ni siquiera entiende una frase simple como "sumá dos más dos". Lo que sí entiende son cosas mucho más básicas: la presencia o ausencia de algo.</p>
+                    </div>
+                    
+                    <p>Como un cable de corriente: o tiene corriente o no. O un interruptor, como la tecla de la luz de casa: o está prendida, o está apagada. Eso, una computadora lo entiende perfecto.</p>
+                    
+                    <p>Con los años, los avances hicieron que una computadora pueda manejar millones (y ahora billones) de esos "interruptores" al mismo tiempo. Y aunque parezca que "piensa", en realidad lo que hace es procesar muchísimos números a la vez, todos compuestos por unos y ceros. Porque esa es su forma de pensar.</p>
+                    
+                    <h2 id="sistema-binario">¿Y por qué 1 y 0?</h2>
+                    
+                    <p>Una forma simple de entender todo esto es con el ejemplo clásico de la bombita de luz:</p>
+                    
+                    <ul class="feature-list">
+                        <li>Si está prendida, quiere decir que pasa corriente por el cable</li>
+                        <li>Si está apagada, es que no pasa corriente</li>
+                    </ul>
+                    
+                    <p>(No pensemos en el caso donde la bombilla está quemada, ¿sí? 😅)</p>
+                    
+                    <div class="highlight-box">
+                        <p>Nosotros como personas, usamos números todos los días para representar cosas, nuestro sistema de conteo se llama el <strong>sistema decimal</strong>. Eso quiere decir que tenemos diez símbolos para representar 1 número: del 0 al 9.</p>
+                        
+                        <p>Por ejemplo, si te preguntara ¿cuántas sillas hay en tu casa? vos me podés mostrar cuatro dedos, escribir un "4" o decirme "cuatro", se entenderá que hay 4 sillas.</p>
+                    </div>
+                    
+                    <p>Pero las computadoras no usan ese sistema. Ellas usan un sistema mucho más simple, llamado <strong>binario</strong>, que solo tiene dos símbolos posibles: el 1 y el 0.</p>
+                    
+                    <p>Y esto tiene muchísimo sentido, porque si un circuito puede estar encendido o apagado, ¿para qué complicarse con más?</p>
+                    
+                    <p>Entonces, si queremos representar algo en la computadora (un número, una letra, una imagen o lo que sea), en el fondo, todo termina siendo una combinación de 1s y 0s. Porque ese es el idioma más básico que las computadoras entienden:</p>
+                    
+                    <div class="table-container">
+                        <table>
+                            <tr>
+                                <th>Estado físico</th>
+                                <th>Representación binaria</th>
+                            </tr>
+                            <tr>
+                                <td>Corriente</td>
+                                <td>1</td>
+                            </tr>
+                            <tr>
+                                <td>No corriente</td>
+                                <td>0</td>
+                            </tr>
+                            <tr>
+                                <td>Luz</td>
+                                <td>1</td>
+                            </tr>
+                            <tr>
+                                <td>No luz</td>
+                                <td>0</td>
+                            </tr>
+                        </table>
+                    </div>
+                    
+                    <div class="note-box">
+                        <p>No hace falta que memorices cómo se cuentan los números en binario, ni que sepas cómo se escribe un "8" usando solo 1s y 0s. Lo importante es que entiendas esta idea: <strong>Cuando programamos, nuestras instrucciones terminan transformándose en unos y ceros.</strong></p>
+                    </div>
+                    
+                    <p>Y eso es lo que hace posible que una computadora pueda "entender" lo que queremos que haga. Es tan simple como eso... y a la vez, tan poderoso que con millones de bits se construye el mundo digital en el que vivimos hoy en día.</p>
+                    
+                    <h2 id="bits-bytes">🧩 Así piensa una computadora: bits, cables y luces</h2>
+                    
+                    <p>Ahora que entendemos que una computadora trabaja con unos y ceros, hay una palabra que vas a escuchar todo el tiempo en el mundo de la programación y la computación: <strong>bit</strong>.</p>
+                    
+                    <p>Un bit es simplemente eso, un dígito binario. Puede ser un 1 o un 0. Nada más.</p>
+                    
+                    <p>Cuando decimos "bit", en realidad estamos haciendo referencia de la unidad más pequeña de información que una computadora puede entender o manejar.</p>
+                    
+                    <h3 id="importancia-bits">💡 ¿Y por qué tanto lío con los bits?</h3>
+                    
+                    <p>Porque en computación, todo se construye con bits. Pero claro, un solo bit (o sea, un único 1 o 0) no alcanza para representar muchas cosas que digamos.</p>
+                    
+                    <p>Por eso, los bits se agrupan, y la forma más común de hacerlo es de a 8, y a ese grupo se lo llama un <strong>byte</strong>. Un byte son simplemente 8 dígitos, que pueden ser ceros o unos, en distintas combinaciones.</p>
+                    
+                    <div class="interactive-section">
+                        <h3 class="interactive-title">¡Entendiendo los Bits como Superhéroes!</h3>
+                        
+                        <p>Imagina que cada bit es como un superhéroe con un poder especial. Cada uno tiene un lugar específico en el equipo y un superpoder único (su valor). ¡Cuando trabajan juntos, pueden crear números muy grandes!</p>
+                        
+                        <div class="bits-container">
+                            <div class="bit-boxes">
+                                <div class="bit-box bit-0" onclick="toggleBit(this, 7)">
+                                    0
+                                    <span class="bit-position">Bit 7</span>
+                                    <span class="bit-value">2<sup>7</sup></span>
+                                    <span class="bit-decimal">128</span>
+                                </div>
+                                <div class="bit-box bit-0" onclick="toggleBit(this, 6)">
+                                    0
+                                    <span class="bit-position">Bit 6</span>
+                                    <span class="bit-value">2<sup>6</sup></span>
+                                    <span class="bit-decimal">64</span>
+                                </div>
+                                <div class="bit-box bit-0" onclick="toggleBit(this, 5)">
+                                    0
+                                    <span class="bit-position">Bit 5</span>
+                                    <span class="bit-value">2<sup>5</sup></span>
+                                    <span class="bit-decimal">32</span>
+                                </div>
+                                <div class="bit-box bit-0" onclick="toggleBit(this, 4)">
+                                    0
+                                    <span class="bit-position">Bit 4</span>
+                                    <span class="bit-value">2<sup>4</sup></span>
+                                    <span class="bit-decimal">16</span>
+                                </div>
+                                <div class="bit-box bit-0" onclick="toggleBit(this, 3)">
+                                    0
+                                    <span class="bit-position">Bit 3</span>
+                                    <span class="bit-value">2<sup>3</sup></span>
+                                    <span class="bit-decimal">8</span>
+                                </div>
+                                <div class="bit-box bit-0" onclick="toggleBit(this, 2)">
+                                    0
+                                    <span class="bit-position">Bit 2</span>
+                                    <span class="bit-value">2<sup>2</sup></span>
+                                    <span class="bit-decimal">4</span>
+                                </div>
+                                <div class="bit-box bit-0" onclick="toggleBit(this, 1)">
+                                    0
+                                    <span class="bit-position">Bit 1</span>
+                                    <span class="bit-value">2<sup>1</sup></span>
+                                    <span class="bit-decimal">2</span>
+                                </div>
+                                <div class="bit-box bit-0" onclick="toggleBit(this, 0)">
+                                    0
+                                    <span class="bit-position">Bit 0</span>
+                                    <span class="bit-value">2<sup>0</sup></span>
+                                    <span class="bit-decimal">1</span>
+                                </div>
+                            </div>
+                            
+                            <div class="total-value">
+                                Valor total: <span id="totalValue">0</span>
+                            </div>
+                        </div>
+                        
+                        <div class="interactive-note">
+                            ¡Haz clic en los cuadros para cambiar entre 0 y 1 y ver cómo cambia el valor total!
+                        </div>
+                        
+                        <div class="analogy">
+                            <h3 class="analogy-title">¡Como ahorrar dinero!</h3>
+                            <p>Piensa en los bits como si fueran diferentes monedas o billetes. Cada posición tiene un valor específico, igual que tenemos monedas de diferentes valores.</p>
+                            
+                            <div class="money-boxes">
+                                <div class="money-box">
+                                    <div class="money-value">$128</div>
+                                    <div class="money-label">Bit 7</div>
+                                </div>
+                                <div class="money-box">
+                                    <div class="money-value">$64</div>
+                                    <div class="money-label">Bit 6</div>
+                                </div>
+                                <div class="money-box">
+                                    <div class="money-value">$32</div>
+                                    <div class="money-label">Bit 5</div>
+                                </div>
+                                <div class="money-box">
+                                    <div class="money-value">$16</div>
+                                    <div class="money-label">Bit 4</div>
+                                </div>
+                                <div class="money-box">
+                                    <div class="money-value">$8</div>
+                                    <div class="money-label">Bit 3</div>
+                                </div>
+                                <div class="money-box">
+                                    <div class="money-value">$4</div>
+                                    <div class="money-label">Bit 2</div>
+                                </div>
+                                <div class="money-box">
+                                    <div class="money-value">$2</div>
+                                    <div class="money-label">Bit 1</div>
+                                </div>
+                                <div class="money-box">
+                                    <div class="money-value">$1</div>
+                                    <div class="money-label">Bit 0</div>
+                                </div>
+                            </div>
+                            
+                            <p>Si tienes un 1 en una posición, significa que tienes esa moneda. Si tienes un 0, significa que no tienes esa moneda. ¡Luego sumas todas las monedas que tienes para obtener el valor total!</p>
+                            
+                            <p>Por ejemplo, si tienes: 1 0 1 0 1 0 1 0, significa que tienes las monedas de $128, $32, $8 y $2, lo que suma $170.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Actividades interactivas -->
+                    <h2 id="actividades">Actividades interactivas</h2>
+                    
+                    <p>Ahora que has aprendido los conceptos básicos sobre programación y el sistema binario, es momento de poner en práctica estos conocimientos con algunas actividades interactivas.</p>
+                    
+                    <!-- Actividad 2: Juego de Preguntas sobre Binario -->
+                    <div class="interactive-section">
+                        <h3 class="interactive-title">Juego de Preguntas sobre Binario</h3>
+                        <p>Pon a prueba tus conocimientos sobre el sistema binario con este juego de preguntas. ¡Responde correctamente antes de que se acabe el tiempo!</p>
+                        
+                        <div class="quiz-container">
+                            <div id="quizTimer" class="timer-display">Tiempo: 30s</div>
+                            
+                            <div id="quizQuestion" class="quiz-question">
+                                <h3>¿Qué número decimal representa el binario 1010?</h3>
+                                
+                                <div class="quiz-options">
+                                    <div class="quiz-option" data-correct="false">8</div>
+                                    <div class="quiz-option" data-correct="true">10</div>
+                                    <div class="quiz-option" data-correct="false">12</div>
+                                    <div class="quiz-option" data-correct="false">16</div>
+                                </div>
+                                
+                                <div id="quizFeedback" class="quiz-feedback">
+                                    Feedback aparecerá aquí...
+                                </div>
+                                
+                                <div id="quizExplanation" class="explanation-box">
+                                    <div class="explanation-title">Explicación:</div>
+                                    <div id="explanationContent">
+                                        El binario 1010 se descompone así:
+                                        <ul>
+                                            <li>1 × 2³ = 1 × 8 = 8</li>
+                                            <li>0 × 2² = 0 × 4 = 0</li>
+                                            <li>1 × 2¹ = 1 × 2 = 2</li>
+                                            <li>0 × 2⁰ = 0 × 1 = 0</li>
+                                        </ul>
+                                        Sumando: 8 + 0 + 2 + 0 = 10
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <button id="nextQuestionBtn" class="btn btn-primary" style="display: none;">Siguiente Pregunta</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Actividad 3: Conversor de Texto a Binario -->
+                    <div class="interactive-section">
+                        <h3 class="interactive-title">Conversor de Texto a Binario</h3>
+                        <p>Esta herramienta te permite convertir texto a código binario y viceversa, para entender cómo las computadoras representan la información.</p>
+                        
+                        <div class="binary-converter">
+                            <div class="converter-controls">
+                                <div class="input-group">
+                                    <label for="converterInput">Ingresa texto o código binario:</label>
+                                    <textarea id="converterInput" rows="4" placeholder="Escribe aquí..."></textarea>
+                                </div>
+                                
+                                <div class="input-group">
+                                    <label>Selecciona la conversión:</label>
+                                    <div>
+                                        <button id="textToBinaryBtn" class="btn btn-primary">Texto a Binario</button>
+                                        <button id="binaryToTextBtn" class="btn btn-secondary">Binario a Texto</button>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <label>Resultado:</label>
+                                <div id="converterResult" class="result-display">El resultado aparecerá aquí...</div>
+                            </div>
+                            
+                            <div class="highlight-box" style="margin-top: 2rem;">
+                                <h4>¿Cómo funciona?</h4>
+                                <p>Cada carácter en tu computadora tiene un código numérico asignado (llamado ASCII o Unicode). Por ejemplo:</p>
+                                
+                                <div class="table-container">
+                                    <table>
+                                        <tr>
+                                            <th>Carácter</th>
+                                            <th>Código decimal</th>
+                                            <th>Representación binaria</th>
+                                        </tr>
+                                        <tr>
+                                            <td>A</td>
+                                            <td>65</td>
+                                            <td>01000001</td>
+                                        </tr>
+                                        <tr>
+                                            <td>B</td>
+                                            <td>66</td>
+                                            <td>01000010</td>
+                                        </tr>
+                                        <tr>
+                                            <td>a</td>
+                                            <td>97</td>
+                                            <td>01100001</td>
+                                        </tr>
+                                        <tr>
+                                            <td>1</td>
+                                            <td>49</td>
+                                            <td>00110001</td>
+                                        </tr>
+                                        <tr>
+                                            <td>espacio</td>
+                                            <td>32</td>
+                                            <td>00100000</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                
+                                <p>Así, la palabra "Hola" se convierte en una serie de códigos binarios, uno por cada letra.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <h2 id="resumen">Resumen del capítulo</h2>
+                    
+                    <div class="highlight-box">
+                        <p>En este primer capítulo, hemos explorado los fundamentos de la programación:</p>
+                        
+                        <ul>
+                            <li>Programar es comunicarse con la computadora mediante un lenguaje que ella entiende.</li>
+                            <li>Las computadoras trabajan con un sistema binario (0s y 1s) porque es más fácil representar dos estados eléctricos (encendido/apagado).</li>
+                            <li>Un bit es la unidad mínima de información (0 o 1) y 8 bits forman un byte, que puede representar 256 valores diferentes.</li>
+                            <li>La cantidad de bits determina cuántos valores diferentes podemos representar: 8, 16, 32, 64 bits tienen diferentes capacidades.</li>
+                        </ul>
+                        
+                        <p>¡Felicidades! Has dado el primer paso para entender cómo funciona la programación desde sus fundamentos. En el próximo capítulo, comenzaremos a explorar las variables y tipos de datos.</p>
+                    </div>
+                    
+                    <!-- Navegación entre capítulos -->
+                    <div class="chapter-navigation">
+                        <a href="../index.html" class="nav-btn">
+                            <span>←</span> Volver al inicio
+                        </a>
+                        <a href="capitulo-2.html" class="nav-btn next">
+                            Siguiente capítulo <span>→</span>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Tabla de contenidos -->
+                <aside class="toc">
+                    <h3 class="toc-title">Contenido del capítulo</h3>
+                    <ul class="toc-list">
+                        <li class="toc-item">
+                            <a href="#que-es-programar" class="toc-link">¿Qué es programar?</a>
+                            <ul class="toc-sublist">
+                                <li class="toc-item"><a href="#idiomas-comunicacion" class="toc-link">Idiomas y comunicación</a></li>
+                                <li class="toc-item"><a href="#comunicacion-computadoras" class="toc-link">Comunicándonos con las computadoras</a></li>
+                            </ul>
+                        </li>
+                        <li class="toc-item">
+                            <a href="#historia-computacion" class="toc-link">Un poco de historia</a>
+                        </li>
+                        <li class="toc-item">
+                            <a href="#sistema-binario" class="toc-link">¿Y por qué 1 y 0?</a>
+                        </li>
+                        <li class="toc-item">
+                            <a href="#bits-bytes" class="toc-link">Así piensa una computadora</a>
+                            <ul class="toc-sublist">
+                                <li class="toc-item"><a href="#importancia-bits" class="toc-link">¿Por qué tanto lío con los bits?</a></li>
+                            </ul>
+                        </li>
+                        <li class="toc-item">
+                            <a href="#actividades" class="toc-link">Actividades interactivas</a>
+                        </li>
+                        <li class="toc-item">
+                            <a href="#resumen" class="toc-link">Resumen del capítulo</a>
+                        </li>
+                    </ul>
+                </aside>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-container">
+                <a href="../index.html" class="footer-logo">Programación para Mortales</a>
+                
+                <div class="footer-links">
+                    <a href="../index.html" class="footer-link">Inicio</a>
+                    <a href="../indice.html" class="footer-link">Índice completo</a>
+                    <a href="../about.html" class="footer-link">Acerca de</a>
+                    <a href="../terminos-y-condiciones.html" class="footer-link">Términos y condiciones</a>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2025 Programación para Mortales. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        // Mobile Menu Toggle
+        const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+        const nav = document.querySelector('.nav');
+        
+        mobileMenuBtn.addEventListener('click', () => {
+            nav.classList.toggle('active');
+        });
+        
+        // Header Scroll Effect
+        const header = document.querySelector('.header');
+        
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+        
+        // Reading Progress Bar
+        const progressBar = document.getElementById('progressBar');
+        
+        window.addEventListener('scroll', () => {
+            const windowHeight = window.innerHeight;
+            const documentHeight = document.documentElement.scrollHeight - windowHeight;
+            const scrollTop = window.scrollY;
+            const progress = (scrollTop / documentHeight) * 100;
+            progressBar.style.width = progress + '%';
+        });
+        
+        // Table of Contents Active Link
+        const tocLinks = document.querySelectorAll('.toc-link');
+        const sections = document.querySelectorAll('h2, h3');
+        
+        window.addEventListener('scroll', () => {
+            let current = '';
+            
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop - 100;
+                if (window.scrollY >= sectionTop) {
+                    current = section.getAttribute('id');
+                }
+            });
+            
+            tocLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href').substring(1) === current) {
+                    link.classList.add('active');
+                }
+            });
+        });
+        
+        // Binary Converter
+        function textoABinario(texto) {
+            let resultado = "";
+            for (let i = 0; i < texto.length; i++) {
+                const codigo = texto.charCodeAt(i);
+                let binario = codigo.toString(2);
+                binario = binario.padStart(8, '0');
+                resultado += binario + " ";
+            }
+            return resultado.trim();
+        }
+        
+        function binarioATexto(binStr) {
+            let resultado = "";
+            const grupos = binStr.split(" ");
+            for (let bin of grupos) {
+                if (bin.length !== 8) continue;
+                const codigo = parseInt(bin, 2);
+                resultado += String.fromCharCode(codigo);
+            }
+            return resultado;
+        }
+        
+        document.getElementById('textToBinaryBtn').addEventListener('click', function() {
+            const input = document.getElementById('converterInput').value;
+            if (!input) return;
+            
+            const resultado = textoABinario(input);
+            document.getElementById('converterResult').textContent = resultado;
+            document.getElementById('converterResult').classList.add('animate-fade-in');
+            setTimeout(() => {
+                document.getElementById('converterResult').classList.remove('animate-fade-in');
+            }, 500);
+        });
+        
+        document.getElementById('binaryToTextBtn').addEventListener('click', function() {
+            const input = document.getElementById('converterInput').value;
+            if (!input) return;
+            
+            const resultado = binarioATexto(input);
+            document.getElementById('converterResult').textContent = resultado;
+            document.getElementById('converterResult').classList.add('animate-fade-in');
+            setTimeout(() => {
+                document.getElementById('converterResult').classList.remove('animate-fade-in');
+            }, 500);
+        });
+        
+        // Binary Quiz
+        const preguntas = [
+            {
+                pregunta: "¿Qué número decimal representa el binario 1010?",
+                opciones: ["8", "10", "12", "16"],
+                respuestaCorrecta: 1,
+                explicacion: "El binario 1010 se descompone así:<ul><li>1 × 2³ = 1 × 8 = 8</li><li>0 × 2² = 0 × 4 = 0</li><li>1 × 2¹ = 1 × 2 = 2</li><li>0 × 2⁰ = 0 × 1 = 0</li></ul>Sumando: 8 + 0 + 2 + 0 = 10"
+            },
+            {
+                pregunta: "¿Cuántos valores diferentes se pueden representar con 3 bits?",
+                opciones: ["3", "6", "8", "10"],
+                respuestaCorrecta: 2,
+                explicacion: "Con 3 bits podemos representar 2³ = 8 valores diferentes, que van desde 000 (0 en decimal) hasta 111 (7 en decimal).<br><br>Los 8 valores son: 000, 001, 010, 011, 100, 101, 110, 111"
+            },
+            {
+                pregunta: "¿Cuál es el valor binario del número decimal 9?",
+                opciones: ["1001", "1010", "1100", "1110"],
+                respuestaCorrecta: 0,
+                explicacion: "El número 9 en binario es 1001, que se descompone así:<ul><li>1 × 2³ = 1 × 8 = 8</li><li>0 × 2² = 0 × 4 = 0</li><li>0 × 2¹ = 0 × 2 = 0</li><li>1 × 2⁰ = 1 × 1 = 1</li></ul>Sumando: 8 + 0 + 0 + 1 = 9"
+            },
+            {
+                pregunta: "¿Cuántos bits forman un byte?",
+                opciones: ["4", "8", "16", "32"],
+                respuestaCorrecta: 1,
+                explicacion: "Un byte está formado por 8 bits. Esta es una unidad fundamental en computación, ya que permite representar 256 valores diferentes (de 0 a 255). Los caracteres ASCII básicos se representan con un byte cada uno."
+            },
+            {
+                pregunta: "¿Qué letra corresponde al binario 01000001 en ASCII?",
+                opciones: ["A", "B", "C", "D"],
+                respuestaCorrecta: 0,
+                explicacion: "El binario 01000001 equivale al decimal 65, que en la tabla ASCII corresponde a la letra 'A' mayúscula. La tabla ASCII asigna un número a cada carácter, permitiendo que las computadoras representen texto."
+            }
+        ];
+        
+        let preguntaActual = 0;
+        let tiempoRestante = 30;
+        let timerInterval;
+        
+        function mostrarPregunta(indice) {
+            const pregunta = preguntas[indice];
+            document.querySelector('#quizQuestion h3').textContent = pregunta.pregunta;
+            
+            const opcionesContainer = document.querySelector('.quiz-options');
+            opcionesContainer.innerHTML = '';
+            
+            pregunta.opciones.forEach((opcion, i) => {
+                const opcionElement = document.createElement('div');
+                opcionElement.className = 'quiz-option';
+                opcionElement.textContent = opcion;
+                opcionElement.dataset.correct = (i === pregunta.respuestaCorrecta).toString();
+                opcionElement.addEventListener('click', seleccionarRespuesta);
+                opcionesContainer.appendChild(opcionElement);
+            });
+            
+            document.getElementById('quizFeedback').style.display = 'none';
+            document.getElementById('quizExplanation').style.display = 'none';
+            document.getElementById('nextQuestionBtn').style.display = 'none';
+            
+            // Actualizar explicación
+            document.getElementById('explanationContent').innerHTML = pregunta.explicacion;
+            
+            // Reiniciar temporizador
+            tiempoRestante = 30;
+            document.getElementById('quizTimer').textContent = `Tiempo: ${tiempoRestante}s`;
+            clearInterval(timerInterval);
+            timerInterval = setInterval(actualizarTemporizador, 1000);
+        }
+        
+        function actualizarTemporizador() {
+            tiempoRestante--;
+            document.getElementById('quizTimer').textContent = `Tiempo: ${tiempoRestante}s`;
+            
+            if (tiempoRestante <= 0) {
+                clearInterval(timerInterval);
+                tiempoAgotado();
+            }
+        }
+        
+        function tiempoAgotado() {
+            const opciones = document.querySelectorAll('.quiz-option');
+            opciones.forEach(opcion => {
+                opcion.removeEventListener('click', seleccionarRespuesta);
+                if (opcion.dataset.correct === 'true') {
+                    opcion.classList.add('correct');
+                }
+            });
+            
+            const feedback = document.getElementById('quizFeedback');
+            feedback.textContent = '¡Tiempo agotado! No respondiste a tiempo.';
+            feedback.className = 'quiz-feedback incorrect';
+            feedback.style.display = 'block';
+            
+            // Mostrar explicación
+            document.getElementById('quizExplanation').style.display = 'block';
+            
+            document.getElementById('nextQuestionBtn').style.display = 'block';
+        }
+        
+        function seleccionarRespuesta(e) {
+            clearInterval(timerInterval);
+            
+            const opciones = document.querySelectorAll('.quiz-option');
+            opciones.forEach(opcion => {
+                opcion.removeEventListener('click', seleccionarRespuesta);
+                if (opcion.dataset.correct === 'true') {
+                    opcion.classList.add('correct');
+                }
+            });
+            
+            const seleccionada = e.target;
+            const esCorrecta = seleccionada.dataset.correct === 'true';
+            
+            seleccionada.classList.add(esCorrecta ? 'correct' : 'incorrect');
+            
+            const feedback = document.getElementById('quizFeedback');
+            if (esCorrecta) {
+                feedback.textContent = '¡Correcto! Muy bien.';
+                feedback.className = 'quiz-feedback correct';
+            } else {
+                feedback.textContent = 'Incorrecto. La respuesta correcta está marcada en verde.';
+                feedback.className = 'quiz-feedback incorrect';
+            }
+            feedback.style.display = 'block';
+            
+            // Mostrar explicación
+            document.getElementById('quizExplanation').style.display = 'block';
+            
+            document.getElementById('nextQuestionBtn').style.display = 'block';
+        }
+        
+        document.getElementById('nextQuestionBtn').addEventListener('click', function() {
+            preguntaActual = (preguntaActual + 1) % preguntas.length;
+            mostrarPregunta(preguntaActual);
+        });
+        
+        // Initialize quiz
+        mostrarPregunta(0);
+        
+        // Bit Visualizer for interactive bits
+        const bitValues = [1, 2, 4, 8, 16, 32, 64, 128];
+        const bitStates = [0, 0, 0, 0, 0, 0, 0, 0];
+        
+        function toggleBit(element, position) {
+            if (element.textContent.trim() === "0") {
+                element.textContent = "1";
+                element.classList.remove("bit-0");
+                element.classList.add("bit-1");
+                bitStates[position] = 1;
+            } else {
+                element.textContent = "0";
+                element.classList.remove("bit-1");
+                element.classList.add("bit-0");
+                bitStates[position] = 0;
+            }
+            
+            updateTotalValue();
+        }
+        
+        function updateTotalValue() {
+            let total = 0;
+            for (let i = 0; i < 8; i++) {
+                if (bitStates[i] === 1) {
+                    total += bitValues[i];
+                }
+            }
+            
+            document.getElementById("totalValue").textContent = total;
+        }
+    </script>
+
+    <script>
+        // ========== SCRIPT DEL REPRODUCTOR DE PODCAST ==========
+        const audio = document.getElementById('podcast-audio');
+        const playPauseBtn = document.getElementById('podcast-play-pause-btn');
+        const playIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>';
+        const pauseIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>';
+        const podcastProgressBar = document.getElementById('podcast-progress-bar');
+        const timeDisplay = document.getElementById('podcast-time');
+
+        function togglePlayPause() {
+            if (audio.paused) {
+                audio.play();
+                playPauseBtn.innerHTML = pauseIcon;
+            } else {
+                audio.pause();
+                playPauseBtn.innerHTML = playIcon;
+            }
+        }
+
+        function formatTime(seconds) {
+            const minutes = Math.floor(seconds / 60);
+           
+            const secs = Math.floor(seconds % 60);
+            return `${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+        }
+
+        function updateProgress() {
+            podcastProgressBar.value = (audio.currentTime / audio.duration) * 100 || 0;
+            timeDisplay.textContent = `${formatTime(audio.currentTime)} / ${formatTime(audio.duration || 0)}`;
+        }
+
+        playPauseBtn.addEventListener('click', togglePlayPause);
+        audio.addEventListener('timeupdate', updateProgress);
+        audio.addEventListener('loadedmetadata', updateProgress);
+
+        podcastProgressBar.addEventListener('input', () => {
+            const seekTime = (podcastProgressBar.value / 100) * audio.duration;
+            audio.currentTime = seekTime;
+        });
+
+        // Cuando el audio termina
+        audio.addEventListener('ended', () => {
+            playPauseBtn.innerHTML = playIcon;
+            audio.currentTime = 0;
+            podcastProgressBar.value = 0;
+        });
+    </script>
+
+</body>
+</html>
